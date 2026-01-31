@@ -1,0 +1,106 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Generated schema for Root",
+  "type": "object",
+  "properties": {
+    "personalDetails": {
+      "type": "object",
+      "properties": {
+        "firstName": {
+          "type": "string"
+        },
+        "lastName": {
+          "type": "string"
+        },
+        "secondLastName": {
+          "type": "string"
+        },
+        "dateOfBirth": {
+          "type": "string"
+        },
+        "motherFirstName": {
+          "type": "string"
+        },
+        "motherLastName": {
+          "type": "string"
+        },
+        "motherSecondLastName": {
+          "type": "string"
+        },
+        "fatherFirstName": {
+          "type": "string"
+        },
+        "fatherLastName": {
+          "type": "string"
+        },
+        "fatherSecondLastName": {
+          "type": "string"
+        },
+        "sex": {
+          "type": "string"
+        },
+        "nationality": {
+          "type": "string"
+        },
+        "passportNumber": {
+          "type": "string"
+        },
+        "idNumber": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "firstName",
+        "lastName",
+        "secondLastName",
+        "dateOfBirth",
+        "motherFirstName",
+        "motherLastName",
+        "motherSecondLastName",
+        "fatherFirstName",
+        "fatherLastName",
+        "fatherSecondLastName",
+        "sex",
+        "nationality",
+        "passportNumber",
+        "idNumber"
+      ]
+    },
+    "contactDetails": {
+      "type": "object",
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "floor-door": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zip": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "street",
+        "floor-door",
+        "city",
+        "state",
+        "zip",
+        "mobile",
+        "email"
+      ]
+    }
+  },
+  "required": ["personalDetails", "contactDetails"]
+}

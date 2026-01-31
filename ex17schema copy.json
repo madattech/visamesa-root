@@ -1,0 +1,64 @@
+{
+  "pasaporte": "Textfield-1",
+  "nie": {
+    "firstLetter": "Textfield-2",
+    "numeric": "Textfield-3",
+    "secondLetter": "Textfield-4"
+  },
+  "1er Appellido": "CP",
+  "2o Apellido": "x",
+  "Nombre": "Textfield-5",
+  "sexo": {
+    "x": "H",
+    "H": "M",
+    "M": "ChkBox"
+  },
+  "Fecha de nacimientoz": {
+    "date": "Fecha de nacimientoz",
+    "year": "Textfield-6"
+  },
+  "Lugar": "Estado civil3 S",
+  "Pais": "Textfield-7",
+  "Nacionalidad": "Textfield-8",
+  "estadoCivil": {
+    "S": "C",
+    "C": "V",
+    "V": "D",
+    "D": "Sp",
+    "Sp": "ChkBox-0"
+  },
+  "nombre del padre": "Textfield-10",
+  "nombre de la madre": "N",
+  "Domicilio en España": "Provincia",
+  "N": "Textfield-11",
+  "Piso": "Textfield-12",
+  "Localidad": "Textfiled-13",
+  "C.P": "Textfiled-15",
+  "Procinvica": "Textfiled-17",
+  "Telefono movil": "Textfiled-18",
+  "E-mail": "DN IN IEPAS",
+  "Representante legal": "Textfield-22",
+  "DN/NIE/PAS": "Textfield-25",
+  "Titulo": "Textfield-26",
+
+  "DataosRepresentative": {},
+  "DOMICILIO A EFECTOS DE NOTIFICACIONES": {
+    "Nombre/Razón Social": "Textfield-41",
+    "DN/NIE/PAS": "N PISO",
+    "Domicilio en España": "Textfield-43",
+    "N": "Textfield-44",
+    "Piso": "Textfield-45",
+    "Localidad": "Textfield-46",
+    "C.P": "Textfield-47",
+    "Provincia": "Textfield-49",
+    "Telefono movil": "Textfield-50",
+    "E-mail": "Textfield-52"
+  },
+  "CONSIENTO que las comunicaciones y notifcaciones s": "boolean",
+  "Nombre y apellidos del titular": "Nombre y apellidos del titular",
+  "tipo de documento": {
+    "TARJETA INICIAL": "TARJETA INICIAL",
+    "RENOVACION DE TARJETA": "RENOVACION DE TARJETA",
+    "DUPLICADO POR ROBO EXTRAVIO DESTRUCCION O INUTILIZ": "DUPLICADO POR ROBO EXTRAVIO DESTRUCCION O INUTILIZ"
+  }
+}

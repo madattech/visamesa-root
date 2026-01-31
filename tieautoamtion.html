@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>TIE Form Filler</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+        <script src="https://unpkg.com/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+            body {
+                font-family: "Inter", sans-serif;
+                background-color: #f3f4f6;
+            }
+            .container {
+                max-width: 800px;
+            }
+            input[type="text"],
+            input[type="date"] {
+                transition: all 0.2s ease-in-out;
+            }
+            input[type="text"]:focus,
+            input[type="date"]:focus {
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+                border-color: #2563eb;
+            }
+        </style>
+    </head>
+    <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+        <div
+            class="container mx-auto bg-white rounded-xl shadow-lg p-8 space-y-8"
+        >
+            <header class="text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-gray-800">
+                    TIE Form Filler
+                </h1>
+                <p class="mt-2 text-gray-600">
+                    Fill your TIE application form easily and securely.
+                </p>
+            </header>
+
+            <main id="form-content" class="space-y-6">
+                <p
+                    id="status-message"
+                    class="text-center text-sm text-gray-500 hidden"
+                >
+                    Loading PDF...
+                </p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Document Details -->
+                    <div
+                        class="col-span-1 md:col-span-2 space-y-4 rounded-lg border border-gray-200 p-4 bg-gray-50"
+                    >
+                        <h2 class="text-xl font-semibold text-gray-700">
+                            Document Information
+                        </h2>
+                        <div>
+                            <label
+                                for="documentType"
+                                class="block text-sm font-medium text-gray-700"
+                                >Tipo de Documento</label
+                            >
+                            <div class="mt-1 flex items-center space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        name="documentType"
+                                        value="Pasaporte"
+                                        class="form-radio text-blue-600"
+                                        checked
+                                    />
+                                    <span class="ml-2 text-gray-700"
+                                        >Pasaporte</span
+                                    >
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        name="documentType"
+                                        value="Tarjeta de identidad"
+                                        class="form-radio text-blue-600"
+                                    />
+                                    <span class="ml-2 text-gray-700"
+                                        >Tarjeta de identidad</span
+                                    >
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input
+                                        type="radio"
+                                        name="documentType"
+                                        value="DNI"
+                                        class="form-radio text-blue-600"
+                                    />
+                                    <span class="ml-2 text-gray-700">DNI</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label
+                                for="documentNumber"
+                                class="block text-sm font-medium text-gray-700"
+                                >Número de Documento</label
+                            >
+                            <input
+                                type="text"
+                                id="documentNumber"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                placeholder="e.g. A12345678"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Personal Details -->
+                    <div
+                        class="col-span-1 md:col-span-2 space-y-4 rounded-lg border border-gray-200 p-4 bg-gray-50"
+                    >
+                        <h2 class="text-xl font-semibold text-gray-700">
+                            Personal Information
+                        </h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    for="nombre"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Nombre</label
+                                >
+                                <input
+                                    type="text"
+                                    id="nombre"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                    placeholder="e.g. John"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="primerApellido"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Primer Apellido</label
+                                >
+                                <input
+                                    type="text"
+                                    id="primerApellido"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                    placeholder="e.g. Doe"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="segundoApellido"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Segundo Apellido</label
+                                >
+                                <input
+                                    type="text"
+                                    id="segundoApellido"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                    placeholder="e.g. Smith"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="fechaNacimiento"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Fecha de Nacimiento</label
+                                >
+                                <input
+                                    type="date"
+                                    id="fechaNacimiento"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact & Address -->
+                    <div
+                        class="col-span-1 md:col-span-2 space-y-4 rounded-lg border border-gray-200 p-4 bg-gray-50"
+                    >
+                        <h2 class="text-xl font-semibold text-gray-700">
+                            Contact & Address
+                        </h2>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label
+                                    for="domicilio"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Domicilio en España</label
+                                >
+                                <input
+                                    type="text"
+                                    id="domicilio"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                    placeholder="e.g. Calle Falsa 123"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="codigoPostal"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Código Postal</label
+                                >
+                                <input
+                                    type="text"
+                                    id="codigoPostal"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                    placeholder="e.g. 28001"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="municipio"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Municipio</label
+                                >
+                                <input
+                                    type="text"
+                                    id="municipio"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                    placeholder="e.g. Madrid"
+                                />
+                            </div>
+                            <div>
+                                <label
+                                    for="provincia"
+                                    class="block text-sm font-medium text-gray-700"
+                                    >Provincia</label
+                                >
+                                <input
+                                    type="text"
+                                    id="provincia"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border focus:outline-none"
+                                    placeholder="e.g. Madrid"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button
+                    id="generate-pdf-btn"
+                    class="w-full mt-6 bg-blue-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-700 transition-colors shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                    Generate TIE Form
+                </button>
+            </main>
+
+            <!-- Custom message dialog -->
+            <div
+                id="message-dialog"
+                class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4"
+            >
+                <div
+                    class="bg-white rounded-lg shadow-xl p-6 w-full max-w-sm text-center"
+                >
+                    <p
+                        id="dialog-message"
+                        class="text-gray-800 text-lg font-medium"
+                    ></p>
+                    <button
+                        id="dialog-close-btn"
+                        class="mt-4 bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+                    >
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", async () => {
+                const formContent = document.getElementById("form-content");
+                const statusMessage = document.getElementById("status-message");
+                const generateBtn = document.getElementById("generate-pdf-btn");
+                const dialog = document.getElementById("message-dialog");
+                const dialogMessage = document.getElementById("dialog-message");
+                const dialogCloseBtn =
+                    document.getElementById("dialog-close-btn");
+
+                // I've updated the PDF URL to a public, CORS-friendly one to fix the network error.
+                const PDF_URL =
+                    "https://corsproxy.io/?https://www.inclusion.gob.es/documents/410169/2156469/17-Formulario_TIE.pdf";
+
+                // Function to show the custom dialog box
+                function showDialog(message) {
+                    dialogMessage.textContent = message;
+                    dialog.classList.remove("hidden");
+                }
+
+                // Close the dialog box
+                dialogCloseBtn.addEventListener("click", () => {
+                    dialog.classList.add("hidden");
+                });
+
+                // Function to find and log all PDF field names
+                async function logPdfFields() {
+                    try {
+                        statusMessage.textContent =
+                            "Analyzing PDF fields... Please check the console.";
+                        statusMessage.classList.remove("hidden");
+                        const formBytes = await fetch(PDF_URL).then((res) => {
+                            if (!res.ok) {
+                                throw new Error(
+                                    `HTTP error! Status: ${res.status}`,
+                                );
+                            }
+                            return res.arrayBuffer();
+                        });
+                        const pdfDoc = await PDFLib.PDFDocument.load(formBytes);
+                        const form = pdfDoc.getForm();
+                        const fields = form.getFields();
+                        console.log("--- Available PDF Form Fields ---");
+                        fields.forEach((field) => {
+                            const type = field.constructor.name;
+                            const name = field.getName();
+                            console.log(`Type: ${type}, Name: ${name}`);
+                        });
+                        console.log("--- End of Fields ---");
+                        statusMessage.textContent =
+                            "PDF analysis complete. Check the console to find the correct field names for mapping.";
+                    } catch (error) {
+                        console.error("Failed to analyze PDF fields:", error);
+                        statusMessage.textContent =
+                            "Failed to analyze PDF fields. The URL might be incorrect or unreachable.";
+                    }
+                }
+
+                // Call the analysis function on load to help the user
+                logPdfFields();
+
+                // Function to fetch the PDF and fill it
+                async function fillAndGeneratePdf() {
+                    try {
+                        generateBtn.disabled = true;
+                        generateBtn.textContent = "Generating...";
+                        statusMessage.textContent =
+                            "Downloading and filling PDF...";
+
+                        const formBytes = await fetch(PDF_URL).then((res) => {
+                            if (!res.ok) {
+                                throw new Error(
+                                    `HTTP error! Status: ${res.status}`,
+                                );
+                            }
+                            return res.arrayBuffer();
+                        });
+                        const pdfDoc = await PDFLib.PDFDocument.load(formBytes);
+                        const form = pdfDoc.getForm();
+
+                        // Map HTML form field IDs to PDF field names
+                        // NOTE: The field names in the PDF are not always intuitive.
+                        // The names below are placeholders and are likely incorrect.
+                        // Use the console output from the analysis function to find the correct names.
+                        const fields = {
+                            documentNumber: "NumDocumento",
+                            nombre: "Nombre",
+                            primerApellido: "PrimerApellido",
+                            segundoApellido: "SegundoApellido",
+                            fechaNacimiento: "FechaNacimiento",
+                            domicilio: "Domicilio",
+                            codigoPostal: "CodPostal",
+                            municipio: "Municipio",
+                            provincia: "Provincia",
+                        };
+
+                        // Fill fields from the HTML form
+                        for (const htmlId in fields) {
+                            const pdfFieldName = fields[htmlId];
+                            const htmlField = document.getElementById(htmlId);
+                            if (htmlField) {
+                                const pdfField =
+                                    form.getTextField(pdfFieldName);
+                                if (pdfField) {
+                                    pdfField.setText(htmlField.value);
+                                } else {
+                                    // Provide a helpful error message to the user
+                                    throw new Error(
+                                        `PDF field not found for "${htmlId}" with PDF name "${pdfFieldName}". Please check the console for the correct PDF field names.`,
+                                    );
+                                }
+                            }
+                        }
+
+                        // Handle radio buttons for Document Type
+                        const documentType = document.querySelector(
+                            'input[name="documentType"]:checked',
+                        ).value;
+                        const documentTypeField =
+                            form.getRadioGroup("TipoDocumento");
+                        if (documentTypeField) {
+                            documentTypeField.select(documentType);
+                        } else {
+                            throw new Error(
+                                `PDF field for document type not found with PDF name "TipoDocumento". Please check the console for the correct PDF field names.`,
+                            );
+                        }
+
+                        statusMessage.textContent = "Saving filled PDF...";
+                        const pdfBytes = await pdfDoc.save();
+
+                        saveAs(
+                            new Blob([pdfBytes], { type: "application/pdf" }),
+                            "TIE_Form_Filled.pdf",
+                        );
+
+                        statusMessage.classList.add("hidden");
+                        generateBtn.textContent = "Generate TIE Form";
+                        generateBtn.disabled = false;
+                        showDialog(
+                            "Your PDF has been generated and downloaded!",
+                        );
+                    } catch (error) {
+                        console.error("An error occurred:", error);
+                        statusMessage.textContent = "Error: " + error.message;
+                        statusMessage.classList.remove("hidden");
+                        generateBtn.textContent = "Generate TIE Form";
+                        generateBtn.disabled = false;
+                        showDialog(
+                            "Error generating PDF. See the console for more details. The field names might be incorrect.",
+                        );
+                    }
+                }
+
+                generateBtn.addEventListener("click", fillAndGeneratePdf);
+            });
+        </script>
+    </body>
+</html>

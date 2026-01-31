@@ -1,0 +1,27 @@
+{
+  "personalDetails": {
+    "firstName": "John",
+    "lastName": "Doe",
+    "secondLastName": "Smith",
+    "dateOfBirth": "1990-01-01",
+    "motherFullName": "Jane Doe Smith",
+    "fatherFullName": "John Doe Smith",
+    "sex": "Male",
+    "maritalStatus": "Single",
+    "nationality": "American",
+    "passportNumber": "123456789",
+    "idNumber": "",
+    "placeOfBirth": "Anytown, CA",
+    "country": "United States"
+  },
+  "contactDetails": {
+    "street": "Main St",
+    "floor": "2",
+    "door": "2",
+    "city": "Anytown",
+    "province": "CA",
+    "zip": "12345",
+    "mobile": "1234567890",
+    "email": "john.doe@example.com"
+  }
+}

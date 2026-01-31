@@ -1,0 +1,285 @@
+{
+  "type": "object",
+  "properties": {
+    "Textfield-1": {
+      "type": "string",
+      "description": "Textfield-1"
+    },
+    "Textfield-2": {
+      "type": "string",
+      "description": "Textfield-2"
+    },
+    "Textfield-3": {
+      "type": "string",
+      "description": "Textfield-3"
+    },
+    "Textfield-4": {
+      "type": "string",
+      "description": "Textfield-4"
+    },
+    "x": {
+      "type": "string",
+      "description": "x"
+    },
+    "Textfield-5": {
+      "type": "string",
+      "description": "Textfield-5"
+    },
+    "H": {
+      "type": "boolean",
+      "description": "H"
+    },
+    "M": {
+      "type": "boolean",
+      "description": "M"
+    },
+    "ChkBox": {
+      "type": "boolean",
+      "description": "ChkBox"
+    },
+    "Fecha de nacimientoz": {
+      "type": "string",
+      "description": "Fecha de nacimientoz"
+    },
+    "Textfield-6": {
+      "type": "string",
+      "description": "Textfield-6"
+    },
+    "Estado civil3 S": {
+      "type": "string",
+      "description": "Estado civil3 S"
+    },
+    "Textfield-7": {
+      "type": "string",
+      "description": "Textfield-7"
+    },
+    "Textfield-8": {
+      "type": "string",
+      "description": "Textfield-8"
+    },
+    "C": {
+      "type": "boolean",
+      "description": "C"
+    },
+    "V": {
+      "type": "boolean",
+      "description": "V"
+    },
+    "D": {
+      "type": "boolean",
+      "description": "D"
+    },
+    "Sp": {
+      "type": "boolean",
+      "description": "Sp"
+    },
+    "ChkBox-0": {
+      "type": "boolean",
+      "description": "ChkBox-0"
+    },
+    "Textfield-10": {
+      "type": "string",
+      "description": "Textfield-10"
+    },
+    "N": {
+      "type": "string",
+      "description": "N"
+    },
+    "CP": {
+      "type": "string",
+      "description": "CP"
+    },
+    "Provincia": {
+      "type": "string",
+      "description": "Provincia"
+    },
+    "Textfield-11": {
+      "type": "string",
+      "description": "Textfield-11"
+    },
+    "Textfield-12": {
+      "type": "string",
+      "description": "Textfield-12"
+    },
+    "Textfield-13": {
+      "type": "string",
+      "description": "Textfield-13"
+    },
+    "Textfield-15": {
+      "type": "string",
+      "description": "Textfield-15"
+    },
+    "Textfield-17": {
+      "type": "string",
+      "description": "Textfield-17"
+    },
+    "Textfield-18": {
+      "type": "string",
+      "description": "Textfield-18"
+    },
+    "DN IN IEPAS": {
+      "type": "string",
+      "description": "DN IN IEPAS"
+    },
+    "Textfield-22": {
+      "type": "string",
+      "description": "Textfield-22"
+    },
+    "Textfield-25": {
+      "type": "string",
+      "description": "Textfield-25"
+    },
+    "Textfield-26": {
+      "type": "string",
+      "description": "Textfield-26"
+    },
+    "Piso-0": {
+      "type": "string",
+      "description": "Piso-0"
+    },
+    "Textfield-29": {
+      "type": "string",
+      "description": "Textfield-29"
+    },
+    "Textfield-31": {
+      "type": "string",
+      "description": "Textfield-31"
+    },
+    "Textfield-32": {
+      "type": "string",
+      "description": "Textfield-32"
+    },
+    "Email": {
+      "type": "string",
+      "description": "Email"
+    },
+    "Textfield-33": {
+      "type": "string",
+      "description": "Textfield-33"
+    },
+    "Textfield-34": {
+      "type": "string",
+      "description": "Textfield-34"
+    },
+    "Textfield-35": {
+      "type": "string",
+      "description": "Textfield-35"
+    },
+    "D NIN IEPAS": {
+      "type": "string",
+      "description": "D NIN IEPAS"
+    },
+    "Titulo4": {
+      "type": "string",
+      "description": "Titulo4"
+    },
+    "Textfield-39": {
+      "type": "string",
+      "description": "Textfield-39"
+    },
+    "Textfield-40": {
+      "type": "string",
+      "description": "Textfield-40"
+    },
+    "Textfield-41": {
+      "type": "string",
+      "description": "Textfield-41"
+    },
+    "N Piso": {
+      "type": "string",
+      "description": "N Piso"
+    },
+    "Textfield-43": {
+      "type": "string",
+      "description": "Textfield-43"
+    },
+    "Textfield-44": {
+      "type": "string",
+      "description": "Textfield-44"
+    },
+    "Textfield-45": {
+      "type": "string",
+      "description": "Textfield-45"
+    },
+    "Textfield-46": {
+      "type": "string",
+      "description": "Textfield-46"
+    },
+    "Email-0": {
+      "type": "string",
+      "description": "Email-0"
+    },
+    "Textfield-47": {
+      "type": "string",
+      "description": "Textfield-47"
+    },
+    "Textfield-49": {
+      "type": "string",
+      "description": "Textfield-49"
+    },
+    "Textfield-50": {
+      "type": "string",
+      "description": "Textfield-50"
+    },
+    "Textfield-52": {
+      "type": "string",
+      "description": "Textfield-52"
+    },
+    "CONSIENTO que las comunicaciones y notifcaciones s": {
+      "type": "boolean",
+      "description": "CONSIENTO que las comunicaciones y notifcaciones s"
+    },
+    "Texto-1": {
+      "type": "string",
+      "description": "Fecha de nacimientoz"
+    },
+    "Nombre y apellidos del titular": {
+      "type": "string",
+      "description": "Nombre y apellidos del titular"
+    },
+    "TARJETA INICIAL": {
+      "type": "boolean",
+      "description": "TARJETA INICIAL"
+    },
+    "RENOVACION DE TARJETA": {
+      "type": "boolean",
+      "description": "RENOVACION DE TARJETA"
+    },
+    "DUPLICADO POR ROBO EXTRAVIO DESTRUCCION O INUTILIZ": {
+      "type": "boolean",
+      "description": "DUPLICADO POR ROBO EXTRAVIO DESTRUCCION O INUTILIZ"
+    },
+    "Textfield-55": {
+      "type": "string",
+      "description": "Textfield-55"
+    },
+    "a": {
+      "type": "string",
+      "description": "a"
+    },
+    "de": {
+      "type": "string",
+      "description": "de"
+    },
+    "de-0": {
+      "type": "string",
+      "description": "de-0"
+    },
+    "FIRMA DEL SOLICITANTE  o representante legal en su": {
+      "type": "string",
+      "description": "FIRMA DEL SOLICITANTE  o representante legal en su"
+    },
+    "DIRIGIDA A": {
+      "type": "string",
+      "description": "DIRIGIDA A"
+    },
+    "Codigo DIR3": {
+      "type": "string",
+      "description": "Codigo DIR3"
+    },
+    "PROVINCIA": {
+      "type": "string",
+      "description": "PROVINCIA"
+    }
+  }
+}
