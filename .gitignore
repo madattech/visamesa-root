@@ -1,0 +1,16 @@
+# General
+.DS_Store
+*.log
+*.swp
+*.swo
+*~
+.node_modules/
+.env
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Each app has its own node_modules and gitignore
+# This is the root-level gitignore
