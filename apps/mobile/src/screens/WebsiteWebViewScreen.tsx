@@ -1,14 +1,17 @@
 import React from 'react';
 import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import WebView from 'react-native-webview';
-import {
-  getInjectedJavaScript,
-  ICP_PLUS_URL,
-} from '../webViewInjection/getInjectedJavaScript';
+import {ICP_PLUS_URL} from '../webViewInjection/scriptRegistry';
+import {useWebViewInjection} from '../webViewInjection/useWebViewInjection';
 
 const WebsiteWebViewScreen = () => {
-  const webViewRef = React.useRef<WebView>(null);
-  const currentUrlRef = React.useRef<string | null>(ICP_PLUS_URL);
+  const webViewRef = React.useRef<React.ElementRef<typeof WebView>>(null);
+  const {onLoadEnd, onNavigationStateChange} = useWebViewInjection(
+    webViewRef,
+    {
+      initialUrl: ICP_PLUS_URL,
+    },
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -19,16 +22,8 @@ const WebsiteWebViewScreen = () => {
         javaScriptEnabled
         domStorageEnabled
         startInLoadingState
-        onNavigationStateChange={({url}) => {
-          currentUrlRef.current = url ?? null;
-        }}
-        onLoadEnd={() => {
-          const injectedJavaScript = getInjectedJavaScript(currentUrlRef.current);
-
-          if (injectedJavaScript) {
-            webViewRef.current?.injectJavaScript(injectedJavaScript);
-          }
-        }}
+        onNavigationStateChange={onNavigationStateChange}
+        onLoadEnd={onLoadEnd}
         renderLoading={() => (
           <View style={styles.loading}>
             <ActivityIndicator size="large" color="#1A73E8" />
