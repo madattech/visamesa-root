@@ -27,6 +27,12 @@ export interface Case {
     dateOfBirth: string;
     nationality: string;
     passportNumber: string;
+    details?: {
+      nie: string;
+      Name: string;
+      nationality: number;
+      documentType?: 'nie' | 'dni' | 'passport';
+    };
   };
   appointment?: Appointment;
 }
@@ -73,4 +79,11 @@ export interface AutomationProgress {
   message: string;
   slotsFound?: AppointmentSlot[];
   error?: string;
+}
+
+export interface CitaPreviaDetails {
+  nie: string;
+  Name: string;
+  nationality: number;
+  documentType?: 'nie' | 'dni' | 'passport';
 }

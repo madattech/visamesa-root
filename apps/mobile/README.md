@@ -123,7 +123,12 @@ src/
 │   ├── CaseListScreen.tsx         # Display all user cases
 │   └── AutomationScreen.tsx       # Control automation, show progress
 ├── components/
-│   └── WebViewAutomation.tsx      # WebView + injection script ⚠️ CO-WORKER UPDATES THIS
+│   └── WebViewAutomation.tsx      # Hidden automation WebView for case workflows
+├── scripts/
+│   └── cita-previa/               # Page-specific WebView scripts
+├── webViewInjection/
+│   ├── scriptRegistry.ts          # URL rules and active script resolution
+│   └── useWebViewInjection.ts     # WebView URL tracking and injection hook
 ├── services/
 │   ├── api.ts                     # Axios instance with interceptors
 │   ├── authService.ts             # Login, logout, token management
@@ -134,25 +139,26 @@ src/
 
 ## WebView Automation
 
-The core automation logic is in `src/components/WebViewAutomation.tsx`.
+The browser injection layer is in `src/webViewInjection/`, and page-specific scripts live under `src/scripts/cita-previa/`.
 
 ### How It Works
 
 1. **WebView loads** the government website in a hidden view
-2. **JavaScript is injected** into the page with case data
-3. **Script automates** the website:
+2. **The hook tracks the active URL** and resolves a matching rule from `scriptRegistry.ts`
+3. **JavaScript is injected** into the page for the active rule only
+4. **Script automates** the website:
    - Navigates to appointment booking
    - Fills forms (name, passport, procedure, location)
    - Checks for available slots
    - Books an appointment if slots are found
-4. **Messages sent** back to React Native via `window.ReactNativeWebView.postMessage()`
-5. **React Native handles** messages and updates UI/backend
+5. **Messages sent** back to React Native via `window.ReactNativeWebView.postMessage()`
+6. **React Native handles** messages and updates UI/backend
 
 ### Injection Script Status
 
-**Current**: Placeholder script (logs messages, no actual automation)  
-**In Progress**: Co-worker is developing the actual automation logic  
-**Location**: `src/components/WebViewAutomation.tsx` line ~25 in `injectedJavaScript` variable
+**Current**: Rule-driven injection layer with an ICP Plus entry in `src/webViewInjection/scriptRegistry.ts`  
+**Extend it**: Add more rules in `src/webViewInjection/scriptRegistry.ts` and page scripts in `src/scripts/cita-previa/`  
+**Browser screen**: `src/screens/WebsiteWebViewScreen.tsx`
 
 ### Message Types
 
@@ -232,10 +238,10 @@ All requests automatically include JWT token via Axios interceptor.
 **Phase 3: Automation (Current)**
 - [ ] Case details display correctly
 - [ ] Start automation button works
-- [ ] Progress message: "Waiting for automation script from co-worker..."
+- [ ] Progress message reflects the current automation stage
 - [ ] Stop button works
 
-**Phase 4: Automation (After Co-worker Completes Script)**
+**Phase 4: Automation (After Extending the Script Set)**
 - [ ] WebView loads government website
 - [ ] Script injects successfully
 - [ ] Progress updates appear
@@ -299,21 +305,20 @@ cd ..
 npx react-native doctor
 ```
 
-## When Co-worker Completes Injection Script
+## When You Add Another Page
 
 ### Integration Steps
 
-1. **Receive the script** from your co-worker
-2. **Open** `src/components/WebViewAutomation.tsx`
-3. **Find** the `injectedJavaScript` variable (around line 25)
-4. **Replace** the placeholder with the actual script
-5. **Test** on real government website
-6. **Verify** all message types work correctly
-7. **Deploy** to TestFlight/Play Store for testing
+1. **Open** `src/webViewInjection/scriptRegistry.ts`
+2. **Add** a new URL rule for the target page
+3. **Add or update** page-specific script files in `src/scripts/cita-previa/`
+4. **Test** on the real government website
+5. **Verify** all message types work correctly
+6. **Deploy** to TestFlight/Play Store for testing
 
 ### Script Requirements
 
-The injection script must:
+The injected script must:
 - ✅ Navigate the government website
 - ✅ Fill forms with `caseData` (automatically injected)
 - ✅ Check for available appointment slots

@@ -60,7 +60,7 @@ Either:
 ### 6. Run the App
 
 ```bash
-cd /Users/pejmanchegoonian/Apps/visamesa/visamesa_automation/apps/extranjeria-appointments
+cd apps/mobile
 
 # Make sure backend is running
 # cd visamesa_be && npm run dev
