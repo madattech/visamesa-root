@@ -1,7 +1,7 @@
 export const PROVINCIA_URL =
   'https://icp.administracionelectronica.gob.es/icpplus/index.html';
 
-export const PROVINCIA_SCRIPT = `
+export const buildProvinciaScript = provinceOptionIndex => `
   (function() {
     const postDebug = (stage, payload) => {
       try {
@@ -32,13 +32,13 @@ export const PROVINCIA_SCRIPT = `
         optionCount: dropdown?.options?.length ?? null,
       });
 
-      if (dropdown?.options?.[9]) {
-        dropdown.options[9].selected = true;
+      if (dropdown?.options?.[${provinceOptionIndex}]) {
+        dropdown.options[${provinceOptionIndex}].selected = true;
         postDebug('province.dropdown.selected', {
           attempt,
-          optionIndex: 9,
-          optionText: dropdown.options[9].text ?? null,
-          optionValue: dropdown.options[9].value ?? null,
+          optionIndex: ${provinceOptionIndex},
+          optionText: dropdown.options[${provinceOptionIndex}].text ?? null,
+          optionValue: dropdown.options[${provinceOptionIndex}].value ?? null,
         });
 
         const acceptButton = window.document.querySelector('#btnAceptar');

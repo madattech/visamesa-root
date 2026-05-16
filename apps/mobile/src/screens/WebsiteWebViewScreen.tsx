@@ -3,26 +3,16 @@ import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 import {ICP_PLUS_URL} from '../webViewInjection/scriptRegistry';
 import {useWebViewInjection} from '../webViewInjection/useWebViewInjection';
-import {buildCitaPreviaInjectionRules} from '../scripts/cita-previa';
+import {
+  buildCitaPreviaInjectionRules,
+  citaPreviaPiiConfig,
+} from '../scripts/cita-previa';
 
 const WebsiteWebViewScreen = () => {
   const webViewRef = React.useRef<React.ElementRef<typeof WebView>>(null);
-  const details = React.useMemo(
-    () => ({
-      nie: 'Y6950398L',
-      Name: 'Girish Sardar',
-      nationality: 88,
-      documentType: 'nie' as const,
-    }),
-    [],
-  );
   const injectionRules = React.useMemo(
-    () =>
-      buildCitaPreviaInjectionRules({
-        details,
-        tramitesOptionIndex: 17,
-      }),
-    [details],
+    () => buildCitaPreviaInjectionRules(citaPreviaPiiConfig),
+    [],
   );
   const {
     handleMessage: handleInjectionMessage,

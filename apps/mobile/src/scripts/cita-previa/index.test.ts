@@ -1,4 +1,5 @@
 import {
+  citaPreviaPiiConfig,
   buildCitaPreviaInjectionRules,
   buildCitaPreviaScriptMap,
   type CitaPreviaAutomationProfile,
@@ -7,12 +8,12 @@ import {
 describe('cita previa script map', () => {
   const profile: CitaPreviaAutomationProfile = {
     details: {
+      ...citaPreviaPiiConfig.details,
       nie: 'Y1234567X',
       Name: 'Test User',
-      nationality: 88,
-      documentType: 'nie',
     },
-    tramitesOptionIndex: 17,
+    provinceOptionIndex: 5,
+    tramitesOptionIndex: 3,
   };
 
   it('builds a url to script map for the expected webview steps', () => {
@@ -29,15 +30,40 @@ describe('cita previa script map', () => {
       ]),
     );
 
-    expect(scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es']).toContain(
-      '#tramiteGrupo\\\\[0\\\\]',
-    );
+    expect(
+      scriptMap['https://icp.administracionelectronica.gob.es/icpplus/index.html'],
+    ).toContain('optionIndex: 5');
+    expect(
+      scriptMap['https://icp.administracionelectronica.gob.es/icpplus/index.html'],
+    ).toContain('options?.[5]');
+    expect(
+      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es'],
+    ).toContain('options?.[3]');
+    expect(
+      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es'],
+    ).toContain('#tramiteGrupo\\\\[0\\\\]');
     expect(
       scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'],
     ).toContain('Y1234567X');
     expect(
       scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'],
     ).toContain('Test User');
+    expect(
+      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'],
+    ).toContain('88');
+  });
+
+  it('exports a default pii config for manual runs', () => {
+    expect(citaPreviaPiiConfig).toMatchObject({
+      details: {
+        nie: 'Y6950398L',
+        Name: 'Girish Sardar',
+        nationality: 88,
+        documentType: 'nie',
+      },
+      provinceOptionIndex: 9,
+      tramitesOptionIndex: 17,
+    });
   });
 
   it('converts the map into exact-match injection rules', () => {

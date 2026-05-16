@@ -1,7 +1,7 @@
 export const OFICINA_URL =
   'https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es';
 
-export const buildOficinaScript = (tramitesOptionIndex = 17) => `
+export const buildOficinaScript = tramitesOptionIndex => `
   (function() {
     const tramites = window.document.querySelector('#tramiteGrupo\\\\[0\\\\]');
 

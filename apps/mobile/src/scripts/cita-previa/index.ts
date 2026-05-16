@@ -2,18 +2,23 @@ import type {
   WebViewInjectionMatch,
   WebViewInjectionRule,
 } from '../../webViewInjection/scriptRegistry';
-import type {CitaPreviaDetails} from '../../types';
+import {
+  buildCitaPreviaAutomationProfileFromCase,
+  citaPreviaPiiConfig,
+  type CitaPreviaAutomationProfile,
+} from './config';
 import {buildDetailsScript, DETAILS_URL} from './details';
 import {CLAVE_SCRIPT, CLAVE_URL} from './clave';
 import {INITIAL_PAGE_SCRIPT, ICP_PLUS_URL} from './initialPage';
 import {buildOficinaScript, OFICINA_URL} from './oficina';
-import {PROVINCIA_SCRIPT, PROVINCIA_URL} from './provincia';
+import {buildProvinciaScript, PROVINCIA_URL} from './provincia';
 import {SOLICITAR_CITA_SCRIPT, SOLICITAR_CITA_URL} from './solicitarCita';
 
-export interface CitaPreviaAutomationProfile {
-  details: CitaPreviaDetails;
-  tramitesOptionIndex?: number;
-}
+export {
+  buildCitaPreviaAutomationProfileFromCase,
+  citaPreviaPiiConfig,
+  type CitaPreviaAutomationProfile,
+} from './config';
 
 export interface CitaPreviaScriptMap {
   [url: string]: string;
@@ -32,8 +37,8 @@ const buildCitaPreviaScriptEntries = (
   const detailsScript = buildDetailsScript({
     nie: profile.details.nie,
     Name: profile.details.Name,
-    nationality: profile.details.nationality ?? 88,
-    documentType: profile.details.documentType ?? 'nie',
+    nationality: profile.details.nationality,
+    documentType: profile.details.documentType,
   });
 
   return [
@@ -46,7 +51,7 @@ const buildCitaPreviaScriptEntries = (
     },
     {
       url: PROVINCIA_URL,
-      script: PROVINCIA_SCRIPT,
+      script: buildProvinciaScript(profile.provinceOptionIndex),
       match: {
         type: 'prefix',
         value: PROVINCIA_URL,
@@ -79,7 +84,7 @@ const buildCitaPreviaScriptEntries = (
     },
     {
       url: OFICINA_URL,
-      script: buildOficinaScript(profile.tramitesOptionIndex ?? 17),
+      script: buildOficinaScript(profile.tramitesOptionIndex),
       ready: {
         selector: '#tramiteGrupo\\[0\\]',
       },

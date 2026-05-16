@@ -3,8 +3,8 @@ import {View, StyleSheet} from 'react-native';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 import {Case, AutomationProgress, AppointmentSlot} from '../types';
 import {
+  buildCitaPreviaAutomationProfileFromCase,
   buildCitaPreviaInjectionRules,
-  CitaPreviaAutomationProfile,
 } from '../scripts/cita-previa';
 import {useWebViewInjection} from '../webViewInjection/useWebViewInjection';
 
@@ -24,16 +24,7 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
   onError,
 }) => {
   const webViewRef = useRef<WebView>(null);
-  const tramitesOptionIndex = 17;
-  const automationProfile: CitaPreviaAutomationProfile = {
-    details: caseData.profile.details ?? {
-      nie: caseData.profile.passportNumber,
-      Name: caseData.profile.fullName,
-      nationality: 88,
-      documentType: 'nie',
-    },
-    tramitesOptionIndex,
-  };
+  const automationProfile = buildCitaPreviaAutomationProfileFromCase(caseData);
   const injectionRules = buildCitaPreviaInjectionRules(automationProfile);
 
   const GOVERNMENT_WEBSITE_URL =
