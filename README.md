@@ -10,7 +10,7 @@ visamesa_automation/
 │   ├── types/                       # Common TypeScript types
 │   └── utils/                       # Shared utility functions
 ├── apps/                            # Individual automation apps
-│   └── extranjeria-appointments/   # Spanish gov appointment booking
+│   └── mobile/                      # Mobile automation app
 │       ├── src/                    # React Native app code
 │       ├── package.json
 │       ├── README.md               # App-specific documentation
@@ -20,17 +20,17 @@ visamesa_automation/
 
 ## Current Automations
 
-### 1. **Extranjería Appointments** (`apps/extranjeria-appointments`)
+### 1. **Mobile App** (`apps/mobile`)
 
 Automates visa appointment booking on the Spanish government website.
 
 **Target Website**: https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus
 
-**Status**: ✅ Infrastructure complete, awaiting injection script from co-worker
+**Status**: ✅ Infrastructure complete, with a rule-driven injection layer ready for additional page rules/scripts
 
 **Tech Stack**: React Native + WebView + JavaScript injection
 
-📖 [View App Documentation →](apps/extranjeria-appointments/README.md)
+📖 [View App Documentation →](apps/mobile/README.md)
 
 ## Architecture
 
@@ -61,7 +61,7 @@ User's Mobile Device (React Native App)
 
 ```bash
 # Navigate to the automation you want to run
-cd apps/extranjeria-appointments
+cd apps/mobile
 
 # Install dependencies
 npm install
@@ -113,7 +113,7 @@ npx @react-native-community/cli@latest init YourAutomationName
 
 ### 3. Follow the Pattern
 
-Structure your app like `extranjeria-appointments`:
+Structure your app like `apps/mobile`:
 - Login screen (reuse auth from shared)
 - Case/task list screen
 - Automation control screen
@@ -144,7 +144,7 @@ Create a detailed README.md explaining:
 Name automations based on **what** they automate, not **how**:
 
 ✅ Good:
-- `extranjeria-appointments` (booking appointments)
+- `mobile` (booking appointments)
 - `document-submissions` (submitting documents)
 - `status-checks` (checking application status)
 
