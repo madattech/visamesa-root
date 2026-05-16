@@ -2,6 +2,11 @@ import React, {useRef} from 'react';
 import {View, StyleSheet} from 'react-native';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 import {Case, AutomationProgress, AppointmentSlot} from '../types';
+import {
+  buildCitaPreviaAutomationProfileFromCase,
+  buildCitaPreviaInjectionRules,
+} from '../scripts/cita-previa';
+import {useWebViewInjection} from '../webViewInjection/useWebViewInjection';
 
 interface WebViewAutomationProps {
   caseData: Case;
@@ -19,64 +24,25 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
   onError,
 }) => {
   const webViewRef = useRef<WebView>(null);
+  const automationProfile = buildCitaPreviaAutomationProfileFromCase(caseData);
+  const injectionRules = buildCitaPreviaInjectionRules(automationProfile);
 
-  // The government website URL
   const GOVERNMENT_WEBSITE_URL =
     'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus';
-
-  // This is the JavaScript code that will be injected into the WebView
-  // Your co-worker will develop and refine this script
-  const injectedJavaScript = `
-    (function() {
-      // Placeholder injection script
-      // Your co-worker will replace this with the actual automation logic
-      
-      console.log('VisaMesa Automation Script Loaded');
-      
-      // Helper function to send messages back to React Native
-      function sendMessage(type, data) {
-        window.ReactNativeWebView.postMessage(JSON.stringify({
-          type: type,
-          data: data
-        }));
-      }
-      
-      // Case data from React Native
-      const caseData = ${JSON.stringify(caseData)};
-      
-      sendMessage('progress', { 
-        stage: 'loading', 
-        message: 'Script injected successfully' 
-      });
-      
-      // TODO: Your co-worker will implement the actual automation logic here:
-      // 1. Navigate through the website
-      // 2. Fill in forms with caseData.profile information
-      // 3. Check for available appointment slots
-      // 4. Report found slots using: sendMessage('slots_found', slotsArray)
-      // 5. Book an appointment if slots are available
-      // 6. Report booking result using: sendMessage('booking_complete', resultObject)
-      
-      // Example placeholder behavior (remove when actual script is ready):
-      setTimeout(() => {
-        sendMessage('progress', { 
-          stage: 'checking', 
-          message: 'Waiting for automation script from co-worker...' 
-        });
-      }, 2000);
-      
-      // Handle errors
-      window.onerror = function(message, source, lineno, colno, error) {
-        sendMessage('error', { 
-          error: 'Script error: ' + message 
-        });
-      };
-      
-    })();
-    true; // Required by React Native WebView
-  `;
+  const {
+    handleMessage: handleInjectionMessage,
+    onLoadEnd,
+    onNavigationStateChange,
+  } = useWebViewInjection(webViewRef, {
+    initialUrl: GOVERNMENT_WEBSITE_URL,
+    rules: injectionRules,
+  });
 
   const handleMessage = (event: WebViewMessageEvent) => {
+    if (handleInjectionMessage(event.nativeEvent.data)) {
+      return;
+    }
+
     try {
       const message = JSON.parse(event.nativeEvent.data);
 
@@ -102,6 +68,10 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
           onError(message.data.error);
           break;
 
+        case 'debug':
+          console.debug('[WebView debug]', message.data);
+          break;
+
         default:
           console.log('Unknown message type:', message.type);
       }
@@ -116,7 +86,8 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
       <WebView
         ref={webViewRef}
         source={{uri: GOVERNMENT_WEBSITE_URL}}
-        injectedJavaScript={injectedJavaScript}
+        onNavigationStateChange={onNavigationStateChange}
+        onLoadEnd={onLoadEnd}
         onMessage={handleMessage}
         javaScriptEnabled={true}
         domStorageEnabled={true}

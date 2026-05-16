@@ -2,7 +2,7 @@
 
 ## Current Status ✅
 
-The React Native app is **fully functional** and ready for testing. All infrastructure is complete, awaiting the injection script from your co-worker.
+The React Native app is **fully functional** and ready for testing. The rule-driven WebView injection layer and page scripts are in place, with the remaining work focused on extending the rules/scripts for new pages.
 
 ## What Was Built
 
@@ -10,7 +10,7 @@ The React Native app is **fully functional** and ready for testing. All infrastr
 - ✅ Authentication system (login, JWT tokens, AsyncStorage)
 - ✅ Navigation (LoginScreen → CaseListScreen → AutomationScreen)
 - ✅ API integration (all backend endpoints)
-- ✅ WebView automation component (ready for injection script)
+- ✅ WebView automation layer (`src/webViewInjection/` + `src/scripts/cita-previa/`)
 - ✅ 842 npm packages installed
 
 ## Next Steps (Do These Now)
@@ -97,11 +97,12 @@ npm run android
 ### Phase 3: Automation Screen
 - [ ] Case details display correctly
 - [ ] Start automation button works
-- [ ] Progress message appears: "Waiting for automation script from co-worker..."
+- [ ] Progress message reflects the current automation stage
 - [ ] Stop button works
 
-### Phase 4: When Co-worker Completes Script
-- [ ] Replace placeholder in `src/components/WebViewAutomation.tsx`
+### Phase 4: When You Extend the Script Set
+- [ ] Update `src/webViewInjection/scriptRegistry.ts`
+- [ ] Update or add page scripts in `src/scripts/cita-previa/`
 - [ ] Test on real government website
 - [ ] Verify messages are received
 - [ ] Verify backend receives API calls
@@ -148,7 +149,12 @@ src/
 │   ├── CaseListScreen.tsx         # List all cases
 │   └── AutomationScreen.tsx       # Control automation
 ├── components/
-│   └── WebViewAutomation.tsx      # ⚠️ CO-WORKER UPDATES THIS
+│   └── WebViewAutomation.tsx      # Hidden automation WebView for case workflows
+├── scripts/
+│   └── cita-previa/               # Page-specific WebView scripts
+├── webViewInjection/
+│   ├── scriptRegistry.ts          # URL rules and active script resolution
+│   └── useWebViewInjection.ts     # WebView URL tracking and injection hook
 ├── services/
 │   ├── api.ts                     # Axios instance
 │   ├── authService.ts             # Login, logout, tokens
@@ -156,16 +162,16 @@ src/
 └── types/index.ts                 # TypeScript types
 ```
 
-## When Co-worker Completes Injection Script
+## When You Extend the Script Set
 
-1. Open `src/components/WebViewAutomation.tsx`
-2. Find the `injectedJavaScript` variable (around line 25)
-3. Replace the placeholder with the actual script
+1. Open `src/webViewInjection/scriptRegistry.ts`
+2. Add a new URL rule for the target page
+3. Add or update page-specific scripts in `src/scripts/cita-previa/`
 4. Test thoroughly
 
 ### Expected Message Types from Script
 
-Your co-worker's script should send these messages:
+The injected script should send these messages:
 
 ```javascript
 // Progress update

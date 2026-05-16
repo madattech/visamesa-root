@@ -73,7 +73,7 @@ Successfully created a complete React Native application for automating visa app
   - `booking_complete`: Final booking result
   - `error`: Error reporting
 - Error boundary for WebView failures
-- Ready for injection script from co-worker
+- The browser screen now uses a rule-driven injection layer in `src/webViewInjection/`
 
 ### ✅ Type Safety
 - Complete TypeScript types for all entities:
@@ -123,7 +123,12 @@ visamesa_automation/
     │   ├── CaseListScreen.tsx        # Case list UI
     │   └── AutomationScreen.tsx      # Automation control UI
     ├── components/
-    │   └── WebViewAutomation.tsx     # WebView + injection
+    │   └── WebViewAutomation.tsx     # Hidden WebView automation for case workflows
+    ├── scripts/
+    │   └── cita-previa/              # Page-specific scripts
+    ├── webViewInjection/
+    │   ├── scriptRegistry.ts         # URL rules and active script resolution
+    │   └── useWebViewInjection.ts    # URL tracking and injection hook
     ├── services/
     │   ├── api.ts                    # Axios instance
     │   ├── authService.ts            # Auth API calls
@@ -163,7 +168,7 @@ visamesa_automation/
 │ 5. WEBVIEW LOADS + SCRIPT INJECTED                          │
 │    - Government website opens in hidden WebView             │
 │    - JavaScript injected with case data                     │
-│    - Script (from co-worker) runs automation                │
+│    - Rule-driven script from `src/webViewInjection/` runs   │
 └─────────────────────────────────────────────────────────────┘
                          ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -232,12 +237,12 @@ visamesa_automation/
    - Login with `test@visamesa.com`
    - Verify cases are fetched
 
-### When Co-worker Completes Injection Script
+### When You Add Another Page
 
-1. **Replace Placeholder Script**
-   - Open `src/components/WebViewAutomation.tsx`
-   - Find `injectedJavaScript` variable
-   - Replace placeholder with actual script
+1. **Extend the Registry**
+   - Open `src/webViewInjection/scriptRegistry.ts`
+   - Add a new rule for the target URL
+   - Add or update scripts under `src/scripts/cita-previa/`
 
 2. **Test Message Types**
    - Ensure script sends correct message types
@@ -265,7 +270,7 @@ visamesa_automation/
 
 ## Testing Checklist
 
-### Before Co-worker's Script
+### Before Extending the Rules/Scripts
 
 - [ ] App builds successfully
 - [ ] Login works with test account
@@ -273,10 +278,10 @@ visamesa_automation/
 - [ ] Tapping a case opens AutomationScreen
 - [ ] Start automation button works
 - [ ] WebView loads (check console logs)
-- [ ] "Waiting for automation script" message appears
+- [ ] Progress message reflects the current automation stage
 - [ ] Stop automation button works
 
-### After Co-worker's Script
+### After Extending the Rules/Scripts
 
 - [ ] Script injects successfully
 - [ ] Progress messages appear
@@ -312,7 +317,7 @@ visamesa_automation/
 
 2. **Placeholder Injection Script**
    - Currently just logs messages
-   - Waiting for co-worker to develop actual automation
+   - Ready to extend with additional rules and page scripts
 
 3. **iOS Simulator Localhost**
    - iOS simulator can use `http://localhost:3000`
@@ -356,7 +361,7 @@ visamesa_automation/
    - Clean folder structure
    - Type-safe with TypeScript
    - Well-documented
-   - Easy for co-worker to integrate script
+   - Easy to extend with additional rules and page scripts
 
 ## Success Criteria ✓
 
@@ -383,16 +388,16 @@ All items from #1-4 in the initial plan are complete:
   - LoginScreen: Fully functional
   - CaseListScreen: Fetches and displays cases
   - AutomationScreen: Ready for WebView
-  - WebView component: Infrastructure ready for injection script
+  - WebView component: Infrastructure ready for rule-driven injection
 
 ## Conclusion
 
-The React Native app is **fully functional** and ready for the injection script. Once your co-worker completes the automation script, you can:
+The React Native app is **fully functional** and ready for the injection layer. Once you add or extend the automation rules and scripts, you can:
 
-1. Drop it into `WebViewAutomation.tsx`
+1. Drop it into `src/webViewInjection/scriptRegistry.ts` and `src/scripts/cita-previa/`
 2. Test on the government website
 3. Deploy to TestFlight (iOS) or Google Play Internal Testing (Android)
 
 The app successfully bridges your web app and backend with a mobile automation solution that avoids IP blocking by running on the user's device.
 
-**Current Status**: Awaiting co-worker's injection script. All infrastructure is complete and tested.
+**Current Status**: Rule-driven injection architecture is complete and tested.

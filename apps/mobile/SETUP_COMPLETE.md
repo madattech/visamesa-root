@@ -14,7 +14,7 @@ The React Native app for Extranjería Appointments is now **fully configured** w
 ## Directory Structure
 
 ```
-apps/extranjeria-appointments/
+apps/mobile/
 ├── ios/                           # iOS native code
 │   ├── ExtranjeriaAppointments/   # iOS app
 │   ├── ExtranjeriaAppointments.xcodeproj/
@@ -27,6 +27,8 @@ apps/extranjeria-appointments/
 │   ├── App.tsx
 │   ├── screens/
 │   ├── components/
+│   ├── scripts/
+│   └── webViewInjection/
 │   └── services/
 ├── package.json
 ├── node_modules/                  # Dependencies installed
@@ -114,7 +116,7 @@ The app has:
 - ✅ WebView automation component
 
 **Waiting for**:
-- Injection script from co-worker (will be added to `src/components/WebViewAutomation.tsx`)
+- Additional page rules/scripts if the government flow expands further (`src/webViewInjection/` and `src/scripts/cita-previa/`)
 
 ## Troubleshooting
 
@@ -159,5 +161,5 @@ Everything is ready! Just:
 1. Update backend URL in `src/config/api.ts`
 2. Run `npm run ios` or `npm run android`
 3. Test login and case fetching
-4. Wait for co-worker's injection script
+4. Extend the rule set or page scripts as needed
 5. Deploy! 🎉

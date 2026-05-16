@@ -20,7 +20,7 @@ visamesa_automation/
 │   ├── types/common.ts                 # Common types (User, Auth, etc.)
 │   └── utils/                          # Shared utilities
 ├── apps/                               # Individual automations
-│   └── extranjeria-appointments/       # Spanish gov appointment booking
+│   └── mobile/                         # Spanish gov appointment booking
 │       ├── src/                        # React Native source code
 │       │   ├── App.tsx
 │       │   ├── config/
@@ -28,6 +28,8 @@ visamesa_automation/
 │       │   ├── navigation/
 │       │   ├── screens/
 │       │   ├── components/
+│       │   ├── scripts/cita-previa/
+│       │   └── webViewInjection/
 │       │   ├── services/
 │       │   └── types/
 │       ├── package.json
@@ -48,7 +50,7 @@ visamesa_automation/
 - Clear separation of concerns
 
 ### 2. Better Naming
-- `extranjeria-appointments` describes **what** it automates (appointment booking)
+- `mobile` reflects the app's current monorepo location
 - Not tied to generic names like "VisaMesaAutomation"
 - Future apps have clear, descriptive names
 
@@ -64,15 +66,15 @@ visamesa_automation/
 
 ## Current Automations
 
-### 1. Extranjería Appointments
+### 1. Mobile App
 
-**Location**: `apps/extranjeria-appointments/`
+**Location**: `apps/mobile/`
 
 **Purpose**: Automate visa appointment booking on Spanish government website
 
 **Website**: https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus
 
-**Status**: ✅ Complete infrastructure, awaiting injection script from co-worker
+**Status**: ✅ Complete infrastructure, with rule-driven injection ready for additional page rules/scripts
 
 **Features**:
 - JWT authentication with AsyncStorage
@@ -87,7 +89,7 @@ When you need to automate other processes, simply:
 
 1. Create a new folder in `apps/`
 2. Name it based on **what** it automates
-3. Follow the same pattern as `extranjeria-appointments`
+3. Follow the same pattern as `apps/mobile`
 4. Reuse shared types from `../../shared/types`
 
 **Examples**:
@@ -99,7 +101,7 @@ When you need to automate other processes, simply:
 ## Naming Guidelines
 
 ✅ **Good Names** (describe what is automated):
-- `extranjeria-appointments`
+- `mobile`
 - `document-verification`
 - `status-monitoring`
 - `payment-processing`
@@ -124,7 +126,7 @@ When you need to automate other processes, simply:
 ### Run the Extranjería Appointments App
 
 ```bash
-cd apps/extranjeria-appointments
+cd apps/mobile
 
 # Install dependencies
 npm install
@@ -141,7 +143,7 @@ cd ios && pod install && cd ..
 npm run ios    # or npm run android
 ```
 
-See [apps/extranjeria-appointments/QUICK_START.md](apps/extranjeria-appointments/QUICK_START.md) for detailed instructions.
+See [apps/mobile/QUICK_START.md](apps/mobile/QUICK_START.md) for detailed instructions.
 
 ### Add a New Automation
 
@@ -153,7 +155,7 @@ cd apps/your-automation-name
 # Initialize React Native
 npx @react-native-community/cli@latest init YourAutomationName
 
-# Copy and adapt structure from extranjeria-appointments
+# Copy and adapt structure from apps/mobile
 # Update README.md with your automation's details
 ```
 
@@ -183,7 +185,7 @@ Placeholder for future shared utilities:
 
 No breaking changes:
 - All code from the original single app is intact
-- Just moved into `apps/extranjeria-appointments/`
+- Just moved into `apps/mobile/`
 - Documentation updated to reflect new structure
 - Ready to use immediately
 
@@ -191,13 +193,15 @@ No breaking changes:
 
 1. **Test the restructured app**:
    ```bash
-   cd apps/extranjeria-appointments
+   cd apps/mobile
    npm install
    npm run ios
    ```
 
-2. **When co-worker completes injection script**:
-   - Update `apps/extranjeria-appointments/src/components/WebViewAutomation.tsx`
+2. **When the website flow changes**:
+   - Update `apps/mobile/src/webViewInjection/scriptRegistry.ts`
+   - Update `apps/mobile/src/webViewInjection/useWebViewInjection.ts`
+   - Update `apps/mobile/src/scripts/cita-previa/` when website steps change
    - Test on real government website
    - Deploy to TestFlight/Play Store
 

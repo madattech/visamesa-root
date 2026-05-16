@@ -1,5 +1,6 @@
-export const ICP_PLUS_URL =
-  'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus';
+import {INITIAL_PAGE_SCRIPT, ICP_PLUS_URL} from '../scripts/cita-previa/initialPage';
+
+export {ICP_PLUS_URL} from '../scripts/cita-previa/initialPage';
 
 export type WebViewInjectionMatch =
   | {
@@ -23,18 +24,12 @@ export interface WebViewInjectionRule {
   id: string;
   match: WebViewInjectionMatch;
   script: string;
+  ready?: {
+    selector: string;
+    timeoutMs?: number;
+    pollIntervalMs?: number;
+  };
 }
-
-const ICP_PLUS_SCRIPT = `
-  (function() {
-    const submitButton = window.document.querySelector('#submit');
-
-    if (submitButton) {
-      submitButton.click();
-    }
-  })();
-  true;
-`;
 
 export const webViewInjectionRules: WebViewInjectionRule[] = [
   {
@@ -43,7 +38,7 @@ export const webViewInjectionRules: WebViewInjectionRule[] = [
       type: 'exact',
       value: ICP_PLUS_URL,
     },
-    script: ICP_PLUS_SCRIPT,
+    script: INITIAL_PAGE_SCRIPT,
   },
 ];
 
