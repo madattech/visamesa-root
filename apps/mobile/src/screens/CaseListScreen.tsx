@@ -135,10 +135,24 @@ const CaseListScreen = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.welcomeText}>Welcome, {user?.email}</Text>
-        <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-          <Text style={styles.logoutText}>Logout</Text>
-        </TouchableOpacity>
+        <View style={styles.headerCopy}>
+          <Text style={styles.welcomeText}>Welcome, {user?.email}</Text>
+          <Text style={styles.headerSubtext}>Cases and browser tools</Text>
+        </View>
+        <View style={styles.headerActions}>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('WebsiteWebView', {
+                title: 'ICP Plus Browser',
+              })
+            }
+            style={styles.browserButton}>
+            <Text style={styles.browserText}>Browser</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
 
       {cases.length === 0 ? (
@@ -182,10 +196,34 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
+  headerCopy: {
+    flex: 1,
+    paddingRight: 12,
+  },
   welcomeText: {
     fontSize: 16,
     fontWeight: '600',
     color: '#333',
+  },
+  headerSubtext: {
+    marginTop: 2,
+    fontSize: 12,
+    color: '#666',
+  },
+  headerActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  browserButton: {
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 999,
+    backgroundColor: '#0F172A',
+    marginRight: 8,
+  },
+  browserText: {
+    color: '#fff',
+    fontWeight: '600',
   },
   logoutButton: {
     padding: 8,
