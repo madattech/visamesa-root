@@ -16,8 +16,8 @@ The React Native app for Extranjería Appointments is now **fully configured** w
 ```
 apps/mobile/
 ├── ios/                           # iOS native code
-│   ├── ExtranjeriaAppointments/   # iOS app
-│   ├── ExtranjeriaAppointments.xcodeproj/
+│   ├── VisaMesa/                  # iOS app
+│   ├── VisaMesa.xcodeproj/
 │   └── Podfile                    # CocoaPods configuration
 ├── android/                       # Android native code
 │   ├── app/
@@ -50,7 +50,7 @@ cd ios && pod install && cd ..
 npm run ios
 
 # Or open in Xcode
-open ios/ExtranjeriaAppointments.xcworkspace
+open ios/VisaMesa.xcworkspace
 ```
 
 ### Option 2: Run on Android

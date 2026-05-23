@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "comments": {
-    "cli-version": "DO NOT upgrade @react-native-community/cli above 16.0.2 - RN 0.77 has compatibility issues with 20.x",
-    "node-setup": "Ensure .xcode.env.local is never committed - it contains machine-specific paths"
+    "cli-version": "Must use @react-native-community/cli 15.0.1 for RN 0.77 - CLI 16.x has iOS scheme bugs, 20.x has Metro crashes",
+    "node-setup": "Ensure .xcode.env.local is never committed - it contains machine-specific paths",
+    "safe-area-context": "RN 0.77 requires safe-area-context 5.x+ for Android compatibility - 4.x causes Kotlin compilation errors",
+    "ios-workaround": "CLI has scheme detection bug - use 'npm run ios:xcode' to open Xcode GUI, or build from Xcode directly"
   },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "ios:xcode": "open ios/VisaMesa.xcworkspace",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
@@ -23,7 +26,7 @@
     "axios": "^1.6.5",
     "react": "18.3.1",
     "react-native": "^0.77.3",
-    "react-native-safe-area-context": "^4.8.2",
+    "react-native-safe-area-context": "^5.8.0",
     "react-native-screens": "^3.29.0",
     "react-native-webview": "^13.6.4"
   },
@@ -31,7 +34,7 @@
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "16.0.2",
+    "@react-native-community/cli": "15.0.1",
     "@react-native/babel-preset": "^0.77.3",
     "@react-native/eslint-config": "0.76.0",
     "@react-native/metro-config": "^0.77.3",

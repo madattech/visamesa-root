@@ -93,7 +93,7 @@ See [QUICK_START.md](QUICK_START.md) for detailed setup instructions.
 npm install
 
 # Generate iOS/Android native code (first time only)
-npx @react-native-community/cli@latest init ExtranjeriaAppointments --skip-install --directory .
+npx @react-native-community/cli@latest init VisaMesa --skip-install --directory .
 
 # Install iOS pods (macOS only)
 cd ios && pod install && cd ..
@@ -331,7 +331,7 @@ The injected script must:
 
 ### iOS (TestFlight)
 
-1. Open `ios/ExtranjeriaAppointments.xcworkspace` in Xcode
+1. Open `ios/VisaMesa.xcworkspace` in Xcode
 2. Set version and build number
 3. Archive for distribution
 4. Upload to App Store Connect
