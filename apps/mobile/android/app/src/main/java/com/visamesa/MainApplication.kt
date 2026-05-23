@@ -1,4 +1,4 @@
-package com.extranjeriaappointments
+package com.visamesa
 
 import android.app.Application
 import java.io.IOException
@@ -8,6 +8,7 @@ import com.facebook.react.ReactNativeHost
 import com.facebook.react.defaults.DefaultReactNativeHost
 import com.facebook.react.soloader.OpenSourceMergedSoMapping
 import com.facebook.soloader.SoLoader
+import com.visamesa.BuildConfig
 
 class MainApplication : Application(), ReactApplication {
 

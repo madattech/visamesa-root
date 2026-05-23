@@ -1,382 +1,514 @@
-# Extranjería Appointments Automation
+# VisaMesa Mobile App
 
-React Native app for automating visa appointment booking on the Spanish government's immigration website.
-
-## Target Website
-
-**URL**: https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus
-
-**Official Name**: "Cita previa de extranjería"  
-**Purpose**: Appointment booking for immigration procedures (work permits, residency, family reunification, etc.)
-
-**Website Details**:
-- Operated by: Delegaciones y Subdelegaciones del Gobierno
-- Requires: Passport number, nationality, procedure type, preferred location
-- Challenge: Appointments fill up quickly, manual booking is time-consuming
+React Native automation app for Spanish visa appointment booking.
 
 ## What This App Does
 
-This React Native app automates the entire appointment booking process:
+Automates appointment booking on Spain's immigration website (`sede.administracionespublicas.gob.es`):
 
-1. **User logs in** with VisaMesa credentials (same account as web app)
-2. **Fetches visa cases** from backend that need appointments
-3. **User selects a case** and starts automation
-4. **WebView loads** the government website in background (hidden from user)
-5. **JavaScript injection** automates:
-   - Navigating the appointment system
-   - Filling forms with case data (name, passport, procedure type, location)
-   - Checking for available appointment slots
-   - Booking the first available slot (or user-preferred slot)
-6. **Reports results** back to VisaMesa backend API
-7. **Web app displays** the booked appointment details
+1. User logs in with VisaMesa credentials
+2. Selects a visa case that needs an appointment
+3. App uses WebView + JavaScript injection to automate the government website
+4. Books the first available appointment slot
+5. Reports results back to VisaMesa backend
+
+**Target Users**: Immigration lawyers, visa agencies, individuals needing Spanish visa appointments
 
 ## Architecture
 
-This app is part of the VisaMesa ecosystem:
-
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     VisaMesa Web App                        │
-│                   (visamesa_fe - React)                     │
-│  User creates visa case, enters profile data, views status │
-└─────────────────────────────────────────────────────────────┘
-                         ↓
-┌─────────────────────────────────────────────────────────────┐
-│                    VisaMesa Backend                         │
-│                  (visamesa_be - Fastify)                    │
-│     Stores cases, appointments, user data (PostgreSQL)     │
-└─────────────────────────────────────────────────────────────┘
-                         ↓
-┌─────────────────────────────────────────────────────────────┐
-│           THIS APP - Mobile Automation                      │
-│      (React Native + WebView + JS Injection)                │
-│  Runs on user's phone, automates government website        │
-└─────────────────────────────────────────────────────────────┘
-                         ↓
-┌─────────────────────────────────────────────────────────────┐
-│                  Government Website                         │
-│     sede.administracionespublicas.gob.es                    │
-│            (automated via WebView)                          │
-└─────────────────────────────────────────────────────────────┘
+┌─────────────────────────┐
+│   VisaMesa Web App      │  User creates visa cases
+│   (React)               │
+└──────────┬──────────────┘
+           │
+┌──────────▼──────────────┐
+│   VisaMesa Backend      │  Stores cases & appointments
+│   (Fastify + PostgreSQL)│
+└──────────┬──────────────┘
+           │
+┌──────────▼──────────────┐
+│   VisaMesa Mobile       │  ← This app
+│   (React Native)        │  Automates government website
+└─────────────────────────┘
 ```
 
-## Features
+---
 
-- ✅ JWT authentication with token persistence
-- ✅ Fetch and display all user's visa cases
-- ✅ Case selection and automation control
-- ✅ Hidden WebView for background automation
-- ✅ Real-time progress updates
-- ✅ Slot detection and reporting
-- ✅ Booking result handling
-- ✅ Error recovery and reporting
-- ✅ Pull-to-refresh case list
-- ✅ Status badges and visual feedback
+## Quick Start for New Developers
 
-## Tech Stack
+### Prerequisites
 
-- **React Native** 0.76.8
-- **TypeScript** for type safety
-- **React Navigation** for screens
-- **React Native WebView** for automation
-- **Axios** for API calls
-- **AsyncStorage** for token persistence
+- **macOS** (for iOS development)
+- **Node.js 18+** (via nvm recommended)
+- **Xcode 15+** (macOS only)
+- **Android Studio** (for Android development)
 
-## Setup
-
-See [QUICK_START.md](QUICK_START.md) for detailed setup instructions.
-
-### Quick Setup
+### Setup Commands
 
 ```bash
-# Install dependencies
-npm install
+# 1. Install dependencies
+cd apps/mobile
+npm ci
 
-# Generate iOS/Android native code (first time only)
-npx @react-native-community/cli@latest init ExtranjeriaAppointments --skip-install --directory .
-
-# Install iOS pods (macOS only)
+# 2. Install iOS dependencies (macOS only)
 cd ios && pod install && cd ..
 
-# Configure backend URL in src/config/api.ts
-# - iOS Simulator: http://localhost:3000
-# - Android Emulator: http://10.0.2.2:3000
-# - Physical Device: http://YOUR_LOCAL_IP:3000
+# 3. Start Metro bundler
+npm start
 
-# Run the app
-npm run ios    # or npm run android
+# 4. Run the app (in a new terminal)
+npm run ios              # iOS
+npm run android          # Android
+npm run ios:xcode        # Open in Xcode GUI
 ```
+
+**That's it!** Skip to [Running the App](#running-the-app) if setup works.
+
+---
+
+## Complete Environment Setup
+
+<details>
+<summary><b>📱 iOS Setup (macOS only)</b></summary>
+
+### 1. Install Xcode
+
+```bash
+# Install from App Store or:
+xcode-select --install
+
+# Verify
+xcode-select -p
+# Should output: /Applications/Xcode.app/Contents/Developer
+```
+
+### 2. Install CocoaPods
+
+```bash
+# Install if not present
+sudo gem install cocoapods
+
+# Verify
+pod --version
+```
+
+### 3. Install Project Dependencies
+
+```bash
+cd apps/mobile
+npm ci
+cd ios && LANG=en_US.UTF-8 pod install && cd ..
+```
+
+**Common Issues:**
+- If `pod install` fails, set UTF-8: `export LANG=en_US.UTF-8`
+- If Hermes build fails, ensure Node is in PATH: `which node`
+
+</details>
+
+<details>
+<summary><b>🤖 Android Setup (macOS, Linux, Windows)</b></summary>
+
+### 1. Install Java Development Kit (JDK 17)
+
+```bash
+# macOS (via Homebrew)
+brew install openjdk@17
+brew link --force openjdk@17
+
+# Verify
+java -version  # Should show version 17
+```
+
+### 2. Install Android Studio
+
+1. Download from https://developer.android.com/studio
+2. Run installer and follow setup wizard
+3. Install required SDK components:
+   - Android SDK Platform 34 (API 34)
+   - Android SDK Platform 36 (API 36)
+   - Android SDK Build-Tools
+   - Android SDK Platform-Tools
+   - Android Emulator
+
+### 3. Set Environment Variables
+
+Add to `~/.zshrc` (or `~/.bashrc`):
+
+```bash
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+```
+
+Then reload: `source ~/.zshrc`
+
+### 4. Verify Setup
+
+```bash
+# Check environment
+echo $ANDROID_HOME    # Should show path to SDK
+which adb             # Should show path to adb
+
+# Optional: Run React Native doctor
+npx react-native doctor
+```
+
+### 5. Create Android Emulator (Optional)
+
+```bash
+# Open Android Studio
+# Tools → Device Manager → Create Device
+# Choose: Pixel 6, API 34, Download system image
+```
+
+</details>
+
+---
+
+## Running the App
+
+### Start Metro Bundler
+
+```bash
+# Terminal 1 - Start Metro
+cd apps/mobile
+npm start
+
+# If cache issues:
+npm start -- --reset-cache
+```
+
+### Run on iOS
+
+```bash
+# Terminal 2 - Run on simulator
+npm run ios
+
+# Or open in Xcode GUI:
+npm run ios:xcode
+# Then press Cmd+R in Xcode
+```
+
+### Run on Android
+
+```bash
+# Terminal 2 - Run on emulator or physical device
+npm run android
+
+# For physical device: Connect via USB, enable USB debugging
+# Check device: adb devices
+```
+
+---
 
 ## Project Structure
 
 ```
-src/
-├── App.tsx                         # Root component with providers
-├── config/
-│   └── api.ts                     # Backend API configuration ⚠️ UPDATE THIS
-├── contexts/
-│   └── AuthContext.tsx            # Global authentication state
-├── navigation/
-│   └── RootNavigator.tsx          # Main app navigation
-├── screens/
-│   ├── LoginScreen.tsx            # JWT authentication UI
-│   ├── CaseListScreen.tsx         # Display all user cases
-│   └── AutomationScreen.tsx       # Control automation, show progress
-├── components/
-│   └── WebViewAutomation.tsx      # Hidden automation WebView for case workflows
-├── scripts/
-│   └── cita-previa/               # Page-specific WebView scripts
-├── webViewInjection/
-│   ├── scriptRegistry.ts          # URL rules and active script resolution
-│   └── useWebViewInjection.ts     # WebView URL tracking and injection hook
-├── services/
-│   ├── api.ts                     # Axios instance with interceptors
-│   ├── authService.ts             # Login, logout, token management
-│   └── appointmentService.ts      # Appointment API calls
-└── types/
-    └── index.ts                   # TypeScript type definitions
+apps/mobile/
+├── src/
+│   ├── App.tsx                    # Main app component
+│   ├── screens/                   # Screen components
+│   │   ├── LoginScreen.tsx
+│   │   ├── CasesScreen.tsx
+│   │   └── AutomationScreen.tsx
+│   ├── components/                # Reusable UI components
+│   ├── scripts/                   # Automation scripts
+│   │   └── cita-previa/          # Government site automation
+│   ├── services/                  # API clients
+│   └── types/                     # TypeScript types
+├── android/                       # Android native code
+├── ios/                          # iOS native code
+├── index.js                      # App entry point
+└── package.json                  # Dependencies
 ```
 
-## WebView Automation
+---
 
-The browser injection layer is in `src/webViewInjection/`, and page-specific scripts live under `src/scripts/cita-previa/`.
+## Critical Fixes & Known Issues
 
-### How It Works
+### ✅ FIXED: Metro Bundler Crash
 
-1. **WebView loads** the government website in a hidden view
-2. **The hook tracks the active URL** and resolves a matching rule from `scriptRegistry.ts`
-3. **JavaScript is injected** into the page for the active rule only
-4. **Script automates** the website:
-   - Navigates to appointment booking
-   - Fills forms (name, passport, procedure, location)
-   - Checks for available slots
-   - Books an appointment if slots are found
-5. **Messages sent** back to React Native via `window.ReactNativeWebView.postMessage()`
-6. **React Native handles** messages and updates UI/backend
+**Issue**: `Cannot read properties of undefined (reading 'handle')`
 
-### Injection Script Status
+**Cause**: React Native 0.77 incompatible with `@react-native-community/cli` 20.x
 
-**Current**: Rule-driven injection layer with an ICP Plus entry in `src/webViewInjection/scriptRegistry.ts`  
-**Extend it**: Add more rules in `src/webViewInjection/scriptRegistry.ts` and page scripts in `src/scripts/cita-previa/`  
-**Browser screen**: `src/screens/WebsiteWebViewScreen.tsx`
+**Solution**: CLI locked to version `15.0.1` in `package.json`. DO NOT upgrade.
 
-### Message Types
-
-The injection script communicates with React Native using these message types:
-
-```javascript
-// Progress update
-sendMessage('progress', { 
-  stage: 'checking', 
-  message: 'Looking for available slots...' 
-});
-
-// Slots found
-sendMessage('slots_found', [
-  { date: '2026-05-15', time: '10:00', location: 'Barcelona' },
-  { date: '2026-05-16', time: '14:30', location: 'Barcelona' }
-]);
-
-// Booking complete
-sendMessage('booking_complete', {
-  success: true,
-  date: '2026-05-15',
-  time: '10:00',
-  location: 'Barcelona',
-  confirmationNumber: 'CONF-12345'
-});
-
-// Error
-sendMessage('error', { 
-  error: 'No slots available' 
-});
+```json
+{
+  "@react-native-community/cli": "15.0.1"  // ← DO NOT CHANGE
+}
 ```
 
-## API Integration
+### ✅ FIXED: iOS Build Hermes Error
 
-This app communicates with `visamesa_be` backend:
+**Issue**: `PhaseScriptExecution [CP-User] [Hermes] Replace Hermes failed`
 
-### Endpoints Used
+**Cause**: Committed `ios/.xcode.env.local` with wrong Node path
 
-**Authentication**:
-- `POST /auth/login` - Login with email/password, get JWT
-- `GET /auth/me` - Get current user info
+**Solution**: File deleted and added to `.gitignore`. Never commit machine-specific paths.
 
-**Appointments**:
-- `GET /appointments/cases/:userId` - Get all user cases
-- `GET /appointments/pending/:userId` - Get cases needing automation
-- `GET /appointments/status/:caseId` - Get appointment status for a case
-- `POST /appointments/check-availability` - Report found slots to backend
-- `POST /appointments/book-result` - Report booking success/failure
+### ✅ FIXED: Android Kotlin Compilation Error
 
-All requests automatically include JWT token via Axios interceptor.
+**Issue**: `Cannot infer type for this parameter` in `react-native-safe-area-context`
 
-## Testing
+**Cause**: Version 4.x incompatible with React Native 0.77 on Android
 
-### Test Account
+**Solution**: Upgraded to version `5.8.0`
 
-- **Email**: `test@visamesa.com`
-- **Password**: (set in backend seed script)
-- **Backend**: Must be running on `http://localhost:3000`
+```json
+{
+  "react-native-safe-area-context": "^5.8.0"  // ← Required for RN 0.77
+}
+```
 
-### Testing Checklist
+### ✅ FIXED: Android BuildConfig Error
 
-**Phase 1: Authentication**
-- [ ] App launches without errors
-- [ ] Login screen displays
-- [ ] Login with test account works
-- [ ] Token persists across app restarts
-- [ ] Redirects to CaseListScreen after login
+**Issue**: `Unresolved reference 'BuildConfig'`
 
-**Phase 2: Case Management**
-- [ ] Cases fetch from backend
-- [ ] Cases display with correct data
-- [ ] Pull-to-refresh works
-- [ ] Status badges show correct colors
-- [ ] Tap case navigates to AutomationScreen
+**Cause**: React Native 0.77 requires explicit `buildConfig` feature flag
 
-**Phase 3: Automation (Current)**
-- [ ] Case details display correctly
-- [ ] Start automation button works
-- [ ] Progress message reflects the current automation stage
-- [ ] Stop button works
+**Solution**: Added to `android/app/build.gradle`:
 
-**Phase 4: Automation (After Extending the Script Set)**
-- [ ] WebView loads government website
-- [ ] Script injects successfully
-- [ ] Progress updates appear
-- [ ] Slots are found and displayed
-- [ ] Backend receives check-availability call
-- [ ] Booking completes
-- [ ] Backend receives book-result call
-- [ ] Web app shows updated appointment
-- [ ] Error handling works
+```gradle
+buildFeatures {
+  buildConfig = true
+}
+```
+
+### ✅ FIXED: App Name Registration Error
+
+**Issue**: `"VisaMesa" has not been registered`
+
+**Cause**: Metro cached old app name after rename
+
+**Solution**: Clear Metro cache:
+
+```bash
+npm start -- --reset-cache
+```
+
+---
+
+## Dependency Versions (DO NOT CHANGE)
+
+| Package | Version | Why Locked? |
+|---------|---------|-------------|
+| `@react-native-community/cli` | 15.0.1 | CLI 16.x has iOS bugs, 20.x breaks Metro |
+| `react-native` | 0.77.3 | Project baseline |
+| `react-native-safe-area-context` | 5.8.0+ | 4.x fails Android compilation on RN 0.77 |
+
+**Warning**: Running `npm update` or `npm upgrade` may break the app. Always test in a branch first.
+
+---
 
 ## Troubleshooting
 
-### Cannot connect to backend
-
-Check backend URL configuration in `src/config/api.ts`:
-
-- **iOS Simulator**: `http://localhost:3000`
-- **Android Emulator**: `http://10.0.2.2:3000` (10.0.2.2 = host machine)
-- **Physical Device**: `http://YOUR_LOCAL_IP:3000`
-
-Find your local IP:
-```bash
-ifconfig | grep "inet " | grep -v 127.0.0.1
-# Example: 192.168.1.100
-```
-
-Verify backend is running:
-```bash
-curl http://localhost:3000/health
-```
-
-### WebView not loading
-
-- Check `javaScriptEnabled={true}` in WebView props
-- Enable `domStorageEnabled={true}`
-- Check console logs for errors
-- Test government website in browser first
-
-### Script injection not working
-
-- Enable JavaScript in WebView
-- Check for syntax errors in injection script
-- Test with simple `console.log` first
-- Review WebView error messages
-
-### Build errors
+### iOS: Build fails after `git pull`
 
 ```bash
-# Clear everything
-rm -rf node_modules
-npm install
-npm start -- --reset-cache
-
-# iOS
+# Clean everything
 cd ios
-pod deintegrate
+rm -rf Pods Podfile.lock build
 pod install
 cd ..
 
-# Check environment
-npx react-native doctor
+# Rebuild
+npm run ios
 ```
 
-## When You Add Another Page
+### Android: Build fails after `git pull`
 
-### Integration Steps
+```bash
+# Clean Gradle cache
+cd android
+./gradlew clean
+cd ..
 
-1. **Open** `src/webViewInjection/scriptRegistry.ts`
-2. **Add** a new URL rule for the target page
-3. **Add or update** page-specific script files in `src/scripts/cita-previa/`
-4. **Test** on the real government website
-5. **Verify** all message types work correctly
-6. **Deploy** to TestFlight/Play Store for testing
+# Clear Metro cache
+rm -rf node_modules/.cache
 
-### Script Requirements
+# Rebuild
+npm run android
+```
 
-The injected script must:
-- ✅ Navigate the government website
-- ✅ Fill forms with `caseData` (automatically injected)
-- ✅ Check for available appointment slots
-- ✅ Book an appointment when found
-- ✅ Send progress messages via `sendMessage()`
-- ✅ Handle errors gracefully
-- ✅ Report final result (success/failure)
+### Metro: "Port 8081 already in use"
 
-## Deployment
+```bash
+# Kill existing Metro
+lsof -ti:8081 | xargs kill -9
 
-### iOS (TestFlight)
+# Restart
+npm start
+```
 
-1. Open `ios/ExtranjeriaAppointments.xcworkspace` in Xcode
-2. Set version and build number
-3. Archive for distribution
-4. Upload to App Store Connect
-5. Add to TestFlight for internal/external testing
+### iOS: "Could not find scheme VisaMesa"
 
-### Android (Play Store)
+This was fixed by completing the app rename. If you still see it:
 
-1. Generate release APK/AAB
-2. Sign with release keystore
-3. Upload to Play Console
-4. Create internal testing track
-5. Distribute to testers
+```bash
+# Use Xcode GUI instead
+npm run ios:xcode
+```
 
-## Future Enhancements
+### Android: "SDK location not found"
 
-- **Background Tasks**: Continue automation when app is backgrounded
-- **Push Notifications**: Alert user when appointment is found
-- **Scheduled Automation**: Run at specific times (e.g., daily at 8am)
-- **Multi-case Automation**: Process multiple cases in parallel
-- **Retry Logic**: Auto-retry on failures with exponential backoff
-- **Analytics**: Track success rates, time to find slots
-- **Location Preferences**: Allow user to specify preferred locations
+```bash
+# Set ANDROID_HOME
+echo $ANDROID_HOME  # Should show: /Users/yourname/Library/Android/sdk
 
-## Important Notes
+# If empty, add to ~/.zshrc:
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+source ~/.zshrc
+```
 
-- **IP Blocking Prevention**: This is why automation runs on the user's device (their IP address)
-- **Rate Limiting**: Add delays between requests in injection script to avoid detection
-- **Error Handling**: Government website may change structure, script should handle gracefully
-- **User Privacy**: Never log or expose sensitive user data (passport numbers, etc.)
-- **Security**: JWT tokens stored in AsyncStorage (consider Keychain/Keystore for production)
+---
 
-## Documentation
+## Team Collaboration
 
-- **[QUICK_START.md](QUICK_START.md)**: Fast setup guide
-- **[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)**: Detailed technical documentation
-- **[SETUP_NATIVE.md](SETUP_NATIVE.md)**: Alternative native setup methods
+### Git Workflow
 
-## License
+**Never commit:**
+- `node_modules/`
+- `ios/Pods/`
+- `ios/.xcode.env.local`  ← **Machine-specific, breaks other machines**
+- `android/local.properties`
+- `*.log`
 
-See [LICENSE](../../LICENSE) in repository root.
+**Always commit:**
+- `package-lock.json`
+- `ios/Podfile.lock`
+- `android/gradle/wrapper/gradle-wrapper.properties`
+
+### For New Team Members
+
+1. Clone repo: `git clone <repo-url>`
+2. Install Node 18+: `nvm install 18 && nvm use 18`
+3. Install dependencies: `npm ci` (NOT `npm install`)
+4. iOS only: `cd ios && pod install && cd ..`
+5. Start Metro: `npm start`
+6. Run app: `npm run ios` or `npm run android`
+
+**DO NOT:**
+- Run `npm install` (use `npm ci` for exact versions)
+- Create `ios/.xcode.env.local` (unnecessary in most cases)
+- Upgrade dependencies without team approval
+
+---
+
+## Development Workflow
+
+### Testing Changes
+
+1. Make code changes in `src/`
+2. Metro auto-reloads (if running)
+3. Or manually reload:
+   - **iOS**: Press `Cmd+R` in simulator
+   - **Android**: Press `R+R` in terminal or shake device
+
+### Adding Dependencies
+
+```bash
+# Install package
+npm install <package-name>
+
+# iOS: Update native dependencies
+cd ios && pod install && cd ..
+
+# Test on both platforms
+npm run ios
+npm run android
+```
+
+### Debugging
+
+- **iOS**: Use Xcode debugger or Safari Web Inspector
+- **Android**: Use Chrome DevTools (`chrome://inspect`)
+- **React DevTools**: `npx react-devtools`
+
+---
+
+## Production Build
+
+### iOS
+
+```bash
+# 1. Archive in Xcode
+open ios/VisaMesa.xcworkspace
+# Product → Archive
+
+# 2. Or via command line
+cd ios
+xcodebuild -workspace VisaMesa.xcworkspace \
+  -scheme VisaMesa \
+  -configuration Release \
+  -archivePath ./build/VisaMesa.xcarchive \
+  archive
+```
+
+### Android
+
+```bash
+# 1. Generate release APK
+cd android
+./gradlew assembleRelease
+
+# APK location:
+# android/app/build/outputs/apk/release/app-release.apk
+```
+
+---
+
+## Environment Variables
+
+Create `.env` file for configuration:
+
+```bash
+# Backend API
+API_BASE_URL=https://api.visamesa.com
+API_TIMEOUT=30000
+
+# Feature flags
+ENABLE_CRASH_REPORTING=false
+ENABLE_ANALYTICS=false
+```
+
+---
+
+## Tech Stack
+
+- **Framework**: React Native 0.77.3
+- **Language**: TypeScript
+- **Navigation**: React Navigation 6
+- **State**: React Context API
+- **HTTP Client**: Axios
+- **Storage**: AsyncStorage
+- **WebView**: react-native-webview (for automation)
+
+---
 
 ## Support
 
-For issues or questions:
-- Check [QUICK_START.md](QUICK_START.md) troubleshooting section
-- Review React Native docs: https://reactnative.dev/docs/troubleshooting
-- Check backend logs if API calls fail
-- Test government website accessibility first
+- **Issues**: Open GitHub issue with:
+  - Platform (iOS/Android)
+  - React Native version
+  - Error message
+  - Steps to reproduce
+- **Questions**: Contact development team
+
+---
+
+## License
+
+Proprietary - VisaMesa © 2026
+
+---
+
+**Last Updated**: May 23, 2026  
+**React Native**: 0.77.3  
+**Node.js**: 18+

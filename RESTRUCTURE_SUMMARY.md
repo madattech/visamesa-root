@@ -5,6 +5,7 @@
 Restructured the `visamesa_automation` repository to support multiple automation apps instead of a single monolithic app.
 
 ### Before (Single App)
+
 ```
 visamesa_automation/
 ├── src/
@@ -14,6 +15,7 @@ visamesa_automation/
 ```
 
 ### After (Multi-App Structure)
+
 ```
 visamesa_automation/
 ├── shared/                              # Shared code
@@ -45,21 +47,25 @@ visamesa_automation/
 ## Why This Structure?
 
 ### 1. Scalability
+
 - Easy to add new automations without affecting existing ones
 - Each automation is self-contained
 - Clear separation of concerns
 
 ### 2. Better Naming
+
 - `mobile` reflects the app's current monorepo location
 - Not tied to generic names like "VisaMesaAutomation"
 - Future apps have clear, descriptive names
 
 ### 3. Code Reusability
+
 - `shared/` folder contains common types and utilities
 - Avoid duplicating authentication logic
 - Consistent patterns across all automations
 
 ### 4. Independent Development
+
 - Each app has its own `package.json` and dependencies
 - Can use different React Native versions if needed
 - Test and deploy independently
@@ -77,6 +83,7 @@ visamesa_automation/
 **Status**: ✅ Complete infrastructure, with rule-driven injection ready for additional page rules/scripts
 
 **Features**:
+
 - JWT authentication with AsyncStorage
 - Login, CaseList, and Automation screens
 - WebView component with message passing
@@ -93,6 +100,7 @@ When you need to automate other processes, simply:
 4. Reuse shared types from `../../shared/types`
 
 **Examples**:
+
 - `apps/document-submissions/` - Upload documents automatically
 - `apps/status-checks/` - Periodic status monitoring
 - `apps/form-prefill/` - Pre-fill government forms
@@ -101,12 +109,14 @@ When you need to automate other processes, simply:
 ## Naming Guidelines
 
 ✅ **Good Names** (describe what is automated):
+
 - `mobile`
 - `document-verification`
 - `status-monitoring`
 - `payment-processing`
 
 ❌ **Bad Names** (too generic or implementation-focused):
+
 - `visamesa-automation` (too broad)
 - `app1`, `app2` (not descriptive)
 - `webview-app` (implementation detail)
@@ -132,7 +142,7 @@ cd apps/mobile
 npm install
 
 # Generate iOS/Android native code (first time only)
-npx @react-native-community/cli@latest init ExtranjeriaAppointments --skip-install --directory .
+npx @react-native-community/cli@latest init VisaMesa --skip-install --directory .
 
 # Install iOS pods
 cd ios && pod install && cd ..
@@ -165,10 +175,11 @@ npx @react-native-community/cli@latest init YourAutomationName
 
 ```typescript
 // Available for all automations
-import { User, AuthResponse, STORAGE_KEYS } from '../../shared/types/common';
+import { User, AuthResponse, STORAGE_KEYS } from "../../shared/types/common";
 ```
 
 Currently includes:
+
 - `User`: User object structure
 - `AuthResponse`: Login response format
 - `STORAGE_KEYS`: AsyncStorage key constants
@@ -176,6 +187,7 @@ Currently includes:
 ### Utils (`shared/utils/`)
 
 Placeholder for future shared utilities:
+
 - Date formatting
 - API error handling
 - Retry logic
@@ -184,6 +196,7 @@ Placeholder for future shared utilities:
 ## Migration Notes
 
 No breaking changes:
+
 - All code from the original single app is intact
 - Just moved into `apps/mobile/`
 - Documentation updated to reflect new structure
@@ -192,6 +205,7 @@ No breaking changes:
 ## Next Steps
 
 1. **Test the restructured app**:
+
    ```bash
    cd apps/mobile
    npm install
@@ -217,6 +231,6 @@ No breaking changes:
 ✅ Scalable structure for future growth  
 ✅ Each automation is self-contained  
 ✅ Shared code for common functionality  
-✅ No breaking changes to existing code  
+✅ No breaking changes to existing code
 
 The `visamesa_automation` repository is now a **multi-app monorepo** ready for any automation workflow you need!

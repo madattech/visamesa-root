@@ -67,7 +67,7 @@ cd apps/mobile
 npm install
 
 # Generate native iOS/Android code (first time only)
-npx @react-native-community/cli@latest init ExtranjeriaAppointments --skip-install --directory .
+npx @react-native-community/cli@latest init VisaMesa --skip-install --directory .
 
 # Install iOS pods (macOS only)
 cd ios && pod install && cd ..
@@ -84,6 +84,7 @@ See each app's README for detailed setup instructions.
 ## Prerequisites
 
 **For All Automations**:
+
 - Node.js 18+
 - Xcode (iOS development)
 - Android Studio (Android development)
@@ -91,6 +92,7 @@ See each app's README for detailed setup instructions.
 - Running `visamesa_be` backend: `cd visamesa_be && npm run dev`
 
 **Test Account**:
+
 - Email: `test@visamesa.com`
 - Backend: `http://localhost:3000`
 
@@ -114,6 +116,7 @@ npx @react-native-community/cli@latest init YourAutomationName
 ### 3. Follow the Pattern
 
 Structure your app like `apps/mobile`:
+
 - Login screen (reuse auth from shared)
 - Case/task list screen
 - Automation control screen
@@ -123,7 +126,7 @@ Structure your app like `apps/mobile`:
 
 ```typescript
 // Import shared types
-import { User, AuthResponse } from '../../shared/types/common';
+import { User, AuthResponse } from "../../shared/types/common";
 
 // Add your automation-specific types
 export interface YourCustomType {
@@ -134,6 +137,7 @@ export interface YourCustomType {
 ### 5. Document
 
 Create a detailed README.md explaining:
+
 - What website/process is being automated
 - What the injection script does
 - Setup and testing instructions
@@ -144,11 +148,13 @@ Create a detailed README.md explaining:
 Name automations based on **what** they automate, not **how**:
 
 ✅ Good:
+
 - `mobile` (booking appointments)
 - `document-submissions` (submitting documents)
 - `status-checks` (checking application status)
 
 ❌ Bad:
+
 - `visamesa-automation` (too generic)
 - `webview-app` (implementation detail)
 - `app1`, `app2` (not descriptive)
@@ -158,6 +164,7 @@ Name automations based on **what** they automate, not **how**:
 ### `shared/types/common.ts`
 
 Common types used across all automations:
+
 - `User`, `AuthResponse`
 - `STORAGE_KEYS`
 - `ApiConfig`
@@ -165,6 +172,7 @@ Common types used across all automations:
 ### `shared/utils/` (Future)
 
 Reusable utilities:
+
 - Date formatting
 - API error handling
 - Retry logic
@@ -214,15 +222,15 @@ const automationScript = `
 ```typescript
 const handleMessage = (event) => {
   const message = JSON.parse(event.nativeEvent.data);
-  
+
   switch (message.type) {
-    case 'progress':
+    case "progress":
       updateUI(message.data);
       break;
-    case 'complete':
+    case "complete":
       sendToBackend(message.data);
       break;
-    case 'error':
+    case "error":
       handleError(message.data);
       break;
   }
@@ -234,16 +242,19 @@ const handleMessage = (event) => {
 Each automation should include:
 
 **Authentication Test**:
+
 - [ ] Login works with test account
 - [ ] JWT token is stored and persists
 - [ ] Auto-logout on 401 errors
 
 **Data Fetching Test**:
+
 - [ ] Cases/tasks are fetched from backend
 - [ ] Data displays correctly
 - [ ] Pull-to-refresh works
 
 **Automation Test**:
+
 - [ ] WebView loads target website
 - [ ] Script injects successfully
 - [ ] Progress messages are received
@@ -251,6 +262,7 @@ Each automation should include:
 - [ ] Errors are handled gracefully
 
 **End-to-End Test**:
+
 - [ ] Complete flow from login to result
 - [ ] Web app shows updated status
 - [ ] Edge cases handled
@@ -264,6 +276,7 @@ Each automation should include:
 **Physical Device**: `http://YOUR_LOCAL_IP:3000`
 
 Find your local IP:
+
 ```bash
 ifconfig | grep "inet " | grep -v 127.0.0.1
 # Example: 192.168.1.100
