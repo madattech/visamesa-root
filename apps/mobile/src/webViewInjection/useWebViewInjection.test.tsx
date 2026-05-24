@@ -47,7 +47,7 @@ describe('useWebViewInjection', () => {
   };
 
   const renderHook = (
-    webViewRef: React.RefObject<WebViewInjectionHandle>,
+    webViewRef: React.RefObject<WebViewInjectionHandle | null>,
     initialUrl: string,
     rules: WebViewInjectionRule[],
   ) => {
@@ -86,7 +86,7 @@ describe('useWebViewInjection', () => {
 
   it('updates the active script when the url changes', () => {
     const getHookState = renderHook(
-      {current: null} as React.RefObject<WebViewInjectionHandle>,
+      {current: null} as React.RefObject<WebViewInjectionHandle | null>,
       'https://example.com/start',
       [readyRule],
     );

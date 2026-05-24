@@ -37,9 +37,9 @@ apiClient.interceptors.response.use(
   async error => {
     if (error.response?.status === 401) {
       // Token expired or invalid, clear storage
-      await AsyncStorage.multiRemove([
-        STORAGE_KEYS.AUTH_TOKEN,
-        STORAGE_KEYS.USER_DATA,
+      await Promise.all([
+        AsyncStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN),
+        AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA),
       ]);
     }
     return Promise.reject(error);

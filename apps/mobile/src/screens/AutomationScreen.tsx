@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import {
   View,
   Text,
@@ -29,20 +29,20 @@ const AutomationScreen = () => {
     message: 'Ready to start automation',
   });
 
-  useEffect(() => {
-    if (caseData.id) {
-      refreshAppointmentStatus();
-    }
-  }, [caseData.id]);
-
-  const refreshAppointmentStatus = async () => {
+  const refreshAppointmentStatus = useCallback(async () => {
     try {
       const data = await appointmentService.getAppointmentStatus(caseData.id);
       setAppointment(data);
     } catch (error) {
-      console.log('No appointment found yet');
+      console.log('No appointment found yet', error);
     }
-  };
+  }, [caseData.id]);
+
+  useEffect(() => {
+    if (caseData.id) {
+      refreshAppointmentStatus();
+    }
+  }, [caseData.id, refreshAppointmentStatus]);
 
   const handleStartAutomation = () => {
     if (!caseData.profile) {

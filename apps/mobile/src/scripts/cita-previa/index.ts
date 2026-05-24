@@ -2,11 +2,7 @@ import type {
   WebViewInjectionMatch,
   WebViewInjectionRule,
 } from '../../webViewInjection/scriptRegistry';
-import {
-  buildCitaPreviaAutomationProfileFromCase,
-  citaPreviaPiiConfig,
-  type CitaPreviaAutomationProfile,
-} from './config';
+import type {CitaPreviaAutomationProfile} from './config';
 import {buildDetailsScript, DETAILS_URL} from './details';
 import {CLAVE_SCRIPT, CLAVE_URL} from './clave';
 import {INITIAL_PAGE_SCRIPT, ICP_PLUS_URL} from './initialPage';
