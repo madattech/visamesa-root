@@ -2,11 +2,6 @@
   "name": "visamesa-automation",
   "version": "0.1.0",
   "private": true,
-  "comments": {
-    "upgrade": "React Native upgraded to 0.85.3 using RN Upgrade Helper 0.77.3 → 0.85.3",
-    "node-setup": "RN 0.85 requires Node >= 22.11.0",
-    "android": "Android-only validation target for issue #16; iOS scripts/files are not part of this upgrade pass"
-  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",

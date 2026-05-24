@@ -1,9 +1,11 @@
-import React from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../navigation/RootNavigator';
+import React from 'react'
+import { Text, TouchableOpacity, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+
+import { RootStackParamList } from '../navigation/RootNavigator'
 
 type HomeScreenProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
