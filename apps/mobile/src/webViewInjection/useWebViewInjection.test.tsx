@@ -1,7 +1,14 @@
 import React from 'react'
 import renderer, { act } from 'react-test-renderer'
 
-import { afterEach, describe, expect, it, jest } from '@jest/globals'
+import {
+  afterEach,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  jest
+} from '@jest/globals'
 
 import { useWebViewInjection } from './useWebViewInjection'
 
@@ -85,6 +92,11 @@ describe('useWebViewInjection', () => {
   afterEach(() => {
     jest.useRealTimers();
     jest.restoreAllMocks();
+  });
+
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.spyOn(console, 'debug').mockImplementation(() => {});
   });
 
   it('updates the active script when the url changes', () => {
