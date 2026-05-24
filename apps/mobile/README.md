@@ -529,7 +529,7 @@ ENABLE_ANALYTICS=false
 
 ## Debug
 
-When you change the `react-native` version in `package.json`:
+When JS dependencies change:
 
 ```bash
 npm ci

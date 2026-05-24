@@ -1,94 +1,76 @@
 /**
- * Material Design 3 Color System
- * 
- * Color tokens following MD3 conventions for light and dark themes.
- * Reference: https://m3.material.io/styles/color/the-color-system/tokens
+ * VisaMesa brand colors mapped to Material Design 3 token structure.
+ * Light palette aligned with visamesa_fe (navy primary, orange secondary).
  */
 
 export const lightColors: ColorTokens = {
-  // Primary colors - main brand color
-  primary: '#1A73E8',
+  primary: '#00215E',
   onPrimary: '#FFFFFF',
-  primaryContainer: '#D3E3FD',
-  onPrimaryContainer: '#001D35',
+  primaryContainer: '#D6E3FF',
+  onPrimaryContainer: '#001B3F',
 
-  // Secondary colors - accents and less prominent components
-  secondary: '#5A5D72',
+  secondary: '#FC4101',
   onSecondary: '#FFFFFF',
-  secondaryContainer: '#DFE1F9',
-  onSecondaryContainer: '#171B2C',
+  secondaryContainer: '#FFDBCE',
+  onSecondaryContainer: '#3A0B00',
 
-  // Tertiary colors - contrasting accent
   tertiary: '#735B0F',
   onTertiary: '#FFFFFF',
   tertiaryContainer: '#FFDF9D',
   onTertiaryContainer: '#251A00',
 
-  // Error colors
   error: '#BA1A1A',
   onError: '#FFFFFF',
   errorContainer: '#FFDAD6',
   onErrorContainer: '#410002',
 
-  // Surface colors - backgrounds
   surface: '#FEFBFF',
   onSurface: '#1B1B1F',
   surfaceVariant: '#E1E2EC',
   onSurfaceVariant: '#44464F',
 
-  // Outline colors - borders and dividers
   outline: '#75777F',
   outlineVariant: '#C5C6D0',
 
-  // Background
-  background: '#FEFBFF',
+  background: '#FAFAFA',
   onBackground: '#1B1B1F',
 
-  // Shadow and scrim
   shadow: '#000000',
   scrim: '#000000',
 };
 
 export const darkColors: ColorTokens = {
-  // Primary colors
   primary: '#A8C7FA',
-  onPrimary: '#003258',
-  primaryContainer: '#004A77',
-  onPrimaryContainer: '#D3E3FD',
+  onPrimary: '#002F65',
+  primaryContainer: '#00458F',
+  onPrimaryContainer: '#D6E3FF',
 
-  // Secondary colors
-  secondary: '#C3C5DD',
-  onSecondary: '#2C2F42',
-  secondaryContainer: '#434659',
-  onSecondaryContainer: '#DFE1F9',
+  secondary: '#FFB59D',
+  onSecondary: '#5C1900',
+  secondaryContainer: '#832600',
+  onSecondaryContainer: '#FFDBCE',
 
-  // Tertiary colors
   tertiary: '#E5C16E',
   onTertiary: '#3E2E00',
   tertiaryContainer: '#584400',
   onTertiaryContainer: '#FFDF9D',
 
-  // Error colors
   error: '#FFB4AB',
   onError: '#690005',
   errorContainer: '#93000A',
   onErrorContainer: '#FFDAD6',
 
-  // Surface colors
   surface: '#1B1B1F',
   onSurface: '#E4E2E6',
   surfaceVariant: '#44464F',
   onSurfaceVariant: '#C5C6D0',
 
-  // Outline colors
   outline: '#8F9099',
   outlineVariant: '#44464F',
 
-  // Background
   background: '#1B1B1F',
   onBackground: '#E4E2E6',
 
-  // Shadow and scrim
   shadow: '#000000',
   scrim: '#000000',
 };

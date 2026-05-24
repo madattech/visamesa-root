@@ -1,8 +1,9 @@
-import React from 'react';
+import React from 'react'
+
 import {
   resolveWebViewInjectionRule,
-  type WebViewInjectionRule,
-} from './scriptRegistry';
+  WebViewInjectionRule
+} from './scriptRegistry'
 
 export interface WebViewNavigationState {
   url?: string | null;

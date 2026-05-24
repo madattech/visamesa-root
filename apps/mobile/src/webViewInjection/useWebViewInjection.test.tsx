@@ -1,7 +1,10 @@
-import React from 'react';
-import {afterEach, describe, expect, it, jest} from '@jest/globals';
-import renderer, {act} from 'react-test-renderer';
-import {useWebViewInjection} from './useWebViewInjection';
+import React from 'react'
+import renderer, { act } from 'react-test-renderer'
+
+import { afterEach, describe, expect, it, jest } from '@jest/globals'
+
+import { useWebViewInjection } from './useWebViewInjection'
+
 import type {
   WebViewInjectionHandle,
   UseWebViewInjectionResult,

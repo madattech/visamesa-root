@@ -5,6 +5,7 @@
  */
 
 import {lightColors, darkColors} from './colors';
+import {radii} from './radii';
 import {spacing} from './spacing';
 import {typography} from './typography';
 
@@ -13,12 +14,14 @@ export const lightTheme = {
   colors: lightColors,
   spacing,
   typography,
+  radii,
 } as const;
 
 export const darkTheme = {
   colors: darkColors,
   spacing,
   typography,
+  radii,
 } as const;
 
 // Theme type for TypeScript
@@ -33,7 +36,8 @@ declare module 'react-native-unistyles' {
 }
 
 // Export individual tokens for direct use if needed
-export {lightColors, darkColors, spacing, typography};
+export {lightColors, darkColors, spacing, typography, radii};
 export * from './colors';
+export * from './radii';
 export * from './spacing';
 export * from './typography';
