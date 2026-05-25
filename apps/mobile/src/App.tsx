@@ -1,6 +1,11 @@
 import React from 'react';
-import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+
+import {NavigationContainer} from '@react-navigation/native';
+
+// Initialize Unistyles - this must be imported before any components that use Unistyles
+import './theme/unistyles';
+
 import RootNavigator from './navigation/RootNavigator';
 
 const App = () => {

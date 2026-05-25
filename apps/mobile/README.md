@@ -60,7 +60,7 @@ npm start
 # 4. Run the app (in a new terminal)
 npm run ios              # iOS
 npm run android          # Android
-npm run ios:xcode        # Open in Xcode GUI
+open ios/VisaMesa.xcworkspace  # Or open in Xcode GUI
 ```
 
 **That's it!** Skip to [Running the App](#running-the-app) if setup works.
@@ -102,6 +102,7 @@ cd ios && LANG=en_US.UTF-8 pod install && cd ..
 ```
 
 **Common Issues:**
+
 - If `pod install` fails, set UTF-8: `export LANG=en_US.UTF-8`
 - If Hermes build fails, ensure Node is in PATH: `which node`
 
@@ -189,7 +190,7 @@ npm start -- --reset-cache
 npm run ios
 
 # Or open in Xcode GUI:
-npm run ios:xcode
+open ios/VisaMesa.xcworkspace
 # Then press Cmd+R in Xcode
 ```
 
@@ -216,6 +217,7 @@ apps/mobile/
 │   │   ├── CasesScreen.tsx
 │   │   └── AutomationScreen.tsx
 │   ├── components/                # Reusable UI components
+│   ├── theme/                     # Unistyles theme configuration
 │   ├── scripts/                   # Automation scripts
 │   │   └── cita-previa/          # Government site automation
 │   ├── services/                  # API clients
@@ -234,13 +236,13 @@ apps/mobile/
 
 **Issue**: `Cannot read properties of undefined (reading 'handle')`
 
-**Cause**: React Native 0.77 incompatible with `@react-native-community/cli` 20.x
+**Cause**: `@react-native-community/cli` 16.x/20.x is incompatible with this project's React Native version.
 
-**Solution**: CLI locked to version `15.0.1` in `package.json`. DO NOT upgrade.
+**Solution**: Keep CLI on the 15.x line in `package.json`. DO NOT upgrade to 16.x or 20.x.
 
 ```json
 {
-  "@react-native-community/cli": "15.0.1"  // ← DO NOT CHANGE
+  "@react-native-community/cli": "^15.0.0" // ← Keep on 15.x
 }
 ```
 
@@ -256,21 +258,38 @@ apps/mobile/
 
 **Issue**: `Cannot infer type for this parameter` in `react-native-safe-area-context`
 
-**Cause**: Version 4.x incompatible with React Native 0.77 on Android
+**Cause**: `react-native-safe-area-context` 5.x targets React Native 0.77+ and is incompatible with this project's RN 0.76 baseline.
 
-**Solution**: Upgraded to version `5.8.0`
+**Solution**: Use version 4.x for React Native 0.76:
 
 ```json
 {
-  "react-native-safe-area-context": "^5.8.0"  // ← Required for RN 0.77
+  "react-native-safe-area-context": "^4.8.2" // ← Required for RN 0.76
 }
 ```
+
+### ✅ FIXED: iOS Missing Source File / Pod Mismatch
+
+**Issue**: `Build input file cannot be found: ...PerformanceEntryCircularBuffer.cpp` or `Unable to find module dependency: 'ReactAppDependencyProvider'`
+
+**Cause**: `ios/Podfile.lock` and native iOS files were out of sync with the JavaScript `react-native` version (e.g. Pods from 0.77.x while `node_modules` has 0.76.x).
+
+**Solution**: Reinstall pods after changing the React Native version:
+
+```bash
+cd ios
+rm -rf Pods Podfile.lock build
+pod install
+cd ..
+```
+
+Also ensure `ios/VisaMesa/AppDelegate.swift` matches the React Native version template (0.77-only APIs like `ReactAppDependencyProvider` must not be used on 0.76).
 
 ### ✅ FIXED: Android BuildConfig Error
 
 **Issue**: `Unresolved reference 'BuildConfig'`
 
-**Cause**: React Native 0.77 requires explicit `buildConfig` feature flag
+**Cause**: Android Gradle requires an explicit `buildConfig` feature flag for this project setup.
 
 **Solution**: Added to `android/app/build.gradle`:
 
@@ -296,13 +315,14 @@ npm start -- --reset-cache
 
 ## Dependency Versions (DO NOT CHANGE)
 
-| Package | Version | Why Locked? |
-|---------|---------|-------------|
-| `@react-native-community/cli` | 15.0.1 | CLI 16.x has iOS bugs, 20.x breaks Metro |
-| `react-native` | 0.77.3 | Project baseline |
-| `react-native-safe-area-context` | 5.8.0+ | 4.x fails Android compilation on RN 0.77 |
+| Package                          | Version | Why Locked?                                   |
+| -------------------------------- | ------- | --------------------------------------------- |
+| `@react-native-community/cli`    | ^15.0.0 | CLI 16.x has iOS bugs, 20.x breaks Metro      |
+| `react-native`                   | 0.76.8  | Project baseline                              |
+| `react-native-safe-area-context` | ^4.8.2  | 5.x targets RN 0.77+ and breaks this baseline |
+| `react-native-unistyles`         | 2.43.0  | Styling library used across screens           |
 
-**Warning**: Running `npm update` or `npm upgrade` may break the app. Always test in a branch first.
+**Warning**: Running `npm update` or `npm upgrade` may break the app. Always test in a branch first. After changing `react-native`, always reinstall iOS pods (see [Debug](#debug) below).
 
 ---
 
@@ -352,7 +372,7 @@ This was fixed by completing the app rename. If you still see it:
 
 ```bash
 # Use Xcode GUI instead
-npm run ios:xcode
+open ios/VisaMesa.xcworkspace
 ```
 
 ### Android: "SDK location not found"
@@ -374,13 +394,15 @@ source ~/.zshrc
 ### Git Workflow
 
 **Never commit:**
+
 - `node_modules/`
 - `ios/Pods/`
-- `ios/.xcode.env.local`  ← **Machine-specific, breaks other machines**
+- `ios/.xcode.env.local` ← **Machine-specific, breaks other machines**
 - `android/local.properties`
 - `*.log`
 
 **Always commit:**
+
 - `package-lock.json`
 - `ios/Podfile.lock`
 - `android/gradle/wrapper/gradle-wrapper.properties`
@@ -395,6 +417,7 @@ source ~/.zshrc
 6. Run app: `npm run ios` or `npm run android`
 
 **DO NOT:**
+
 - Run `npm install` (use `npm ci` for exact versions)
 - Create `ios/.xcode.env.local` (unnecessary in most cases)
 - Upgrade dependencies without team approval
@@ -482,9 +505,10 @@ ENABLE_ANALYTICS=false
 
 ## Tech Stack
 
-- **Framework**: React Native 0.77.3
+- **Framework**: React Native 0.76.8
 - **Language**: TypeScript
 - **Navigation**: React Navigation 6
+- **Styling**: react-native-unistyles
 - **State**: React Context API
 - **HTTP Client**: Axios
 - **Storage**: AsyncStorage
@@ -503,12 +527,35 @@ ENABLE_ANALYTICS=false
 
 ---
 
+## Debug
+
+When you change the `react-native` version in `package.json`:
+
+```bash
+npm ci
+# ios
+cd ios && rm -rf Pods Podfile.lock build && LANG=en_US.UTF-8 pod install && cd ..
+npm run ios
+
+# android
+cd android && ./gradlew clean && rm -rf app/build build .gradle && cd ..
+npm run android
+```
+
+If Metro shows `Unknown device with ID ...`, restart Metro with a clean cache:
+
+```bash
+npm start -- --reset-cache
+```
+
+---
+
 ## License
 
 Proprietary - VisaMesa © 2026
 
 ---
 
-**Last Updated**: May 23, 2026  
-**React Native**: 0.77.3  
+**Last Updated**: May 24, 2026  
+**React Native**: 0.76.8  
 **Node.js**: 18+
