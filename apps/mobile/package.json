@@ -3,10 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "comments": {
-    "cli-version": "Must use @react-native-community/cli 15.0.1 for RN 0.77 - CLI 16.x has iOS scheme bugs, 20.x has Metro crashes",
-    "node-setup": "Ensure .xcode.env.local is never committed - it contains machine-specific paths",
-    "safe-area-context": "RN 0.77 requires safe-area-context 5.x+ for Android compatibility - 4.x causes Kotlin compilation errors",
-    "ios-workaround": "CLI has scheme detection bug - use 'npm run ios:xcode' to open Xcode GUI, or build from Xcode directly"
+    "upgrade": "React Native upgraded to 0.85.3 using RN Upgrade Helper 0.77.3 → 0.85.3",
+    "node-setup": "RN 0.85 requires Node >= 22.11.0",
+    "android": "Android-only validation target for issue #16; iOS scripts/files are not part of this upgrade pass"
   },
   "scripts": {
     "android": "react-native run-android",
@@ -18,35 +17,38 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "@react-native-async-storage/async-storage": "^1.21.0",
+    "@react-native-async-storage/async-storage": "3.1.0",
     "@react-navigation/native": "^6.1.9",
     "@react-navigation/native-stack": "^6.9.17",
     "axios": "^1.6.5",
-    "react": "18.3.1",
-    "react-native": "^0.77.3",
+    "react": "19.2.3",
+    "react-native": "0.85.3",
     "react-native-safe-area-context": "^5.8.0",
-    "react-native-screens": "^3.29.0",
-    "react-native-webview": "^13.6.4"
+    "react-native-screens": "4.25.2",
+    "react-native-webview": "13.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
     "@babel/preset-env": "^7.25.3",
     "@babel/runtime": "^7.25.0",
-    "@react-native-community/cli": "15.0.1",
-    "@react-native/babel-preset": "^0.77.3",
-    "@react-native/eslint-config": "0.76.0",
-    "@react-native/metro-config": "^0.77.3",
-    "@react-native/typescript-config": "^0.77.3",
-    "@types/react": "^18.3.3",
-    "@types/react-test-renderer": "^18.3.0",
+    "@react-native-community/cli": "20.1.0",
+    "@react-native-community/cli-platform-android": "20.1.0",
+    "@react-native/babel-preset": "0.85.3",
+    "@react-native/eslint-config": "0.85.3",
+    "@react-native/jest-preset": "0.85.3",
+    "@react-native/metro-config": "0.85.3",
+    "@react-native/typescript-config": "0.85.3",
+    "@types/jest": "29.5.14",
+    "@types/react": "^19.2.0",
+    "@types/react-test-renderer": "^19.1.0",
     "babel-jest": "^29.7.0",
     "eslint": "^8.57.0",
     "jest": "^29.7.0",
     "prettier": "3.4.2",
-    "react-test-renderer": "18.3.1",
-    "typescript": "5.0.4"
+    "react-test-renderer": "19.2.3",
+    "typescript": "^5.8.3"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">= 22.11.0"
   }
 }

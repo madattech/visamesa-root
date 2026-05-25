@@ -1,35 +1,27 @@
 package com.visamesa
 
 import android.app.Application
-import java.io.IOException
 import com.facebook.react.PackageList
 import com.facebook.react.ReactApplication
-import com.facebook.react.ReactNativeHost
-import com.facebook.react.defaults.DefaultReactNativeHost
-import com.facebook.react.soloader.OpenSourceMergedSoMapping
-import com.facebook.soloader.SoLoader
-import com.visamesa.BuildConfig
+import com.facebook.react.ReactHost
+import com.facebook.react.ReactNativeApplicationEntryPoint.loadReactNative
+import com.facebook.react.defaults.DefaultReactHost.getDefaultReactHost
 
 class MainApplication : Application(), ReactApplication {
 
-  override val reactNativeHost: ReactNativeHost =
-      object : DefaultReactNativeHost(this) {
-        override fun getPackages(): List<com.facebook.react.ReactPackage> =
-            PackageList(this).packages
-
-        override fun getUseDeveloperSupport(): Boolean = BuildConfig.DEBUG
-
-        override fun getJSMainModuleName(): String = "index"
-
-        override val isHermesEnabled: Boolean = true
-      }
+  override val reactHost: ReactHost by lazy {
+    getDefaultReactHost(
+      context = applicationContext,
+      packageList =
+        PackageList(this).packages.apply {
+          // Packages that cannot be autolinked yet can be added manually here, for example:
+          // add(MyReactNativePackage())
+        },
+    )
+  }
 
   override fun onCreate() {
     super.onCreate()
-    try {
-      SoLoader.init(this, OpenSourceMergedSoMapping)
-    } catch (exception: IOException) {
-      throw RuntimeException("Failed to initialize SoLoader", exception)
-    }
+    loadReactNative(this)
   }
 }

@@ -94,7 +94,7 @@ const isWebViewInjectionInternalMessage = (
 };
 
 export const useWebViewInjection = (
-  webViewRef: React.RefObject<WebViewInjectionHandle>,
+  webViewRef: React.RefObject<WebViewInjectionHandle | null>,
   options: UseWebViewInjectionOptions = {},
 ): UseWebViewInjectionResult => {
   const {initialUrl = null, rules} = options;
