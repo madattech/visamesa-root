@@ -4,8 +4,10 @@ import WebView, { WebViewMessageEvent } from 'react-native-webview'
 
 import {
   buildCitaPreviaAutomationProfileFromCase,
-  buildCitaPreviaInjectionRules
+  buildCitaPreviaInjectionRules,
+  CITA_PREVIA_START_URL,
 } from '../scripts/cita-previa'
+import {MOBILE_SAFARI_USER_AGENT} from '../webViewInjection/webViewDefaults'
 import { AppointmentSlot, AutomationProgress, Case } from '../types'
 import { useWebViewInjection } from '../webViewInjection/useWebViewInjection'
 
@@ -28,14 +30,12 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
   const automationProfile = buildCitaPreviaAutomationProfileFromCase(caseData);
   const injectionRules = buildCitaPreviaInjectionRules(automationProfile);
 
-  const GOVERNMENT_WEBSITE_URL =
-    'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus';
   const {
     handleMessage: handleInjectionMessage,
     onLoadEnd,
     onNavigationStateChange,
   } = useWebViewInjection(webViewRef, {
-    initialUrl: GOVERNMENT_WEBSITE_URL,
+    initialUrl: CITA_PREVIA_START_URL,
     rules: injectionRules,
   });
 
@@ -86,7 +86,9 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
     <View style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{uri: GOVERNMENT_WEBSITE_URL}}
+        source={{uri: CITA_PREVIA_START_URL}}
+        userAgent={MOBILE_SAFARI_USER_AGENT}
+        applicationNameForUserAgent="VisaMesa"
         onNavigationStateChange={onNavigationStateChange}
         onLoadEnd={onLoadEnd}
         onMessage={handleMessage}

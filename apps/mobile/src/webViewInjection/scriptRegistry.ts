@@ -76,6 +76,21 @@ export const matchesWebViewInjectionRule = (
   }
 };
 
+const getMatchSpecificity = (rule: WebViewInjectionRule): number => {
+  switch (rule.match.type) {
+    case 'exact':
+      return 1000 + rule.match.value.length;
+    case 'prefix':
+      return 500 + rule.match.value.length;
+    case 'regex':
+      return 400;
+    case 'host':
+      return 100;
+    default:
+      return 0;
+  }
+};
+
 export const resolveWebViewInjectionRule = (
   currentUrl: string | null | undefined,
   rules: WebViewInjectionRule[] = webViewInjectionRules,
@@ -84,7 +99,12 @@ export const resolveWebViewInjectionRule = (
     return null;
   }
 
-  return rules.find(rule => matchesWebViewInjectionRule(currentUrl, rule)) ?? null;
+  return (
+    rules
+      .filter(rule => matchesWebViewInjectionRule(currentUrl, rule))
+      .sort((left, right) => getMatchSpecificity(right) - getMatchSpecificity(left))[0] ??
+    null
+  );
 };
 
 export const resolveInjectedJavaScript = (

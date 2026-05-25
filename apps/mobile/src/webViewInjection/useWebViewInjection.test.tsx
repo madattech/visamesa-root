@@ -99,6 +99,13 @@ describe('useWebViewInjection', () => {
     jest.spyOn(console, 'debug').mockImplementation(() => {});
   });
 
+  const triggerLoadEnd = (getHookState: () => UseWebViewInjectionResult) => {
+    act(() => {
+      getHookState().onLoadEnd();
+      jest.advanceTimersByTime(300);
+    });
+  };
+
   it('updates the active script when the url changes', () => {
     const getHookState = renderHook(
       {current: null} as React.RefObject<WebViewInjectionHandle | null>,
@@ -132,14 +139,11 @@ describe('useWebViewInjection', () => {
       [readyRule],
     );
 
-    act(() => {
-      getHookState().onLoadEnd();
-    });
+    triggerLoadEnd(getHookState);
 
     expect(injectJavaScript).toHaveBeenCalledTimes(1);
-    expect(injectJavaScript.mock.calls[0][0]).toContain(
-      'window.document.querySelector("#ready")',
-    );
+    expect(injectJavaScript.mock.calls[0][0]).toContain('"#ready"');
+    expect(injectJavaScript.mock.calls[0][0]).toContain('ReactNativeWebView');
     expect(injectJavaScript).not.toHaveBeenCalledWith('matching-script');
   });
 
@@ -156,9 +160,7 @@ describe('useWebViewInjection', () => {
       [readyRule],
     );
 
-    act(() => {
-      getHookState().onLoadEnd();
-    });
+    triggerLoadEnd(getHookState);
 
     act(() => {
       expect(
@@ -194,9 +196,7 @@ describe('useWebViewInjection', () => {
       [readyRule, secondReadyRule],
     );
 
-    act(() => {
-      getHookState().onLoadEnd();
-    });
+    triggerLoadEnd(getHookState);
 
     act(() => {
       getHookState().onNavigationStateChange({
@@ -224,14 +224,10 @@ describe('useWebViewInjection', () => {
     expect(injectJavaScript).toHaveBeenCalledTimes(1);
     expect(injectJavaScript).not.toHaveBeenCalledWith('matching-script');
 
-    act(() => {
-      getHookState().onLoadEnd();
-    });
+    triggerLoadEnd(getHookState);
 
     expect(injectJavaScript).toHaveBeenCalledTimes(2);
-    expect(injectJavaScript.mock.calls[1][0]).toContain(
-      'window.document.querySelector("#other-ready")',
-    );
+    expect(injectJavaScript.mock.calls[1][0]).toContain('"#other-ready"');
   });
 
   it('does not double-inject on duplicate load end events', () => {
@@ -250,6 +246,7 @@ describe('useWebViewInjection', () => {
     act(() => {
       getHookState().onLoadEnd();
       getHookState().onLoadEnd();
+      jest.advanceTimersByTime(300);
     });
 
     expect(injectJavaScript).toHaveBeenCalledTimes(1);
@@ -268,13 +265,14 @@ describe('useWebViewInjection', () => {
         }),
       );
       getHookState().onLoadEnd();
+      jest.advanceTimersByTime(300);
     });
 
     expect(injectJavaScript).toHaveBeenCalledTimes(2);
     expect(injectJavaScript).toHaveBeenLastCalledWith('matching-script');
   });
 
-  it('logs and skips injection when readiness polling times out', () => {
+  it('injects the page script when readiness polling times out', () => {
     jest.useFakeTimers();
     const injectJavaScript = jest.fn();
     const debugSpy = jest.spyOn(console, 'debug').mockImplementation(() => {});
@@ -288,18 +286,16 @@ describe('useWebViewInjection', () => {
       [readyRule],
     );
 
-    act(() => {
-      getHookState().onLoadEnd();
-    });
+    triggerLoadEnd(getHookState);
 
     act(() => {
-      jest.advanceTimersByTime(300);
+      jest.advanceTimersByTime(600);
     });
 
-    expect(injectJavaScript).toHaveBeenCalledTimes(3);
-    expect(injectJavaScript).not.toHaveBeenCalledWith('matching-script');
+    expect(injectJavaScript).toHaveBeenCalledTimes(4);
+    expect(injectJavaScript).toHaveBeenLastCalledWith('matching-script');
     expect(debugSpy).toHaveBeenCalledWith(
-      '[WebViewInjection] Readiness timed out',
+      '[WebViewInjection] Readiness timed out; injecting anyway',
       {
         currentUrl: 'https://example.com/match',
         ruleId: 'matching-rule',
@@ -321,9 +317,7 @@ describe('useWebViewInjection', () => {
       [immediateRule],
     );
 
-    act(() => {
-      getHookState().onLoadEnd();
-    });
+    triggerLoadEnd(getHookState);
 
     expect(injectJavaScript).toHaveBeenCalledTimes(1);
     expect(injectJavaScript).toHaveBeenCalledWith('immediate-script');
