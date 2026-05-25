@@ -1,13 +1,14 @@
-import React from 'react';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import WebView, {WebViewMessageEvent} from 'react-native-webview';
-import {ICP_PLUS_URL} from '../webViewInjection/scriptRegistry';
-import {useWebViewInjection} from '../webViewInjection/useWebViewInjection';
+import React from 'react'
+import { ActivityIndicator, StyleSheet, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import WebView, { WebViewMessageEvent } from 'react-native-webview'
+
 import {
   buildCitaPreviaInjectionRules,
-  citaPreviaPiiConfig,
-} from '../scripts/cita-previa';
+  citaPreviaPiiConfig
+} from '../scripts/cita-previa'
+import { ICP_PLUS_URL } from '../webViewInjection/scriptRegistry'
+import { useWebViewInjection } from '../webViewInjection/useWebViewInjection'
 
 const WebsiteWebViewScreen = () => {
   const webViewRef = React.useRef<React.ElementRef<typeof WebView>>(null);
@@ -24,21 +25,24 @@ const WebsiteWebViewScreen = () => {
     rules: injectionRules,
   });
 
-  const handleMessage = React.useCallback((event: WebViewMessageEvent) => {
-    if (handleInjectionMessage(event.nativeEvent.data)) {
-      return;
-    }
-
-    try {
-      const message = JSON.parse(event.nativeEvent.data);
-
-      if (message.type === 'debug') {
-        console.debug('[WebView debug]', message.data);
+  const handleMessage = React.useCallback(
+    (event: WebViewMessageEvent) => {
+      if (handleInjectionMessage(event.nativeEvent.data)) {
+        return;
       }
-    } catch {
-      // Ignore non-JSON messages from the page.
-    }
-  }, [handleInjectionMessage]);
+
+      try {
+        const message = JSON.parse(event.nativeEvent.data);
+
+        if (message.type === 'debug') {
+          console.debug('[WebView debug]', message.data);
+        }
+      } catch {
+        // Ignore non-JSON messages from the page.
+      }
+    },
+    [handleInjectionMessage],
+  );
 
   return (
     <SafeAreaView style={styles.container}>

@@ -1,19 +1,22 @@
-import React from 'react';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
+// Initialize Unistyles before any component that uses createStyleSheet
+import './theme/unistyles'
 
-import {NavigationContainer} from '@react-navigation/native';
+import React from 'react'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
 
-// Initialize Unistyles - this must be imported before any components that use Unistyles
-import './theme/unistyles';
+import { NavigationContainer } from '@react-navigation/native'
 
-import RootNavigator from './navigation/RootNavigator';
+import { ToastProvider } from './components/Toast/ToastProvider'
+import RootNavigator from './navigation/RootNavigator'
 
 const App = () => {
   return (
     <SafeAreaProvider>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <ToastProvider>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </ToastProvider>
     </SafeAreaProvider>
   );
 };

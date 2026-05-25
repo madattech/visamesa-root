@@ -5,7 +5,11 @@ export const buildProvinciaScript = provinceOptionIndex => `
   (function() {
     const postDebug = (stage, payload) => {
       try {
-        window.ReactNativeWebView.postMessage(JSON.stringify({
+        var bridge = window.ReactNativeWebView;
+        if (!bridge || typeof bridge.postMessage !== 'function') {
+          return;
+        }
+        bridge.postMessage(JSON.stringify({
           type: 'debug',
           data: {
             stage,

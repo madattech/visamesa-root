@@ -426,6 +426,29 @@ source ~/.zshrc
 
 ## Development Workflow
 
+### Unit tests
+
+Tests live next to the code they cover (`*.test.ts` / `*.test.tsx`). Shared helpers are in `src/test/`.
+
+```bash
+npm test
+```
+
+**What we test**
+- Hooks and services (business logic)
+- Reusable components with non-trivial behavior (e.g. `Stepper`)
+- WebView automation rules and injection timing
+
+**What we skip**
+- Thin screen wrappers that only compose hooks + UI
+- Pure styling and one-line utilities without logic
+
+**Conventions**
+- Use `src/test/renderHook.tsx` for hook tests
+- Use `src/test/fixtures/` for shared test data
+- Mock navigation with `src/test/navigation.ts`
+- Prefer testing behavior over implementation details
+
 ### Testing Changes
 
 1. Make code changes in `src/`
@@ -529,7 +552,7 @@ ENABLE_ANALYTICS=false
 
 ## Debug
 
-When you change the `react-native` version in `package.json`:
+When JS dependencies change:
 
 ```bash
 npm ci
