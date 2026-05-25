@@ -4,13 +4,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useToast} from '@/components/Toast/ToastProvider';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
-import {RootStackParamList} from '@/navigation/RootNavigator';
+import {HomeStackParamList} from '@/navigation/types';
 
 const DEFAULT_STEP_ID = 1;
 const COMING_SOON_MESSAGE = 'Coming soon';
 
 type HomeScreenNavigation = NativeStackNavigationProp<
-  RootStackParamList,
+  HomeStackParamList,
   'Home'
 >;
 

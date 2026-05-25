@@ -1,16 +1,22 @@
 import React from 'react';
 import {View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {ButtonGroup} from '@/components/ui/ButtonGroup';
 import {Text} from '@/components/ui/Text';
 import {useStepsScreen} from '@/features/home/hooks/useStepsScreen';
-import {RootStackParamList} from '@/navigation/RootNavigator';
+import {HomeStackParamList, RootStackParamList} from '@/navigation/types';
+
+type StepsScreenNavigation = CompositeNavigationProp<
+  NativeStackNavigationProp<HomeStackParamList, 'Steps'>,
+  NativeStackNavigationProp<RootStackParamList>
+>;
 
 type StepsScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Steps'>;
+  navigation: StepsScreenNavigation;
 };
 
 const StepsScreen = ({navigation}: StepsScreenProps) => {

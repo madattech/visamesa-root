@@ -7,13 +7,14 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer } from '@react-navigation/native'
 
 import { ToastProvider } from './components/Toast/ToastProvider'
+import {linking} from './navigation/linking'
 import RootNavigator from './navigation/RootNavigator'
 
 const App = () => {
   return (
     <SafeAreaProvider>
       <ToastProvider>
-        <NavigationContainer>
+        <NavigationContainer linking={linking}>
           <RootNavigator />
         </NavigationContainer>
       </ToastProvider>
