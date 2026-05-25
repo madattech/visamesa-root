@@ -14,7 +14,7 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAuth} from '../contexts/AuthContext';
 import {appointmentService} from '../services/appointmentService';
 import {Case} from '../types';
-import {RootStackParamList} from '../navigation/RootNavigator';
+import {RootStackParamList} from '@/navigation/types';
 
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 

@@ -72,6 +72,18 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
 
+// Icon font only — native module autolinking is disabled in react-native.config.js
+def materialIconsFontsDir =
+    file("../../node_modules/@react-native-vector-icons/material-icons/fonts")
+
+tasks.register("copyMaterialIconsFont", Copy) {
+    from(materialIconsFontsDir)
+    include("MaterialIcons.ttf")
+    into(file("src/main/assets/fonts"))
+}
+
+tasks.named("preBuild").configure { dependsOn("copyMaterialIconsFont") }
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion

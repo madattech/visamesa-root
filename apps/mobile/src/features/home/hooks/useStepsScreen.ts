@@ -1,10 +1,11 @@
+import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {RootStackParamList} from '@/navigation/RootNavigator';
+import {HomeStackParamList, RootStackParamList} from '@/navigation/types';
 
-type StepsScreenNavigation = NativeStackNavigationProp<
-  RootStackParamList,
-  'Steps'
+type StepsScreenNavigation = CompositeNavigationProp<
+  NativeStackNavigationProp<HomeStackParamList, 'Steps'>,
+  NativeStackNavigationProp<RootStackParamList>
 >;
 
 export type UseStepsScreenResult = {

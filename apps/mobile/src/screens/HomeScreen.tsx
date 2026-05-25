@@ -9,11 +9,11 @@ import { Text } from '@/components/ui/Text'
 import { HeroSection } from '@/features/home/components/HeroSection'
 import { StepOverview } from '@/features/home/components/StepOverview'
 import { useHomeScreen } from '@/features/home/hooks/useHomeScreen'
-import { RootStackParamList } from '@/navigation/RootNavigator'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import {HomeStackParamList} from '@/navigation/types';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type HomeScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, 'Home'>;
+  navigation: NativeStackNavigationProp<HomeStackParamList, 'Home'>;
 };
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
@@ -30,7 +30,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
   } = useHomeScreen(navigation);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       {isLoading ? (
         <View style={styles.centered}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
@@ -75,7 +75,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingBottom: theme.spacing.xxxl,
+    paddingBottom: theme.spacing.lg,
     gap: theme.spacing.lg,
   },
   centered: {

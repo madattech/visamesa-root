@@ -30,6 +30,7 @@ local.properties
 .cxx/
 *.keystore
 !debug.keystore
+android/app/src/main/assets/fonts/
 
 # node.js
 node_modules/

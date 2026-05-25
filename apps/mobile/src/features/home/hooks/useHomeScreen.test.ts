@@ -2,6 +2,7 @@ import {act} from 'react-test-renderer';
 
 import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
+import {HomeStackParamList} from '@/navigation/types';
 import {createMockNavigation} from '@/test/navigation';
 import {renderHook} from '@/test/renderHook';
 
@@ -32,7 +33,7 @@ describe('useHomeScreen', () => {
   });
 
   it('defaults to step 1 and updates the active step', () => {
-    const navigation = createMockNavigation<'Home'>();
+    const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
     expect(getHookState().activeStepId).toBe(1);
@@ -47,7 +48,7 @@ describe('useHomeScreen', () => {
   });
 
   it('shows a coming soon toast for the primary action', () => {
-    const navigation = createMockNavigation<'Home'>();
+    const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
     act(() => {
@@ -58,7 +59,7 @@ describe('useHomeScreen', () => {
   });
 
   it('navigates to the steps screen from the secondary action', () => {
-    const navigation = createMockNavigation<'Home'>();
+    const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
     act(() => {

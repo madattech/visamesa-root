@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
-import {RootStackParamList} from '../navigation/RootNavigator';
+import {RootStackParamList} from '@/navigation/types';
 import {appointmentService} from '../services/appointmentService';
 import {Appointment, AutomationProgress, AppointmentSlot} from '../types';
 import WebViewAutomation from '../components/WebViewAutomation';
