@@ -1,5 +1,6 @@
 import React from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 import {ICP_PLUS_URL} from '../webViewInjection/scriptRegistry';
 import {useWebViewInjection} from '../webViewInjection/useWebViewInjection';
