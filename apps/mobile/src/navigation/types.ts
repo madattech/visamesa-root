@@ -21,9 +21,12 @@ export type MainTabParamList = {
   ProfileTab: NavigatorScreenParams<ProfileStackParamList>;
 };
 
+export type WebViewAutomationKind = 'cita-previa' | 'empadronamiento';
+
 export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList>;
   WebsiteWebView: {
+    automation?: WebViewAutomationKind;
     url?: string;
     title?: string;
     details?: CitaPreviaDetails;

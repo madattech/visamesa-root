@@ -10,6 +10,14 @@ import {buildOficinaScript, OFICINA_URL} from './oficina';
 import {buildProvinciaScript, PROVINCIA_URL} from './provincia';
 import {SOLICITAR_CITA_SCRIPT, SOLICITAR_CITA_URL} from './solicitarCita';
 
+export const CITA_PREVIA_SEDE_ENTRY_URL =
+  'https://sede.administracionespublicas.gob.es/icpplus/index.html';
+
+/**
+ * Official sede gateway — click #submit to reach ICP (avoids 403 on /icpplus/index.html in WebView).
+ */
+export const CITA_PREVIA_START_URL = ICP_PLUS_URL;
+
 export {
   buildCitaPreviaAutomationProfileFromCase,
   citaPreviaPiiConfig,
@@ -37,17 +45,27 @@ const buildCitaPreviaScriptEntries = (
     documentType: profile.details.documentType,
   });
 
+  const provinciaScript = buildProvinciaScript(profile.provinceOptionIndex);
+
   return [
     {
       url: ICP_PLUS_URL,
       script: INITIAL_PAGE_SCRIPT,
+    },
+    {
+      url: CITA_PREVIA_SEDE_ENTRY_URL,
+      script: provinciaScript,
+      match: {
+        type: 'prefix',
+        value: CITA_PREVIA_SEDE_ENTRY_URL,
+      },
       ready: {
-        selector: '#submit',
+        selector: 'select#form, #form, select[name="form"]',
       },
     },
     {
       url: PROVINCIA_URL,
-      script: buildProvinciaScript(profile.provinceOptionIndex),
+      script: provinciaScript,
       match: {
         type: 'prefix',
         value: PROVINCIA_URL,

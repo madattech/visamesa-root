@@ -1,14 +1,14 @@
 import React from 'react';
 import {View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {CompositeNavigationProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
-import {ButtonGroup} from '@/components/ui/ButtonGroup';
+import {Button} from '@/components/ui/Button';
 import {Text} from '@/components/ui/Text';
 import {useStepsScreen} from '@/features/home/hooks/useStepsScreen';
 import {HomeStackParamList, RootStackParamList} from '@/navigation/types';
+import {CompositeNavigationProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type StepsScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<HomeStackParamList, 'Steps'>,
@@ -21,21 +21,33 @@ type StepsScreenProps = {
 
 const StepsScreen = ({navigation}: StepsScreenProps) => {
   const {styles} = useStyles(stylesheet);
-  const {onStartAutomation, onBackPress} = useStepsScreen(navigation);
+  const {onCitaPreviaPress, onEmpadronamientoPress, onBackPress} =
+    useStepsScreen(navigation);
 
   return (
     <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <View style={styles.header}>
-        <ButtonGroup
-          primaryButton={{
-            label: 'Start Automation',
-            onPress: onStartAutomation,
-          }}
-          secondaryButton={{
-            label: 'Back',
-            onPress: onBackPress,
-          }}
-        />
+        <View style={styles.actions}>
+          <Button
+            label="Cita Previa"
+            onPress={onCitaPreviaPress}
+            fullWidth
+            style={styles.button}
+          />
+          <Button
+            label="Empadronamiento"
+            onPress={onEmpadronamientoPress}
+            fullWidth
+            style={styles.button}
+          />
+          <Button
+            label="Back"
+            onPress={onBackPress}
+            variant="outline"
+            fullWidth
+            style={styles.button}
+          />
+        </View>
       </View>
       <View style={styles.content}>
         <Text variant="headlineSmall" style={styles.title}>
@@ -53,6 +65,16 @@ const stylesheet = createStyleSheet(theme => ({
   },
   header: {
     paddingTop: theme.spacing.sm,
+  },
+  actions: {
+    width: '100%',
+    maxWidth: 480,
+    alignSelf: 'center',
+    paddingHorizontal: theme.spacing.md,
+    gap: theme.spacing.sm + 4,
+  },
+  button: {
+    width: '100%',
   },
   content: {
     flex: 1,

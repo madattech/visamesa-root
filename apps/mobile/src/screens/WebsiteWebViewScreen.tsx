@@ -1,27 +1,62 @@
-import React from 'react'
-import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import WebView, { WebViewMessageEvent } from 'react-native-webview'
+import React from 'react';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {RouteProp, useRoute} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import WebView, {WebViewMessageEvent} from 'react-native-webview';
 
+import {RootStackParamList} from '@/navigation/types';
 import {
   buildCitaPreviaInjectionRules,
-  citaPreviaPiiConfig
-} from '../scripts/cita-previa'
-import { ICP_PLUS_URL } from '../webViewInjection/scriptRegistry'
-import { useWebViewInjection } from '../webViewInjection/useWebViewInjection'
+  CITA_PREVIA_START_URL,
+  citaPreviaPiiConfig,
+} from '@/scripts/cita-previa';
+import {
+  buildEmpadronamientoInjectionRules,
+  empadronamientoPiiConfig,
+  EMPADRONAMIENTO_HOME_URL,
+} from '@/scripts/empadronamiento';
+import {useWebViewInjection} from '@/webViewInjection/useWebViewInjection';
+import {
+  buildCitaPreviaWebViewSource,
+  buildEmpadronamientoWebViewSource,
+  getWebViewUserAgent,
+} from '@/webViewInjection/webViewDefaults';
+
+type WebsiteWebViewRouteProp = RouteProp<RootStackParamList, 'WebsiteWebView'>;
 
 const WebsiteWebViewScreen = () => {
+  const route = useRoute<WebsiteWebViewRouteProp>();
+  const automation = route.params?.automation ?? 'cita-previa';
   const webViewRef = React.useRef<React.ElementRef<typeof WebView>>(null);
-  const injectionRules = React.useMemo(
-    () => buildCitaPreviaInjectionRules(citaPreviaPiiConfig),
-    [],
+
+  const startUrl =
+    route.params?.url ??
+    (automation === 'empadronamiento'
+      ? EMPADRONAMIENTO_HOME_URL
+      : CITA_PREVIA_START_URL);
+
+  const webViewSource = React.useMemo(
+    () =>
+      automation === 'empadronamiento'
+        ? buildEmpadronamientoWebViewSource(startUrl)
+        : buildCitaPreviaWebViewSource(startUrl),
+    [automation, startUrl],
   );
+
+  const injectionRules = React.useMemo(
+    () =>
+      automation === 'empadronamiento'
+        ? buildEmpadronamientoInjectionRules(empadronamientoPiiConfig)
+        : buildCitaPreviaInjectionRules(citaPreviaPiiConfig),
+    [automation],
+  );
+
   const {
     handleMessage: handleInjectionMessage,
     onLoadEnd,
     onNavigationStateChange,
   } = useWebViewInjection(webViewRef, {
-    initialUrl: ICP_PLUS_URL,
+    initialUrl: startUrl,
     rules: injectionRules,
   });
 
@@ -48,14 +83,33 @@ const WebsiteWebViewScreen = () => {
     <SafeAreaView style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{uri: ICP_PLUS_URL}}
+        source={webViewSource}
+        userAgent={getWebViewUserAgent()}
         originWhitelist={['*']}
         javaScriptEnabled
         domStorageEnabled
+        sharedCookiesEnabled
+        thirdPartyCookiesEnabled
+        cacheEnabled
         startInLoadingState
+        setSupportMultipleWindows={false}
         onNavigationStateChange={onNavigationStateChange}
         onLoadEnd={onLoadEnd}
         onMessage={handleMessage}
+        onError={syntheticEvent => {
+          console.warn('[WebView] Load error', {
+            automation,
+            requestedUrl: startUrl,
+            ...syntheticEvent.nativeEvent,
+          });
+        }}
+        onHttpError={syntheticEvent => {
+          console.warn('[WebView] HTTP error', {
+            automation,
+            requestedUrl: startUrl,
+            ...syntheticEvent.nativeEvent,
+          });
+        }}
         renderLoading={() => (
           <View style={styles.loading}>
             <ActivityIndicator size="large" color="#1A73E8" />

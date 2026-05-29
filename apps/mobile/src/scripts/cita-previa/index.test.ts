@@ -22,6 +22,7 @@ describe('cita previa script map', () => {
     expect(Object.keys(scriptMap)).toEqual(
       expect.arrayContaining([
         'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus',
+        'https://sede.administracionespublicas.gob.es/icpplus/index.html',
         'https://icp.administracionelectronica.gob.es/icpplus/index.html',
         'https://icp.administracionelectronica.gob.es/icpplustieb/acInfo',
         'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada',
@@ -69,37 +70,7 @@ describe('cita previa script map', () => {
   it('converts the map into exact-match injection rules', () => {
     const rules = buildCitaPreviaInjectionRules(profile);
 
-    expect(rules).toHaveLength(6);
-    expect(rules[0]).toMatchObject({
-      match: {
-        type: 'exact',
-        value: 'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus',
-      },
-    });
-    expect(rules[1]).toMatchObject({
-      match: {
-        type: 'prefix',
-        value: 'https://icp.administracionelectronica.gob.es/icpplus/index.html',
-      },
-    });
-    expect(rules[2]).toMatchObject({
-      match: {
-        type: 'prefix',
-        value: 'https://icp.administracionelectronica.gob.es/icpplustieb/acInfo',
-      },
-    });
-    expect(rules[3]).toMatchObject({
-      match: {
-        type: 'prefix',
-        value: 'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada',
-      },
-    });
-    expect(rules[5]).toMatchObject({
-      match: {
-        type: 'prefix',
-        value: 'https://icp.administracionelectronica.gob.es/icpplustieb/acValidarEntrada',
-      },
-    });
+    expect(rules).toHaveLength(7);
     expect(rules).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -107,7 +78,13 @@ describe('cita previa script map', () => {
             type: 'exact',
             value: 'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus',
           },
-          ready: {selector: '#submit'},
+        }),
+        expect.objectContaining({
+          match: {
+            type: 'prefix',
+            value: 'https://sede.administracionespublicas.gob.es/icpplus/index.html',
+          },
+          ready: {selector: 'select#form, #form, select[name="form"]'},
         }),
         expect.objectContaining({
           match: {

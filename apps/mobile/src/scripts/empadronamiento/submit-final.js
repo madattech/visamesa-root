@@ -1,5 +1,10 @@
-const submit = () => {
-    document.querySelector('button[type="submit"]').click();
-} 
+export const SUBMIT_FINAL_SCRIPT = `
+  (function() {
+    const submit = () => {
+      document.querySelector('button[type="submit"]').click();
+    };
 
-submit()
+    submit();
+  })();
+  true;
+`;

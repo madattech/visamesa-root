@@ -1,7 +1,11 @@
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {HomeStackParamList, RootStackParamList} from '@/navigation/types';
+import {
+  HomeStackParamList,
+  RootStackParamList,
+  WebViewAutomationKind,
+} from '@/navigation/types';
 
 type StepsScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<HomeStackParamList, 'Steps'>,
@@ -9,15 +13,27 @@ type StepsScreenNavigation = CompositeNavigationProp<
 >;
 
 export type UseStepsScreenResult = {
-  onStartAutomation: () => void;
+  onCitaPreviaPress: () => void;
+  onEmpadronamientoPress: () => void;
   onBackPress: () => void;
+};
+
+const openAutomation = (
+  navigation: StepsScreenNavigation,
+  automation: WebViewAutomationKind,
+) => {
+  navigation.navigate('WebsiteWebView', {automation});
 };
 
 export function useStepsScreen(
   navigation: StepsScreenNavigation,
 ): UseStepsScreenResult {
-  const onStartAutomation = () => {
-    navigation.navigate('WebsiteWebView', {});
+  const onCitaPreviaPress = () => {
+    openAutomation(navigation, 'cita-previa');
+  };
+
+  const onEmpadronamientoPress = () => {
+    openAutomation(navigation, 'empadronamiento');
   };
 
   const onBackPress = () => {
@@ -25,7 +41,8 @@ export function useStepsScreen(
   };
 
   return {
-    onStartAutomation,
+    onCitaPreviaPress,
+    onEmpadronamientoPress,
     onBackPress,
   };
-}
+};

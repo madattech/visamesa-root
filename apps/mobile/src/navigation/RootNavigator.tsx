@@ -19,8 +19,8 @@ const RootNavigator = () => {
         name="WebsiteWebView"
         component={WebsiteWebViewScreen}
         options={{
-          presentation: 'modal',
-          animation: 'slide_from_bottom',
+          presentation: 'card',
+          animation: 'slide_from_right',
         }}
       />
     </Stack.Navigator>
