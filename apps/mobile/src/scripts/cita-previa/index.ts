@@ -10,12 +10,13 @@ import {buildOficinaScript, OFICINA_URL} from './oficina';
 import {buildProvinciaScript, PROVINCIA_URL} from './provincia';
 import {SOLICITAR_CITA_SCRIPT, SOLICITAR_CITA_URL} from './solicitarCita';
 
-/** Direct province picker — avoids the slow/unreliable sede gateway page in WebView. */
-export const CITA_PREVIA_START_URL = PROVINCIA_URL;
-
-/** Official sede shortcut (redirects to ICP); kept for injection if the WebView lands here. */
 export const CITA_PREVIA_SEDE_ENTRY_URL =
   'https://sede.administracionespublicas.gob.es/icpplus/index.html';
+
+/**
+ * Official sede gateway — click #submit to reach ICP (avoids 403 on /icpplus/index.html in WebView).
+ */
+export const CITA_PREVIA_START_URL = ICP_PLUS_URL;
 
 export {
   buildCitaPreviaAutomationProfileFromCase,

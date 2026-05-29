@@ -7,7 +7,10 @@ import {
   buildCitaPreviaInjectionRules,
   CITA_PREVIA_START_URL,
 } from '../scripts/cita-previa'
-import {MOBILE_SAFARI_USER_AGENT} from '../webViewInjection/webViewDefaults'
+import {
+  buildCitaPreviaWebViewSource,
+  getWebViewUserAgent,
+} from '../webViewInjection/webViewDefaults'
 import { AppointmentSlot, AutomationProgress, Case } from '../types'
 import { useWebViewInjection } from '../webViewInjection/useWebViewInjection'
 
@@ -86,9 +89,8 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
     <View style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{uri: CITA_PREVIA_START_URL}}
-        userAgent={MOBILE_SAFARI_USER_AGENT}
-        applicationNameForUserAgent="VisaMesa"
+        source={buildCitaPreviaWebViewSource(CITA_PREVIA_START_URL)}
+        userAgent={getWebViewUserAgent()}
         onNavigationStateChange={onNavigationStateChange}
         onLoadEnd={onLoadEnd}
         onMessage={handleMessage}

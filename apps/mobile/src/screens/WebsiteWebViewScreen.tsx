@@ -16,7 +16,11 @@ import {
   EMPADRONAMIENTO_HOME_URL,
 } from '@/scripts/empadronamiento';
 import {useWebViewInjection} from '@/webViewInjection/useWebViewInjection';
-import {MOBILE_SAFARI_USER_AGENT} from '@/webViewInjection/webViewDefaults';
+import {
+  buildCitaPreviaWebViewSource,
+  buildEmpadronamientoWebViewSource,
+  getWebViewUserAgent,
+} from '@/webViewInjection/webViewDefaults';
 
 type WebsiteWebViewRouteProp = RouteProp<RootStackParamList, 'WebsiteWebView'>;
 
@@ -30,6 +34,14 @@ const WebsiteWebViewScreen = () => {
     (automation === 'empadronamiento'
       ? EMPADRONAMIENTO_HOME_URL
       : CITA_PREVIA_START_URL);
+
+  const webViewSource = React.useMemo(
+    () =>
+      automation === 'empadronamiento'
+        ? buildEmpadronamientoWebViewSource(startUrl)
+        : buildCitaPreviaWebViewSource(startUrl),
+    [automation, startUrl],
+  );
 
   const injectionRules = React.useMemo(
     () =>
@@ -71,9 +83,8 @@ const WebsiteWebViewScreen = () => {
     <SafeAreaView style={styles.container}>
       <WebView
         ref={webViewRef}
-        source={{uri: startUrl}}
-        userAgent={MOBILE_SAFARI_USER_AGENT}
-        applicationNameForUserAgent="VisaMesa"
+        source={webViewSource}
+        userAgent={getWebViewUserAgent()}
         originWhitelist={['*']}
         javaScriptEnabled
         domStorageEnabled
@@ -88,15 +99,15 @@ const WebsiteWebViewScreen = () => {
         onError={syntheticEvent => {
           console.warn('[WebView] Load error', {
             automation,
-            url: startUrl,
+            requestedUrl: startUrl,
             ...syntheticEvent.nativeEvent,
           });
         }}
         onHttpError={syntheticEvent => {
           console.warn('[WebView] HTTP error', {
             automation,
-            url: startUrl,
-            statusCode: syntheticEvent.nativeEvent.statusCode,
+            requestedUrl: startUrl,
+            ...syntheticEvent.nativeEvent,
           });
         }}
         renderLoading={() => (
