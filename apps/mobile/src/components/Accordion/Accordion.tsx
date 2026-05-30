@@ -2,7 +2,9 @@ import React from 'react';
 import {LayoutAnimation, Platform, Pressable, UIManager, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
+import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
+import {motion} from '@/theme';
 
 if (
   Platform.OS === 'android' &&
@@ -53,7 +55,14 @@ export function Accordion({
         return React.cloneElement(child, {
           expanded: expandedId === itemId,
           onToggle: () => {
-            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+            LayoutAnimation.configureNext({
+              duration: motion.duration.normal,
+              create: {
+                type: LayoutAnimation.Types.easeInEaseOut,
+                property: LayoutAnimation.Properties.opacity,
+              },
+              update: {type: LayoutAnimation.Types.easeInEaseOut},
+            });
             onExpandedChange(expandedId === itemId ? null : itemId);
           },
         });
@@ -71,7 +80,7 @@ export function AccordionItem({
   const {styles, theme} = useStyles(stylesheet);
 
   return (
-    <View style={styles.item}>
+    <Surface variant="outlined" style={styles.item}>
       <Pressable
         accessibilityRole="button"
         accessibilityState={{expanded}}
@@ -90,7 +99,7 @@ export function AccordionItem({
         </Text>
       </Pressable>
       {expanded ? <View style={styles.content}>{children}</View> : null}
-    </View>
+    </Surface>
   );
 }
 
@@ -99,14 +108,10 @@ const stylesheet = createStyleSheet(theme => ({
     gap: theme.spacing.sm,
   },
   item: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.radii.md,
-    borderWidth: 1,
-    borderColor: theme.colors.outlineVariant,
     overflow: 'hidden',
   },
   header: {
-    minHeight: 56,
+    minHeight: theme.sizes.touchTargetMin + theme.spacing.sm,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -114,11 +119,10 @@ const stylesheet = createStyleSheet(theme => ({
     paddingVertical: theme.spacing.sm,
   },
   headerPressed: {
-    backgroundColor: theme.colors.surfaceVariant,
+    backgroundColor: theme.colors.surfaceContainer,
   },
   title: {
     flex: 1,
-    fontWeight: '600',
     marginRight: theme.spacing.sm,
   },
   content: {

@@ -1,11 +1,11 @@
-import React from 'react';
-import {ScrollView, View} from 'react-native';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import React from 'react'
+import { ScrollView, View } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import {Button} from '@/components/ui/Button';
-import {Text} from '@/components/ui/Text';
-import {TieStepDetail} from '@/features/home/types/TieStepDetail';
-import {getStepShortLabel} from '@/utils/stepLabel';
+import { Button } from '@/components/ui/Button'
+import { Text } from '@/components/ui/Text'
+import { TieStepDetail } from '@/features/home/types/TieStepDetail'
+import { getStepShortLabel } from '@/utils/stepLabel'
 
 type StepperProps = {
   steps: TieStepDetail[];
@@ -34,7 +34,10 @@ export function Stepper({steps, activeStepId, onStepPress}: StepperProps) {
               accessibilityState={{selected: isActive}}
               accessibilityLabel={`Step ${step.id}: ${step.title}`}
               onPress={() => onStepPress(step.id)}
-              style={[styles.stepButton, !isActive && styles.stepButtonInactive]}>
+              style={[
+                styles.stepButton,
+                !isActive && styles.stepButtonInactive,
+              ]}>
               <Text
                 variant="labelLarge"
                 color={isActive ? 'onPrimary' : 'onSurfaceVariant'}
@@ -45,7 +48,7 @@ export function Stepper({steps, activeStepId, onStepPress}: StepperProps) {
             <Text
               variant="labelSmall"
               color={isActive ? 'primary' : 'onSurfaceVariant'}
-              style={[styles.stepLabel, isActive && styles.stepLabelActive]}
+              style={styles.stepLabel}
               numberOfLines={1}>
               {getStepShortLabel(step.title)}
             </Text>
@@ -59,30 +62,30 @@ export function Stepper({steps, activeStepId, onStepPress}: StepperProps) {
 const stylesheet = createStyleSheet(theme => ({
   scrollContent: {
     paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.md,
-    gap: theme.spacing.md,
+    paddingTop: theme.spacing.md,
+    paddingBottom: theme.spacing.xs,
+    flexDirection: 'row',
+    gap: theme.spacing.sm,
     alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    width: '100%',
   },
   item: {
     alignItems: 'center',
-    width: 72,
-    gap: theme.spacing.sm,
+    gap: theme.spacing.xs,
   },
   stepButton: {
-    minWidth: 44,
-    minHeight: 44,
+    minWidth: theme.sizes.touchTargetMin,
+    minHeight: theme.sizes.touchTargetMin,
   },
   stepButtonInactive: {
     borderColor: theme.colors.outlineVariant,
   },
   stepNumber: {
-    fontWeight: '600',
+    textAlign: 'center',
   },
   stepLabel: {
     textAlign: 'center',
-    maxWidth: 72,
-  },
-  stepLabelActive: {
-    fontWeight: '600',
+    maxWidth: theme.sizes.stepper.itemWidth,
   },
 }));

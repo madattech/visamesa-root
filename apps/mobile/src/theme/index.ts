@@ -1,20 +1,23 @@
 /**
  * Theme Configuration for React Native Unistyles v2
- * 
+ *
  * Exports theme tokens (colors, spacing, typography) and Unistyles configuration.
  */
 
 import {lightColors, darkColors} from './colors';
+import {motion} from './motion';
 import {radii} from './radii';
+import {sizes} from './sizes';
 import {spacing} from './spacing';
 import {typography} from './typography';
 
-// Define themes
 export const lightTheme = {
   colors: lightColors,
   spacing,
   typography,
   radii,
+  sizes,
+  motion,
 } as const;
 
 export const darkTheme = {
@@ -22,12 +25,12 @@ export const darkTheme = {
   spacing,
   typography,
   radii,
+  sizes,
+  motion,
 } as const;
 
-// Theme type for TypeScript
 export type AppTheme = typeof lightTheme;
 
-// Declare Unistyles types for v2
 declare module 'react-native-unistyles' {
   export interface UnistylesThemes {
     light: AppTheme;
@@ -35,9 +38,12 @@ declare module 'react-native-unistyles' {
   }
 }
 
-// Export individual tokens for direct use if needed
-export {lightColors, darkColors, spacing, typography, radii};
+export {lightColors, darkColors, spacing, typography, radii, sizes, motion};
 export * from './colors';
+export * from './elevation';
+export * from './fonts';
+export * from './motion';
 export * from './radii';
+export * from './sizes';
 export * from './spacing';
 export * from './typography';

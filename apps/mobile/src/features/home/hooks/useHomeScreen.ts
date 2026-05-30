@@ -5,6 +5,7 @@ import {useToast} from '@/components/Toast/ToastProvider';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {HomeStackParamList} from '@/navigation/types';
+import {configureLayoutAnimation} from '@/utils/layoutAnimation';
 
 const DEFAULT_STEP_ID = 1;
 const COMING_SOON_MESSAGE = 'Coming soon';
@@ -38,6 +39,7 @@ export function useHomeScreen(
   );
 
   const onStepPress = (stepId: number) => {
+    configureLayoutAnimation();
     setActiveStepId(stepId);
   };
 

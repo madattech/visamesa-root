@@ -5,6 +5,7 @@
  * android/app/build.gradle. iOS still uses the CocoaPods resource bundle.
  */
 module.exports = {
+  assets: ['./assets/fonts/'],
   dependencies: {
     '@react-native-vector-icons/material-icons': {
       platforms: {

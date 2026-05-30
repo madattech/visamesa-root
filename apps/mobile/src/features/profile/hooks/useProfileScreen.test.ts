@@ -9,7 +9,6 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 const mockShowToast = jest.fn();
 const mockLogout = jest.fn();
-const mockUseProfile = jest.fn();
 
 jest.mock('@/components/Toast/ToastProvider', () => ({
   useToast: () => ({
@@ -21,9 +20,15 @@ jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
 
-jest.mock('@/features/profile/hooks/useProfile', () => ({
-  useProfile: (...args: unknown[]) => mockUseProfile(...args),
+jest.mock('@/features/profile/context/ProfileDataContext', () => ({
+  useProfileData: jest.fn(),
 }));
+
+const {useProfileData} = jest.requireMock(
+  '@/features/profile/context/ProfileDataContext',
+) as {
+  useProfileData: jest.Mock;
+};
 
 type ProfileScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<ProfileStackParamList, 'Profile'>,
@@ -38,19 +43,9 @@ describe('useProfileScreen', () => {
   beforeEach(() => {
     mockShowToast.mockReset();
     mockLogout.mockReset();
-    mockUseProfile.mockReset();
-
-    mockUseProfile.mockReturnValue({
-      profileData: null,
+    useProfileData.mockReturnValue({
       isLoading: false,
       error: null,
-      personalInitialValues: {},
-      isSubmittingPersonal: false,
-      isSubmittingBilling: false,
-      isSubmittingResidenceRegistration: false,
-      submitPersonal: jest.fn(),
-      submitBilling: jest.fn(),
-      submitResidenceRegistration: jest.fn(),
     });
   });
 
@@ -68,7 +63,6 @@ describe('useProfileScreen', () => {
     const getHookState = renderHook(() => useProfileScreen(navigation));
 
     expect(getHookState().userEmail).toBeNull();
-    expect(mockUseProfile).toHaveBeenCalledWith(false);
   });
 
   it('navigates to login when sign in is pressed', () => {
@@ -105,6 +99,5 @@ describe('useProfileScreen', () => {
     const getHookState = renderHook(() => useProfileScreen(navigation));
 
     expect(getHookState().userEmail).toBe('user@example.com');
-    expect(mockUseProfile).toHaveBeenCalledWith(true);
   });
 });

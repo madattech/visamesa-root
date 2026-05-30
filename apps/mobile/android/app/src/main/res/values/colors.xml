@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Keep in sync with src/theme/colors.ts light palette -->
+    <color name="brand_primary">#00215E</color>
+    <color name="brand_background">#F5F5F5</color>
+    <color name="brand_on_primary">#FFFFFF</color>
+</resources>
