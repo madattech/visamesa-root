@@ -1,0 +1,56 @@
+{
+  "formId": "profile-billing",
+  "title": "Billing & Bank Details",
+  "description": "For invoicing and future payment processing. Card payments will be handled securely via Stripe when available.",
+  "fields": [
+    {
+      "id": "holderName",
+      "label": "Account Holder Name",
+      "type": "text",
+      "required": false,
+      "placeholder": "Full name as it appears on bank statements"
+    },
+    {
+      "id": "billingAddress",
+      "label": "Billing Address",
+      "type": "text",
+      "required": false,
+      "placeholder": "Street address for billing"
+    },
+    {
+      "id": "billingCity",
+      "label": "City",
+      "type": "text",
+      "required": false,
+      "placeholder": "City"
+    },
+    {
+      "id": "billingPostalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "required": false,
+      "placeholder": "Postal code"
+    },
+    {
+      "id": "billingCountry",
+      "label": "Country",
+      "type": "text",
+      "required": false,
+      "placeholder": "Country"
+    },
+    {
+      "id": "iban",
+      "label": "IBAN (Optional)",
+      "type": "text",
+      "required": false,
+      "placeholder": "e.g., ES91 2100 0418 4502 0005 1332"
+    },
+    {
+      "id": "bankName",
+      "label": "Bank Name",
+      "type": "text",
+      "required": false,
+      "placeholder": "Name of your bank"
+    }
+  ]
+}

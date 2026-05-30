@@ -1,18 +1,27 @@
 import React, {useState} from 'react';
 import {
   View,
-  Text,
   TextInput,
-  TouchableOpacity,
   StyleSheet,
   Alert,
-  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import {useAuth} from '../contexts/AuthContext';
+import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
+import {Button} from '@/components/ui/Button';
+import {Text} from '@/components/ui/Text';
+import {useAuth} from '@/contexts/AuthContext';
+import {ProfileStackParamList} from '@/navigation/types';
+
+type LoginScreenNavigation = NativeStackNavigationProp<
+  ProfileStackParamList,
+  'Login'
+>;
 
 const LoginScreen = () => {
+  const navigation = useNavigation<LoginScreenNavigation>();
   const {login} = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -27,6 +36,7 @@ const LoginScreen = () => {
     setIsLoading(true);
     try {
       await login(email, password);
+      navigation.goBack();
     } catch (error: any) {
       Alert.alert(
         'Login Failed',
@@ -42,9 +52,11 @@ const LoginScreen = () => {
       style={styles.container}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.content}>
-        <Text style={styles.title}>VisaMesa Automation</Text>
-        <Text style={styles.subtitle}>
-          Automate your visa appointment booking
+        <Text variant="headlineSmall" style={styles.title}>
+          Sign In
+        </Text>
+        <Text variant="bodyMedium" color="onSurfaceVariant" style={styles.subtitle}>
+          Sign in to view and manage your profile
         </Text>
 
         <View style={styles.form}>
@@ -67,16 +79,21 @@ const LoginScreen = () => {
             editable={!isLoading}
           />
 
-          <TouchableOpacity
-            style={[styles.button, isLoading && styles.buttonDisabled]}
+          <Button
+            label={isLoading ? 'Signing in...' : 'Sign In'}
             onPress={handleLogin}
-            disabled={isLoading}>
-            {isLoading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.buttonText}>Login</Text>
-            )}
-          </TouchableOpacity>
+            disabled={isLoading}
+            fullWidth
+            style={styles.button}
+          />
+
+          <Button
+            label="Back"
+            variant="outline"
+            onPress={() => navigation.goBack()}
+            disabled={isLoading}
+            fullWidth
+          />
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -86,7 +103,7 @@ const LoginScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#FAFAFA',
   },
   content: {
     flex: 1,
@@ -94,45 +111,29 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#007AFF',
     textAlign: 'center',
     marginBottom: 10,
+    fontWeight: '600',
   },
   subtitle: {
-    fontSize: 16,
-    color: '#666',
     textAlign: 'center',
     marginBottom: 40,
   },
   form: {
     width: '100%',
+    gap: 15,
   },
   input: {
     backgroundColor: '#fff',
     paddingHorizontal: 15,
     paddingVertical: 12,
     borderRadius: 8,
-    marginBottom: 15,
     fontSize: 16,
     borderWidth: 1,
     borderColor: '#ddd',
   },
   button: {
-    backgroundColor: '#007AFF',
-    paddingVertical: 15,
-    borderRadius: 8,
-    alignItems: 'center',
     marginTop: 10,
-  },
-  buttonDisabled: {
-    opacity: 0.6,
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: '600',
   },
 });
 

@@ -1,0 +1,35 @@
+{
+  "formId": "profile-residence-registration",
+  "title": "Municipal Registration (Empadronamiento)",
+  "description": "This corresponds to the official procedure to register your address in Barcelona.",
+  "fields": [
+    {
+      "id": "address",
+      "label": "Residential Address",
+      "type": "text",
+      "required": true,
+      "placeholder": "Enter your residential address"
+    },
+    {
+      "id": "city",
+      "label": "City",
+      "type": "text",
+      "required": true,
+      "placeholder": "Enter your city"
+    },
+    {
+      "id": "postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "required": true,
+      "placeholder": "Enter your postal code"
+    },
+    {
+      "id": "dateOfDocumentIssuance",
+      "label": "Date of Document Issuance",
+      "type": "date",
+      "required": true,
+      "placeholder": "Select the date of document issuance"
+    }
+  ]
+}

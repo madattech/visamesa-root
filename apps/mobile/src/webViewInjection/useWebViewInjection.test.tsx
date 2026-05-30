@@ -1,5 +1,6 @@
 import React from 'react'
-import renderer, { act } from 'react-test-renderer'
+import { act } from 'react'
+import renderer from 'react-test-renderer'
 
 import {
   afterEach,

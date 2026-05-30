@@ -1,21 +1,20 @@
 import React from 'react';
-import renderer, {act} from 'react-test-renderer';
-import type {ReactTestRenderer} from 'react-test-renderer';
 
 import {Stepper} from '@/components/Stepper';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
+import {act, renderComponent, TestRendererTree} from '@/test/testRenderer';
 
 jest.mock(
   'react-native/Libraries/Components/ScrollView/ScrollView',
   () => {
-    const React = require('react');
-    const View = require('react-native/Libraries/Components/View/View').default;
+    const ReactModule = require('react');
+    const {View} = require('react-native');
 
-    const MockScrollView = React.forwardRef(
+    const MockScrollView = ReactModule.forwardRef(
       (
         {children, ...props}: {children?: React.ReactNode},
         ref: React.Ref<unknown>,
-      ) => React.createElement(View, {...props, ref}, children),
+      ) => ReactModule.createElement(View, {...props, ref}, children),
     );
 
     return {__esModule: true, default: MockScrollView};
@@ -24,14 +23,8 @@ jest.mock(
 
 function renderStepper(
   props: React.ComponentProps<typeof Stepper>,
-): ReactTestRenderer {
-  let tree!: ReactTestRenderer;
-
-  act(() => {
-    tree = renderer.create(<Stepper {...props} />);
-  });
-
-  return tree;
+): TestRendererTree {
+  return renderComponent(<Stepper {...props} />);
 }
 
 describe('Stepper', () => {

@@ -1,5 +1,5 @@
-import React from 'react';
-import renderer, {act} from 'react-test-renderer';
+import React, {act} from 'react';
+import renderer from 'react-test-renderer';
 
 export function renderHook<T>(useHook: () => T): () => T {
   let hookResult: T | null = null;
