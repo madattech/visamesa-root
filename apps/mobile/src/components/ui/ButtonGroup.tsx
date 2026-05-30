@@ -1,8 +1,8 @@
-import React from 'react';
-import {View} from 'react-native';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import React from 'react'
+import { View } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import {Button} from '@/components/ui/Button';
+import { Button } from '@/components/ui/Button'
 
 export type ButtonGroupProps = {
   primaryButton: {
@@ -17,7 +17,10 @@ export type ButtonGroupProps = {
   };
 };
 
-export function ButtonGroup({primaryButton, secondaryButton}: ButtonGroupProps) {
+export function ButtonGroup({
+  primaryButton,
+  secondaryButton,
+}: ButtonGroupProps) {
   const {styles} = useStyles(stylesheet);
 
   return (
@@ -44,7 +47,7 @@ export function ButtonGroup({primaryButton, secondaryButton}: ButtonGroupProps) 
 const stylesheet = createStyleSheet(theme => ({
   container: {
     width: '100%',
-    maxWidth: 480,
+    maxWidth: theme.sizes.contentMaxWidth,
     alignSelf: 'center',
     paddingHorizontal: theme.spacing.md,
     gap: theme.spacing.sm + 4,

@@ -3,6 +3,7 @@ import {Text as RNText, TextProps as RNTextProps, StyleProp, TextStyle} from 're
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {AppTheme} from '@/theme';
+import {resolveBrandFontFamily} from '@/theme/fonts';
 
 type TypographyVariant = keyof AppTheme['typography'];
 type ColorToken = keyof AppTheme['colors'];
@@ -22,6 +23,7 @@ export function Text({
 }: TextProps) {
   const {styles, theme} = useStyles(stylesheet);
   const typographyStyle = theme.typography[variant];
+  const fontFamily = resolveBrandFontFamily(typographyStyle.fontWeight);
 
   return (
     <RNText
@@ -30,9 +32,9 @@ export function Text({
       style={[
         styles.base,
         {
+          fontFamily,
           fontSize: typographyStyle.fontSize,
           lineHeight: typographyStyle.lineHeight,
-          fontWeight: typographyStyle.fontWeight,
           color: theme.colors[color],
         },
         style,

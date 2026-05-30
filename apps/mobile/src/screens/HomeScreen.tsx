@@ -5,12 +5,14 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Stepper } from '@/components/Stepper'
 import { ButtonGroup } from '@/components/ui/ButtonGroup'
+import { Surface } from '@/components/ui/Surface'
 import { Text } from '@/components/ui/Text'
 import { HeroSection } from '@/features/home/components/HeroSection'
 import { StepOverview } from '@/features/home/components/StepOverview'
 import { useHomeScreen } from '@/features/home/hooks/useHomeScreen'
-import {HomeStackParamList} from '@/navigation/types';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { HomeStackParamList } from '@/navigation/types'
+import { useTabBarInset } from '@/navigation/useTabBarInset'
+import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 type HomeScreenProps = {
   navigation: NativeStackNavigationProp<HomeStackParamList, 'Home'>;
@@ -18,6 +20,7 @@ type HomeScreenProps = {
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const tabBarInset = useTabBarInset();
   const {
     steps,
     isLoading,
@@ -42,27 +45,38 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           </Text>
         </View>
       ) : (
-        <ScrollView
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={false}>
-          <HeroSection />
-          <Stepper
-            steps={steps}
-            activeStepId={activeStepId}
-            onStepPress={onStepPress}
-          />
-          {activeStep ? <StepOverview step={activeStep} /> : null}
-          <ButtonGroup
-            primaryButton={{
-              label: 'Do It All for Me',
-              onPress: onPrimaryPress,
-            }}
-            secondaryButton={{
-              label: 'Learn More',
-              onPress: onSecondaryPress,
-            }}
-          />
-        </ScrollView>
+        <View style={styles.layout}>
+          <ScrollView
+            style={styles.scroll}
+            contentContainerStyle={styles.scrollContent}
+            showsVerticalScrollIndicator={false}>
+            <HeroSection />
+            <Surface variant="filled" style={styles.stepSection}>
+              <Stepper
+                steps={steps}
+                activeStepId={activeStepId}
+                onStepPress={onStepPress}
+              />
+              {activeStep ? <StepOverview step={activeStep} /> : null}
+            </Surface>
+          </ScrollView>
+          <View
+            style={[
+              styles.footer,
+              {paddingBottom: theme.spacing.md + tabBarInset},
+            ]}>
+            <ButtonGroup
+              primaryButton={{
+                label: 'Do It All for Me',
+                onPress: onPrimaryPress,
+              }}
+              secondaryButton={{
+                label: 'Learn More',
+                onPress: onSecondaryPress,
+              }}
+            />
+          </View>
+        </View>
       )}
     </SafeAreaView>
   );
@@ -71,12 +85,30 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
 const stylesheet = createStyleSheet(theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface,
+  },
+  layout: {
+    flex: 1,
+  },
+  scroll: {
+    flex: 1,
   },
   scrollContent: {
     flexGrow: 1,
-    paddingBottom: theme.spacing.lg,
     gap: theme.spacing.lg,
+    paddingBottom: theme.spacing.md,
+  },
+  stepSection: {
+    marginHorizontal: theme.spacing.md,
+    maxWidth: theme.sizes.contentMaxWidth,
+    alignSelf: 'center',
+    width: '100%',
+    gap: 0,
+    overflow: 'hidden',
+  },
+  footer: {
+    paddingTop: theme.spacing.sm,
+    backgroundColor: theme.colors.surface,
   },
   centered: {
     flex: 1,

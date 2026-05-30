@@ -1,10 +1,13 @@
 import React from 'react';
-import {View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {ScrollView} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Button} from '@/components/ui/Button';
 import {Text} from '@/components/ui/Text';
+import {
+  STEPS_DEV_ACTIONS,
+  STEPS_SCREEN_DESCRIPTION,
+} from '@/features/home/data/stepsScreenContent';
 import {useStepsScreen} from '@/features/home/hooks/useStepsScreen';
 import {HomeStackParamList, RootStackParamList} from '@/navigation/types';
 import {CompositeNavigationProp} from '@react-navigation/native';
@@ -21,69 +24,41 @@ type StepsScreenProps = {
 
 const StepsScreen = ({navigation}: StepsScreenProps) => {
   const {styles} = useStyles(stylesheet);
-  const {onCitaPreviaPress, onEmpadronamientoPress, onBackPress} =
-    useStepsScreen(navigation);
+  const {onDevActionPress} = useStepsScreen(navigation);
 
   return (
-    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-      <View style={styles.header}>
-        <View style={styles.actions}>
-          <Button
-            label="Cita Previa"
-            onPress={onCitaPreviaPress}
-            fullWidth
-            style={styles.button}
-          />
-          <Button
-            label="Empadronamiento"
-            onPress={onEmpadronamientoPress}
-            fullWidth
-            style={styles.button}
-          />
-          <Button
-            label="Back"
-            onPress={onBackPress}
-            variant="outline"
-            fullWidth
-            style={styles.button}
-          />
-        </View>
-      </View>
-      <View style={styles.content}>
-        <Text variant="headlineSmall" style={styles.title}>
-          TIE Steps
-        </Text>
-      </View>
-    </SafeAreaView>
+    <ScrollView
+      contentContainerStyle={styles.scrollContent}
+      showsVerticalScrollIndicator={false}>
+      <Text variant="bodyLarge" color="onSurfaceVariant" style={styles.description}>
+        {STEPS_SCREEN_DESCRIPTION}
+      </Text>
+      {__DEV__
+        ? STEPS_DEV_ACTIONS.map(action => (
+            <Button
+              key={action.id}
+              label={action.label}
+              variant="outline"
+              onPress={() => onDevActionPress(action.id)}
+              fullWidth
+            />
+          ))
+        : null}
+    </ScrollView>
   );
 };
 
 const stylesheet = createStyleSheet(theme => ({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  header: {
-    paddingTop: theme.spacing.sm,
-  },
-  actions: {
-    width: '100%',
-    maxWidth: 480,
-    alignSelf: 'center',
-    paddingHorizontal: theme.spacing.md,
-    gap: theme.spacing.sm + 4,
-  },
-  button: {
-    width: '100%',
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  scrollContent: {
+    flexGrow: 1,
     paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.md,
+    gap: theme.spacing.md,
+    maxWidth: theme.sizes.contentMaxWidth,
+    alignSelf: 'center',
+    width: '100%',
   },
-  title: {
-    fontWeight: '600',
+  description: {
     textAlign: 'center',
   },
 }));

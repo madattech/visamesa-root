@@ -10,7 +10,7 @@ describe('useStepsScreen', () => {
     const getHookState = renderHook(() => useStepsScreen(navigation));
 
     act(() => {
-      getHookState().onCitaPreviaPress();
+      getHookState().onDevActionPress('citaPrevia');
     });
 
     expect(navigation.navigate).toHaveBeenCalledWith('WebsiteWebView', {
@@ -23,22 +23,11 @@ describe('useStepsScreen', () => {
     const getHookState = renderHook(() => useStepsScreen(navigation));
 
     act(() => {
-      getHookState().onEmpadronamientoPress();
+      getHookState().onDevActionPress('empadronamiento');
     });
 
     expect(navigation.navigate).toHaveBeenCalledWith('WebsiteWebView', {
       automation: 'empadronamiento',
     });
-  });
-
-  it('goes back to the previous screen', () => {
-    const navigation = createMockStepsNavigation();
-    const getHookState = renderHook(() => useStepsScreen(navigation));
-
-    act(() => {
-      getHookState().onBackPress();
-    });
-
-    expect(navigation.goBack).toHaveBeenCalled();
   });
 });

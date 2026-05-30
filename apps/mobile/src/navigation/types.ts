@@ -1,5 +1,6 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 
+import {ProfileSectionId} from '@/features/profile/data/profileSections';
 import {Case, CitaPreviaDetails} from '@/types';
 
 export type HomeStackParamList = {
@@ -13,6 +14,9 @@ export type DashboardStackParamList = {
 
 export type ProfileStackParamList = {
   Profile: undefined;
+  ProfileSection: {
+    sectionId: ProfileSectionId;
+  };
   Login: undefined;
 };
 

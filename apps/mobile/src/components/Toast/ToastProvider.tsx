@@ -6,11 +6,13 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import {Animated, Platform} from 'react-native';
+import {Animated} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
+import {createElevationStyle} from '@/theme/elevation';
+import {motion} from '@/theme';
 
 const TOAST_DURATION_MS = 2500;
 
@@ -28,7 +30,7 @@ export function ToastProvider({children}: {children: React.ReactNode}) {
   const hideToast = useCallback(() => {
     Animated.timing(opacity, {
       toValue: 0,
-      duration: 200,
+      duration: motion.duration.fast,
       useNativeDriver: true,
     }).start(({finished}) => {
       if (finished) {
@@ -46,7 +48,7 @@ export function ToastProvider({children}: {children: React.ReactNode}) {
       setMessage(nextMessage);
       Animated.timing(opacity, {
         toValue: 1,
-        duration: 200,
+        duration: motion.duration.fast,
         useNativeDriver: true,
       }).start();
 
@@ -91,6 +93,7 @@ function ToastBanner({message, opacity}: ToastBannerProps) {
       accessibilityRole="alert"
       style={[
         styles.container,
+        createElevationStyle(3, theme.colors),
         {
           opacity,
           bottom: Math.max(insets.bottom, theme.spacing.md),
@@ -104,7 +107,7 @@ function ToastBanner({message, opacity}: ToastBannerProps) {
           ],
         },
       ]}>
-      <Text variant="bodyMedium" color="surface" style={styles.text}>
+      <Text variant="bodyMedium" color="inverseOnSurface" style={styles.text}>
         {message}
       </Text>
     </Animated.View>
@@ -116,21 +119,10 @@ const stylesheet = createStyleSheet(theme => ({
     position: 'absolute',
     left: theme.spacing.md,
     right: theme.spacing.md,
-    backgroundColor: theme.colors.onSurface,
+    backgroundColor: theme.colors.inverseSurface,
     borderRadius: theme.radii.md,
     paddingVertical: theme.spacing.sm + 4,
     paddingHorizontal: theme.spacing.md,
-    ...Platform.select({
-      ios: {
-        shadowColor: theme.colors.shadow,
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.2,
-        shadowRadius: 8,
-      },
-      android: {
-        elevation: 6,
-      },
-    }),
   },
   text: {
     textAlign: 'center',

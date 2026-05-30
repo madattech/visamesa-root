@@ -1,14 +1,16 @@
 /**
  * Typography Scale
- * 
- * Font sizes and weights following Material Design 3 type scale.
+ *
+ * Material Design 3 type scale with Plus Jakarta Sans.
+ * Font family is resolved at runtime via resolveBrandFontFamily(fontWeight).
  * Reference: https://m3.material.io/styles/typography/type-scale-tokens
  */
 
 export type Typography = typeof typography;
+export type TypographyVariant = keyof Typography;
+export type FontWeightToken = '400' | '500' | '600' | '700';
 
 export const typography = {
-  // Display - largest text
   displayLarge: {
     fontSize: 57,
     lineHeight: 64,
@@ -25,28 +27,26 @@ export const typography = {
     fontWeight: '400' as const,
   },
 
-  // Headline
   headlineLarge: {
     fontSize: 32,
     lineHeight: 40,
-    fontWeight: '400' as const,
+    fontWeight: '600' as const,
   },
   headlineMedium: {
     fontSize: 28,
     lineHeight: 36,
-    fontWeight: '400' as const,
+    fontWeight: '600' as const,
   },
   headlineSmall: {
     fontSize: 24,
     lineHeight: 32,
-    fontWeight: '400' as const,
+    fontWeight: '600' as const,
   },
 
-  // Title
   titleLarge: {
     fontSize: 22,
     lineHeight: 28,
-    fontWeight: '400' as const,
+    fontWeight: '600' as const,
   },
   titleMedium: {
     fontSize: 16,
@@ -59,11 +59,10 @@ export const typography = {
     fontWeight: '500' as const,
   },
 
-  // Label - buttons, tabs
   labelLarge: {
     fontSize: 14,
     lineHeight: 20,
-    fontWeight: '500' as const,
+    fontWeight: '600' as const,
   },
   labelMedium: {
     fontSize: 12,
@@ -76,7 +75,6 @@ export const typography = {
     fontWeight: '500' as const,
   },
 
-  // Body - main content
   bodyLarge: {
     fontSize: 16,
     lineHeight: 24,

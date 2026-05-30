@@ -26,7 +26,6 @@ const stylesheet = createStyleSheet(theme => ({
     paddingTop: theme.spacing.md,
   },
   title: {
-    fontWeight: '600',
     textAlign: 'center',
   },
   subtitle: {

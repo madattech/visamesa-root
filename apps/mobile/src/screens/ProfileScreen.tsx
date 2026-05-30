@@ -17,6 +17,7 @@ import {ProfileHeader} from '@/features/profile/components/ProfileHeader';
 import {ProfileSectionList} from '@/features/profile/components/ProfileSectionList';
 import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnauthenticated';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
+import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {
   ProfileStackParamList,
   RootStackParamList,
@@ -33,22 +34,13 @@ type ProfileScreenProps = {
 
 const ProfileScreen = ({navigation}: ProfileScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const tabBarInset = useTabBarInset();
   const {
     isAuthLoading,
     userEmail,
     isProfileLoading,
     profileError,
-    expandedSection,
-    onExpandedChange,
-    personalInitialValues,
-    billingInitialValues,
-    residenceInitialValues,
-    isSubmittingPersonal,
-    isSubmittingBilling,
-    isSubmittingResidenceRegistration,
-    onPersonalSubmit,
-    onBillingSubmit,
-    onResidenceSubmit,
+    onSectionPress,
     onSignInPress,
     onSignOutPress,
   } = useProfileScreen(navigation);
@@ -77,7 +69,10 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
         style={styles.flex}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[
+            styles.scrollContent,
+            {paddingBottom: theme.spacing.lg + tabBarInset},
+          ]}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}>
           <ProfileHeader />
@@ -88,19 +83,7 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
             </Text>
           ) : null}
 
-          <ProfileSectionList
-            expandedSection={expandedSection}
-            onExpandedChange={onExpandedChange}
-            personalInitialValues={personalInitialValues}
-            billingInitialValues={billingInitialValues}
-            residenceInitialValues={residenceInitialValues}
-            isSubmittingPersonal={isSubmittingPersonal}
-            isSubmittingBilling={isSubmittingBilling}
-            isSubmittingResidenceRegistration={isSubmittingResidenceRegistration}
-            onPersonalSubmit={onPersonalSubmit}
-            onBillingSubmit={onBillingSubmit}
-            onResidenceSubmit={onResidenceSubmit}
-          />
+          <ProfileSectionList onSectionPress={onSectionPress} />
 
           <ProfileActions onSignOutPress={onSignOutPress} />
         </ScrollView>

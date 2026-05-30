@@ -14,3 +14,5 @@ jest.mock('react-native-unistyles', () => {
     },
   };
 });
+
+jest.mock('@react-native-vector-icons/material-icons', () => 'MaterialIcons');

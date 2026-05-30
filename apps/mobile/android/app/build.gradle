@@ -82,7 +82,15 @@ tasks.register("copyMaterialIconsFont", Copy) {
     into(file("src/main/assets/fonts"))
 }
 
-tasks.named("preBuild").configure { dependsOn("copyMaterialIconsFont") }
+tasks.register("copyBrandFonts", Copy) {
+    from(file("../../assets/fonts"))
+    include("PlusJakartaSans-*.ttf")
+    into(file("src/main/assets/fonts"))
+}
+
+tasks.named("preBuild").configure {
+    dependsOn("copyMaterialIconsFont", "copyBrandFonts")
+}
 
 android {
     ndkVersion rootProject.ext.ndkVersion
