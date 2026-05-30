@@ -1,0 +1,85 @@
+{
+  "formId": "profile-personal",
+  "title": "Personal Information",
+  "description": "This information will be used to pre-fill forms throughout the platform.",
+  "fields": [
+    {
+      "id": "firstName",
+      "label": "First Name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Enter your first name"
+    },
+    {
+      "id": "lastName",
+      "label": "Last Name",
+      "type": "text",
+      "required": true,
+      "placeholder": "Enter your last name"
+    },
+    {
+      "id": "secondLastName",
+      "label": "Second Last Name",
+      "type": "text",
+      "required": false,
+      "placeholder": "Enter your second last name (optional)"
+    },
+    {
+      "id": "documentType",
+      "label": "Document Type",
+      "type": "select",
+      "required": true,
+      "options": [
+        {
+          "label": "NIE",
+          "value": "nie"
+        },
+        {
+          "label": "Passport",
+          "value": "passport"
+        }
+      ]
+    },
+    {
+      "id": "documentNumber",
+      "label": "Document Number",
+      "type": "text",
+      "required": true,
+      "placeholder": "e.g., X1234567A or AB123456"
+    },
+    {
+      "id": "nationality",
+      "label": "Nationality",
+      "type": "text",
+      "required": false,
+      "placeholder": "Your country of citizenship"
+    },
+    {
+      "id": "address",
+      "label": "Residential Address",
+      "type": "text",
+      "required": true,
+      "placeholder": "Street address, building, floor, apartment"
+    },
+    {
+      "id": "city",
+      "label": "City",
+      "type": "text",
+      "required": false,
+      "placeholder": "e.g., Barcelona"
+    },
+    {
+      "id": "postalCode",
+      "label": "Postal Code",
+      "type": "text",
+      "required": false,
+      "placeholder": "e.g., 08001"
+    },
+    {
+      "id": "phoneNumber",
+      "label": "Phone Number",
+      "type": "phone",
+      "required": true
+    }
+  ]
+}

@@ -7,17 +7,20 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { NavigationContainer } from '@react-navigation/native'
 
 import { ToastProvider } from './components/Toast/ToastProvider'
+import { AuthProvider } from './contexts/AuthContext'
 import {linking} from './navigation/linking'
 import RootNavigator from './navigation/RootNavigator'
 
 const App = () => {
   return (
     <SafeAreaProvider>
-      <ToastProvider>
-        <NavigationContainer linking={linking}>
-          <RootNavigator />
-        </NavigationContainer>
-      </ToastProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <NavigationContainer linking={linking}>
+            <RootNavigator />
+          </NavigationContainer>
+        </ToastProvider>
+      </AuthProvider>
     </SafeAreaProvider>
   );
 };

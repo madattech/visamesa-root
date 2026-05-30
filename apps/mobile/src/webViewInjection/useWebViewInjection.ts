@@ -195,7 +195,7 @@ export const useWebViewInjection = (
         beginReadinessPolling(rule, url, startedAt);
       }, pollIntervalMs);
     },
-    [clearReadinessTimer, injectRuleScript, resetReadinessState, webViewRef],
+    [clearReadinessTimer, injectRuleScript, webViewRef],
   );
 
   const onNavigationStateChange = React.useCallback(

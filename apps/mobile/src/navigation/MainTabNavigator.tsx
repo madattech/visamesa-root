@@ -85,17 +85,21 @@ const MainTabNavigator = () => {
             const focusedRouteName =
               tab.name === 'HomeTab'
                 ? getFocusedRouteNameFromRoute(route) ?? 'Home'
-                : undefined;
+                : tab.name === 'ProfileTab'
+                  ? getFocusedRouteNameFromRoute(route) ?? 'Profile'
+                  : undefined;
+
+            const hideTabBar =
+              focusedRouteName === 'Steps' || focusedRouteName === 'Login';
 
             return {
               title: tab.label,
               tabBarLabel: tab.label,
               tabBarAccessibilityLabel: tab.label,
               tabBarIcon: TAB_BAR_ICONS[tab.icon],
-              tabBarStyle:
-                focusedRouteName === 'Steps'
-                  ? {...baseTabBarStyle, display: 'none' as const}
-                  : baseTabBarStyle,
+              tabBarStyle: hideTabBar
+                ? {...baseTabBarStyle, display: 'none' as const}
+                : baseTabBarStyle,
             };
           }}
         />

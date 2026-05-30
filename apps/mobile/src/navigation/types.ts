@@ -13,6 +13,7 @@ export type DashboardStackParamList = {
 
 export type ProfileStackParamList = {
   Profile: undefined;
+  Login: undefined;
 };
 
 export type MainTabParamList = {

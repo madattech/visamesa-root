@@ -1,4 +1,4 @@
-import {act} from 'react-test-renderer';
+import {act} from 'react';
 
 import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';

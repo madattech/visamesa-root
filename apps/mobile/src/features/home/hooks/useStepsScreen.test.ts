@@ -1,4 +1,4 @@
-import {act} from 'react-test-renderer';
+import {act} from 'react';
 
 import {useStepsScreen} from '@/features/home/hooks/useStepsScreen';
 import {createMockStepsNavigation} from '@/test/navigation';

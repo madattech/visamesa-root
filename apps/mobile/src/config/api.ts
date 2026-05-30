@@ -21,4 +21,10 @@ export const API_ENDPOINTS = {
   appointmentStatus: (caseId: string) => `/appointments/status/${caseId}`,
   checkAvailability: '/appointments/check-availability',
   bookResult: '/appointments/book-result',
+
+  // Profile
+  profile: '/users/me/profile',
+
+  // Forms (future BE)
+  formSchema: (formId: string) => `/forms/schema/${formId}`,
 };
