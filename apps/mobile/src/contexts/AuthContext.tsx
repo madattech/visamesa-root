@@ -1,12 +1,13 @@
 import React, {
   createContext,
-  useState,
+  ReactNode,
   useContext,
   useEffect,
-  ReactNode,
-} from 'react';
-import {authService} from '../services/authService';
-import {User} from '../types';
+  useState
+} from 'react'
+
+import { authService } from '../services/authService'
+import { User } from '../types'
 
 interface AuthContextType {
   user: User | null;
@@ -28,6 +29,11 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   }, []);
 
   const checkAuth = async () => {
+    // TEMP: fake logged-in user for profile UI testing
+    setUser({id: 'test', email: 'test@example.com'});
+    setIsLoading(false);
+    return;
+
     try {
       const currentUser = await authService.getCurrentUser();
       setUser(currentUser);
