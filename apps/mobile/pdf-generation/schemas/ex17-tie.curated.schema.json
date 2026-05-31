@@ -1,0 +1,1354 @@
+{
+  "formId": "ex17-tie",
+  "title": "EX-17 Solicitud de Tarjeta de Identidad de Extranjero",
+  "source": "https://www.inclusion.gob.es/documents/410169/2156469/17-Formulario_TIE.pdf",
+  "pageCount": 3,
+  "fieldCount": 70,
+  "warning": "Verify every source mapping manually; government PDF field names can be misleading.",
+  "fields": [
+    {
+      "index": 0,
+      "pdfFieldName": "Textfield-1",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 97.9,
+          "y": 637.9,
+          "width": 202.8,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.passportNumber",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.passportNumber",
+      "label": "PASAPORTE"
+    },
+    {
+      "index": 1,
+      "pdfFieldName": "Textfield-2",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 328.3,
+          "y": 637.9,
+          "width": 19.95,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.nie.prefix",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.nie.prefix",
+      "label": "N.I.E. prefix/initial letter"
+    },
+    {
+      "index": 2,
+      "pdfFieldName": "Textfield-3",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 360.95,
+          "y": 637.9,
+          "width": 141.6,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.nie.number",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.nie.number",
+      "label": "N.I.E. number"
+    },
+    {
+      "index": 3,
+      "pdfFieldName": "Textfield-4",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 523.2,
+          "y": 637.9,
+          "width": 12.25,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.nie.checkDigit",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.nie.checkDigit",
+      "label": "N.I.E. check digit"
+    },
+    {
+      "index": 4,
+      "pdfFieldName": "x",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 388.8,
+          "y": 619.65,
+          "width": 168.7,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.secondSurname",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.secondSurname",
+      "label": "2º Apellido"
+    },
+    {
+      "index": 5,
+      "pdfFieldName": "Textfield-5",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 83.5,
+          "y": 600.95,
+          "width": 257.35,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.firstName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.firstName",
+      "label": "Nombre"
+    },
+    {
+      "index": 6,
+      "pdfFieldName": "H",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 469.2,
+          "y": 600.95,
+          "width": 15.1,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.sex",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.sex.x",
+      "label": "Sexo: X*",
+      "checkedWhen": "X"
+    },
+    {
+      "index": 7,
+      "pdfFieldName": "M",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 501.1,
+          "y": 600.7,
+          "width": 13,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.sex",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.sex.h",
+      "label": "Sexo: H",
+      "checkedWhen": "H"
+    },
+    {
+      "index": 8,
+      "pdfFieldName": "ChkBox",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 531.85,
+          "y": 600.7,
+          "width": 12.95,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.sex",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.sex.m",
+      "label": "Sexo: M",
+      "checkedWhen": "M"
+    },
+    {
+      "index": 9,
+      "pdfFieldName": "Textfield-6",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 190.1,
+          "y": 582.95,
+          "width": 33.35,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.birthDate.year",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.birthDate.year",
+      "label": "Fecha de nacimiento: año"
+    },
+    {
+      "index": 10,
+      "pdfFieldName": "Estado civil3 S",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 250.8,
+          "y": 582.95,
+          "width": 172.3,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.birthPlace",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.birthPlace",
+      "label": "Lugar de nacimiento"
+    },
+    {
+      "index": 11,
+      "pdfFieldName": "Textfield-7",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 449.3,
+          "y": 582.95,
+          "width": 108.84,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.birthCountry",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.birthCountry",
+      "label": "País de nacimiento"
+    },
+    {
+      "index": 12,
+      "pdfFieldName": "Textfield-8",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 97.9,
+          "y": 564.2,
+          "width": 229.13,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.nationality",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.nationality",
+      "label": "Nacionalidad"
+    },
+    {
+      "index": 13,
+      "pdfFieldName": "C",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 409.2,
+          "y": 564,
+          "width": 12.95,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.maritalStatus",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.maritalStatus.single",
+      "label": "Estado civil: S / Soltero/a",
+      "checkedWhen": "single"
+    },
+    {
+      "index": 14,
+      "pdfFieldName": "V",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 438.25,
+          "y": 564,
+          "width": 12.95,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.maritalStatus",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.maritalStatus.married",
+      "label": "Estado civil: C / Casado/a",
+      "checkedWhen": "married"
+    },
+    {
+      "index": 15,
+      "pdfFieldName": "D",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 466.8,
+          "y": 564,
+          "width": 12.95,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.maritalStatus",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.maritalStatus.widowed",
+      "label": "Estado civil: V / Viudo/a",
+      "checkedWhen": "widowed"
+    },
+    {
+      "index": 16,
+      "pdfFieldName": "Sp",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 495.6,
+          "y": 564,
+          "width": 12.95,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.maritalStatus",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.maritalStatus.divorced",
+      "label": "Estado civil: D / Divorciado/a",
+      "checkedWhen": "divorced"
+    },
+    {
+      "index": 17,
+      "pdfFieldName": "ChkBox-0",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 522.95,
+          "y": 564,
+          "width": 12.95,
+          "height": 15.35
+        }
+      ],
+      "source": "applicant.maritalStatus",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.maritalStatus.separated",
+      "label": "Estado civil: Sp / Separado/a",
+      "checkedWhen": "separated"
+    },
+    {
+      "index": 18,
+      "pdfFieldName": "Textfield-10",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 113.3,
+          "y": 546.2,
+          "width": 185.08,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.fatherName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.fatherName",
+      "label": "Nombre del padre"
+    },
+    {
+      "index": 19,
+      "pdfFieldName": "N",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 370.86,
+          "y": 546.2,
+          "width": 187.67,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.motherName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.motherName",
+      "label": "Nombre de la madre"
+    },
+    {
+      "index": 20,
+      "pdfFieldName": "CP",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 90.72,
+          "y": 619.69,
+          "width": 249.67,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.firstSurname",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.firstSurname",
+      "label": "1er Apellido"
+    },
+    {
+      "index": 21,
+      "pdfFieldName": "Provincia",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 119.2,
+          "y": 528,
+          "width": 350.95,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.address.street",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.address.street",
+      "label": "Domicilio en España"
+    },
+    {
+      "index": 22,
+      "pdfFieldName": "Textfield-11",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 497.5,
+          "y": 528,
+          "width": 16.35,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.address.number",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.address.number",
+      "label": "Domicilio en España: Nº"
+    },
+    {
+      "index": 23,
+      "pdfFieldName": "Textfield-12",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 539.75,
+          "y": 528,
+          "width": 17.75,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.address.floor",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.address.floor",
+      "label": "Domicilio en España: Piso"
+    },
+    {
+      "index": 24,
+      "pdfFieldName": "Textfield-13",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 87.09,
+          "y": 509.75,
+          "width": 239.31,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.address.city",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.address.city",
+      "label": "Localidad"
+    },
+    {
+      "index": 25,
+      "pdfFieldName": "Textfield-15",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 340.57,
+          "y": 509.75,
+          "width": 78.13,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.address.postalCode",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.address.postalCode",
+      "label": "C.P."
+    },
+    {
+      "index": 26,
+      "pdfFieldName": "Textfield-17",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 467.5,
+          "y": 509.75,
+          "width": 90,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.address.province",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.address.province",
+      "label": "Provincia"
+    },
+    {
+      "index": 27,
+      "pdfFieldName": "Textfield-18",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 104.69,
+          "y": 491.75,
+          "width": 162.18,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.mobilePhone",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.mobilePhone",
+      "label": "Teléfono móvil"
+    },
+    {
+      "index": 28,
+      "pdfFieldName": "DN IN IEPAS",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 291.61,
+          "y": 491.75,
+          "width": 268.13,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.email",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.email",
+      "label": "E-mail"
+    },
+    {
+      "index": 29,
+      "pdfFieldName": "Textfield-22",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 160.36,
+          "y": 477.1,
+          "width": 207.75,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.legalRepresentative.fullName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.legalRepresentative.fullName",
+      "label": "Representante legal, en su caso"
+    },
+    {
+      "index": 30,
+      "pdfFieldName": "Textfield-25",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 415.59,
+          "y": 477.1,
+          "width": 64.3,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.legalRepresentative.documentNumber",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.legalRepresentative.documentNumber",
+      "label": "Representante legal: DNI/NIE/PAS"
+    },
+    {
+      "index": 31,
+      "pdfFieldName": "Textfield-26",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 511.7,
+          "y": 477.1,
+          "width": 46.59,
+          "height": 13.7
+        }
+      ],
+      "source": "applicant.legalRepresentative.relationshipTitle",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.legalRepresentative.relationshipTitle",
+      "label": "Representante legal: Título(4)"
+    },
+    {
+      "index": 32,
+      "pdfFieldName": "Piso-0",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 472.3,
+          "y": 400.3,
+          "width": 87.27,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.documentNumber",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.documentNumber",
+      "label": "Representante presentación: DNI/NIE/PAS"
+    },
+    {
+      "index": 33,
+      "pdfFieldName": "Textfield-29",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 119.3,
+          "y": 383.25,
+          "width": 343.35,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.address.street",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.address.street",
+      "label": "Representante presentación: Domicilio en España"
+    },
+    {
+      "index": 34,
+      "pdfFieldName": "Textfield-31",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 480.95,
+          "y": 383.25,
+          "width": 20.9,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.address.number",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.address.number",
+      "label": "Representante presentación: Nº"
+    },
+    {
+      "index": 35,
+      "pdfFieldName": "Textfield-32",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 523.75,
+          "y": 383.25,
+          "width": 34.93,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.address.floor",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.address.floor",
+      "label": "Representante presentación: Piso"
+    },
+    {
+      "index": 36,
+      "pdfFieldName": "Email",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 86.65,
+          "y": 366.2,
+          "width": 174.25,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.address.city",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.address.city",
+      "label": "Representante presentación: Localidad"
+    },
+    {
+      "index": 37,
+      "pdfFieldName": "Textfield-33",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 286.1,
+          "y": 366.2,
+          "width": 59,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.address.postalCode",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.address.postalCode",
+      "label": "Representante presentación: C.P."
+    },
+    {
+      "index": 38,
+      "pdfFieldName": "Textfield-34",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 384.7,
+          "y": 366.2,
+          "width": 172.8,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.address.province",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.address.province",
+      "label": "Representante presentación: Provincia"
+    },
+    {
+      "index": 39,
+      "pdfFieldName": "Textfield-35",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 105.6,
+          "y": 349.2,
+          "width": 130.52,
+          "height": 13.65
+        }
+      ],
+      "source": "presenter.mobilePhone",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.mobilePhone",
+      "label": "Representante presentación: Teléfono móvil"
+    },
+    {
+      "index": 40,
+      "pdfFieldName": "D NIN IEPAS",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 123.33,
+          "y": 398.86,
+          "width": 295.51,
+          "height": 13.65
+        }
+      ],
+      "source": "presenter.fullNameOrBusinessName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.fullNameOrBusinessName",
+      "label": "Representante presentación: Nombre/Razón Social"
+    },
+    {
+      "index": 41,
+      "pdfFieldName": "Titulo4",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 261.51,
+          "y": 349.2,
+          "width": 296.01,
+          "height": 13.65
+        }
+      ],
+      "source": "presenter.email",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.email",
+      "label": "Representante presentación: E-mail"
+    },
+    {
+      "index": 42,
+      "pdfFieldName": "Textfield-39",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 158.35,
+          "y": 332.15,
+          "width": 196.6,
+          "height": 13.65
+        }
+      ],
+      "source": "presenter.legalRepresentative.fullName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.legalRepresentative.fullName",
+      "label": "Representante presentación: Representante legal"
+    },
+    {
+      "index": 43,
+      "pdfFieldName": "Textfield-40",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 488.74,
+          "y": 332.15,
+          "width": 70.58,
+          "height": 13.65
+        }
+      ],
+      "source": "presenter.legalRepresentative.relationshipTitle",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.legalRepresentative.relationshipTitle",
+      "label": "Representante presentación legal: Título(4)"
+    },
+    {
+      "index": 44,
+      "pdfFieldName": "Textfield-41",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 123.02,
+          "y": 255.6,
+          "width": 293.38,
+          "height": 13.65
+        }
+      ],
+      "source": "notifications.fullNameOrBusinessName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.fullNameOrBusinessName",
+      "label": "Notificaciones: Nombre/Razón Social"
+    },
+    {
+      "index": 45,
+      "pdfFieldName": "N Piso",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 470.4,
+          "y": 255.6,
+          "width": 87.26,
+          "height": 13.65
+        }
+      ],
+      "source": "notifications.documentNumber",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.documentNumber",
+      "label": "Notificaciones: DNI/NIE/PAS"
+    },
+    {
+      "index": 46,
+      "pdfFieldName": "Textfield-43",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 121.11,
+          "y": 238.55,
+          "width": 343.99,
+          "height": 13.65
+        }
+      ],
+      "source": "notifications.address.street",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.address.street",
+      "label": "Notificaciones: Domicilio en España"
+    },
+    {
+      "index": 47,
+      "pdfFieldName": "Textfield-44",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 485.05,
+          "y": 238.55,
+          "width": 15.6,
+          "height": 13.65
+        }
+      ],
+      "source": "notifications.address.number",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.address.number",
+      "label": "Notificaciones: Nº"
+    },
+    {
+      "index": 48,
+      "pdfFieldName": "Textfield-45",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 523.12,
+          "y": 238.55,
+          "width": 35.56,
+          "height": 13.65
+        }
+      ],
+      "source": "notifications.address.floor",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.address.floor",
+      "label": "Notificaciones: Piso"
+    },
+    {
+      "index": 49,
+      "pdfFieldName": "Textfield-46",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 88.55,
+          "y": 221.5,
+          "width": 174.18,
+          "height": 13.7
+        }
+      ],
+      "source": "notifications.address.city",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.address.city",
+      "label": "Notificaciones: Localidad"
+    },
+    {
+      "index": 50,
+      "pdfFieldName": "Email-0",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 404.79,
+          "y": 331.65,
+          "width": 57.58,
+          "height": 13.7
+        }
+      ],
+      "source": "presenter.legalRepresentative.documentNumber",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "presenter.legalRepresentative.documentNumber",
+      "label": "Representante presentación legal: DNI/NIE/PAS"
+    },
+    {
+      "index": 51,
+      "pdfFieldName": "Textfield-47",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 279.54,
+          "y": 221.5,
+          "width": 65.37,
+          "height": 13.7
+        }
+      ],
+      "source": "notifications.address.postalCode",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.address.postalCode",
+      "label": "Notificaciones: C.P."
+    },
+    {
+      "index": 52,
+      "pdfFieldName": "Textfield-49",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 378.58,
+          "y": 221.5,
+          "width": 179.46,
+          "height": 13.7
+        }
+      ],
+      "source": "notifications.address.province",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.address.province",
+      "label": "Notificaciones: Provincia"
+    },
+    {
+      "index": 53,
+      "pdfFieldName": "Textfield-50",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 101.46,
+          "y": 204.45,
+          "width": 135.17,
+          "height": 13.7
+        }
+      ],
+      "source": "notifications.mobilePhone",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.mobilePhone",
+      "label": "Notificaciones: Teléfono móvil"
+    },
+    {
+      "index": 54,
+      "pdfFieldName": "Textfield-52",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 266.15,
+          "y": 204.45,
+          "width": 292.8,
+          "height": 13.7
+        }
+      ],
+      "source": "notifications.email",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.email",
+      "label": "Notificaciones: E-mail"
+    },
+    {
+      "index": 55,
+      "pdfFieldName": "CONSIENTO que las comunicaciones y notifcaciones s",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 49.2,
+          "y": 175.4,
+          "width": 5.5,
+          "height": 5.55
+        }
+      ],
+      "source": "notifications.dehuConsent",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "notifications.dehuConsent",
+      "label": "Consentimiento notificaciones DEHú",
+      "checkedWhen": true
+    },
+    {
+      "index": 56,
+      "pdfFieldName": "Nombre y apellidos del titular",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 213.35,
+          "y": 762.45,
+          "width": 326.15,
+          "height": 13.7
+        }
+      ],
+      "source": "request.cardholderFullName",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "request.cardholderFullName",
+      "label": "Nombre y apellidos del titular"
+    },
+    {
+      "index": 57,
+      "pdfFieldName": "TARJETA INICIAL",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 77.5,
+          "y": 642.2,
+          "width": 5.55,
+          "height": 5.55
+        }
+      ],
+      "source": "request.documentType",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "request.documentType.initialCard",
+      "label": "Tipo documento: Tarjeta inicial",
+      "checkedWhen": "initialCard"
+    },
+    {
+      "index": 58,
+      "pdfFieldName": "RENOVACION DE TARJETA",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 77.5,
+          "y": 622.55,
+          "width": 5.55,
+          "height": 5.5
+        }
+      ],
+      "source": "request.documentType",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "request.documentType.renewal",
+      "label": "Tipo documento: Renovación de tarjeta",
+      "checkedWhen": "renewal"
+    },
+    {
+      "index": 59,
+      "pdfFieldName": "DUPLICADO POR ROBO EXTRAVIO DESTRUCCION O INUTILIZ",
+      "type": "checkbox",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 264.5,
+          "y": 622.55,
+          "width": 5.5,
+          "height": 5.5
+        }
+      ],
+      "source": "request.documentType",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "request.documentType.duplicate",
+      "label": "Tipo documento: Duplicado por robo/extravío/destrucción/inutilización",
+      "checkedWhen": "duplicate"
+    },
+    {
+      "index": 60,
+      "pdfFieldName": "Textfield-55",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 256.55,
+          "y": 208.8,
+          "width": 96.95,
+          "height": 13.65
+        }
+      ],
+      "source": "signature.place",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "signature.place",
+      "label": "Lugar de firma"
+    },
+    {
+      "index": 61,
+      "pdfFieldName": "a",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 365.75,
+          "y": 208.8,
+          "width": 16.35,
+          "height": 13.65
+        }
+      ],
+      "source": "signature.day",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "signature.day",
+      "label": "Fecha firma: día"
+    },
+    {
+      "index": 62,
+      "pdfFieldName": "de",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 395.5,
+          "y": 208.8,
+          "width": 77.8,
+          "height": 13.65
+        }
+      ],
+      "source": "signature.month",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "signature.month",
+      "label": "Fecha firma: mes"
+    },
+    {
+      "index": 63,
+      "pdfFieldName": "de-0",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 486.7,
+          "y": 208.8,
+          "width": 30.25,
+          "height": 13.65
+        }
+      ],
+      "source": "signature.year",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "signature.year",
+      "label": "Fecha firma: año"
+    },
+    {
+      "index": 64,
+      "pdfFieldName": "FIRMA DEL SOLICITANTE  o representante legal en su",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 260.9,
+          "y": 93.35,
+          "width": 250.05,
+          "height": 78.25
+        }
+      ],
+      "source": "signature.signatureTextOrImagePlaceholder",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "signature.signatureTextOrImagePlaceholder",
+      "label": "Firma del solicitante o representante legal"
+    },
+    {
+      "index": 65,
+      "pdfFieldName": "DIRIGIDA A",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 70.1,
+          "y": 30,
+          "width": 273.8,
+          "height": 13.65
+        }
+      ],
+      "source": "destination.office",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "destination.office",
+      "label": "Dirigida a"
+    },
+    {
+      "index": 66,
+      "pdfFieldName": "Codigo DIR3",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 389.5,
+          "y": 30,
+          "width": 47.3,
+          "height": 13.65
+        }
+      ],
+      "source": "destination.dir3Code",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "destination.dir3Code",
+      "label": "Código DIR3"
+    },
+    {
+      "index": 67,
+      "pdfFieldName": "PROVINCIA",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 2,
+          "x": 485.05,
+          "y": 30,
+          "width": 57.6,
+          "height": 13.65
+        }
+      ],
+      "source": "destination.province",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "destination.province",
+      "label": "Provincia destino"
+    },
+    {
+      "index": 68,
+      "pdfFieldName": "Fecha de nacimientoz",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 135.6,
+          "y": 582.95,
+          "width": 12.95,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.birthDate.day",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.birthDate.day",
+      "label": "Fecha de nacimiento: día"
+    },
+    {
+      "index": 69,
+      "pdfFieldName": "Texto-1",
+      "type": "text",
+      "options": [],
+      "widgets": [
+        {
+          "page": 1,
+          "x": 157.8,
+          "y": 582.32,
+          "width": 20.59,
+          "height": 13.65
+        }
+      ],
+      "source": "applicant.birthDate.month",
+      "notes": "Mapped by comparing AcroForm widget coordinates with the visible EX-17 labels; verify with filled PDF output.",
+      "semanticId": "applicant.birthDate.month",
+      "label": "Fecha de nacimiento: mes"
+    }
+  ],
+  "mappingStatus": "curated",
+  "mappingWarning": "Curated from widget positions against the visible EX-17 layout. PDF field names are intentionally not trusted."
+}
