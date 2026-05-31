@@ -1,0 +1,84 @@
+{
+  "applicant": {
+    "passportNumber": "P12345678",
+    "nie": {
+      "prefix": "X",
+      "number": "1234567",
+      "checkDigit": "L"
+    },
+    "firstSurname": "GARCIA",
+    "secondSurname": "MARTINEZ",
+    "firstName": "JUAN",
+    "sex": "H",
+    "birthDate": "1990-05-15",
+    "birthPlace": "BUENOS AIRES",
+    "birthCountry": "ARGENTINA",
+    "nationality": "ARGENTINA",
+    "maritalStatus": "single",
+    "fatherName": "CARLOS GARCIA",
+    "motherName": "MARIA MARTINEZ",
+    "address": {
+      "street": "CALLE MAYOR 10",
+      "number": "10",
+      "floor": "2A",
+      "city": "MADRID",
+      "postalCode": "28013",
+      "province": "MADRID"
+    },
+    "mobilePhone": "600123456",
+    "email": "juan.garcia@example.com",
+    "legalRepresentative": {
+      "fullName": "",
+      "documentNumber": "",
+      "relationshipTitle": ""
+    }
+  },
+  "presenter": {
+    "fullNameOrBusinessName": "",
+    "documentNumber": "",
+    "address": {
+      "street": "",
+      "number": "",
+      "floor": "",
+      "city": "",
+      "postalCode": "",
+      "province": ""
+    },
+    "mobilePhone": "",
+    "email": "",
+    "legalRepresentative": {
+      "fullName": "",
+      "documentNumber": "",
+      "relationshipTitle": ""
+    }
+  },
+  "notifications": {
+    "fullNameOrBusinessName": "JUAN GARCIA MARTINEZ",
+    "documentNumber": "X1234567L",
+    "address": {
+      "street": "CALLE MAYOR 10",
+      "number": "10",
+      "floor": "2A",
+      "city": "MADRID",
+      "postalCode": "28013",
+      "province": "MADRID"
+    },
+    "mobilePhone": "600123456",
+    "email": "juan.garcia@example.com",
+    "dehuConsent": true
+  },
+  "request": {
+    "cardholderFullName": "JUAN GARCIA MARTINEZ",
+    "documentType": "initialCard"
+  },
+  "signature": {
+    "place": "MADRID",
+    "date": "2026-05-25",
+    "signatureTextOrImagePlaceholder": ""
+  },
+  "destination": {
+    "office": "OFICINA DE EXTRANJERIA DE MADRID",
+    "dir3Code": "EA0040721",
+    "province": "MADRID"
+  }
+}
