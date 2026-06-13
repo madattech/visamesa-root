@@ -1,4 +1,4 @@
-import {TieStepDetail} from '../types/TieStepDetail';
+import { TieStepDetail } from '../types/TieStepDetail'
 
 export const tieStepsDetail: TieStepDetail[] = [
   {
@@ -266,7 +266,7 @@ export const tieStepsDetail: TieStepDetail[] = [
     ],
     requirements: [
       {
-        label: 'Modelo 790 Code 012 form (completed)',
+        label: 'Modelo 790 Code 012 form',
         type: 'form',
         formId: 'modelo-790-012',
       },

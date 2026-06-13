@@ -1,12 +1,12 @@
-import React from 'react';
-import {Pressable, View} from 'react-native';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import React from 'react'
+import { Pressable, View } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import {Button} from '@/components/ui/Button';
-import {Icon} from '@/components/ui/Icon';
-import {Text} from '@/components/ui/Text';
-import {RequirementProgress} from '@/features/dashboard/types/UserProgress';
-import {Requirement} from '@/features/home/types/TieStepDetail';
+import { Button } from '@/components/ui/Button'
+import { Icon } from '@/components/ui/Icon'
+import { Text } from '@/components/ui/Text'
+import { RequirementProgress } from '@/features/dashboard/types/UserProgress'
+import { Requirement } from '@/features/home/types/TieStepDetail'
 
 type RequirementItemProps = {
   requirement: Requirement;
@@ -95,7 +95,7 @@ export function RequirementItem({
           label={
             requirement.type === 'automation'
               ? 'Book via VisaMesa'
-              : 'Review form'
+              : 'Review form filled by VisaMesa'
           }
           variant="tonal"
           onPress={
