@@ -74,4 +74,20 @@ describe('Stepper', () => {
 
     expect(labels.length).toBeGreaterThan(0);
   });
+
+  it('shows a check icon for completed steps', () => {
+    const steps = createTieSteps(2);
+    const tree = renderStepper({
+      steps,
+      activeStepId: 2,
+      completedStepIds: [1],
+      onStepPress: jest.fn(),
+    });
+
+    const completedStep = tree.root.findByProps({
+      accessibilityLabel: 'Step 1: Step 1 Title Here, completed',
+    });
+
+    expect(completedStep.props.accessibilityState.checked).toBe(true);
+  });
 });

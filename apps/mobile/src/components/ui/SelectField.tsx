@@ -139,7 +139,7 @@ const stylesheet = createStyleSheet(theme => ({
     borderRadius: theme.radii.sm,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -167,7 +167,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   sheet: {
     maxHeight: '50%',
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
     borderTopLeftRadius: theme.radii.lg,
     borderTopRightRadius: theme.radii.lg,
     paddingTop: theme.spacing.md,

@@ -15,7 +15,7 @@ export function useInternalStackScreenOptions(): NativeStackNavigationOptions {
     headerBackTitle: '',
     headerTitleAlign: 'center',
     headerStyle: {
-      backgroundColor: theme.colors.surface,
+      backgroundColor: theme.colors.background,
     },
     headerTintColor: theme.colors.primary,
     headerTitleStyle: brandFontStyle(
