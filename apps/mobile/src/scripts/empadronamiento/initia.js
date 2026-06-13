@@ -1,6 +1,5 @@
-const homeUrl = "https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/ca"
-const selector = 'a[href*="/oficinavirtual/ca/search-result"][href*="idCategory=21"]'
-const startProcess = () => {
-    window.document.querySelector(selector).click()
-};
-startProcess()
+import {buildOpenCategoryScript, EMPADRONAMIENTO_HOME_URL} from './index';
+
+export {buildOpenCategoryScript, EMPADRONAMIENTO_HOME_URL};
+export const INITIAL_EMPADRONAMIENTO_SCRIPT = buildOpenCategoryScript();
+export default INITIAL_EMPADRONAMIENTO_SCRIPT;

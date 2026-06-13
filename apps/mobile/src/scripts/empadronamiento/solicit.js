@@ -1,5 +1,5 @@
-const selectCita = () => {
-    window.document.querySelector("#solicitud").click()
-    window.document.querySelector("button[type='submit']").click()
-}
-selectCita()
+import {buildSelectSolicitudScript} from './index';
+
+export {buildSelectSolicitudScript};
+export const SELECT_SOLICITUD_SCRIPT = buildSelectSolicitudScript();
+export default SELECT_SOLICITUD_SCRIPT;

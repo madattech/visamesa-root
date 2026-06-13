@@ -1,15 +1,5 @@
- const motive = () => {
-      const motivo = document.querySelector('textarea#motivo[name="motivo"][aria-label="motivo"]');                                                                          
-                                                                                                                                                                          
-   motivo.value = 'Booking appointment to request empadronamiento.';                                                                                                      
-                                                                                                                                                                          
-   motivo.dispatchEvent(new Event('input', { bubbles: true }));                                                                                                           
-   motivo.dispatchEvent(new Event('change', { bubbles: true }));
-  
-  submit()
- }
-const submit = () => {
-    document.querySelector('button[type="submit"]').click();
-}     
+import {buildMotiveScript, empadronamientoDemoProfile} from './index';
 
-motive();
+export {buildMotiveScript};
+export const MOTIVE_SCRIPT = buildMotiveScript(empadronamientoDemoProfile);
+export default MOTIVE_SCRIPT;

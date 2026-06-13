@@ -1,8 +1,5 @@
-const url = "https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/ca/search-result?idCategory=21"
-const selectOAC = () => {
-    const $item = $('p').filter((_, el) =>                                                                                                     
-      $(el).text().trim() === "Cita amb les Oficines d'Atenció Ciutadana"                                                                      
-   );
-  $item.click()   
-};
-selectOAC()
+import {buildSelectOacAppointmentScript, EMPADRONAMIENTO_SEARCH_RESULT_URL} from './index';
+
+export {buildSelectOacAppointmentScript, EMPADRONAMIENTO_SEARCH_RESULT_URL};
+export const SELECT_OAC_APPOINTMENT_SCRIPT = buildSelectOacAppointmentScript();
+export default SELECT_OAC_APPOINTMENT_SCRIPT;

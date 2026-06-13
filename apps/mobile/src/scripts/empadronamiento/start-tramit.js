@@ -1,8 +1,5 @@
-const url ="https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/ca/tramit/20230001668"
-const startTramit = () => {
-    const $button = $('button[type="button"][rel="nofollow"]').filter(function () {                                                            
-     return $(this).text().trim() === 'Inicia el tràmit';                                                                                     
-   }); 
-  $button.click()
-}
-startTramit()
+import {buildStartTramitScript, EMPADRONAMIENTO_TRAMIT_URL} from './index';
+
+export {buildStartTramitScript, EMPADRONAMIENTO_TRAMIT_URL};
+export const START_TRAMIT_SCRIPT = buildStartTramitScript();
+export default START_TRAMIT_SCRIPT;

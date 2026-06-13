@@ -1,13 +1,12 @@
-import React, { useRef } from 'react'
+import React from 'react'
 import { StyleSheet, View } from 'react-native'
-import WebView, { WebViewMessageEvent } from 'react-native-webview'
 
 import {
   buildCitaPreviaAutomationProfileFromCase,
   buildCitaPreviaInjectionRules
 } from '../scripts/cita-previa'
 import { AppointmentSlot, AutomationProgress, Case } from '../types'
-import { useWebViewInjection } from '../webViewInjection/useWebViewInjection'
+import AutomationWebView from './AutomationWebView'
 
 interface WebViewAutomationProps {
   caseData: Case;
@@ -24,29 +23,20 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
   onBookingComplete,
   onError,
 }) => {
-  const webViewRef = useRef<WebView>(null);
-  const automationProfile = buildCitaPreviaAutomationProfileFromCase(caseData);
-  const injectionRules = buildCitaPreviaInjectionRules(automationProfile);
+  const automationProfile = React.useMemo(
+    () => buildCitaPreviaAutomationProfileFromCase(caseData),
+    [caseData],
+  );
+  const injectionRules = React.useMemo(
+    () => buildCitaPreviaInjectionRules(automationProfile),
+    [automationProfile],
+  );
 
   const GOVERNMENT_WEBSITE_URL =
     'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus';
-  const {
-    handleMessage: handleInjectionMessage,
-    onLoadEnd,
-    onNavigationStateChange,
-  } = useWebViewInjection(webViewRef, {
-    initialUrl: GOVERNMENT_WEBSITE_URL,
-    rules: injectionRules,
-  });
 
-  const handleMessage = (event: WebViewMessageEvent) => {
-    if (handleInjectionMessage(event.nativeEvent.data)) {
-      return;
-    }
-
-    try {
-      const message = JSON.parse(event.nativeEvent.data);
-
+  const handleAutomationMessage = React.useCallback(
+    (message: any) => {
       switch (message.type) {
         case 'progress':
           onProgress(message.data);
@@ -76,23 +66,21 @@ const WebViewAutomation: React.FC<WebViewAutomationProps> = ({
         default:
           console.log('Unknown message type:', message.type);
       }
-    } catch (error) {
-      console.error('Failed to parse WebView message:', error);
-      onError('Failed to communicate with automation script');
-    }
-  };
+    },
+    [onBookingComplete, onError, onProgress, onSlotsFound],
+  );
+
+  const handleNonJsonMessage = React.useCallback(() => {
+    onError('Failed to communicate with automation script');
+  }, [onError]);
 
   return (
     <View style={styles.container}>
-      <WebView
-        ref={webViewRef}
-        source={{uri: GOVERNMENT_WEBSITE_URL}}
-        onNavigationStateChange={onNavigationStateChange}
-        onLoadEnd={onLoadEnd}
-        onMessage={handleMessage}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        startInLoadingState={true}
+      <AutomationWebView
+        sourceUrl={GOVERNMENT_WEBSITE_URL}
+        rules={injectionRules}
+        onAutomationMessage={handleAutomationMessage}
+        onNonJsonMessage={handleNonJsonMessage}
         onError={syntheticEvent => {
           const {nativeEvent} = syntheticEvent;
           onError(`WebView error: ${nativeEvent.description}`);

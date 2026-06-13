@@ -1,61 +1,33 @@
 import React from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import WebView, { WebViewMessageEvent } from 'react-native-webview'
 
+import AutomationWebView from '../components/AutomationWebView'
 import {
   buildCitaPreviaInjectionRules,
   citaPreviaPiiConfig
 } from '../scripts/cita-previa'
 import { ICP_PLUS_URL } from '../webViewInjection/scriptRegistry'
-import { useWebViewInjection } from '../webViewInjection/useWebViewInjection'
 
 const WebsiteWebViewScreen = () => {
-  const webViewRef = React.useRef<React.ElementRef<typeof WebView>>(null);
   const injectionRules = React.useMemo(
     () => buildCitaPreviaInjectionRules(citaPreviaPiiConfig),
     [],
   );
-  const {
-    handleMessage: handleInjectionMessage,
-    onLoadEnd,
-    onNavigationStateChange,
-  } = useWebViewInjection(webViewRef, {
-    initialUrl: ICP_PLUS_URL,
-    rules: injectionRules,
-  });
 
-  const handleMessage = React.useCallback(
-    (event: WebViewMessageEvent) => {
-      if (handleInjectionMessage(event.nativeEvent.data)) {
-        return;
-      }
-
-      try {
-        const message = JSON.parse(event.nativeEvent.data);
-
-        if (message.type === 'debug') {
-          console.debug('[WebView debug]', message.data);
-        }
-      } catch {
-        // Ignore non-JSON messages from the page.
-      }
-    },
-    [handleInjectionMessage],
-  );
+  const handleAutomationMessage = React.useCallback((message: any) => {
+    if (message.type === 'debug') {
+      console.debug('[WebView debug]', message.data);
+    }
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      <WebView
-        ref={webViewRef}
-        source={{uri: ICP_PLUS_URL}}
+      <AutomationWebView
+        sourceUrl={ICP_PLUS_URL}
+        rules={injectionRules}
         originWhitelist={['*']}
-        javaScriptEnabled
-        domStorageEnabled
-        startInLoadingState
-        onNavigationStateChange={onNavigationStateChange}
-        onLoadEnd={onLoadEnd}
-        onMessage={handleMessage}
+        onAutomationMessage={handleAutomationMessage}
         renderLoading={() => (
           <View style={styles.loading}>
             <ActivityIndicator size="large" color="#1A73E8" />

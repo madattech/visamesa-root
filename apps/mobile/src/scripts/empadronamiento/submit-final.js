@@ -1,5 +1,5 @@
-const submit = () => {
-    document.querySelector('button[type="submit"]').click();
-} 
+import {buildSubmitFinalScript} from './index';
 
-submit()
+export {buildSubmitFinalScript};
+export const SUBMIT_FINAL_SCRIPT = buildSubmitFinalScript();
+export default SUBMIT_FINAL_SCRIPT;

@@ -1,9 +1,5 @@
-const submit = () => {
-    document.querySelector('button[type="submit"]').click();
-}
-const selectOffice= () => {
-    document.querySelector('#OAC-DR')?.click();
-    submit()
-}
+import {buildSelectOfficeScript, empadronamientoDemoProfile} from './index';
 
-selectOffice()
+export {buildSelectOfficeScript};
+export const SELECT_OFFICE_SCRIPT = buildSelectOfficeScript(empadronamientoDemoProfile);
+export default SELECT_OFFICE_SCRIPT;
