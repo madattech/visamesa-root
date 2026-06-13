@@ -1,14 +1,14 @@
-import React from 'react';
-import {View} from 'react-native';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import React from 'react'
+import { View } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import {Text} from '@/components/ui/Text';
+import { Text } from '@/components/ui/Text'
 import {
   HERO_SECTION_TITLE,
   HERO_SUBTITLE,
   HERO_TITLE_ACCENT,
-  HERO_TITLE_PREFIX,
-} from '@/features/home/data/heroContent';
+  HERO_TITLE_PREFIX
+} from '@/features/home/data/heroContent'
 
 export function HeroSection() {
   const {styles} = useStyles(stylesheet);
@@ -23,7 +23,10 @@ export function HeroSection() {
           </Text>
           .
         </Text>
-        <Text variant="bodyLarge" color="onSurfaceVariant" style={styles.subtitle}>
+        <Text
+          variant="bodyLarge"
+          color="onSurfaceVariant"
+          style={styles.subtitle}>
           {HERO_SUBTITLE}
         </Text>
       </View>

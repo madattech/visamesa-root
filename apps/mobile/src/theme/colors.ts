@@ -39,7 +39,7 @@ export const lightColors: ColorTokens = {
   outline: '#75777F',
   outlineVariant: '#C5C6D0',
 
-  background: '#F5F5F5',
+  background: '#FFFFFF',
   onBackground: '#1B1B1F',
 
   inverseSurface: '#303033',
@@ -85,7 +85,7 @@ export const darkColors: ColorTokens = {
   outline: '#8F9099',
   outlineVariant: '#44464F',
 
-  background: '#121316',
+  background: '#1B1B1F',
   onBackground: '#E4E2E6',
 
   inverseSurface: '#E4E2E6',

@@ -10,6 +10,9 @@ export type HomeStackParamList = {
 
 export type DashboardStackParamList = {
   Dashboard: undefined;
+  StepDetail: {
+    stepId: number;
+  };
 };
 
 export type ProfileStackParamList = {

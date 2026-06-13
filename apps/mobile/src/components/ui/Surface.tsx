@@ -45,14 +45,14 @@ const stylesheet = createStyleSheet(theme => ({
     borderRadius: theme.radii.md,
   },
   filled: {
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
     overflow: 'hidden',
   },
   elevated: {
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
   },
   outlined: {
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
     borderWidth: 1,
     borderColor: theme.colors.outlineVariant,
     overflow: 'hidden',

@@ -78,7 +78,7 @@ const stylesheet = createStyleSheet(theme => ({
     fontSize: theme.typography.bodyLarge.fontSize,
     lineHeight: theme.typography.bodyLarge.lineHeight,
     color: theme.colors.onSurface,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
   },
   inputFocused: {
     borderColor: theme.colors.primary,

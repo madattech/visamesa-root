@@ -1,4 +1,4 @@
-import { TieStepDetail } from '../types/TieStepDetail'
+import {TieStepDetail} from '../types/TieStepDetail';
 
 export const tieStepsDetail: TieStepDetail[] = [
   {
@@ -49,18 +49,27 @@ export const tieStepsDetail: TieStepDetail[] = [
       },
     ],
     requirements: [
-      { label: 'Valid passport and NIE' },
+      {label: 'Valid passport and NIE', type: 'self_declared'},
       {
         label: 'A rental contract or proof of residence',
+        type: 'self_declared',
         description:
           'Rental contract, property deed, or landlord authorization (depending on your housing situation).',
       },
       {
         label: 'Appointment confirmation',
+        type: 'automation',
+        automationId: 'empadronamiento',
         description:
           'Some Ayuntamientos require booking an appointment before visiting.',
       },
     ],
+    cta: {
+      start: "I'm going to register my address",
+      complete: 'I got my empadronamiento',
+    },
+    completionPrompt:
+      'Did you receive your empadronamiento certificate at the Ayuntamiento?',
   },
   {
     id: 2,
@@ -71,7 +80,7 @@ export const tieStepsDetail: TieStepDetail[] = [
     description:
       'Before you apply for your TIE, you must book a "cita previa" on the official Spanish government site. This appointment is when you’ll submit your documents and have your fingerprints captured. Demand is high in Barcelona so appointments often get fully booked quickly, especially in peak months (like September).',
     estimatedTime: [
-      { label: 'Search Time', value: '1–10 days of checking for slots' },
+      {label: 'Search Time', value: '1–10 days of checking for slots'},
       {
         label: 'Typical Schedule Range',
         value: '1–3 weeks until actual appointment date',
@@ -106,11 +115,14 @@ export const tieStepsDetail: TieStepDetail[] = [
     requirements: [
       {
         label: 'Personal identification details',
+        type: 'self_declared',
         description:
           'Passport number, nationality, and basic personal information are required to book.',
       },
       {
         label: 'Access to the official Cita Previa website',
+        type: 'automation',
+        automationId: 'cita-previa',
         link: {
           label: 'Book fingerprint appointment',
           url: 'https://sede.administracionespublicas.gob.es/icpplus/index.html',
@@ -118,10 +130,17 @@ export const tieStepsDetail: TieStepDetail[] = [
       },
       {
         label: 'Appointment confirmation',
+        type: 'self_declared',
         description:
           'Print or save the confirmation to bring to the police station.',
       },
     ],
+    cta: {
+      start: "I'm booking my appointment",
+      complete: 'I booked my appointment',
+    },
+    completionPrompt:
+      'Do you have your Cita Previa appointment confirmation saved or printed?',
   },
   {
     id: 3,
@@ -132,9 +151,9 @@ export const tieStepsDetail: TieStepDetail[] = [
     description:
       'Bring all required documents printed and organised. This prevents rejections at your appointment — missing even one piece often means you have to reschedule and wait longer.',
     estimatedTime: [
-      { label: 'Prep Time', value: '1–3 days to collect and make copies' },
-      { label: 'Empadronamiento Validity', value: 'less than 3 months old' },
-      { label: 'Photos', value: 'recent, correct passport style' },
+      {label: 'Prep Time', value: '1–3 days to collect and make copies'},
+      {label: 'Empadronamiento Validity', value: 'less than 3 months old'},
+      {label: 'Photos', value: 'recent, correct passport style'},
     ],
     officialLinks: [
       {
@@ -165,29 +184,46 @@ export const tieStepsDetail: TieStepDetail[] = [
       },
     ],
     requirements: [
-      { label: 'Completed EX-17 application form' },
+      {
+        label: 'Completed EX-17 application form',
+        type: 'form',
+        formId: 'ex-17',
+      },
       {
         label: 'Valid passport',
+        type: 'self_declared',
         description:
           'Original plus photocopies of main page and visa/entry stamp.',
       },
       {
         label: 'Student visa or residence authorisation',
+        type: 'self_declared',
         description: 'Proof of permission to stay longer than 6 months.',
       },
       {
         label: 'Empadronamiento certificate',
+        type: 'self_declared',
         description: 'Proof of local address registration.',
+        referencesStepId: 1,
       },
       {
         label: 'Passport-style photographs',
+        type: 'self_declared',
         description: 'Recent color photos with white background.',
       },
       {
         label: 'Appointment confirmation',
+        type: 'self_declared',
         description: 'Printed confirmation from the Cita Previa website.',
+        referencesStepId: 2,
       },
     ],
+    cta: {
+      start: "I'm preparing my documents",
+      complete: 'I have all documents ready',
+    },
+    completionPrompt:
+      'Do you have all required documents printed and organised for your appointment?',
   },
   {
     id: 4,
@@ -198,8 +234,8 @@ export const tieStepsDetail: TieStepDetail[] = [
     description:
       'You must fill in the official Modelo 790 fee form (code 012) and pay it at a Spanish bank before your TIE appointment. You’ll need to bring proof of payment with you — without it they can reject the application on the spot.',
     estimatedTime: [
-      { label: 'Bank Visit', value: '30 minutes to 1 hour at a bank branch' },
-      { label: 'Processing', value: 'Immediate issue of a payment receipt' },
+      {label: 'Bank Visit', value: '30 minutes to 1 hour at a bank branch'},
+      {label: 'Processing', value: 'Immediate issue of a payment receipt'},
       {
         label: 'Fee Range',
         value: 'Approx. €16–€22 depending on permit type',
@@ -229,20 +265,32 @@ export const tieStepsDetail: TieStepDetail[] = [
       },
     ],
     requirements: [
-      { label: 'Modelo 790 Code 012 form (completed)' },
+      {
+        label: 'Modelo 790 Code 012 form (completed)',
+        type: 'form',
+        formId: 'modelo-790-012',
+      },
       {
         label: 'Fee payment receipt',
+        type: 'self_declared',
         description:
           'Receipt provided by the bank after payment — must be brought to appointment.',
       },
       {
         label: 'Official fee form source',
+        type: 'self_declared',
         link: {
           label: 'Modelo 790 Code 012',
           url: 'https://sede.policia.gob.es',
         },
       },
     ],
+    cta: {
+      start: "I'm going to pay the fee",
+      complete: 'I paid the TIE fee',
+    },
+    completionPrompt:
+      'Did you pay the Modelo 790 fee and receive your payment receipt?',
   },
   {
     id: 5,
@@ -253,8 +301,8 @@ export const tieStepsDetail: TieStepDetail[] = [
     description:
       'At the police station on your appointment day you will submit all documents, have your fingerprints and photo taken, and receive a appointment receipt (resguardo). This confirms your application and tells you when and where to pick up your TIE.',
     estimatedTime: [
-      { label: 'Appointment Length', value: '30–60 minutes' },
-      { label: 'Admin Wait', value: 'Resguardo given immediately' },
+      {label: 'Appointment Length', value: '30–60 minutes'},
+      {label: 'Admin Wait', value: 'Resguardo given immediately'},
     ],
     officialLinks: [
       {
@@ -275,13 +323,28 @@ export const tieStepsDetail: TieStepDetail[] = [
       },
     ],
     requirements: [
-      { label: 'All required documents prepared in Step 3' },
-      { label: 'Proof of fee payment (Modelo 790 receipt)' },
+      {
+        label: 'All required documents prepared in Step 3',
+        type: 'self_declared',
+        referencesStepId: 3,
+      },
+      {
+        label: 'Proof of fee payment (Modelo 790 receipt)',
+        type: 'self_declared',
+        referencesStepId: 4,
+      },
       {
         label: 'Original passport',
+        type: 'self_declared',
         description: 'Required for identity verification.',
       },
     ],
+    cta: {
+      start: "I'm going to my appointment",
+      complete: 'I attended my appointment',
+    },
+    completionPrompt:
+      'Did you attend your appointment and receive your resguardo (receipt)?',
   },
   {
     id: 6,
@@ -292,8 +355,8 @@ export const tieStepsDetail: TieStepDetail[] = [
     description:
       'Once your TIE is ready (often ~30–45 days after your appointment), you return with your receipt to collect your physical card. In some cases you may need to schedule an appointment for pickup.',
     estimatedTime: [
-      { label: 'Processing', value: 'Approx. 30–45 days after appointment' },
-      { label: 'Pickup Visit', value: '30 minutes to 1 hour' },
+      {label: 'Processing', value: 'Approx. 30–45 days after appointment'},
+      {label: 'Pickup Visit', value: '30 minutes to 1 hour'},
     ],
     officialLinks: [
       {
@@ -316,12 +379,20 @@ export const tieStepsDetail: TieStepDetail[] = [
     requirements: [
       {
         label: 'Resguardo (receipt) from fingerprint appointment',
+        type: 'self_declared',
         description: 'Issued when you submitted your application.',
+        referencesStepId: 5,
       },
       {
         label: 'Passport',
+        type: 'self_declared',
         description: 'Required to verify your identity at collection.',
       },
     ],
+    cta: {
+      start: "I'm going to collect my TIE",
+      complete: 'I got my TIE card!',
+    },
+    completionPrompt: 'Did you collect your physical TIE card?',
   },
-]
+];

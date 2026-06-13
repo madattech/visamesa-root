@@ -110,7 +110,7 @@ const stylesheet = createStyleSheet(theme => ({
     borderRadius: theme.radii.sm,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
     justifyContent: 'center',
   },
   triggerError: {

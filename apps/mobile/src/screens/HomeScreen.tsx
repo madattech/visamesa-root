@@ -85,7 +85,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
 const stylesheet = createStyleSheet(theme => ({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
   },
   layout: {
     flex: 1,
@@ -108,7 +108,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   footer: {
     paddingTop: theme.spacing.sm,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
   },
   centered: {
     flex: 1,

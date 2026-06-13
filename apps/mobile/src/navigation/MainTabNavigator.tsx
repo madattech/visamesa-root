@@ -61,7 +61,7 @@ const MainTabNavigator = () => {
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: theme.colors.background,
     borderTopColor: theme.colors.outlineVariant,
     borderTopWidth: StyleSheet.hairlineWidth,
     paddingTop: theme.spacing.xs,

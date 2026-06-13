@@ -68,15 +68,15 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
       <KeyboardAvoidingView
         style={styles.flex}
         behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <ProfileHeader />
         <ScrollView
+          style={styles.scroll}
           contentContainerStyle={[
             styles.scrollContent,
-            {paddingBottom: theme.spacing.lg + tabBarInset},
+            {paddingBottom: theme.spacing.md + tabBarInset},
           ]}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}>
-          <ProfileHeader />
-
           {profileError ? (
             <Text variant="bodyMedium" color="error" style={styles.error}>
               {profileError.message}
@@ -100,9 +100,12 @@ const stylesheet = createStyleSheet(theme => ({
   flex: {
     flex: 1,
   },
+  scroll: {
+    flex: 1,
+  },
   scrollContent: {
-    flexGrow: 1,
     paddingHorizontal: theme.spacing.md,
+    paddingTop: theme.spacing.md,
     gap: theme.spacing.lg,
   },
   centered: {
