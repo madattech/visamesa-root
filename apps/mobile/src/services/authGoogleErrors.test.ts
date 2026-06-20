@@ -42,6 +42,8 @@ describe('getGoogleSignInErrorMessage', () => {
       'GOOGLE_ANDROID_CLIENT_ID',
     );
   });
+
+  it('maps cancelled sign-in', () => {
     expect(
       getGoogleSignInErrorMessage(
         Object.assign(new Error('cancelled'), {
