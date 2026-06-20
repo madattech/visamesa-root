@@ -1,6 +1,7 @@
 import { API_ENDPOINTS } from '@/config/api';
 import { getProfile, updateProfile } from '@/features/profile/services/profileService';
 import { cryptoService } from '@/services/cryptoService';
+import { ProfileDecryptionError } from '@/services/profileCryptoErrors';
 import apiClient from '@/services/api';
 
 jest.mock('@/services/api', () => ({
@@ -90,5 +91,48 @@ describe('profileService', () => {
       API_ENDPOINTS.encryptedDetails,
       encryptedPayload,
     );
+  });
+
+  it('rethrows when profile was encrypted on another device', async () => {
+    const encryptedPayload = {
+      ciphertext: 'encrypted',
+      nonce: 'nonce',
+      authTag: 'tag',
+      algorithm: 'AES-256-GCM' as const,
+      keyId: 'device-key-v1',
+      version: 1,
+    };
+
+    mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
+    mockedCryptoService.decrypt.mockRejectedValue(new ProfileDecryptionError());
+
+    await expect(getProfile()).rejects.toThrow(ProfileDecryptionError);
+  });
+
+  it('overwrites unreadable remote profile when saving on a new device', async () => {
+    const encryptedPayload = {
+      ciphertext: 'encrypted',
+      nonce: 'nonce',
+      authTag: 'tag',
+      algorithm: 'AES-256-GCM' as const,
+      keyId: 'device-key-v1',
+      version: 1,
+    };
+    const updatedProfile = {
+      personal: { firstName: 'Ada' },
+      billing: null,
+      residenceRegistration: null,
+    };
+
+    mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
+    mockedCryptoService.decrypt.mockRejectedValue(new ProfileDecryptionError());
+    mockedCryptoService.encrypt.mockResolvedValue(encryptedPayload);
+    mockedApiClient.put.mockResolvedValue({ data: encryptedPayload });
+
+    await expect(
+      updateProfile('personal', { firstName: 'Ada' }),
+    ).resolves.toEqual(updatedProfile);
+
+    expect(mockedCryptoService.encrypt).toHaveBeenCalledWith(updatedProfile);
   });
 });

@@ -1,11 +1,15 @@
 import { API_ENDPOINTS } from '@/config/api';
 import apiClient from '@/services/api';
 import { cryptoService } from '@/services/cryptoService';
+import {
+  ProfileDecryptionError,
+  isProfileDecryptionFailure,
+} from '@/services/profileCryptoErrors';
 import { EncryptedPayload } from '@/types/encrypted';
 
 import { ProfileData, ProfileSection } from '../types/ProfileData';
 
-const EMPTY_PROFILE: ProfileData = {
+export const EMPTY_PROFILE: ProfileData = {
   personal: null,
   billing: null,
   residenceRegistration: null,
@@ -19,6 +23,20 @@ async function fetchEncryptedPayload(): Promise<EncryptedPayload | null> {
   return response.data;
 }
 
+async function decryptProfilePayload(
+  payload: EncryptedPayload,
+): Promise<ProfileData> {
+  try {
+    return await cryptoService.decrypt<ProfileData>(payload);
+  } catch (error) {
+    if (isProfileDecryptionFailure(error)) {
+      throw new ProfileDecryptionError();
+    }
+
+    throw error;
+  }
+}
+
 export async function getProfile(): Promise<ProfileData> {
   const payload = await fetchEncryptedPayload();
 
@@ -26,7 +44,7 @@ export async function getProfile(): Promise<ProfileData> {
     return EMPTY_PROFILE;
   }
 
-  return cryptoService.decrypt<ProfileData>(payload);
+  return decryptProfilePayload(payload);
 }
 
 export async function updateProfile(
@@ -34,9 +52,18 @@ export async function updateProfile(
   data: Record<string, unknown>,
 ): Promise<ProfileData> {
   const payload = await fetchEncryptedPayload();
-  const current = payload
-    ? await cryptoService.decrypt<ProfileData>(payload)
-    : EMPTY_PROFILE;
+  let current = EMPTY_PROFILE;
+
+  if (payload) {
+    try {
+      current = await decryptProfilePayload(payload);
+    } catch (error) {
+      if (!isProfileDecryptionFailure(error)) {
+        throw error;
+      }
+    }
+  }
+
   const updated: ProfileData = { ...current, [section]: data };
   const encrypted = await cryptoService.encrypt(updated);
 

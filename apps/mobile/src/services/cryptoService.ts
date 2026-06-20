@@ -10,6 +10,8 @@ import {
   EncryptedPayload,
 } from '@/types/encrypted';
 
+import { mapProfileDecryptionError } from '@/services/profileCryptoErrors';
+
 const KEYCHAIN_SERVICE = 'visamesa_encryption_key';
 const KEY_ID = 'device-key-v1';
 const ALGORITHM: EncryptedAlgorithm = 'AES-256-GCM';
@@ -92,11 +94,21 @@ export const cryptoService = {
       decipher.setAuthTag(fromBase64(payload.authTag) as never);
     }
 
-    const decrypted = Buffer.concat([
-      decipher.update(ciphertext) as CryptoBytes,
-      decipher.final() as CryptoBytes,
-    ]);
+    try {
+      const decrypted = Buffer.concat([
+        decipher.update(ciphertext) as CryptoBytes,
+        decipher.final() as CryptoBytes,
+      ]);
 
-    return JSON.parse(decrypted.toString('utf8')) as T;
+      return JSON.parse(decrypted.toString('utf8')) as T;
+    } catch (error) {
+      const mapped = mapProfileDecryptionError(error);
+
+      if (mapped) {
+        throw mapped;
+      }
+
+      throw error;
+    }
   },
 };

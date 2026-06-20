@@ -3,6 +3,7 @@ import {useEffect, useMemo, useState} from 'react';
 import {useToast} from '@/components/Toast/ToastProvider';
 import {phoneToString, stringToPhone} from '@/features/forms/utils/phoneUtils';
 import {
+  EMPTY_PROFILE,
   getProfile,
   updateProfile,
 } from '@/features/profile/services/profileService';
@@ -10,6 +11,7 @@ import {
   ProfileData,
   ProfileSection,
 } from '@/features/profile/types/ProfileData';
+import {ProfileDecryptionError} from '@/services/profileCryptoErrors';
 
 type SubmittingState = Record<ProfileSection, boolean>;
 
@@ -62,9 +64,14 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
       })
       .catch(err => {
         if (!cancelled) {
-          setError(
-            err instanceof Error ? err : new Error('Failed to load profile'),
-          );
+          if (err instanceof ProfileDecryptionError) {
+            setProfileData(EMPTY_PROFILE);
+            setError(err);
+          } else {
+            setError(
+              err instanceof Error ? err : new Error('Failed to load profile'),
+            );
+          }
           setIsLoading(false);
         }
       });
