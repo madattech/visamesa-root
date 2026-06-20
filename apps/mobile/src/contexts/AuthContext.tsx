@@ -3,24 +3,24 @@ import React, {
   ReactNode,
   useContext,
   useEffect,
-  useState
-} from 'react'
+  useState,
+} from 'react';
 
-import { authService } from '../services/authService'
-import { User } from '../types'
+import { authService } from '@/services/authService';
+import { User } from '@/types';
 
 interface AuthContextType {
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  signInWithGoogle: () => Promise<void>;
   logout: () => Promise<void>;
   refreshUser: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({children}: {children: ReactNode}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -29,14 +29,15 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   }, []);
 
   const checkAuth = async () => {
-    // TEMP: fake logged-in user for profile UI testing
-    setUser({id: 'test', email: 'test@example.com'});
-    setIsLoading(false);
-    return;
-
     try {
+      const storedUser = await authService.getStoredUser();
+      if (!storedUser) {
+        setUser(null);
+        return;
+      }
+
       const currentUser = await authService.getCurrentUser();
-      setUser(currentUser);
+      setUser(currentUser ?? storedUser);
     } catch (error) {
       console.error('Auth check failed:', error);
       setUser(null);
@@ -45,8 +46,8 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
     }
   };
 
-  const login = async (email: string, password: string) => {
-    const {user: authUser} = await authService.login(email, password);
+  const signInWithGoogle = async () => {
+    const { user: authUser } = await authService.signInWithGoogle();
     setUser(authUser);
   };
 
@@ -66,7 +67,7 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
         user,
         isLoading,
         isAuthenticated: !!user,
-        login,
+        signInWithGoogle,
         logout,
         refreshUser,
       }}>

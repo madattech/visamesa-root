@@ -1,27 +1,46 @@
-import { API_ENDPOINTS } from '@/config/api'
-import apiClient from '@/services/api'
+import { API_ENDPOINTS } from '@/config/api';
+import apiClient from '@/services/api';
+import { cryptoService } from '@/services/cryptoService';
+import { EncryptedPayload } from '@/types/encrypted';
 
-import { ProfileData, ProfileSection } from '../types/ProfileData'
+import { ProfileData, ProfileSection } from '../types/ProfileData';
+
+const EMPTY_PROFILE: ProfileData = {
+  personal: null,
+  billing: null,
+  residenceRegistration: null,
+};
+
+async function fetchEncryptedPayload(): Promise<EncryptedPayload | null> {
+  const response = await apiClient.get<EncryptedPayload | null>(
+    API_ENDPOINTS.encryptedDetails,
+  );
+
+  return response.data;
+}
 
 export async function getProfile(): Promise<ProfileData> {
-  // TEMP: skip profile API for form UI testing
-  return {
-    personal: null,
-    billing: null,
-    residenceRegistration: null,
-  };
+  const payload = await fetchEncryptedPayload();
 
-  const response = await apiClient.get<ProfileData>(API_ENDPOINTS.profile);
-  return response.data;
+  if (!payload) {
+    return EMPTY_PROFILE;
+  }
+
+  return cryptoService.decrypt<ProfileData>(payload);
 }
 
 export async function updateProfile(
   section: ProfileSection,
   data: Record<string, unknown>,
 ): Promise<ProfileData> {
-  const response = await apiClient.patch<ProfileData>(API_ENDPOINTS.profile, {
-    section,
-    data,
-  });
-  return response.data;
+  const payload = await fetchEncryptedPayload();
+  const current = payload
+    ? await cryptoService.decrypt<ProfileData>(payload)
+    : EMPTY_PROFILE;
+  const updated: ProfileData = { ...current, [section]: data };
+  const encrypted = await cryptoService.encrypt(updated);
+
+  await apiClient.put(API_ENDPOINTS.encryptedDetails, encrypted);
+
+  return updated;
 }
