@@ -21,6 +21,7 @@ import {
 } from '@/features/dashboard/utils/progressUtils';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {AutomationId, TieStepDetail} from '@/features/home/types/TieStepDetail';
+import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
 import {
   DashboardStackParamList,
   RootStackParamList,
@@ -195,7 +196,7 @@ export function useDashboardScreen(
   );
 
   const onSignInPress = () => {
-    navigation.navigate('Login');
+    navigateToLoginFromTab(navigation);
   };
 
   const onStepPress = (stepId: number) => {

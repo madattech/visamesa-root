@@ -1,51 +1,32 @@
-import React, {useState} from 'react';
 import {
-  View,
-  TextInput,
-  StyleSheet,
-  Alert,
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  StyleSheet,
+  View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { createStyleSheet, useStyles } from 'react-native-unistyles';
 
-import {Button} from '@/components/ui/Button';
-import {Text} from '@/components/ui/Text';
-import {useAuth} from '@/contexts/AuthContext';
-import {ProfileStackParamList} from '@/navigation/types';
+import { Button } from '@/components/ui/Button';
+import { Text } from '@/components/ui/Text';
+import { useLoginScreen } from '@/features/auth/hooks/useLoginScreen';
+import { ProfileStackParamList } from '@/navigation/types';
 
 type LoginScreenNavigation = NativeStackNavigationProp<
   ProfileStackParamList,
   'Login'
 >;
 
-const LoginScreen = () => {
-  const navigation = useNavigation<LoginScreenNavigation>();
-  const {login} = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+type LoginScreenProps = {
+  navigation: LoginScreenNavigation;
+};
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      Alert.alert('Error', 'Please enter both email and password');
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      await login(email, password);
-      navigation.goBack();
-    } catch (error: any) {
-      Alert.alert(
-        'Login Failed',
-        error.response?.data?.message || 'Invalid email or password',
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+const LoginScreen = ({ navigation }: LoginScreenProps) => {
+  const { styles, theme } = useStyles(stylesheet);
+  const { isLoading, onGoogleSignInPress, onBackPress } =
+    useLoginScreen(navigation);
 
   return (
     <KeyboardAvoidingView
@@ -55,42 +36,34 @@ const LoginScreen = () => {
         <Text variant="headlineSmall" style={styles.title}>
           Sign In
         </Text>
-        <Text variant="bodyMedium" color="onSurfaceVariant" style={styles.subtitle}>
-          Sign in to view and manage your profile
+        <Text
+          variant="bodyMedium"
+          color="onSurfaceVariant"
+          style={styles.subtitle}>
+          Sign in with Google to view and manage your profile
         </Text>
 
-        <View style={styles.form}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            autoCapitalize="none"
-            keyboardType="email-address"
-            editable={!isLoading}
-          />
-
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            editable={!isLoading}
-          />
-
-          <Button
-            label={isLoading ? 'Signing in...' : 'Sign In'}
-            onPress={handleLogin}
-            disabled={isLoading}
-            fullWidth
-            style={styles.button}
-          />
+        <View style={styles.actions}>
+          <View
+            pointerEvents={isLoading ? 'none' : 'auto'}
+            style={styles.googleButtonWrapper}>
+            <GoogleSigninButton
+              size={GoogleSigninButton.Size.Wide}
+              color={GoogleSigninButton.Color.Dark}
+              onPress={onGoogleSignInPress}
+              style={styles.googleButton}
+            />
+            {isLoading ? (
+              <View style={styles.googleLoadingOverlay}>
+                <ActivityIndicator color={theme.colors.primary} />
+              </View>
+            ) : null}
+          </View>
 
           <Button
             label="Back"
             variant="outline"
-            onPress={() => navigation.goBack()}
+            onPress={onBackPress}
             disabled={isLoading}
             fullWidth
           />
@@ -100,41 +73,41 @@ const LoginScreen = () => {
   );
 };
 
-const styles = StyleSheet.create({
+const stylesheet = createStyleSheet(theme => ({
   container: {
     flex: 1,
-    backgroundColor: '#FAFAFA',
+    backgroundColor: theme.colors.background,
   },
   content: {
     flex: 1,
     justifyContent: 'center',
-    padding: 20,
+    padding: theme.spacing.lg,
   },
   title: {
     textAlign: 'center',
-    marginBottom: 10,
-    fontWeight: '600',
+    marginBottom: theme.spacing.sm,
   },
   subtitle: {
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: theme.spacing.xl,
   },
-  form: {
+  actions: {
+    gap: theme.spacing.md,
+  },
+  googleButtonWrapper: {
+    position: 'relative',
+  },
+  googleButton: {
     width: '100%',
-    gap: 15,
+    height: theme.sizes.touchTargetMin + 4,
   },
-  input: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 15,
-    paddingVertical: 12,
-    borderRadius: 8,
-    fontSize: 16,
-    borderWidth: 1,
-    borderColor: '#ddd',
+  googleLoadingOverlay: {
+    ...StyleSheet.absoluteFill,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: theme.colors.surface,
+    opacity: 0.85,
   },
-  button: {
-    marginTop: 10,
-  },
-});
+}));
 
 export default LoginScreen;

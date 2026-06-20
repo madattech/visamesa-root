@@ -39,8 +39,7 @@ export type RootStackParamList = {
     title?: string;
     details?: CitaPreviaDetails;
   };
-  // Legacy automation routes — not mounted yet
-  Login: undefined;
+  // Legacy automation routes — not mounted in RootNavigator yet
   CaseList: undefined;
   Automation: {case: Case};
 };
