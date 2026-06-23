@@ -49,6 +49,8 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onCompleteStep,
     onSelfDeclaredToggle,
     onAutomationPress,
+    onViewAppointmentPress,
+    onClearAutomationPress,
     onFormPress,
   } = useDashboardScreen(navigation);
 
@@ -118,6 +120,8 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
             interactive={canInteractWithRequirements}
             onSelfDeclaredToggle={onSelfDeclaredToggle}
             onAutomationPress={onAutomationPress}
+            onViewAppointmentPress={onViewAppointmentPress}
+            onClearAutomationPress={onClearAutomationPress}
             onFormPress={onFormPress}
           />
         </ScrollView>

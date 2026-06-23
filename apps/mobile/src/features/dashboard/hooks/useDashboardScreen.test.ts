@@ -9,10 +9,6 @@ import {renderHook} from '@/test/renderHook';
 
 const mockShowToast = jest.fn();
 
-jest.mock('@react-navigation/native', () => ({
-  useFocusEffect: jest.fn(),
-}));
-
 jest.mock('@/features/home/hooks/useTieSteps', () => ({
   useTieSteps: jest.fn(),
 }));
@@ -48,6 +44,7 @@ describe('useDashboardScreen', () => {
   const completeStep = jest.fn();
   const toggleSelfDeclaredRequirement = jest.fn();
   const completeAutomationRequirement = jest.fn();
+  const clearAutomationRequirement = jest.fn();
   const completeFormRequirement = jest.fn();
 
   beforeEach(() => {
@@ -55,6 +52,7 @@ describe('useDashboardScreen', () => {
     completeStep.mockReset();
     toggleSelfDeclaredRequirement.mockReset();
     completeAutomationRequirement.mockReset();
+    clearAutomationRequirement.mockReset();
     completeFormRequirement.mockReset();
 
     useTieSteps.mockReturnValue({
@@ -86,6 +84,7 @@ describe('useDashboardScreen', () => {
       completeStep,
       toggleSelfDeclaredRequirement,
       completeAutomationRequirement,
+      clearAutomationRequirement,
       completeFormRequirement,
     });
   });

@@ -19,6 +19,8 @@ type RequirementsChecklistProps = {
   interactive?: boolean;
   onSelfDeclaredToggle: (label: string) => void;
   onAutomationPress: (automationId: AutomationId, label: string) => void;
+  onViewAppointmentPress: (label: string) => void;
+  onClearAutomationPress: (label: string) => void;
   onFormPress: (formId: string, label: string) => void;
 };
 
@@ -27,6 +29,8 @@ export function RequirementsChecklist({
   interactive = true,
   onSelfDeclaredToggle,
   onAutomationPress,
+  onViewAppointmentPress,
+  onClearAutomationPress,
   onFormPress,
 }: RequirementsChecklistProps) {
   const {styles} = useStyles(stylesheet);
@@ -53,6 +57,8 @@ export function RequirementsChecklist({
                 ? onAutomationPress(requirement.automationId, requirement.label)
                 : undefined
             }
+            onViewAppointmentPress={() => onViewAppointmentPress(requirement.label)}
+            onClearAutomationPress={() => onClearAutomationPress(requirement.label)}
             onFormPress={() =>
               requirement.formId
                 ? onFormPress(requirement.formId, requirement.label)

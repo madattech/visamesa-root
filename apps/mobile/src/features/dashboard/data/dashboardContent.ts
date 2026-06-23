@@ -31,3 +31,41 @@ export const getStepOfTotalLabel = (stepId: number, total: number) =>
 
 export const getCompletedInStepHint = (stepId: number) =>
   `You completed this in Step ${stepId}`;
+
+export const APPOINTMENT_DETAILS_PLACEHOLDER =
+  'Your appointment office, date, and time will appear here once VisaMesa confirms a successful booking.';
+
+export const getAppointmentDetailsMessage = (
+  appointment?: {
+    office: string;
+    date: string;
+    time: string;
+    location?: string;
+    confirmationCode?: string;
+    isPlaceholder?: boolean;
+  },
+) => {
+  if (!appointment) {
+    return APPOINTMENT_DETAILS_PLACEHOLDER;
+  }
+
+  if (appointment.isPlaceholder) {
+    return APPOINTMENT_DETAILS_PLACEHOLDER;
+  }
+
+  const lines = [
+    `Office: ${appointment.office}`,
+    `Date: ${appointment.date}`,
+    `Time: ${appointment.time}`,
+  ];
+
+  if (appointment.location) {
+    lines.push(`Location: ${appointment.location}`);
+  }
+
+  if (appointment.confirmationCode) {
+    lines.push(`Confirmation: ${appointment.confirmationCode}`);
+  }
+
+  return lines.join('\n');
+};

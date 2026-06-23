@@ -47,6 +47,31 @@ export async function getProfile(): Promise<ProfileData> {
   return decryptProfilePayload(payload);
 }
 
+/**
+ * Loads only the personal section for WebView automations.
+ * Returns null when unavailable or encrypted on another device (no throw).
+ */
+export async function getPersonalForAutomation(): Promise<
+  Record<string, unknown> | null
+> {
+  const payload = await fetchEncryptedPayload();
+
+  if (!payload) {
+    return null;
+  }
+
+  try {
+    const profile = await decryptProfilePayload(payload);
+    return profile.personal;
+  } catch (error) {
+    if (isProfileDecryptionFailure(error)) {
+      return null;
+    }
+
+    throw error;
+  }
+}
+
 export async function updateProfile(
   section: ProfileSection,
   data: Record<string, unknown>,

@@ -16,6 +16,8 @@ type RequirementItemProps = {
   interactive?: boolean;
   onSelfDeclaredToggle?: () => void;
   onAutomationPress?: () => void;
+  onViewAppointmentPress?: () => void;
+  onClearAutomationPress?: () => void;
   onFormPress?: () => void;
 };
 
@@ -27,15 +29,31 @@ export function RequirementItem({
   interactive = true,
   onSelfDeclaredToggle,
   onAutomationPress,
+  onViewAppointmentPress,
+  onClearAutomationPress,
   onFormPress,
 }: RequirementItemProps) {
   const {styles, theme} = useStyles(stylesheet);
   const completed = progress.completed;
   const canToggle = interactive && !isReferenced;
-  const hasAction =
+  const automationSource =
+    progress.source?.type === 'automation' ? progress.source : undefined;
+  const hasConfirmedAppointment = Boolean(automationSource?.appointment);
+  const canClearAutomation =
+    canToggle &&
+    requirement.type === 'automation' &&
+    completed &&
+    !hasConfirmedAppointment;
+  const hasBookAction =
     canToggle &&
     !completed &&
-    (requirement.type === 'automation' || requirement.type === 'form');
+    requirement.type === 'automation';
+  const hasFormAction =
+    canToggle &&
+    !completed &&
+    requirement.type === 'form';
+  const hasAppointmentAction =
+    requirement.type === 'automation' && completed;
 
   const checkbox = (
     <Icon
@@ -90,24 +108,43 @@ export function RequirementItem({
         {checkbox}
         {content}
       </View>
-      {hasAction ? (
+      {hasBookAction ? (
         <Button
-          label={
-            requirement.type === 'automation'
-              ? 'Book via VisaMesa'
-              : 'Review form filled by VisaMesa'
-          }
+          label="Book via VisaMesa"
           variant="tonal"
-          onPress={
-            requirement.type === 'automation' ? onAutomationPress : onFormPress
-          }
-          accessibilityLabel={
-            requirement.type === 'automation'
-              ? `Book ${requirement.label}`
-              : `Review ${requirement.label}`
-          }
+          onPress={onAutomationPress}
+          accessibilityLabel={`Book ${requirement.label}`}
           style={styles.actionButton}
         />
+      ) : null}
+      {hasFormAction ? (
+        <Button
+          label="Review form filled by VisaMesa"
+          variant="tonal"
+          onPress={onFormPress}
+          accessibilityLabel={`Review ${requirement.label}`}
+          style={styles.actionButton}
+        />
+      ) : null}
+      {hasAppointmentAction ? (
+        <View style={styles.completedActions}>
+          <Button
+            label="View appointment"
+            variant="tonal"
+            onPress={onViewAppointmentPress}
+            accessibilityLabel={`View appointment for ${requirement.label}`}
+            style={styles.actionButton}
+          />
+          {canClearAutomation ? (
+            <Button
+              label="Mark as not booked"
+              variant="outline"
+              onPress={onClearAutomationPress}
+              accessibilityLabel={`Mark ${requirement.label} as not booked`}
+              style={styles.actionButton}
+            />
+          ) : null}
+        </View>
       ) : null}
     </View>
   );
@@ -132,6 +169,9 @@ const stylesheet = createStyleSheet(theme => ({
   actionButton: {
     alignSelf: 'flex-start',
     marginLeft: theme.sizes.icon.lg + theme.spacing.sm,
+  },
+  completedActions: {
+    gap: theme.spacing.xs,
   },
   pressed: {
     backgroundColor: theme.colors.surfaceContainer,
