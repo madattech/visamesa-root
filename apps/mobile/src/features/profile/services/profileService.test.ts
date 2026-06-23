@@ -1,5 +1,9 @@
 import { API_ENDPOINTS } from '@/config/api';
-import { getProfile, updateProfile } from '@/features/profile/services/profileService';
+import {
+  getPersonalForAutomation,
+  getProfile,
+  updateProfile,
+} from '@/features/profile/services/profileService';
 import { cryptoService } from '@/services/cryptoService';
 import { ProfileDecryptionError } from '@/services/profileCryptoErrors';
 import apiClient from '@/services/api';
@@ -93,7 +97,44 @@ describe('profileService', () => {
     );
   });
 
-  it('rethrows when profile was encrypted on another device', async () => {
+  it('returns personal data for automation when profile decrypts', async () => {
+    const profile = {
+      personal: { firstName: 'Ada', documentNumber: 'X1234567A' },
+      billing: null,
+      residenceRegistration: null,
+    };
+    const encryptedPayload = {
+      ciphertext: 'encrypted',
+      nonce: 'nonce',
+      authTag: 'tag',
+      algorithm: 'AES-256-GCM' as const,
+      keyId: 'device-key-v1',
+      version: 1,
+    };
+
+    mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
+    mockedCryptoService.decrypt.mockResolvedValue(profile);
+
+    await expect(getPersonalForAutomation()).resolves.toEqual(profile.personal);
+  });
+
+  it('returns null personal for automation when decrypt fails on another device', async () => {
+    const encryptedPayload = {
+      ciphertext: 'encrypted',
+      nonce: 'nonce',
+      authTag: 'tag',
+      algorithm: 'AES-256-GCM' as const,
+      keyId: 'device-key-v1',
+      version: 1,
+    };
+
+    mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
+    mockedCryptoService.decrypt.mockRejectedValue(new ProfileDecryptionError());
+
+    await expect(getPersonalForAutomation()).resolves.toBeNull();
+  });
+
+  it('rethrows profile decryption errors for profile screen loads', async () => {
     const encryptedPayload = {
       ciphertext: 'encrypted',
       nonce: 'nonce',
