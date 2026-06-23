@@ -8,6 +8,7 @@ import {
   updateStepStatus,
 } from '@/features/dashboard/services/progressService';
 import {
+  AutomationAppointmentSummary,
   RequirementProgress,
   StepStatus,
   UserProgress,
@@ -29,6 +30,11 @@ type UseUserProgressResult = {
     stepId: number,
     requirementLabel: string,
     automationId: string,
+    appointment?: AutomationAppointmentSummary,
+  ) => Promise<void>;
+  clearAutomationRequirement: (
+    stepId: number,
+    requirementLabel: string,
   ) => Promise<void>;
   completeFormRequirement: (
     stepId: number,
@@ -112,7 +118,12 @@ export function useUserProgress(): UseUserProgressResult {
   );
 
   const completeAutomationRequirement = useCallback(
-    async (stepId: number, requirementLabel: string, automationId: string) => {
+    async (
+      stepId: number,
+      requirementLabel: string,
+      automationId: string,
+      appointment?: AutomationAppointmentSummary,
+    ) => {
       if (!progress) {
         return;
       }
@@ -127,8 +138,26 @@ export function useUserProgress(): UseUserProgressResult {
             type: 'automation',
             automationId,
             completedAt: new Date().toISOString(),
+            appointment,
           },
         },
+      );
+      await applyProgress(next);
+    },
+    [applyProgress, progress],
+  );
+
+  const clearAutomationRequirement = useCallback(
+    async (stepId: number, requirementLabel: string) => {
+      if (!progress) {
+        return;
+      }
+
+      const next = await updateRequirementProgress(
+        progress,
+        stepId,
+        requirementLabel,
+        {completed: false},
       );
       await applyProgress(next);
     },
@@ -168,6 +197,7 @@ export function useUserProgress(): UseUserProgressResult {
     completeStep,
     toggleSelfDeclaredRequirement,
     completeAutomationRequirement,
+    clearAutomationRequirement,
     completeFormRequirement,
   };
 }

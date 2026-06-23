@@ -1,6 +1,6 @@
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {Alert} from 'react-native';
-import {CompositeNavigationProp, useFocusEffect} from '@react-navigation/native';
+import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {useToast} from '@/components/Toast/ToastProvider';
@@ -8,6 +8,7 @@ import {useAuth} from '@/contexts/AuthContext';
 import {RequirementWithProgress} from '@/features/dashboard/components/RequirementsChecklist';
 import {
   DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT,
+  getAppointmentDetailsMessage,
   getCompletedInStepHint,
 } from '@/features/dashboard/data/dashboardContent';
 import {useUserProgress} from '@/features/dashboard/hooks/useUserProgress';
@@ -32,12 +33,6 @@ type DashboardScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<DashboardStackParamList, 'Dashboard'>,
   NativeStackNavigationProp<RootStackParamList>
 >;
-
-type PendingAutomation = {
-  stepId: number;
-  requirementLabel: string;
-  automationId: AutomationId;
-};
 
 const AUTOMATION_KIND: Record<AutomationId, WebViewAutomationKind> = {
   empadronamiento: 'empadronamiento',
@@ -65,6 +60,8 @@ export type UseDashboardScreenResult = {
   onCompleteStep: () => void;
   onSelfDeclaredToggle: (label: string) => void;
   onAutomationPress: (automationId: AutomationId, label: string) => void;
+  onViewAppointmentPress: (label: string) => void;
+  onClearAutomationPress: (label: string) => void;
   onFormPress: (formId: string, label: string) => void;
 };
 
@@ -108,11 +105,10 @@ export function useDashboardScreen(
     error: progressError,
     completeStep,
     toggleSelfDeclaredRequirement,
-    completeAutomationRequirement,
+    clearAutomationRequirement,
     completeFormRequirement,
   } = useUserProgress();
 
-  const pendingAutomationRef = useRef<PendingAutomation | null>(null);
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
 
   const activeStepId = progress
@@ -163,37 +159,6 @@ export function useDashboardScreen(
     !isCurrentStepCompleted && currentStepId !== activeStepId
       ? DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT
       : undefined;
-
-  useFocusEffect(
-    useCallback(() => {
-      const pending = pendingAutomationRef.current;
-
-      if (!pending || !progress) {
-        return;
-      }
-
-      pendingAutomationRef.current = null;
-
-      Alert.alert(
-        'Appointment booking',
-        'Did you successfully complete the booking?',
-        [
-          {text: 'Not yet', style: 'cancel'},
-          {
-            text: 'Yes, booked',
-            onPress: async () => {
-              await completeAutomationRequirement(
-                pending.stepId,
-                pending.requirementLabel,
-                pending.automationId,
-              );
-              showToast('Requirement marked complete');
-            },
-          },
-        ],
-      );
-    }, [completeAutomationRequirement, progress, showToast]),
-  );
 
   const onSignInPress = () => {
     navigateToLoginFromTab(navigation);
@@ -267,15 +232,35 @@ export function useDashboardScreen(
       return;
     }
 
-    pendingAutomationRef.current = {
-      stepId: currentStep.id,
-      requirementLabel: label,
-      automationId,
-    };
-
     navigation.navigate('WebsiteWebView', {
       automation: AUTOMATION_KIND[automationId],
     });
+  };
+
+  const onViewAppointmentPress = (label: string) => {
+    if (!progress || !currentStep) {
+      return;
+    }
+
+    const requirementProgress = progress.steps
+      .find(step => step.stepId === currentStep.id)
+      ?.requirements[label];
+
+    const appointment =
+      requirementProgress?.source?.type === 'automation'
+        ? requirementProgress.source.appointment
+        : undefined;
+
+    Alert.alert('Appointment details', getAppointmentDetailsMessage(appointment));
+  };
+
+  const onClearAutomationPress = async (label: string) => {
+    if (!currentStep || isCurrentStepCompleted) {
+      return;
+    }
+
+    await clearAutomationRequirement(currentStep.id, label);
+    showToast('Booking status reset');
   };
 
   const onFormPress = (formId: string, label: string) => {
@@ -323,6 +308,8 @@ export function useDashboardScreen(
     onCompleteStep,
     onSelfDeclaredToggle,
     onAutomationPress,
+    onViewAppointmentPress,
+    onClearAutomationPress,
     onFormPress,
   };
 }
