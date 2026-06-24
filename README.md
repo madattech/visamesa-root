@@ -81,6 +81,10 @@ npm run android    # Android emulator
 
 See each app's README for detailed setup instructions.
 
+**Payments (Stripe checkout from mobile → website):** [../visamesa_be/docs/LOCAL_PAYMENTS.md](../visamesa_be/docs/LOCAL_PAYMENTS.md)
+
+---
+
 ## Prerequisites
 
 **For All Automations**:

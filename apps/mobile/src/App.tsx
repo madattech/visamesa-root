@@ -10,7 +10,10 @@ import { NavigationContainer } from '@react-navigation/native'
 
 import { ToastProvider } from './components/Toast/ToastProvider'
 import { AuthProvider } from './contexts/AuthContext'
-import {linking} from './navigation/linking'
+import { EntitlementsProvider } from './contexts/EntitlementsContext'
+import { linking } from './navigation/linking'
+import { navigationRef } from './navigation/navigationRef'
+import { PaymentReturnListener } from './navigation/PaymentReturnListener'
 import RootNavigator from './navigation/RootNavigator'
 
 function AppStatusBar() {
@@ -31,12 +34,15 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <AuthProvider>
-        <ToastProvider>
-          <AppStatusBar />
-          <NavigationContainer linking={linking}>
-            <RootNavigator />
-          </NavigationContainer>
-        </ToastProvider>
+        <EntitlementsProvider>
+          <ToastProvider>
+            <AppStatusBar />
+            <NavigationContainer ref={navigationRef} linking={linking}>
+              <PaymentReturnListener />
+              <RootNavigator />
+            </NavigationContainer>
+          </ToastProvider>
+        </EntitlementsProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

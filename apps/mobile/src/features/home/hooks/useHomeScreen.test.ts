@@ -1,4 +1,5 @@
 import {act} from 'react';
+import {Alert, Linking} from 'react-native';
 
 import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
@@ -18,18 +19,36 @@ jest.mock('@/components/Toast/ToastProvider', () => ({
   }),
 }));
 
+jest.mock('@/contexts/AuthContext', () => ({
+  useAuth: jest.fn(),
+}));
+
 const {useTieSteps} = jest.requireMock('@/features/home/hooks/useTieSteps') as {
   useTieSteps: jest.Mock;
+};
+
+const {useAuth} = jest.requireMock('@/contexts/AuthContext') as {
+  useAuth: jest.Mock;
 };
 
 describe('useHomeScreen', () => {
   beforeEach(() => {
     mockShowToast.mockReset();
+    jest.spyOn(Alert, 'alert').mockImplementation(jest.fn());
+    jest.spyOn(Linking, 'canOpenURL').mockResolvedValue(true);
+    jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     useTieSteps.mockReturnValue({
       steps: createTieSteps(6),
       isLoading: false,
       error: null,
     });
+    useAuth.mockReturnValue({
+      user: {id: 'user-1', email: 'test@example.com'},
+    });
+  });
+
+  afterEach(() => {
+    jest.restoreAllMocks();
   });
 
   it('defaults to step 1 and updates the active step', () => {
@@ -47,7 +66,19 @@ describe('useHomeScreen', () => {
     expect(getHookState().activeStep?.id).toBe(2);
   });
 
-  it('shows a coming soon toast for the primary action', () => {
+  it('opens the pricing website for signed-in users', async () => {
+    const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
+    const getHookState = renderHook(() => useHomeScreen(navigation));
+
+    await act(async () => {
+      getHookState().onPrimaryPress();
+    });
+
+    expect(Linking.openURL).toHaveBeenCalled();
+  });
+
+  it('prompts unsigned users before opening the pricing website', () => {
+    useAuth.mockReturnValue({user: null});
     const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
@@ -55,7 +86,7 @@ describe('useHomeScreen', () => {
       getHookState().onPrimaryPress();
     });
 
-    expect(mockShowToast).toHaveBeenCalledWith('Coming soon');
+    expect(Alert.alert).toHaveBeenCalled();
   });
 
   it('navigates to the steps screen from the secondary action', () => {

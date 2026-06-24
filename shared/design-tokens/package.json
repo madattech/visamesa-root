@@ -1,0 +1,15 @@
+{
+  "name": "@visamesa/design-tokens",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts",
+    "./css": "./cssVariables.ts",
+    "./colors": "./colors.ts",
+    "./spacing": "./spacing.ts",
+    "./typography": "./typography.ts",
+    "./radii": "./radii.ts",
+    "./sizes": "./sizes.ts"
+  }
+}

@@ -1,11 +1,21 @@
+const path = require('path');
 const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 
-/**
- * Metro configuration
- * https://reactnative.dev/docs/metro
- *
- * @type {import('metro-config').MetroConfig}
- */
-const config = {};
+const projectRoot = __dirname;
+const monorepoRoot = path.resolve(projectRoot, '../..');
+const designTokensRoot = path.resolve(monorepoRoot, 'shared/design-tokens');
 
-module.exports = mergeConfig(getDefaultConfig(__dirname), config);
+/**
+ * Metro must watch the shared design-tokens package (linked via file: dependency).
+ */
+const config = {
+  watchFolders: [designTokensRoot],
+  resolver: {
+    nodeModulesPaths: [
+      path.resolve(projectRoot, 'node_modules'),
+      path.resolve(monorepoRoot, 'node_modules'),
+    ],
+  },
+};
+
+module.exports = mergeConfig(getDefaultConfig(projectRoot), config);

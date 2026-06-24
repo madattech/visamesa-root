@@ -10,7 +10,7 @@ export const API_BASE_URL = __DEV__
       android: 'http://10.0.2.2:3000',
       default: 'http://localhost:3000',
     })!
-  : 'https://your-production-api.com';
+  : 'https://visamesa-be-1052558133908.europe-west1.run.app';
 
 export const API_ENDPOINTS = {
   // Auth
@@ -29,4 +29,7 @@ export const API_ENDPOINTS = {
 
   // Forms (future BE)
   formSchema: (formId: string) => `/forms/schema/${formId}`,
+
+  // Payments
+  paymentEntitlements: '/payments/entitlements',
 };

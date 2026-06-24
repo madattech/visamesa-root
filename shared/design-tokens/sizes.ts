@@ -1,9 +1,3 @@
-/**
- * Shared dimension tokens for icons, touch targets, and layout constants.
- */
-
-export type Sizes = typeof sizes;
-
 export const sizes = {
   touchTargetMin: 44,
   icon: {
@@ -17,4 +11,7 @@ export const sizes = {
     itemWidth: 72,
   },
   contentMaxWidth: 480,
-} as const;
+  marketingMaxWidth: 1120,
+} as const
+
+export type Sizes = typeof sizes

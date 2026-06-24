@@ -1,9 +1,9 @@
 /**
  * VisaMesa brand colors mapped to Material Design 3 token structure.
- * Neutral gray surfaces — navy/orange reserved for brand accents only.
+ * Source of truth for mobile app and website.
  */
 
-export const lightColors: ColorTokens = {
+export const lightColors = {
   primary: '#00215E',
   onPrimary: '#FFFFFF',
   primaryContainer: '#E8EAED',
@@ -47,9 +47,9 @@ export const lightColors: ColorTokens = {
 
   shadow: '#000000',
   scrim: '#000000',
-};
+} as const
 
-export const darkColors: ColorTokens = {
+export const darkColors = {
   primary: '#A8C7FA',
   onPrimary: '#002F65',
   primaryContainer: '#3A3A3F',
@@ -93,41 +93,8 @@ export const darkColors: ColorTokens = {
 
   shadow: '#000000',
   scrim: '#000000',
-};
+} as const
 
 export type ColorTokens = {
-  primary: string;
-  onPrimary: string;
-  primaryContainer: string;
-  onPrimaryContainer: string;
-  secondary: string;
-  onSecondary: string;
-  secondaryContainer: string;
-  onSecondaryContainer: string;
-  tertiary: string;
-  onTertiary: string;
-  tertiaryContainer: string;
-  onTertiaryContainer: string;
-  error: string;
-  onError: string;
-  errorContainer: string;
-  onErrorContainer: string;
-  success: string;
-  onSuccess: string;
-  successContainer: string;
-  onSuccessContainer: string;
-  surface: string;
-  onSurface: string;
-  surfaceVariant: string;
-  onSurfaceVariant: string;
-  surfaceContainer: string;
-  surfaceContainerHigh: string;
-  outline: string;
-  outlineVariant: string;
-  background: string;
-  onBackground: string;
-  inverseSurface: string;
-  inverseOnSurface: string;
-  shadow: string;
-  scrim: string;
+  [Key in keyof typeof lightColors]: string;
 };
