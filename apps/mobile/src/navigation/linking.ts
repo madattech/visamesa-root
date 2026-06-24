@@ -4,10 +4,10 @@ import {RootStackParamList} from '@/navigation/types';
 
 /**
  * Deep link paths aligned with visamesa_fe routes.
- * Wire up when auth and universal links are ready.
+ * Payment return uses visamesa://checkout/success (handled by PaymentReturnListener).
  */
 export const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: ['visamesa://'],
+  prefixes: ['visamesa://', 'https://visa-mesa.web.app'],
   config: {
     screens: {
       MainTabs: {

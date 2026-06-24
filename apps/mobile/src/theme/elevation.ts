@@ -5,7 +5,7 @@
 
 import {Platform, ViewStyle} from 'react-native';
 
-import {ColorTokens} from './colors';
+import {type ColorTokens} from '@visamesa/design-tokens/colors';
 
 export type ElevationLevel = 0 | 1 | 2 | 3 | 4 | 5;
 

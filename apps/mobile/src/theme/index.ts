@@ -4,32 +4,44 @@
  * Exports theme tokens (colors, spacing, typography) and Unistyles configuration.
  */
 
-import {lightColors, darkColors} from './colors';
-import {motion} from './motion';
-import {radii} from './radii';
-import {sizes} from './sizes';
-import {spacing} from './spacing';
-import {typography} from './typography';
+import {
+  lightColors,
+  darkColors,
+  type ColorTokens,
+} from '@visamesa/design-tokens/colors';
+import { radii } from '@visamesa/design-tokens/radii';
+import { sizes } from '@visamesa/design-tokens/sizes';
+import { spacing } from '@visamesa/design-tokens/spacing';
+import { typography } from '@visamesa/design-tokens/typography';
 
-export const lightTheme = {
+import { motion } from './motion';
+
+export type AppTheme = {
+  colors: ColorTokens;
+  spacing: typeof spacing;
+  typography: typeof typography;
+  radii: typeof radii;
+  sizes: typeof sizes;
+  motion: typeof motion;
+};
+
+export const lightTheme: AppTheme = {
   colors: lightColors,
   spacing,
   typography,
   radii,
   sizes,
   motion,
-} as const;
+};
 
-export const darkTheme = {
+export const darkTheme: AppTheme = {
   colors: darkColors,
   spacing,
   typography,
   radii,
   sizes,
   motion,
-} as const;
-
-export type AppTheme = typeof lightTheme;
+};
 
 declare module 'react-native-unistyles' {
   export interface UnistylesThemes {
@@ -39,11 +51,7 @@ declare module 'react-native-unistyles' {
 }
 
 export {lightColors, darkColors, spacing, typography, radii, sizes, motion};
-export * from './colors';
+export * from '@visamesa/design-tokens/colors';
 export * from './elevation';
 export * from './fonts';
 export * from './motion';
-export * from './radii';
-export * from './sizes';
-export * from './spacing';
-export * from './typography';

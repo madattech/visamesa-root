@@ -1,10 +1,12 @@
 import {useEffect, useMemo, useState} from 'react';
-import {Alert} from 'react-native';
+import {Alert, Linking} from 'react-native';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {useToast} from '@/components/Toast/ToastProvider';
+import {WEBSITE_PRICING_URL} from '@/config/website';
 import {useAuth} from '@/contexts/AuthContext';
+import {useEntitlements} from '@/contexts/EntitlementsContext';
 import {RequirementWithProgress} from '@/features/dashboard/components/RequirementsChecklist';
 import {
   DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT,
@@ -97,6 +99,7 @@ export function useDashboardScreen(
   navigation: DashboardScreenNavigation,
 ): UseDashboardScreenResult {
   const {user, isLoading: isAuthLoading} = useAuth();
+  const {canUseAutomation: canUseAutomationEntitlement} = useEntitlements();
   const {showToast} = useToast();
   const {steps, isLoading: isStepsLoading, error: stepsError} = useTieSteps();
   const {
@@ -229,6 +232,23 @@ export function useDashboardScreen(
 
   const onAutomationPress = (automationId: AutomationId, label: string) => {
     if (!currentStep || isCurrentStepCompleted) {
+      return;
+    }
+
+    if (!canUseAutomationEntitlement(automationId)) {
+      Alert.alert(
+        'VisaMesa service required',
+        'Appointment automation is included in our paid service. Complete payment on our website, then sign in here with the same Google account.',
+        [
+          {text: 'Not now', style: 'cancel'},
+          {
+            text: 'Get service',
+            onPress: () => {
+              void Linking.openURL(WEBSITE_PRICING_URL);
+            },
+          },
+        ],
+      );
       return;
     }
 
