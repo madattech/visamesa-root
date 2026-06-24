@@ -65,6 +65,8 @@ open ios/VisaMesa.xcworkspace  # Or open in Xcode GUI
 
 **That's it!** Skip to [Running the App](#running-the-app) if setup works.
 
+**Payments (website checkout + entitlements):** [../../../visamesa_be/docs/LOCAL_PAYMENTS.md](../../../visamesa_be/docs/LOCAL_PAYMENTS.md)
+
 ---
 
 ## Complete Environment Setup
