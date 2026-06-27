@@ -34,8 +34,6 @@ describe('profileService', () => {
   it('fetches and decrypts the current user profile', async () => {
     const profile = {
       personal: { firstName: 'Ada' },
-      billing: null,
-      residenceRegistration: null,
     };
     const encryptedPayload = {
       ciphertext: 'encrypted',
@@ -61,8 +59,6 @@ describe('profileService', () => {
 
     await expect(getProfile()).resolves.toEqual({
       personal: null,
-      billing: null,
-      residenceRegistration: null,
     });
     expect(mockedCryptoService.decrypt).not.toHaveBeenCalled();
   });
@@ -70,8 +66,6 @@ describe('profileService', () => {
   it('updates a profile section with encrypted payload', async () => {
     const updatedProfile = {
       personal: { firstName: 'Ada' },
-      billing: null,
-      residenceRegistration: null,
     };
     const encryptedPayload = {
       ciphertext: 'encrypted',
@@ -100,8 +94,6 @@ describe('profileService', () => {
   it('returns personal data for automation when profile decrypts', async () => {
     const profile = {
       personal: { firstName: 'Ada', documentNumber: 'X1234567A' },
-      billing: null,
-      residenceRegistration: null,
     };
     const encryptedPayload = {
       ciphertext: 'encrypted',
@@ -161,8 +153,6 @@ describe('profileService', () => {
     };
     const updatedProfile = {
       personal: { firstName: 'Ada' },
-      billing: null,
-      residenceRegistration: null,
     };
 
     mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
@@ -175,5 +165,34 @@ describe('profileService', () => {
     ).resolves.toEqual(updatedProfile);
 
     expect(mockedCryptoService.encrypt).toHaveBeenCalledWith(updatedProfile);
+  });
+
+  it('migrates legacy profile data from old three-section format', async () => {
+    const legacyProfile = {
+      personal: { firstName: 'Ada' },
+      billing: { iban: 'ES123' },
+      residenceRegistration: { address: '123 Main St', city: 'Barcelona' },
+    };
+    const encryptedPayload = {
+      ciphertext: 'encrypted',
+      nonce: 'nonce',
+      authTag: 'tag',
+      algorithm: 'AES-256-GCM' as const,
+      keyId: 'device-key-v1',
+      version: 1,
+    };
+
+    mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
+    mockedCryptoService.decrypt.mockResolvedValue(legacyProfile);
+
+    const result = await getProfile();
+
+    expect(result.personal).toMatchObject({
+      firstName: 'Ada',
+      address: '123 Main St',
+      city: 'Barcelona',
+    });
+    expect(result).not.toHaveProperty('billing');
+    expect(result).not.toHaveProperty('residenceRegistration');
   });
 });

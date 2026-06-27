@@ -22,6 +22,7 @@ export type FormField = {
   required?: boolean;
   placeholder?: string;
   pattern?: string;
+  helperText?: string;
   options?: FormFieldOption[];
   dependsOn?: {
     fieldId: string;

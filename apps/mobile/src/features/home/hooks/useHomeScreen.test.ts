@@ -23,12 +23,30 @@ jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
 
+jest.mock('@/hooks/useProcessReadiness', () => ({
+  useProcessReadiness: jest.fn(),
+}));
+
+jest.mock('@/navigation/navigationRef', () => ({
+  navigateToDashboard: jest.fn(),
+  navigateToProfile: jest.fn(),
+}));
+
 const {useTieSteps} = jest.requireMock('@/features/home/hooks/useTieSteps') as {
   useTieSteps: jest.Mock;
 };
 
 const {useAuth} = jest.requireMock('@/contexts/AuthContext') as {
   useAuth: jest.Mock;
+};
+
+const {useProcessReadiness} = jest.requireMock('@/hooks/useProcessReadiness') as {
+  useProcessReadiness: jest.Mock;
+};
+
+const {navigateToDashboard, navigateToProfile} = jest.requireMock('@/navigation/navigationRef') as {
+  navigateToDashboard: jest.Mock;
+  navigateToProfile: jest.Mock;
 };
 
 describe('useHomeScreen', () => {
@@ -44,6 +62,11 @@ describe('useHomeScreen', () => {
     });
     useAuth.mockReturnValue({
       user: {id: 'user-1', email: 'test@example.com'},
+    });
+    useProcessReadiness.mockReturnValue({
+      canStartProcess: false,
+      isLoading: false,
+      missing: ['payment'],
     });
   });
 
@@ -66,7 +89,7 @@ describe('useHomeScreen', () => {
     expect(getHookState().activeStep?.id).toBe(2);
   });
 
-  it('opens the pricing website for signed-in users', async () => {
+  it('shows prerequisites modal for signed-in users without payment', async () => {
     const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
@@ -74,7 +97,8 @@ describe('useHomeScreen', () => {
       getHookState().onPrimaryPress();
     });
 
-    expect(Linking.openURL).toHaveBeenCalled();
+    expect(getHookState().showPrerequisitesModal).toBe(true);
+    expect(Linking.openURL).not.toHaveBeenCalled();
   });
 
   it('prompts unsigned users before opening the pricing website', () => {
@@ -98,5 +122,25 @@ describe('useHomeScreen', () => {
     });
 
     expect(navigation.navigate).toHaveBeenCalledWith('Steps');
+  });
+
+  it('navigates to dashboard when user can start process', () => {
+    useProcessReadiness.mockReturnValue({
+      canStartProcess: true,
+      isLoading: false,
+      missing: [],
+    });
+    jest.clearAllMocks();
+    jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
+    
+    const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
+    const getHookState = renderHook(() => useHomeScreen(navigation));
+
+    act(() => {
+      getHookState().onPrimaryPress();
+    });
+
+    expect(navigateToDashboard).toHaveBeenCalled();
+    expect(Linking.openURL).not.toHaveBeenCalled();
   });
 });

@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import {Platform, Pressable} from 'react-native';
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from '@react-native-community/datetimepicker';
+import {Modal, Platform, Pressable, View} from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import {Controller, useFormContext} from 'react-hook-form';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
@@ -26,12 +24,18 @@ const formatDate = (value: string) => {
   return date.toLocaleDateString();
 };
 
-const toIsoDate = (date: Date) => date.toISOString().split('T')[0];
+const toIsoDate = (date: Date) => {
+  if (!date || typeof date.toISOString !== 'function') {
+    return '';
+  }
+  return date.toISOString().split('T')[0];
+};
 
 export function DateInputField({field}: Props) {
   const {styles, theme} = useStyles(stylesheet);
   const {control} = useFormContext();
   const [showPicker, setShowPicker] = useState(false);
+  const [tempDate, setTempDate] = useState<Date | null>(null);
 
   return (
     <Controller
@@ -43,16 +47,28 @@ export function DateInputField({field}: Props) {
           ? new Date(currentValue)
           : new Date();
 
-        const handleChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-          if (Platform.OS === 'android') {
-            setShowPicker(false);
+        const handleValueChange = (_event: any, selectedDate?: Date) => {
+          if (selectedDate && typeof selectedDate.toISOString === 'function') {
+            if (Platform.OS === 'ios') {
+              setTempDate(selectedDate);
+            } else {
+              controllerField.onChange(toIsoDate(selectedDate));
+              setShowPicker(false);
+            }
           }
+        };
 
-          if (event.type === 'dismissed' || !selectedDate) {
-            return;
+        const handleDismiss = () => {
+          setShowPicker(false);
+          setTempDate(null);
+        };
+
+        const handleDone = () => {
+          if (tempDate) {
+            controllerField.onChange(toIsoDate(tempDate));
           }
-
-          controllerField.onChange(toIsoDate(selectedDate));
+          setShowPicker(false);
+          setTempDate(null);
         };
 
         return (
@@ -83,13 +99,52 @@ export function DateInputField({field}: Props) {
                 {fieldState.error.message}
               </Text>
             ) : null}
-            {showPicker ? (
+            {showPicker && Platform.OS === 'android' ? (
               <DateTimePicker
                 value={pickerDate}
                 mode="date"
-                display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                onChange={handleChange}
+                display="default"
+                onValueChange={handleValueChange}
+                onDismiss={handleDismiss}
               />
+            ) : null}
+            {showPicker && Platform.OS === 'ios' ? (
+              <Modal
+                visible={showPicker}
+                transparent
+                animationType="fade"
+                onRequestClose={handleDismiss}>
+                <Pressable
+                  style={styles.backdrop}
+                  accessibilityRole="button"
+                  accessibilityLabel="Close date picker"
+                  onPress={handleDismiss}
+                />
+                <View style={styles.sheet}>
+                  <View style={styles.sheetHeader}>
+                    <Pressable onPress={handleDismiss}>
+                      <Text variant="bodyLarge" color="primary">
+                        Cancel
+                      </Text>
+                    </Pressable>
+                    <Text variant="titleMedium" style={styles.sheetTitle}>
+                      {field.label}
+                    </Text>
+                    <Pressable onPress={handleDone}>
+                      <Text variant="bodyLarge" color="primary" style={styles.doneButton}>
+                        Done
+                      </Text>
+                    </Pressable>
+                  </View>
+                  <DateTimePicker
+                    value={tempDate || pickerDate}
+                    mode="date"
+                    display="spinner"
+                    onValueChange={handleValueChange}
+                    themeVariant={theme.colorScheme === 'dark' ? 'dark' : 'light'}
+                  />
+                </View>
+              </Modal>
             ) : null}
           </>
         );
@@ -121,5 +176,31 @@ const stylesheet = createStyleSheet(theme => ({
   },
   error: {
     marginTop: theme.spacing.xs / 2,
+  },
+  backdrop: {
+    flex: 1,
+    backgroundColor: theme.colors.scrim,
+    opacity: 0.32,
+  },
+  sheet: {
+    backgroundColor: theme.colors.background,
+    borderTopLeftRadius: theme.radii.lg,
+    borderTopRightRadius: theme.radii.lg,
+    paddingBottom: theme.spacing.xl,
+  },
+  sheetHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: theme.spacing.lg,
+    paddingVertical: theme.spacing.md,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.outlineVariant,
+  },
+  sheetTitle: {
+    fontWeight: '600',
+  },
+  doneButton: {
+    fontWeight: '600',
   },
 }));

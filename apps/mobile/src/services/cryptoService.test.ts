@@ -54,8 +54,6 @@ describe('cryptoService', () => {
   it('encrypts and decrypts profile payloads', async () => {
     const profile = {
       personal: { firstName: 'Ada' },
-      billing: null,
-      residenceRegistration: null,
     };
 
     const encrypted = await cryptoService.encrypt(profile);

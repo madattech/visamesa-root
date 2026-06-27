@@ -1,14 +1,16 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
-import {RouteProp} from '@react-navigation/native';
+import {RouteProp, useNavigation} from '@react-navigation/native';
 
 import {InternalDetailScreenLayout} from '@/components/layout/InternalDetailScreenLayout';
 import {DynamicForm} from '@/features/forms/components/DynamicForm';
+import {ConsentDialog} from '@/features/profile/components/ConsentDialog';
 import {useFormSchema} from '@/features/forms/hooks/useFormSchema';
 import {useProfileSectionScreen} from '@/features/profile/hooks/useProfileSectionScreen';
 import {Text} from '@/components/ui/Text';
 import {ProfileStackParamList} from '@/navigation/types';
+import {consentService} from '@/services/consentService';
 
 type ProfileSectionScreenProps = {
   route: RouteProp<ProfileStackParamList, 'ProfileSection'>;
@@ -16,9 +18,51 @@ type ProfileSectionScreenProps = {
 
 const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const navigation = useNavigation();
   const {formId, initialValues, isSubmitting, onSubmit} =
     useProfileSectionScreen(route);
   const {schema, isLoading, error} = useFormSchema(formId);
+  const [showConsentDialog, setShowConsentDialog] = useState(false);
+  const [pendingData, setPendingData] = useState<Record<string, unknown> | null>(
+    null,
+  );
+
+  const handleSubmit = async (data: Record<string, unknown>) => {
+    // Check if consent has been given
+    const hasConsent = await consentService.hasAcceptedConsent();
+
+    if (!hasConsent) {
+      // Show consent dialog
+      setPendingData(data);
+      setShowConsentDialog(true);
+      return;
+    }
+
+    // Consent already given, proceed with save
+    await onSubmit(data);
+  };
+
+  const handleConsentAccept = async () => {
+    try {
+      await consentService.recordConsent();
+      setShowConsentDialog(false);
+
+      // Now save the pending data
+      if (pendingData) {
+        await onSubmit(pendingData);
+        setPendingData(null);
+      }
+    } catch (error) {
+      // Error handling is done in ConsentDialog
+      throw error;
+    }
+  };
+
+  const handleConsentDecline = () => {
+    setShowConsentDialog(false);
+    setPendingData(null);
+    navigation.goBack();
+  };
 
   return (
     <InternalDetailScreenLayout keyboardAvoiding>
@@ -31,13 +75,21 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
           {error.message}
         </Text>
       ) : schema ? (
-        <DynamicForm
-          schema={schema}
-          onSubmit={onSubmit}
-          isSubmitting={isSubmitting}
-          initialValues={initialValues}
-          submitButtonText="Save"
-        />
+        <>
+          <DynamicForm
+            schema={schema}
+            onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
+            initialValues={initialValues}
+            submitButtonText="Save"
+          />
+          {showConsentDialog ? (
+            <ConsentDialog
+              onAccept={handleConsentAccept}
+              onDecline={handleConsentDecline}
+            />
+          ) : null}
+        </>
       ) : null}
     </InternalDetailScreenLayout>
   );

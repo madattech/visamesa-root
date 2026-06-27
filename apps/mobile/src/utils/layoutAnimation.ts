@@ -1,8 +1,12 @@
-import {LayoutAnimation, UIManager} from 'react-native';
+import {LayoutAnimation, Platform, UIManager} from 'react-native';
 
 import {motion} from '@/theme';
 
-if (UIManager.setLayoutAnimationEnabledExperimental) {
+if (
+  Platform.OS === 'android' &&
+  UIManager.setLayoutAnimationEnabledExperimental &&
+  !global.nativeFabricUIManager
+) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 

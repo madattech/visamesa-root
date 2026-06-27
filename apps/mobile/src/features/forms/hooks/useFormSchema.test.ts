@@ -4,11 +4,11 @@ import {renderHookAsync} from '@/test/renderHook';
 describe('useFormSchema', () => {
   it('loads a known schema', async () => {
     const getHookState = await renderHookAsync(
-      () => useFormSchema('profile-billing'),
+      () => useFormSchema('profile-personal'),
       result => !result.isLoading,
     );
 
-    expect(getHookState().schema?.formId).toBe('profile-billing');
+    expect(getHookState().schema?.formId).toBe('profile-personal');
     expect(getHookState().error).toBeNull();
   });
 });

@@ -23,14 +23,9 @@ export function useProfileSectionScreen(
   const section = getProfileSection(sectionId);
 
   const {
-    profileData,
     personalInitialValues,
     isSubmittingPersonal,
-    isSubmittingBilling,
-    isSubmittingResidenceRegistration,
     submitPersonal,
-    submitBilling,
-    submitResidenceRegistration,
   } = useProfileData();
 
   const sectionState: Record<
@@ -45,16 +40,6 @@ export function useProfileSectionScreen(
       initialValues: personalInitialValues,
       isSubmitting: isSubmittingPersonal,
       onSubmit: submitPersonal,
-    },
-    billing: {
-      initialValues: profileData?.billing ?? {},
-      isSubmitting: isSubmittingBilling,
-      onSubmit: submitBilling,
-    },
-    residenceRegistration: {
-      initialValues: profileData?.residenceRegistration ?? {},
-      isSubmitting: isSubmittingResidenceRegistration,
-      onSubmit: submitResidenceRegistration,
     },
   };
 

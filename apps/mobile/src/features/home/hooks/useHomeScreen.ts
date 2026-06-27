@@ -9,6 +9,8 @@ import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {HomeStackParamList} from '@/navigation/types';
 import {configureLayoutAnimation} from '@/utils/layoutAnimation';
+import {useProcessReadiness} from '@/hooks/useProcessReadiness';
+import {navigateToDashboard, navigateToProfile} from '@/navigation/navigationRef';
 
 const DEFAULT_STEP_ID = 1;
 
@@ -26,6 +28,10 @@ export type UseHomeScreenResult = {
   onStepPress: (stepId: number) => void;
   onPrimaryPress: () => void;
   onSecondaryPress: () => void;
+  showPrerequisitesModal: boolean;
+  onClosePrerequisitesModal: () => void;
+  onGetServicePress: () => void;
+  onCompleteProfilePress: () => void;
 };
 
 export function useHomeScreen(
@@ -34,7 +40,9 @@ export function useHomeScreen(
   const {steps, isLoading, error} = useTieSteps();
   const {user} = useAuth();
   const {showToast} = useToast();
+  const {canStartProcess, missing} = useProcessReadiness();
   const [activeStepId, setActiveStepId] = useState(DEFAULT_STEP_ID);
+  const [showPrerequisitesModal, setShowPrerequisitesModal] = useState(false);
 
   const activeStep = useMemo(
     () => steps.find(step => step.id === activeStepId),
@@ -73,11 +81,32 @@ export function useHomeScreen(
       return;
     }
 
-    void openPricingWebsite();
+    // If user has paid and completed profile, navigate to dashboard
+    if (canStartProcess) {
+      navigateToDashboard();
+      return;
+    }
+
+    // Otherwise, show prerequisites modal
+    setShowPrerequisitesModal(true);
   };
 
   const onSecondaryPress = () => {
     navigation.navigate('Steps');
+  };
+
+  const onClosePrerequisitesModal = () => {
+    setShowPrerequisitesModal(false);
+  };
+
+  const onGetServicePress = () => {
+    setShowPrerequisitesModal(false);
+    void openPricingWebsite();
+  };
+
+  const onCompleteProfilePress = () => {
+    setShowPrerequisitesModal(false);
+    navigateToProfile();
   };
 
   return {
@@ -89,5 +118,9 @@ export function useHomeScreen(
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
+    showPrerequisitesModal,
+    onClosePrerequisitesModal,
+    onGetServicePress,
+    onCompleteProfilePress,
   };
 }

@@ -4,7 +4,9 @@ import { Linking } from 'react-native';
 import { useToast } from '@/components/Toast/ToastProvider';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEntitlements } from '@/contexts/EntitlementsContext';
+import { useProfileCompletion } from '@/contexts/ProfileCompletionContext';
 import { navigateToDashboard } from '@/navigation/navigationRef';
+import { navigationRef } from '@/navigation/navigationRef';
 
 function isCheckoutSuccessUrl(url: string): boolean {
   const normalized = url.toLowerCase();
@@ -18,6 +20,7 @@ function isCheckoutSuccessUrl(url: string): boolean {
 export function PaymentReturnListener() {
   const { isAuthenticated } = useAuth();
   const { waitForPaidService } = useEntitlements();
+  const { refreshCompletion } = useProfileCompletion();
   const { showToast } = useToast();
 
   useEffect(() => {
@@ -33,13 +36,25 @@ export function PaymentReturnListener() {
 
       const isReady = await waitForPaidService();
 
-      if (isReady) {
-        showToast('Your VisaMesa service is ready');
-      } else {
+      if (!isReady) {
         showToast('Payment received — syncing your service');
+        navigateToDashboard();
+        return;
       }
 
-      navigateToDashboard();
+      // Payment is ready, check profile completion
+      const freshIsComplete = await refreshCompletion();
+
+      if (freshIsComplete) {
+        showToast('Your VisaMesa service is ready');
+        navigateToDashboard();
+      } else {
+        showToast('Payment received — please complete your profile to start');
+        navigationRef.navigate('MainTabs', {
+          screen: 'ProfileTab',
+          params: { screen: 'Profile' },
+        } as never);
+      }
     }
 
     void Linking.getInitialURL().then(handlePaymentReturn);
@@ -51,7 +66,7 @@ export function PaymentReturnListener() {
     return () => {
       subscription.remove();
     };
-  }, [isAuthenticated, waitForPaidService, showToast]);
+  }, [isAuthenticated, waitForPaidService, refreshCompletion, showToast]);
 
   return null;
 }
