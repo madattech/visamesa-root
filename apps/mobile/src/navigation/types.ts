@@ -20,6 +20,7 @@ export type ProfileStackParamList = {
   ProfileSection: {
     sectionId: ProfileSectionId;
   };
+  Legal: undefined;
   Login: undefined;
 };
 

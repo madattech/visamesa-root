@@ -7,18 +7,19 @@ import {
   getProfile,
   updateProfile,
 } from '@/features/profile/services/profileService';
+import {profileCompletionService} from '@/features/profile/services/profileCompletionService';
 import {
   ProfileData,
   ProfileSection,
 } from '@/features/profile/types/ProfileData';
+import {isProfileComplete} from '@/features/profile/utils/profileCompleteness';
 import {ProfileDecryptionError} from '@/services/profileCryptoErrors';
+import {useProfileCompletion} from '@/contexts/ProfileCompletionContext';
 
 type SubmittingState = Record<ProfileSection, boolean>;
 
 const INITIAL_SUBMITTING: SubmittingState = {
   personal: false,
-  billing: false,
-  residenceRegistration: false,
 };
 
 export type UseProfileResult = {
@@ -27,15 +28,12 @@ export type UseProfileResult = {
   error: Error | null;
   personalInitialValues: Record<string, unknown>;
   isSubmittingPersonal: boolean;
-  isSubmittingBilling: boolean;
-  isSubmittingResidenceRegistration: boolean;
   submitPersonal: (data: Record<string, unknown>) => Promise<void>;
-  submitBilling: (data: Record<string, unknown>) => Promise<void>;
-  submitResidenceRegistration: (data: Record<string, unknown>) => Promise<void>;
 };
 
 export function useProfile(isEnabled: boolean): UseProfileResult {
   const {showToast} = useToast();
+  const {refreshCompletion} = useProfileCompletion();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(isEnabled);
   const [error, setError] = useState<Error | null>(null);
@@ -56,13 +54,17 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
     setError(null);
 
     getProfile()
-      .then(data => {
+      .then(async data => {
         if (!cancelled) {
           setProfileData(data);
           setIsLoading(false);
+
+          // Update the completion flag
+          const complete = isProfileComplete(data);
+          await profileCompletionService.setIsComplete(complete);
         }
       })
-      .catch(err => {
+      .catch(async err => {
         if (!cancelled) {
           if (err instanceof ProfileDecryptionError) {
             setProfileData(EMPTY_PROFILE);
@@ -73,6 +75,9 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
             );
           }
           setIsLoading(false);
+
+          // Profile not complete if it failed to load
+          await profileCompletionService.setIsComplete(false);
         }
       });
 
@@ -123,6 +128,14 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
 
       const result = await updateProfile(section, payload);
       setProfileData(result);
+
+      // Update the completion flag
+      const complete = isProfileComplete(result);
+      await profileCompletionService.setIsComplete(complete);
+
+      // Refresh the context to pick up the new completion status
+      await refreshCompletion();
+
       showToast(successMessage);
     } catch (err) {
       const message =
@@ -140,21 +153,11 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
     error,
     personalInitialValues,
     isSubmittingPersonal: submitting.personal,
-    isSubmittingBilling: submitting.billing,
-    isSubmittingResidenceRegistration: submitting.residenceRegistration,
     submitPersonal: data =>
       submitSection(
         'personal',
         data,
         'Personal information saved successfully!',
-      ),
-    submitBilling: data =>
-      submitSection('billing', data, 'Billing details saved successfully!'),
-    submitResidenceRegistration: data =>
-      submitSection(
-        'residenceRegistration',
-        data,
-        'Residence registration details saved successfully!',
       ),
   };
 }

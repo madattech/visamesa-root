@@ -24,7 +24,10 @@ import {
 } from '@/features/dashboard/utils/progressUtils';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {AutomationId, TieStepDetail} from '@/features/home/types/TieStepDetail';
+import {PREREQUISITES_BUTTON_LABEL} from '@/features/home/data/prerequisitesContent';
+import {useProcessReadiness, ProcessReadinessMissing} from '@/hooks/useProcessReadiness';
 import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
+import { navigateToProfile } from '@/navigation/navigationRef';
 import {
   DashboardStackParamList,
   RootStackParamList,
@@ -55,7 +58,11 @@ export type UseDashboardScreenResult = {
   canCompleteStep: boolean;
   canInteractWithRequirements: boolean;
   stepActionDisabledHint?: string;
+  stepActionLabel: string;
   currentStepRequirements: RequirementWithProgress[];
+  canStartProcess: boolean;
+  processMissing: ProcessReadinessMissing[];
+  showPrerequisitesModal: boolean;
   onSignInPress: () => void;
   onStepPress: (stepId: number) => void;
   onStepDetailPress: () => void;
@@ -65,6 +72,9 @@ export type UseDashboardScreenResult = {
   onViewAppointmentPress: (label: string) => void;
   onClearAutomationPress: (label: string) => void;
   onFormPress: (formId: string, label: string) => void;
+  onClosePrerequisitesModal: () => void;
+  onGetServicePress: () => void;
+  onCompleteProfilePress: () => void;
 };
 
 function buildRequirementsWithProgress(
@@ -111,8 +121,10 @@ export function useDashboardScreen(
     clearAutomationRequirement,
     completeFormRequirement,
   } = useUserProgress();
+  const {canStartProcess, missing: processMissing} = useProcessReadiness();
 
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
+  const [showPrerequisitesModal, setShowPrerequisitesModal] = useState(false);
 
   const activeStepId = progress
     ? getNextIncompleteStepId(progress, steps)
@@ -153,15 +165,31 @@ export function useDashboardScreen(
       currentStep &&
       !isCurrentStepCompleted &&
       currentStepId === activeStepId &&
-      areAllRequirementsComplete(progress, currentStep),
+      areAllRequirementsComplete(progress, currentStep) &&
+      canStartProcess,
   );
 
-  const canInteractWithRequirements = !isCurrentStepCompleted;
+  const canInteractWithRequirements =
+    !isCurrentStepCompleted && canStartProcess;
 
-  const stepActionDisabledHint =
-    !isCurrentStepCompleted && currentStepId !== activeStepId
-      ? DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT
-      : undefined;
+  const stepActionLabel = useMemo(() => {
+    if (!canStartProcess && processMissing.length > 0) {
+      return PREREQUISITES_BUTTON_LABEL;
+    }
+    return currentStep?.cta.complete ?? 'Complete step';
+  }, [canStartProcess, processMissing, currentStep]);
+
+  const stepActionDisabledHint = useMemo(() => {
+    if (!isCurrentStepCompleted && currentStepId !== activeStepId) {
+      return DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT;
+    }
+
+    return undefined;
+  }, [
+    isCurrentStepCompleted,
+    currentStepId,
+    activeStepId,
+  ]);
 
   const onSignInPress = () => {
     navigateToLoginFromTab(navigation);
@@ -180,6 +208,12 @@ export function useDashboardScreen(
   };
 
   const onCompleteStep = () => {
+    // If prerequisites not met, show modal instead
+    if (!canStartProcess && processMissing.length > 0) {
+      setShowPrerequisitesModal(true);
+      return;
+    }
+
     if (!progress || !currentStep || !canCompleteStep) {
       return;
     }
@@ -304,6 +338,20 @@ export function useDashboardScreen(
     );
   };
 
+  const onClosePrerequisitesModal = () => {
+    setShowPrerequisitesModal(false);
+  };
+
+  const onGetServicePress = () => {
+    setShowPrerequisitesModal(false);
+    void Linking.openURL(WEBSITE_PRICING_URL);
+  };
+
+  const onCompleteProfilePress = () => {
+    setShowPrerequisitesModal(false);
+    navigateToProfile();
+  };
+
   const isLoading = isStepsLoading || isProgressLoading;
   const error = stepsError ?? progressError;
 
@@ -321,7 +369,11 @@ export function useDashboardScreen(
     canCompleteStep,
     canInteractWithRequirements,
     stepActionDisabledHint,
+    stepActionLabel,
     currentStepRequirements,
+    canStartProcess,
+    processMissing,
+    showPrerequisitesModal,
     onSignInPress,
     onStepPress,
     onStepDetailPress,
@@ -331,5 +383,8 @@ export function useDashboardScreen(
     onViewAppointmentPress,
     onClearAutomationPress,
     onFormPress,
+    onClosePrerequisitesModal,
+    onGetServicePress,
+    onCompleteProfilePress,
   };
 }

@@ -14,3 +14,14 @@ export function navigateToDashboard() {
     params: { screen: 'Dashboard' },
   });
 }
+
+export function navigateToProfile() {
+  if (!navigationRef.isReady()) {
+    return;
+  }
+
+  navigationRef.navigate('MainTabs', {
+    screen: 'ProfileTab',
+    params: { screen: 'Profile' },
+  });
+}

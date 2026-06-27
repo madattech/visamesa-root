@@ -14,6 +14,7 @@ import {RequirementsChecklist} from '@/features/dashboard/components/Requirement
 import {StepActionFooter} from '@/features/dashboard/components/StepActionFooter';
 import {DASHBOARD_STEP_DETAIL_LABEL} from '@/features/dashboard/data/dashboardContent';
 import {useDashboardScreen} from '@/features/dashboard/hooks/useDashboardScreen';
+import {ProcessPrerequisitesModal} from '@/features/home/components/ProcessPrerequisitesModal';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {DashboardStackParamList, RootStackParamList} from '@/navigation/types';
 
@@ -42,7 +43,11 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     canCompleteStep,
     canInteractWithRequirements,
     stepActionDisabledHint,
+    stepActionLabel,
     currentStepRequirements,
+    canStartProcess,
+    processMissing,
+    showPrerequisitesModal,
     onSignInPress,
     onStepPress,
     onStepDetailPress,
@@ -52,6 +57,9 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onViewAppointmentPress,
     onClearAutomationPress,
     onFormPress,
+    onClosePrerequisitesModal,
+    onGetServicePress,
+    onCompleteProfilePress,
   } = useDashboardScreen(navigation);
 
   if (isAuthLoading || (isAuthenticated && isLoading)) {
@@ -131,14 +139,22 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
             {paddingBottom: theme.spacing.md + tabBarInset},
           ]}>
           <StepActionFooter
-            label={currentStep.cta.complete}
+            label={stepActionLabel}
             disabled={!canCompleteStep}
             completed={isCurrentStepCompleted}
             disabledHint={stepActionDisabledHint}
+            canStartProcess={canStartProcess}
             onPress={onCompleteStep}
           />
         </View>
       </View>
+      <ProcessPrerequisitesModal
+        visible={showPrerequisitesModal}
+        missing={processMissing}
+        onClose={onClosePrerequisitesModal}
+        onGetServicePress={onGetServicePress}
+        onCompleteProfilePress={onCompleteProfilePress}
+      />
     </SafeAreaView>
   );
 };

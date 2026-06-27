@@ -18,7 +18,10 @@ export const API_ENDPOINTS = {
 
   // Users
   usersMe: '/users/me',
+  userDelete: '/users/me',
+  userExport: '/users/me/export',
   encryptedDetails: '/users/me/encrypted-details',
+  userConsent: '/users/me/consent',
 
   // Appointments
   pendingAppointments: (userId: string) => `/appointments/pending/${userId}`,

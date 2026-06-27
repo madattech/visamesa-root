@@ -18,6 +18,7 @@ export function TextInputField({field}: Props) {
       render={({field: controllerField, fieldState}) => (
         <TextField
           label={field.label}
+          helperText={field.helperText}
           value={String(controllerField.value ?? '')}
           onChangeText={controllerField.onChange}
           onBlur={controllerField.onBlur}

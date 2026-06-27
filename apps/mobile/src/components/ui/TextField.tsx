@@ -12,12 +12,14 @@ import {Text} from '@/components/ui/Text';
 
 export type TextFieldProps = Omit<TextInputProps, 'style'> & {
   label: string;
+  helperText?: string;
   error?: string;
   containerStyle?: StyleProp<ViewStyle>;
 };
 
 export function TextField({
   label,
+  helperText,
   error,
   containerStyle,
   editable = true,
@@ -33,6 +35,11 @@ export function TextField({
       <Text variant="labelMedium" style={styles.label}>
         {label}
       </Text>
+      {helperText ? (
+        <Text variant="bodySmall" color="onSurfaceVariant" style={styles.helper}>
+          {helperText}
+        </Text>
+      ) : null}
       <TextInput
         {...props}
         editable={editable}
@@ -67,6 +74,9 @@ const stylesheet = createStyleSheet(theme => ({
   },
   label: {
     color: theme.colors.onSurfaceVariant,
+  },
+  helper: {
+    marginTop: -theme.spacing.xs / 2,
   },
   input: {
     minHeight: 48,

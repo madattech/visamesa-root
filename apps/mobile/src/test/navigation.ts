@@ -10,6 +10,10 @@ export function createMockNavigation<
   return {
     navigate: jest.fn(),
     goBack: jest.fn(),
+    dispatch: jest.fn(),
+    getParent: jest.fn(() => ({
+      navigate: jest.fn(),
+    })),
   } as unknown as NativeStackNavigationProp<ParamList, RouteName>;
 }
 

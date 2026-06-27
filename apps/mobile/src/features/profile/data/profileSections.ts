@@ -1,7 +1,4 @@
-export type ProfileSectionId =
-  | 'personal'
-  | 'billing'
-  | 'residenceRegistration';
+export type ProfileSectionId = 'personal';
 
 export type ProfileSectionConfig = {
   id: ProfileSectionId;
@@ -15,19 +12,7 @@ export const PROFILE_SECTIONS: ProfileSectionConfig[] = [
     id: 'personal',
     title: 'Personal Information',
     formId: 'profile-personal',
-    description: 'Name, contact details, and identity documents',
-  },
-  {
-    id: 'billing',
-    title: 'Billing & Bank Details',
-    formId: 'profile-billing',
-    description: 'Payment and bank account information',
-  },
-  {
-    id: 'residenceRegistration',
-    title: 'Residence Registration',
-    formId: 'profile-residence-registration',
-    description: 'Empadronamiento and address details',
+    description: 'Your identity, contact details, registered address',
   },
 ];
 

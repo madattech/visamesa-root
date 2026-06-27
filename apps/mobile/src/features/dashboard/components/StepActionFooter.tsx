@@ -10,6 +10,7 @@ type StepActionFooterProps = {
   disabled: boolean;
   completed: boolean;
   disabledHint?: string;
+  canStartProcess: boolean;
   onPress: () => void;
 };
 
@@ -18,6 +19,7 @@ export function StepActionFooter({
   disabled,
   completed,
   disabledHint,
+  canStartProcess,
   onPress,
 }: StepActionFooterProps) {
   const {styles} = useStyles(stylesheet);
@@ -32,9 +34,13 @@ export function StepActionFooter({
     );
   }
 
+  // Show prerequisites button when not ready, regardless of other disabled states
+  const shouldShowPrerequisitesButton = !canStartProcess;
+  const isButtonDisabled = shouldShowPrerequisitesButton ? false : disabled;
+
   return (
     <View style={styles.container}>
-      {disabled && disabledHint ? (
+      {!shouldShowPrerequisitesButton && disabled && disabledHint ? (
         <Text variant="bodySmall" color="onSurfaceVariant" style={styles.hint}>
           {disabledHint}
         </Text>
@@ -42,7 +48,7 @@ export function StepActionFooter({
       <Button
         label={label}
         onPress={onPress}
-        disabled={disabled}
+        disabled={isButtonDisabled}
         fullWidth
         accessibilityLabel={label}
       />

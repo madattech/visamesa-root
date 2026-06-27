@@ -11,6 +11,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
+import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
 import {ProfileActions} from '@/features/profile/components/ProfileActions';
 import {ProfileHeader} from '@/features/profile/components/ProfileHeader';
@@ -44,6 +45,10 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     onSignInPress,
     onSignOutPress,
   } = useProfileScreen(navigation);
+
+  const handleLegalPress = () => {
+    navigation.navigate('Legal');
+  };
 
   if (isAuthLoading || (userEmail && isProfileLoading)) {
     return (
@@ -84,6 +89,12 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
           ) : null}
 
           <ProfileSectionList onSectionPress={onSectionPress} />
+
+          <DetailLinkRow
+            title="Legal & Privacy"
+            description="Privacy policy, terms, and data rights"
+            onPress={handleLegalPress}
+          />
 
           <ProfileActions onSignOutPress={onSignOutPress} />
         </ScrollView>

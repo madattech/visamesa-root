@@ -11,6 +11,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { ToastProvider } from './components/Toast/ToastProvider'
 import { AuthProvider } from './contexts/AuthContext'
 import { EntitlementsProvider } from './contexts/EntitlementsContext'
+import { ProfileCompletionProvider } from './contexts/ProfileCompletionContext'
 import { linking } from './navigation/linking'
 import { navigationRef } from './navigation/navigationRef'
 import { PaymentReturnListener } from './navigation/PaymentReturnListener'
@@ -35,13 +36,15 @@ const App = () => {
     <SafeAreaProvider>
       <AuthProvider>
         <EntitlementsProvider>
-          <ToastProvider>
-            <AppStatusBar />
-            <NavigationContainer ref={navigationRef} linking={linking}>
-              <PaymentReturnListener />
-              <RootNavigator />
-            </NavigationContainer>
-          </ToastProvider>
+          <ProfileCompletionProvider>
+            <ToastProvider>
+              <AppStatusBar />
+              <NavigationContainer ref={navigationRef} linking={linking}>
+                <PaymentReturnListener />
+                <RootNavigator />
+              </NavigationContainer>
+            </ToastProvider>
+          </ProfileCompletionProvider>
         </EntitlementsProvider>
       </AuthProvider>
     </SafeAreaProvider>

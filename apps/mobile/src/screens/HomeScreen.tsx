@@ -8,10 +8,12 @@ import { ButtonGroup } from '@/components/ui/ButtonGroup'
 import { Surface } from '@/components/ui/Surface'
 import { Text } from '@/components/ui/Text'
 import { HeroSection } from '@/features/home/components/HeroSection'
+import { ProcessPrerequisitesModal } from '@/features/home/components/ProcessPrerequisitesModal'
 import { StepOverview } from '@/features/home/components/StepOverview'
 import { useHomeScreen } from '@/features/home/hooks/useHomeScreen'
 import { HomeStackParamList } from '@/navigation/types'
 import { useTabBarInset } from '@/navigation/useTabBarInset'
+import { useProcessReadiness } from '@/hooks/useProcessReadiness'
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 
 type HomeScreenProps = {
@@ -21,6 +23,7 @@ type HomeScreenProps = {
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
   const tabBarInset = useTabBarInset();
+  const {missing} = useProcessReadiness();
   const {
     steps,
     isLoading,
@@ -30,6 +33,10 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
+    showPrerequisitesModal,
+    onClosePrerequisitesModal,
+    onGetServicePress,
+    onCompleteProfilePress,
   } = useHomeScreen(navigation);
 
   return (
@@ -78,6 +85,13 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           </View>
         </View>
       )}
+      <ProcessPrerequisitesModal
+        visible={showPrerequisitesModal}
+        missing={missing}
+        onClose={onClosePrerequisitesModal}
+        onGetServicePress={onGetServicePress}
+        onCompleteProfilePress={onCompleteProfilePress}
+      />
     </SafeAreaView>
   );
 };
