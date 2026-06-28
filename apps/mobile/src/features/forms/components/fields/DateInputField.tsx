@@ -1,10 +1,12 @@
 import React, {useState} from 'react';
-import {Modal, Platform, Pressable, View} from 'react-native';
+import {Platform, Pressable, View} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Controller, useFormContext} from 'react-hook-form';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
+import {BottomSheet} from '@/components/ui/BottomSheet';
+import {Button} from '@/components/ui/Button';
 import {FormField as SchemaFieldType} from '@/features/forms/types/formTypes';
 
 type Props = {
@@ -72,7 +74,7 @@ export function DateInputField({field}: Props) {
         };
 
         return (
-          <>
+          <View style={styles.container}>
             <Text variant="labelMedium" style={styles.label}>
               {field.label}
             </Text>
@@ -109,44 +111,25 @@ export function DateInputField({field}: Props) {
               />
             ) : null}
             {showPicker && Platform.OS === 'ios' ? (
-              <Modal
+              <BottomSheet
                 visible={showPicker}
-                transparent
-                animationType="fade"
-                onRequestClose={handleDismiss}>
-                <Pressable
-                  style={styles.backdrop}
-                  accessibilityRole="button"
-                  accessibilityLabel="Close date picker"
-                  onPress={handleDismiss}
-                />
-                <View style={styles.sheet}>
-                  <View style={styles.sheetHeader}>
-                    <Pressable onPress={handleDismiss}>
-                      <Text variant="bodyLarge" color="primary">
-                        Cancel
-                      </Text>
-                    </Pressable>
-                    <Text variant="titleMedium" style={styles.sheetTitle}>
-                      {field.label}
-                    </Text>
-                    <Pressable onPress={handleDone}>
-                      <Text variant="bodyLarge" color="primary" style={styles.doneButton}>
-                        Done
-                      </Text>
-                    </Pressable>
+                onClose={handleDismiss}
+                title={field.label}
+                footer={
+                  <View style={styles.footerButtons}>
+                    <Button label="Cancel" variant="outline" onPress={handleDismiss} />
+                    <Button label="Done" variant="primary" onPress={handleDone} />
                   </View>
-                  <DateTimePicker
-                    value={tempDate || pickerDate}
-                    mode="date"
-                    display="spinner"
-                    onValueChange={handleValueChange}
-                    themeVariant={theme.colorScheme === 'dark' ? 'dark' : 'light'}
-                  />
-                </View>
-              </Modal>
+                }>
+                <DateTimePicker
+                  value={tempDate || pickerDate}
+                  mode="date"
+                  display="spinner"
+                  onValueChange={handleValueChange}
+                />
+              </BottomSheet>
             ) : null}
-          </>
+          </View>
         );
       }}
     />
@@ -154,18 +137,20 @@ export function DateInputField({field}: Props) {
 }
 
 const stylesheet = createStyleSheet(theme => ({
+  container: {
+    gap: theme.spacing.xs,
+  },
   label: {
     color: theme.colors.onSurfaceVariant,
-    marginBottom: theme.spacing.xs,
   },
   trigger: {
     minHeight: 48,
     borderWidth: 1,
-    borderColor: theme.colors.outline,
+    borderColor: theme.colors.outlineVariant,
     borderRadius: theme.radii.sm,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface,
     justifyContent: 'center',
   },
   triggerError: {
@@ -177,30 +162,9 @@ const stylesheet = createStyleSheet(theme => ({
   error: {
     marginTop: theme.spacing.xs / 2,
   },
-  backdrop: {
-    flex: 1,
-    backgroundColor: theme.colors.scrim,
-    opacity: 0.32,
-  },
-  sheet: {
-    backgroundColor: theme.colors.background,
-    borderTopLeftRadius: theme.radii.lg,
-    borderTopRightRadius: theme.radii.lg,
-    paddingBottom: theme.spacing.xl,
-  },
-  sheetHeader: {
+  footerButtons: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.md,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.outlineVariant,
-  },
-  sheetTitle: {
-    fontWeight: '600',
-  },
-  doneButton: {
-    fontWeight: '600',
+    gap: theme.spacing.sm,
+    justifyContent: 'flex-end',
   },
 }));

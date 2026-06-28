@@ -1,12 +1,9 @@
-import {act} from 'react';
-
 import {
   fetchUserProgress,
   resetUserProgress,
   updateRequirementProgress,
   updateStepStatus,
 } from '@/features/dashboard/services/progressService';
-import {createUserProgress} from '@/test/fixtures/userProgress';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(() => Promise.resolve(null)),

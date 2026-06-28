@@ -81,14 +81,14 @@ const stylesheet = createStyleSheet(theme => ({
   input: {
     minHeight: 48,
     borderWidth: 1,
-    borderColor: theme.colors.outline,
+    borderColor: theme.colors.outlineVariant,
     borderRadius: theme.radii.sm,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
     fontSize: theme.typography.bodyLarge.fontSize,
     lineHeight: theme.typography.bodyLarge.lineHeight,
     color: theme.colors.onSurface,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface,
   },
   inputFocused: {
     borderColor: theme.colors.primary,

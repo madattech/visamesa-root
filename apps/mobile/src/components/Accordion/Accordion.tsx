@@ -4,6 +4,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
+import {Icon} from '@/components/ui/Icon';
 import {motion} from '@/theme';
 
 if (
@@ -17,6 +18,8 @@ type AccordionProps = {
   expandedId: string | null;
   onExpandedChange: (id: string | null) => void;
   children: React.ReactNode;
+  /** Optional callback when an item expands, receives the Y offset to scroll to */
+  onExpand?: (layoutY: number) => void;
 };
 
 type AccordionItemProps = {
@@ -25,18 +28,21 @@ type AccordionItemProps = {
   expanded: boolean;
   onToggle: () => void;
   children: React.ReactNode;
+  onExpand?: (layoutY: number) => void;
 };
 
 type ExpandableChildProps = {
   id: string;
   expanded?: boolean;
   onToggle?: () => void;
+  onExpand?: (layoutY: number) => void;
 };
 
 export function Accordion({
   expandedId,
   onExpandedChange,
   children,
+  onExpand,
 }: AccordionProps) {
   const {styles} = useStyles(stylesheet);
 
@@ -63,8 +69,10 @@ export function Accordion({
               },
               update: {type: LayoutAnimation.Types.easeInEaseOut},
             });
-            onExpandedChange(expandedId === itemId ? null : itemId);
+            const wasExpanded = expandedId === itemId;
+            onExpandedChange(wasExpanded ? null : itemId);
           },
+          onExpand,
         });
       })}
     </View>
@@ -80,7 +88,16 @@ export function AccordionItem({
   const {styles, theme} = useStyles(stylesheet);
 
   return (
-    <Surface variant="outlined" style={styles.item}>
+    <Surface
+      variant="elevated"
+      elevation={2}
+      style={[
+        styles.item,
+        {
+          backgroundColor: theme.colors.surface,
+          borderRadius: theme.radii.lg,
+        },
+      ]}>
       <Pressable
         accessibilityRole="button"
         accessibilityState={{expanded}}
@@ -94,9 +111,11 @@ export function AccordionItem({
         <Text variant="titleMedium" style={styles.title}>
           {title}
         </Text>
-        <Text variant="titleMedium" color="onSurfaceVariant">
-          {expanded ? '▴' : '▾'}
-        </Text>
+        <Icon
+          name={expanded ? 'expand-less' : 'expand-more'}
+          size="md"
+          color="onSurfaceVariant"
+        />
       </Pressable>
       {expanded ? <View style={styles.content}>{children}</View> : null}
     </Surface>
@@ -107,9 +126,7 @@ const stylesheet = createStyleSheet(theme => ({
   list: {
     gap: theme.spacing.sm,
   },
-  item: {
-    overflow: 'hidden',
-  },
+  item: {},
   header: {
     minHeight: theme.sizes.touchTargetMin + theme.spacing.sm,
     flexDirection: 'row',

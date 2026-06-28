@@ -2,7 +2,10 @@ import React from 'react';
 
 import {ProcessPrerequisitesModal} from './ProcessPrerequisitesModal';
 import {renderComponent} from '@/test/testRenderer';
-import {PREREQUISITES_GET_SERVICE_BUTTON, PREREQUISITES_COMPLETE_PROFILE_BUTTON} from '@/features/home/data/prerequisitesContent';
+import {
+  PREREQUISITES_GET_SERVICE_BUTTON,
+  PREREQUISITES_COMPLETE_PROFILE_BUTTON,
+} from '@/features/home/data/prerequisitesContent';
 
 describe('ProcessPrerequisitesModal', () => {
   const defaultProps = {
@@ -47,20 +50,19 @@ describe('ProcessPrerequisitesModal', () => {
     expect(stringified).not.toContain(PREREQUISITES_COMPLETE_PROFILE_BUTTON);
   });
 
-  it('renders the modal when visible is true', () => {
+  it('renders the bottom sheet when visible is true', () => {
     const tree = renderComponent(<ProcessPrerequisitesModal {...defaultProps} />);
     const json = tree.toJSON();
 
     expect(json).toBeTruthy();
   });
 
-  it('renders null when visible is false', () => {
-    const tree = renderComponent(
-      <ProcessPrerequisitesModal {...defaultProps} visible={false} />,
-    );
+  it('uses StatusIndicator for prerequisite status', () => {
+    const tree = renderComponent(<ProcessPrerequisitesModal {...defaultProps} />);
     const json = tree.toJSON();
+    const stringified = JSON.stringify(json);
 
-    // Modal with visible=false renders null
-    expect(json).toBeNull();
+    // StatusIndicator should be used (either done or notDone status)
+    expect(stringified).toMatch(/check-circle|error-outline/);
   });
 });

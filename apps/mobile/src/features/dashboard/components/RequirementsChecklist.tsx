@@ -1,10 +1,17 @@
-import React from 'react';
-import {View} from 'react-native';
+import React, {useState} from 'react';
+import {Pressable, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
+import {Dialog} from '@/components/ui/Dialog';
+import {Icon} from '@/components/ui/Icon';
+import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
 import {RequirementItem} from '@/features/dashboard/components/RequirementItem';
-import {DASHBOARD_REQUIREMENTS_TITLE} from '@/features/dashboard/data/dashboardContent';
+import {
+  DASHBOARD_REQUIREMENTS_INFO_MESSAGE,
+  DASHBOARD_REQUIREMENTS_INFO_TITLE,
+  DASHBOARD_REQUIREMENTS_TITLE,
+} from '@/features/dashboard/data/dashboardContent';
 import {RequirementProgress} from '@/features/dashboard/types/UserProgress';
 import {AutomationId, Requirement} from '@/features/home/types/TieStepDetail';
 
@@ -33,15 +40,30 @@ export function RequirementsChecklist({
   onClearAutomationPress,
   onFormPress,
 }: RequirementsChecklistProps) {
-  const {styles} = useStyles(stylesheet);
+  const {styles, theme} = useStyles(stylesheet);
+  const [showInfoDialog, setShowInfoDialog] = useState(false);
 
   if (requirements.length === 0) {
     return null;
   }
 
-  return (
-    <View style={styles.container}>
-      <Text variant="titleMedium">{DASHBOARD_REQUIREMENTS_TITLE}</Text>
+  const content = (
+    <View style={styles.content}>
+      <View style={styles.header}>
+        <Text variant="titleMedium">{DASHBOARD_REQUIREMENTS_TITLE}</Text>
+        <Pressable
+          onPress={() => setShowInfoDialog(true)}
+          accessibilityRole="button"
+          accessibilityLabel="About Checklist"
+          android_ripple={{
+            color: theme.colors.primaryContainer,
+            borderless: true,
+            radius: 20,
+          }}
+          style={styles.infoButton}>
+          <Icon name="info-outline" size="md" color="primary" />
+        </Pressable>
+      </View>
       <View style={styles.list}>
         {requirements.map(requirement => (
           <RequirementItem
@@ -57,8 +79,12 @@ export function RequirementsChecklist({
                 ? onAutomationPress(requirement.automationId, requirement.label)
                 : undefined
             }
-            onViewAppointmentPress={() => onViewAppointmentPress(requirement.label)}
-            onClearAutomationPress={() => onClearAutomationPress(requirement.label)}
+            onViewAppointmentPress={() =>
+              onViewAppointmentPress(requirement.label)
+            }
+            onClearAutomationPress={() =>
+              onClearAutomationPress(requirement.label)
+            }
             onFormPress={() =>
               requirement.formId
                 ? onFormPress(requirement.formId, requirement.label)
@@ -67,16 +93,58 @@ export function RequirementsChecklist({
           />
         ))}
       </View>
+      <Dialog
+        visible={showInfoDialog}
+        onClose={() => setShowInfoDialog(false)}
+        title={DASHBOARD_REQUIREMENTS_INFO_TITLE}
+        actions={[
+          {
+            label: 'Got it',
+            onPress: () => setShowInfoDialog(false),
+            variant: 'tonal',
+          },
+        ]}>
+        {DASHBOARD_REQUIREMENTS_INFO_MESSAGE}
+      </Dialog>
     </View>
+  );
+
+  return (
+    <Surface
+      variant="elevated"
+      elevation={2}
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.colors.surface,
+          borderRadius: theme.radii.lg,
+        },
+      ]}>
+      {content}
+    </Surface>
   );
 }
 
 const stylesheet = createStyleSheet(theme => ({
   container: {
-    gap: theme.spacing.sm,
     maxWidth: theme.sizes.contentMaxWidth,
     alignSelf: 'center',
     width: '100%',
+  },
+  content: {
+    padding: theme.spacing.md,
+    gap: theme.spacing.sm,
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  infoButton: {
+    width: theme.sizes.touchTargetMin,
+    height: theme.sizes.touchTargetMin,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   list: {
     gap: theme.spacing.xs,

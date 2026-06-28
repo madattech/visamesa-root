@@ -22,7 +22,9 @@ export function Surface({
 }: SurfaceProps) {
   const {styles, theme} = useStyles(stylesheet);
   const elevationStyle =
-    variant === 'elevated' ? createElevationStyle(elevation, theme.colors) : null;
+    variant === 'elevated'
+      ? createElevationStyle(elevation, theme.colors)
+      : null;
 
   return (
     <View

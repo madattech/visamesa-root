@@ -9,7 +9,7 @@
 
 import {TextStyle} from 'react-native';
 
-import {FontWeightToken} from './typography';
+import type {FontWeightToken} from '@visamesa/design-tokens/typography';
 
 export const brandFontFace = {
   regular: 'PlusJakartaSans-Regular',

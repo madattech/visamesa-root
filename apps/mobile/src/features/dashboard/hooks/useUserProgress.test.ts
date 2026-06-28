@@ -179,6 +179,7 @@ describe('useUserProgress', () => {
     });
 
     const appointment = {
+      office: 'Barcelona Office',
       date: '2026-07-01',
       time: '10:00',
       location: 'Barcelona Office',
@@ -247,7 +248,7 @@ describe('useUserProgress', () => {
     });
 
     await act(async () => {
-      await getHookState().completeFormRequirement(1, 'Application Form');
+      await getHookState().completeFormRequirement(1, 'Application Form', 'test-form-id');
     });
 
     expect(progressService.updateRequirementProgress).toHaveBeenCalledWith(

@@ -17,7 +17,11 @@ export const DASHBOARD_STEP_DETAIL_LABEL = 'Learn more';
 export const DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT =
   'Complete the previous step before marking this one done.';
 
-export const DASHBOARD_REQUIREMENTS_TITLE = 'What you need';
+export const DASHBOARD_REQUIREMENTS_TITLE = 'Checklist';
+
+export const DASHBOARD_REQUIREMENTS_INFO_TITLE = 'About Checklist';
+export const DASHBOARD_REQUIREMENTS_INFO_MESSAGE =
+  'These are what you need to complete this step. Check each item off when ready.';
 
 export const DASHBOARD_INCOMPLETE_STEP_MESSAGE =
   'Complete all checklist items before marking this step done.';

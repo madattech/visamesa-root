@@ -13,16 +13,20 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
+import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {ProfileActions} from '@/features/profile/components/ProfileActions';
 import {ProfileHeader} from '@/features/profile/components/ProfileHeader';
 import {ProfileSectionList} from '@/features/profile/components/ProfileSectionList';
 import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnauthenticated';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
+import {selectProfileCompleteness} from '@/features/profile/selectors/selectProfileCompleteness';
+import {consentService} from '@/services/consentService';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {
   ProfileStackParamList,
   RootStackParamList,
 } from '@/navigation/types';
+import {useState, useEffect} from 'react';
 
 type ProfileScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<ProfileStackParamList, 'Profile'>,
@@ -36,6 +40,8 @@ type ProfileScreenProps = {
 const ProfileScreen = ({navigation}: ProfileScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
   const tabBarInset = useTabBarInset();
+  const {profileData} = useProfileData();
+  const [hasConsent, setHasConsent] = useState(false);
   const {
     isAuthLoading,
     userEmail,
@@ -45,6 +51,14 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     onSignInPress,
     onSignOutPress,
   } = useProfileScreen(navigation);
+
+  useEffect(() => {
+    if (userEmail) {
+      consentService.hasAcceptedConsent().then(setHasConsent).catch(() => {});
+    }
+  }, [userEmail]);
+
+  const completeness = selectProfileCompleteness(profileData, hasConsent);
 
   const handleLegalPress = () => {
     navigation.navigate('Legal');
@@ -88,12 +102,16 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
             </Text>
           ) : null}
 
-          <ProfileSectionList onSectionPress={onSectionPress} />
+          <ProfileSectionList
+            onSectionPress={onSectionPress}
+            completeness={completeness}
+          />
 
           <DetailLinkRow
             title="Legal & Privacy"
             description="Privacy policy, terms, and data rights"
             onPress={handleLegalPress}
+            status={completeness.legalPrivacy ? 'done' : 'notDone'}
           />
 
           <ProfileActions onSignOutPress={onSignOutPress} />
@@ -115,9 +133,9 @@ const stylesheet = createStyleSheet(theme => ({
     flex: 1,
   },
   scrollContent: {
-    paddingHorizontal: theme.spacing.md,
+    paddingHorizontal: theme.layout.screenPaddingX,
     paddingTop: theme.spacing.md,
-    gap: theme.spacing.lg,
+    gap: theme.spacing.sm,
   },
   centered: {
     flex: 1,

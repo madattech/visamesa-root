@@ -3,7 +3,7 @@ import { Pressable, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Button } from '@/components/ui/Button'
-import { Icon } from '@/components/ui/Icon'
+import { Checkbox } from '@/components/ui/Checkbox'
 import { Text } from '@/components/ui/Text'
 import { RequirementProgress } from '@/features/dashboard/types/UserProgress'
 import { Requirement } from '@/features/home/types/TieStepDetail'
@@ -56,28 +56,39 @@ export function RequirementItem({
     requirement.type === 'automation' && completed;
 
   const checkbox = (
-    <Icon
-      name={completed ? 'check-circle' : 'radio-button-unchecked'}
+    <Checkbox
+      checked={completed}
+      onToggle={onSelfDeclaredToggle || (() => {})}
       size="lg"
-      color={completed ? 'success' : 'onSurfaceVariant'}
+      disabled={!canToggle || !onSelfDeclaredToggle}
+      accessibilityLabel={requirement.label}
     />
   );
 
-  const content = (
-    <View style={styles.content}>
-      <Text variant="bodyLarge">{requirement.label}</Text>
-      {requirement.description ? (
-        <Text variant="bodySmall" color="onSurfaceVariant">
-          {requirement.description}
-        </Text>
-      ) : null}
-      {hint ? (
-        <Text variant="bodySmall" color="primary">
-          {hint}
-        </Text>
-      ) : null}
+  const titleRow = (
+    <View style={styles.titleRow}>
+      {checkbox}
+      <Text variant="bodyLarge" style={styles.titleText}>
+        {requirement.label}
+      </Text>
     </View>
   );
+
+  const details =
+    requirement.description || hint ? (
+      <View style={styles.details}>
+        {requirement.description ? (
+          <Text variant="bodySmall" color="onSurfaceVariant">
+            {requirement.description}
+          </Text>
+        ) : null}
+        {hint ? (
+          <Text variant="bodySmall" color="primary">
+            {hint}
+          </Text>
+        ) : null}
+      </View>
+    ) : null;
 
   if (requirement.type === 'self_declared') {
     return (
@@ -94,20 +105,16 @@ export function RequirementItem({
           styles.item,
           canToggle && pressed && styles.pressed,
         ]}>
-        <View style={styles.headerRow}>
-          {checkbox}
-          {content}
-        </View>
+        {titleRow}
+        {details}
       </Pressable>
     );
   }
 
   return (
     <View style={styles.item}>
-      <View style={styles.headerRow}>
-        {checkbox}
-        {content}
-      </View>
+      {titleRow}
+      {details}
       {hasBookAction ? (
         <Button
           label="Book via VisaMesa"
@@ -152,19 +159,21 @@ export function RequirementItem({
 
 const stylesheet = createStyleSheet(theme => ({
   item: {
-    gap: theme.spacing.sm,
+    gap: theme.spacing.xs,
     paddingVertical: theme.spacing.sm,
   },
-  headerRow: {
+  titleRow: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     gap: theme.spacing.sm,
     minHeight: theme.sizes.touchTargetMin,
   },
-  content: {
+  titleText: {
     flex: 1,
+  },
+  details: {
+    marginLeft: theme.sizes.icon.lg + theme.spacing.sm,
     gap: theme.spacing.xs / 2,
-    paddingTop: theme.spacing.xs / 2,
   },
   actionButton: {
     alignSelf: 'flex-start',

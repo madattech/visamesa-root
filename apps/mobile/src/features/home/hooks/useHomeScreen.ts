@@ -40,7 +40,7 @@ export function useHomeScreen(
   const {steps, isLoading, error} = useTieSteps();
   const {user} = useAuth();
   const {showToast} = useToast();
-  const {canStartProcess, missing} = useProcessReadiness();
+  const {canStartProcess} = useProcessReadiness();
   const [activeStepId, setActiveStepId] = useState(DEFAULT_STEP_ID);
   const [showPrerequisitesModal, setShowPrerequisitesModal] = useState(false);
 

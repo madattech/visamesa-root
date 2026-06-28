@@ -1,5 +1,4 @@
 import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
-import { createMockNavigation } from '@/test/navigation';
 
 describe('navigateToLoginFromTab', () => {
   it('navigates to Login through the Profile tab', () => {

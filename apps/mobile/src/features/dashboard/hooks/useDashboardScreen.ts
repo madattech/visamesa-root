@@ -264,7 +264,7 @@ export function useDashboardScreen(
     );
   };
 
-  const onAutomationPress = (automationId: AutomationId, label: string) => {
+  const onAutomationPress = (automationId: AutomationId, _label: string) => {
     if (!currentStep || isCurrentStepCompleted) {
       return;
     }

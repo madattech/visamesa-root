@@ -9,16 +9,21 @@ import {type ColorTokens} from '@visamesa/design-tokens/colors';
 
 export type ElevationLevel = 0 | 1 | 2 | 3 | 4 | 5;
 
+/**
+ * Scrim opacity for modals and overlays (Material Design 3 standard)
+ */
+export const SCRIM_OPACITY = 0.32;
+
 const IOS_ELEVATION: Record<
   ElevationLevel,
   Pick<ViewStyle, 'shadowOffset' | 'shadowOpacity' | 'shadowRadius'>
 > = {
   0: {shadowOffset: {width: 0, height: 0}, shadowOpacity: 0, shadowRadius: 0},
-  1: {shadowOffset: {width: 0, height: 1}, shadowOpacity: 0.08, shadowRadius: 2},
-  2: {shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.1, shadowRadius: 4},
-  3: {shadowOffset: {width: 0, height: 4}, shadowOpacity: 0.12, shadowRadius: 8},
-  4: {shadowOffset: {width: 0, height: 6}, shadowOpacity: 0.14, shadowRadius: 12},
-  5: {shadowOffset: {width: 0, height: 8}, shadowOpacity: 0.16, shadowRadius: 16},
+  1: {shadowOffset: {width: 0, height: 1}, shadowOpacity: 0.12, shadowRadius: 3},
+  2: {shadowOffset: {width: 0, height: 2}, shadowOpacity: 0.16, shadowRadius: 6},
+  3: {shadowOffset: {width: 0, height: 4}, shadowOpacity: 0.18, shadowRadius: 10},
+  4: {shadowOffset: {width: 0, height: 6}, shadowOpacity: 0.2, shadowRadius: 14},
+  5: {shadowOffset: {width: 0, height: 8}, shadowOpacity: 0.22, shadowRadius: 18},
 };
 
 export function createElevationStyle(
