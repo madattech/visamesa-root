@@ -118,7 +118,7 @@ const stylesheet = createStyleSheet(theme => ({
     backgroundColor: theme.colors.secondaryContainer,
   },
   outline: {
-    backgroundColor: 'transparent',
+    backgroundColor: theme.colors.surface,
     borderWidth: StyleSheet.hairlineWidth + 1,
     borderColor: theme.colors.outline,
   },

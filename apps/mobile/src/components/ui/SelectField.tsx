@@ -1,15 +1,10 @@
 import React, {useState} from 'react';
-import {
-  FlatList,
-  Modal,
-  Pressable,
-  View,
-  StyleProp,
-  ViewStyle,
-} from 'react-native';
+import {FlatList, Pressable, View, StyleProp, ViewStyle} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
+import {Icon} from '@/components/ui/Icon';
+import {BottomSheet} from '@/components/ui/BottomSheet';
 import {FormFieldOption} from '@/features/forms/types/formTypes';
 
 export type SelectFieldProps = {
@@ -72,9 +67,7 @@ export function SelectField({
           style={styles.triggerText}>
           {selectedLabel}
         </Text>
-        <Text variant="bodyLarge" color="onSurfaceVariant">
-          ▾
-        </Text>
+        <Icon name="expand-more" size="md" color="onSurfaceVariant" />
       </Pressable>
       {error ? (
         <Text variant="bodySmall" color="error" style={styles.error}>
@@ -82,45 +75,30 @@ export function SelectField({
         </Text>
       ) : null}
 
-      <Modal
-        visible={isOpen}
-        transparent
-        animationType="fade"
-        onRequestClose={() => setIsOpen(false)}>
-        <Pressable
-          style={styles.backdrop}
-          accessibilityRole="button"
-          accessibilityLabel="Close options"
-          onPress={() => setIsOpen(false)}
+      <BottomSheet visible={isOpen} onClose={() => setIsOpen(false)} title={label}>
+        <FlatList
+          data={options}
+          keyExtractor={item => item.value}
+          renderItem={({item}) => (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{selected: item.value === value}}
+              android_ripple={{color: theme.colors.primaryContainer}}
+              onPress={() => handleSelect(item.value)}
+              style={({pressed}) => [
+                styles.option,
+                item.value === value && styles.optionSelected,
+                pressed && styles.optionPressed,
+              ]}>
+              <Text
+                variant="bodyLarge"
+                color={item.value === value ? 'primary' : 'onSurface'}>
+                {item.label}
+              </Text>
+            </Pressable>
+          )}
         />
-        <View style={styles.sheet}>
-          <Text variant="titleMedium" style={styles.sheetTitle}>
-            {label}
-          </Text>
-          <FlatList
-            data={options}
-            keyExtractor={item => item.value}
-            renderItem={({item}) => (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityState={{selected: item.value === value}}
-                android_ripple={{color: theme.colors.primaryContainer}}
-                onPress={() => handleSelect(item.value)}
-                style={({pressed}) => [
-                  styles.option,
-                  item.value === value && styles.optionSelected,
-                  pressed && styles.optionPressed,
-                ]}>
-                <Text
-                  variant="bodyLarge"
-                  color={item.value === value ? 'primary' : 'onSurface'}>
-                  {item.label}
-                </Text>
-              </Pressable>
-            )}
-          />
-        </View>
-      </Modal>
+      </BottomSheet>
     </View>
   );
 }
@@ -135,11 +113,11 @@ const stylesheet = createStyleSheet(theme => ({
   trigger: {
     minHeight: 48,
     borderWidth: 1,
-    borderColor: theme.colors.outline,
+    borderColor: theme.colors.outlineVariant,
     borderRadius: theme.radii.sm,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    backgroundColor: theme.colors.background,
+    backgroundColor: theme.colors.surface,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -159,24 +137,6 @@ const stylesheet = createStyleSheet(theme => ({
   },
   error: {
     marginTop: theme.spacing.xs / 2,
-  },
-  backdrop: {
-    flex: 1,
-    backgroundColor: theme.colors.scrim,
-    opacity: 0.32,
-  },
-  sheet: {
-    maxHeight: '50%',
-    backgroundColor: theme.colors.background,
-    borderTopLeftRadius: theme.radii.lg,
-    borderTopRightRadius: theme.radii.lg,
-    paddingTop: theme.spacing.md,
-    paddingBottom: theme.spacing.lg,
-  },
-  sheetTitle: {
-    paddingHorizontal: theme.spacing.lg,
-    paddingBottom: theme.spacing.sm,
-    fontWeight: '600',
   },
   option: {
     minHeight: 48,

@@ -3,11 +3,12 @@ import {ActivityIndicator, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 
-import {InternalDetailScreenLayout} from '@/components/layout/InternalDetailScreenLayout';
+import {CollapsingHeaderScreen} from '@/components/layout/CollapsingHeaderScreen';
 import {DynamicForm} from '@/features/forms/components/DynamicForm';
 import {ConsentDialog} from '@/features/profile/components/ConsentDialog';
 import {useFormSchema} from '@/features/forms/hooks/useFormSchema';
 import {useProfileSectionScreen} from '@/features/profile/hooks/useProfileSectionScreen';
+import {getProfileSection} from '@/features/profile/data/profileSections';
 import {Text} from '@/components/ui/Text';
 import {ProfileStackParamList} from '@/navigation/types';
 import {consentService} from '@/services/consentService';
@@ -26,6 +27,8 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
   const [pendingData, setPendingData] = useState<Record<string, unknown> | null>(
     null,
   );
+
+  const title = getProfileSection(route.params.sectionId).title;
 
   const handleSubmit = async (data: Record<string, unknown>) => {
     // Check if consent has been given
@@ -65,7 +68,7 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
   };
 
   return (
-    <InternalDetailScreenLayout keyboardAvoiding>
+    <CollapsingHeaderScreen title={title} keyboardAvoiding>
       {isLoading ? (
         <View style={styles.centered}>
           <ActivityIndicator size="small" color={theme.colors.primary} />
@@ -91,7 +94,7 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
           ) : null}
         </>
       ) : null}
-    </InternalDetailScreenLayout>
+    </CollapsingHeaderScreen>
   );
 };
 

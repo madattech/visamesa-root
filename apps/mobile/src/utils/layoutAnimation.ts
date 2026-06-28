@@ -5,7 +5,7 @@ import {motion} from '@/theme';
 if (
   Platform.OS === 'android' &&
   UIManager.setLayoutAnimationEnabledExperimental &&
-  !global.nativeFabricUIManager
+  !(global as any).nativeFabricUIManager
 ) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }

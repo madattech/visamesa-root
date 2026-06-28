@@ -35,7 +35,9 @@ describe('getGoogleSignInErrorMessage', () => {
       status: 401,
       statusText: 'Unauthorized',
       headers: {},
-      config: {} as AxiosError['config'],
+      config: {
+        headers: {} as any,
+      } as any,
     };
 
     expect(getGoogleSignInErrorMessage(error)).toContain(

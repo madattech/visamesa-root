@@ -15,6 +15,7 @@ import { spacing } from '@visamesa/design-tokens/spacing';
 import { typography } from '@visamesa/design-tokens/typography';
 
 import { motion } from './motion';
+import { layout } from './layout';
 
 export type AppTheme = {
   colors: ColorTokens;
@@ -23,6 +24,7 @@ export type AppTheme = {
   radii: typeof radii;
   sizes: typeof sizes;
   motion: typeof motion;
+  layout: typeof layout;
 };
 
 export const lightTheme: AppTheme = {
@@ -32,6 +34,7 @@ export const lightTheme: AppTheme = {
   radii,
   sizes,
   motion,
+  layout,
 };
 
 export const darkTheme: AppTheme = {
@@ -41,6 +44,7 @@ export const darkTheme: AppTheme = {
   radii,
   sizes,
   motion,
+  layout,
 };
 
 declare module 'react-native-unistyles' {
@@ -50,8 +54,9 @@ declare module 'react-native-unistyles' {
   }
 }
 
-export {lightColors, darkColors, spacing, typography, radii, sizes, motion};
+export {lightColors, darkColors, spacing, typography, radii, sizes, motion, layout};
 export * from '@visamesa/design-tokens/colors';
 export * from './elevation';
 export * from './fonts';
 export * from './motion';
+export * from './layout';

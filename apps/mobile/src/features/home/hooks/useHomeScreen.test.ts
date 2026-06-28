@@ -44,7 +44,7 @@ const {useProcessReadiness} = jest.requireMock('@/hooks/useProcessReadiness') as
   useProcessReadiness: jest.Mock;
 };
 
-const {navigateToDashboard, navigateToProfile} = jest.requireMock('@/navigation/navigationRef') as {
+const {navigateToDashboard} = jest.requireMock('@/navigation/navigationRef') as {
   navigateToDashboard: jest.Mock;
   navigateToProfile: jest.Mock;
 };

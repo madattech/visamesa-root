@@ -8,10 +8,12 @@ import {Platform, Pressable, StyleSheet} from 'react-native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
+import {Text} from '@/components/ui/Text';
 import DashboardStackNavigator from '@/navigation/DashboardStackNavigator';
 import HomeStackNavigator from '@/navigation/HomeStackNavigator';
 import ProfileStackNavigator from '@/navigation/ProfileStackNavigator';
 import {TAB_BAR_ICONS} from '@/navigation/tabBarIcons';
+import {TAB_BAR_HIDDEN_ROUTES} from '@/navigation/tabBarConfig';
 import {TAB_CONFIG} from '@/navigation/tabConfig';
 import {MainTabParamList} from '@/navigation/types';
 import {createElevationStyle} from '@/theme/elevation';
@@ -24,12 +26,6 @@ const TAB_STACKS = {
   DashboardTab: DashboardStackNavigator,
   ProfileTab: ProfileStackNavigator,
 } as const;
-
-const TAB_BAR_HIDDEN_ROUTES = new Set([
-  'Steps',
-  'Login',
-  'ProfileSection',
-]);
 
 function TabBarButton({style, ...props}: BottomTabBarButtonProps) {
   const {styles, theme} = useStyles(stylesheet);
@@ -109,7 +105,19 @@ const MainTabNavigator = () => {
 
             return {
               title: tab.label,
-              tabBarLabel: tab.label,
+              tabBarLabel: ({focused, color}) => (
+                <Text
+                  style={{
+                    ...brandFontStyle(
+                      focused ? '600' : theme.typography.labelMedium.fontWeight,
+                      theme.typography.labelMedium.fontSize,
+                      theme.typography.labelMedium.lineHeight,
+                    ),
+                    color,
+                  }}>
+                  {tab.label}
+                </Text>
+              ),
               tabBarAccessibilityLabel: tab.label,
               tabBarIcon: TAB_BAR_ICONS[tab.icon],
               tabBarStyle: hideTabBar

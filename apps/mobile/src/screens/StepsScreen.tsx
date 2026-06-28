@@ -1,17 +1,18 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import {CompositeNavigationProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {Button} from '@/components/ui/Button';
 import {Text} from '@/components/ui/Text';
+import {CollapsingHeaderScreen} from '@/components/layout/CollapsingHeaderScreen';
 import {
   STEPS_DEV_ACTIONS,
   STEPS_SCREEN_DESCRIPTION,
+  STEPS_SCREEN_TITLE,
 } from '@/features/home/data/stepsScreenContent';
 import {useStepsScreen} from '@/features/home/hooks/useStepsScreen';
 import {HomeStackParamList, RootStackParamList} from '@/navigation/types';
-import {CompositeNavigationProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type StepsScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<HomeStackParamList, 'Steps'>,
@@ -27,9 +28,7 @@ const StepsScreen = ({navigation}: StepsScreenProps) => {
   const {onDevActionPress} = useStepsScreen(navigation);
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.scrollContent}
-      showsVerticalScrollIndicator={false}>
+    <CollapsingHeaderScreen title={STEPS_SCREEN_TITLE}>
       <Text variant="bodyLarge" color="onSurfaceVariant" style={styles.description}>
         {STEPS_SCREEN_DESCRIPTION}
       </Text>
@@ -44,20 +43,11 @@ const StepsScreen = ({navigation}: StepsScreenProps) => {
             />
           ))
         : null}
-    </ScrollView>
+    </CollapsingHeaderScreen>
   );
 };
 
-const stylesheet = createStyleSheet(theme => ({
-  scrollContent: {
-    flexGrow: 1,
-    paddingHorizontal: theme.spacing.lg,
-    paddingVertical: theme.spacing.md,
-    gap: theme.spacing.md,
-    maxWidth: theme.sizes.contentMaxWidth,
-    alignSelf: 'center',
-    width: '100%',
-  },
+const stylesheet = createStyleSheet(() => ({
   description: {
     textAlign: 'center',
   },

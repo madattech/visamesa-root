@@ -39,7 +39,7 @@ export const lightColors = {
   outline: '#75777F',
   outlineVariant: '#C5C6D0',
 
-  background: '#FFFFFF',
+  background: '#FCFCFC',
   onBackground: '#1B1B1F',
 
   inverseSurface: '#303033',

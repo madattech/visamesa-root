@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
-import {useTabBarInset} from '@/navigation/useTabBarInset';
+import {useContentBottomInset} from '@/navigation/useContentBottomInset';
 
 type InternalDetailScreenLayoutProps = {
   children: React.ReactNode;
@@ -24,7 +24,7 @@ export function InternalDetailScreenLayout({
   scrollViewProps,
 }: InternalDetailScreenLayoutProps) {
   const {styles, theme} = useStyles(stylesheet);
-  const tabBarInset = useTabBarInset();
+  const contentBottomInset = useContentBottomInset();
 
   const scrollView = (
     <ScrollView
@@ -32,7 +32,7 @@ export function InternalDetailScreenLayout({
       style={[styles.flex, scrollViewProps?.style]}
       contentContainerStyle={[
         styles.scrollContent,
-        {paddingBottom: theme.spacing.lg + tabBarInset},
+        {paddingBottom: theme.spacing.lg + contentBottomInset},
         contentContainerStyle,
       ]}
       keyboardShouldPersistTaps="handled"
@@ -60,7 +60,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: theme.spacing.md,
+    paddingHorizontal: theme.layout.screenPaddingX,
     paddingTop: theme.spacing.md,
     gap: theme.spacing.md,
     maxWidth: theme.sizes.contentMaxWidth,

@@ -2,7 +2,6 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {ProfileDataProvider} from '@/features/profile/context/ProfileDataContext';
-import {getProfileSection} from '@/features/profile/data/profileSections';
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
 import LegalScreen from '@/screens/LegalScreen';
 import LoginScreen from '@/screens/LoginScreen';
@@ -24,22 +23,8 @@ function ProfileStackScreens() {
         contentStyle: internalStackScreenOptions.contentStyle,
       }}>
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen
-        name="ProfileSection"
-        component={ProfileSectionScreen}
-        options={({route}) => ({
-          ...internalStackScreenOptions,
-          title: getProfileSection(route.params.sectionId).title,
-        })}
-      />
-      <Stack.Screen
-        name="Legal"
-        component={LegalScreen}
-        options={{
-          ...internalStackScreenOptions,
-          title: 'Legal & Privacy',
-        }}
-      />
+      <Stack.Screen name="ProfileSection" component={ProfileSectionScreen} />
+      <Stack.Screen name="Legal" component={LegalScreen} />
       <Stack.Screen
         name="Login"
         component={LoginScreen}

@@ -3,6 +3,7 @@ import {Pressable, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Icon} from '@/components/ui/Icon';
+import {StatusIndicator} from '@/components/ui/StatusIndicator';
 import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
 
@@ -12,6 +13,9 @@ type DetailLinkRowProps = {
   variant?: 'default' | 'compact';
   onPress: () => void;
   accessibilityLabel?: string;
+  /** Optional status indicator (before chevron) */
+  status?: 'done' | 'notDone';
+  disabled?: boolean;
 };
 
 export function DetailLinkRow({
@@ -20,41 +24,68 @@ export function DetailLinkRow({
   variant = 'default',
   onPress,
   accessibilityLabel,
+  status,
+  disabled = false,
 }: DetailLinkRowProps) {
   const {styles, theme} = useStyles(stylesheet);
 
   if (variant === 'compact') {
     return (
       <Pressable
+        disabled={disabled}
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel ?? title}
         android_ripple={{color: theme.colors.primaryContainer}}
         onPress={onPress}
-        style={({pressed}) => [styles.compactPressable, pressed && styles.pressed]}>
+        style={({pressed}) => [
+          styles.compactPressable,
+          pressed && styles.pressed,
+          disabled && styles.disabled,
+        ]}>
         <Text variant="labelLarge" color="primary">
           {title}
         </Text>
+        {status ? <StatusIndicator status={status} size="sm" /> : null}
         <Icon name="chevron-right" size="sm" color="primary" />
       </Pressable>
     );
   }
 
   return (
-    <Surface variant="outlined" style={styles.container}>
+    <Surface
+      variant="elevated"
+      elevation={2}
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.colors.surface,
+          borderRadius: theme.radii.lg,
+        },
+      ]}>
       <Pressable
+        disabled={disabled}
         accessibilityRole="button"
         accessibilityLabel={accessibilityLabel ?? title}
         android_ripple={{color: theme.colors.primaryContainer}}
         onPress={onPress}
-        style={({pressed}) => [styles.pressable, pressed && styles.pressed]}>
+        style={({pressed}) => [
+          styles.pressable,
+          pressed && styles.pressed,
+          disabled && styles.disabled,
+        ]}>
         <View style={styles.textBlock}>
           <Text variant="titleMedium">{title}</Text>
           {description ? (
-            <Text variant="bodySmall" color="onSurfaceVariant">
+            <Text
+              variant="bodySmall"
+              color="onSurfaceVariant"
+              numberOfLines={1}
+              ellipsizeMode="tail">
               {description}
             </Text>
           ) : null}
         </View>
+        {status ? <StatusIndicator status={status} size="md" /> : null}
         <Icon name="chevron-right" size="md" color="onSurfaceVariant" />
       </Pressable>
     </Surface>
@@ -62,9 +93,7 @@ export function DetailLinkRow({
 }
 
 const stylesheet = createStyleSheet(theme => ({
-  container: {
-    overflow: 'hidden',
-  },
+  container: {},
   pressable: {
     minHeight: theme.sizes.touchTargetMin + theme.spacing.sm,
     flexDirection: 'row',
@@ -83,6 +112,9 @@ const stylesheet = createStyleSheet(theme => ({
   },
   pressed: {
     opacity: 0.88,
+  },
+  disabled: {
+    opacity: 0.6,
   },
   textBlock: {
     flex: 1,

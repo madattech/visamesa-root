@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Text } from '@/components/ui/Text'
 import { TieStepDetail } from '@/features/home/types/TieStepDetail'
-import { configureLayoutAnimation } from '@/utils/layoutAnimation'
 
 type StepOverviewProps = {
   step: TieStepDetail;
@@ -13,12 +12,8 @@ type StepOverviewProps = {
 export function StepOverview({step}: StepOverviewProps) {
   const {styles} = useStyles(stylesheet);
 
-  useEffect(() => {
-    configureLayoutAnimation();
-  }, [step.id]);
-
   return (
-    <View style={styles.content}>
+    <View style={styles.content} key={step.id}>
       <Text variant="titleMedium" style={styles.title}>
         {step.title}
       </Text>

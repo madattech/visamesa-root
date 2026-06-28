@@ -1,23 +1,15 @@
 import React, {useState} from 'react';
-import {
-  Alert,
-  Linking,
-  Platform,
-  ScrollView,
-  Share,
-  View,
-} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {Alert, Linking, Platform, Share, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {useNavigation} from '@react-navigation/native';
 
+import {CollapsingHeaderScreen} from '@/components/layout/CollapsingHeaderScreen';
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
 import {WEBSITE_BASE_URL} from '@/config/website';
 import {useAuth} from '@/contexts/AuthContext';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {accountService} from '@/services/accountService';
-import {cryptoService} from '@/services/cryptoService';
 
 const LegalScreen = () => {
   const {styles} = useStyles(stylesheet);
@@ -126,75 +118,58 @@ const LegalScreen = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      <ScrollView
-        style={styles.scroll}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}>
-        <View style={styles.section}>
-          <Text variant="labelLarge" color="onSurfaceVariant">
-            Legal Documents
-          </Text>
-          <DetailLinkRow
-            title="Privacy Policy"
-            description="How we handle your data"
-            onPress={() => handleOpenLink('/privacy')}
-          />
-          <DetailLinkRow
-            title="Terms of Service"
-            description="Terms and conditions"
-            onPress={() => handleOpenLink('/terms')}
-          />
-        </View>
+    <CollapsingHeaderScreen title="Legal & Privacy">
+      <View style={styles.section}>
+        <Text variant="labelLarge" color="onSurfaceVariant">
+          Legal Documents
+        </Text>
+        <DetailLinkRow
+          title="Privacy Policy"
+          description="How we handle your data"
+          onPress={() => handleOpenLink('/privacy')}
+        />
+        <DetailLinkRow
+          title="Terms of Service"
+          description="Terms and conditions"
+          onPress={() => handleOpenLink('/terms')}
+        />
+      </View>
 
-        <View style={styles.section}>
-          <Text variant="labelLarge" color="onSurfaceVariant">
-            Your Data Rights
-          </Text>
-          <DetailLinkRow
-            title="Export My Data"
-            description={
-              isExporting ? 'Exporting...' : 'Download all your information'
-            }
-            onPress={handleExportData}
-            disabled={isExporting}
-          />
-          <DetailLinkRow
-            title="Delete My Account"
-            description={
-              isDeleting
-                ? 'Deleting...'
-                : 'Permanently delete your account and data'
-            }
-            onPress={handleDeleteAccount}
-            disabled={isDeleting}
-          />
-        </View>
+      <View style={styles.section}>
+        <Text variant="labelLarge" color="onSurfaceVariant">
+          Your Data Rights
+        </Text>
+        <DetailLinkRow
+          title="Export My Data"
+          description={
+            isExporting ? 'Exporting...' : 'Download all your information'
+          }
+          onPress={handleExportData}
+          disabled={isExporting}
+        />
+        <DetailLinkRow
+          title="Delete My Account"
+          description={
+            isDeleting
+              ? 'Deleting...'
+              : 'Permanently delete your account and data'
+          }
+          onPress={handleDeleteAccount}
+          disabled={isDeleting}
+        />
+      </View>
 
-        <View style={styles.section}>
-          <Text variant="bodySmall" color="onSurfaceVariant">
-            Your personal data is encrypted on your device. We follow EU GDPR
-            regulations and provide tools to manage your privacy rights.
-          </Text>
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+      <View style={styles.section}>
+        <Text variant="bodySmall" color="onSurfaceVariant">
+          Your personal data is encrypted on your device. We follow EU GDPR
+          regulations and provide tools to manage your privacy rights.
+        </Text>
+      </View>
+    </CollapsingHeaderScreen>
   );
 };
 
 const stylesheet = createStyleSheet(theme => ({
-  container: {
-    flex: 1,
-    backgroundColor: theme.colors.background,
-  },
-  scroll: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingHorizontal: theme.spacing.md,
-    paddingTop: theme.spacing.md,
-    gap: theme.spacing.xl,
-  },
   section: {
     gap: theme.spacing.sm,
   },

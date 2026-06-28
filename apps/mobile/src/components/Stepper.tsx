@@ -5,6 +5,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {Button} from '@/components/ui/Button';
 import {Icon} from '@/components/ui/Icon';
 import {Text} from '@/components/ui/Text';
+import {createElevationStyle} from '@/theme/elevation';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {getStepShortLabel} from '@/utils/stepLabel';
 
@@ -25,8 +26,9 @@ export function Stepper({
   compact = false,
   onStepPress,
 }: StepperProps) {
-  const {styles} = useStyles(stylesheet);
+  const {styles, theme} = useStyles(stylesheet);
   const completedSet = new Set(completedStepIds);
+  const elevationStyle = createElevationStyle(2, theme.colors);
 
   return (
     <ScrollView
@@ -69,6 +71,8 @@ export function Stepper({
                 !isActive && !isCompleted && styles.stepButtonInactive,
                 isCompleted && styles.stepButtonCompleted,
                 !pressable && styles.stepButtonDisabled,
+                elevationStyle,
+                {borderWidth: 0},
               ]}>
               {isCompleted ? (
                 <Icon name="check" size="md" color="success" />
@@ -101,7 +105,7 @@ const stylesheet = createStyleSheet(theme => ({
   scrollContent: {
     paddingHorizontal: theme.spacing.md,
     paddingTop: theme.spacing.md,
-    paddingBottom: theme.spacing.xs,
+    paddingBottom: theme.spacing.lg,
     flexDirection: 'row',
     gap: theme.spacing.sm,
     alignItems: 'flex-start',
@@ -120,7 +124,8 @@ const stylesheet = createStyleSheet(theme => ({
     minHeight: theme.sizes.touchTargetMin,
   },
   stepButtonInactive: {
-    borderColor: theme.colors.outlineVariant,
+    borderWidth: 0,
+    backgroundColor: theme.colors.surface,
   },
   stepButtonCompleted: {
     backgroundColor: theme.colors.successContainer,

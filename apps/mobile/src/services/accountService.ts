@@ -3,8 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {API_ENDPOINTS} from '@/config/api';
 import apiClient from '@/services/api';
-import {consentService} from '@/services/consentService';
-import {profileCompletionService} from '@/features/profile/services/profileCompletionService';
 
 const KEYCHAIN_SERVICE = 'visamesa_encryption_key';
 

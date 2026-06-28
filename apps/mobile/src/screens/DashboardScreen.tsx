@@ -182,7 +182,7 @@ const stylesheet = createStyleSheet(theme => ({
   },
   scrollContent: {
     paddingHorizontal: theme.spacing.md,
-    paddingTop: theme.spacing.md,
+    paddingTop: theme.spacing.sm,
     paddingBottom: theme.spacing.md,
     gap: theme.spacing.lg,
   },

@@ -4,6 +4,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Accordion, AccordionItem} from '@/components/Accordion/Accordion';
 import {Text} from '@/components/ui/Text';
+import {useCollapsingHeaderScroll} from '@/contexts/CollapsingHeaderContext';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
 
 type StepDetailContentProps = {
@@ -13,6 +14,15 @@ type StepDetailContentProps = {
 export function StepDetailContent({step}: StepDetailContentProps) {
   const {styles, theme} = useStyles(stylesheet);
   const [expandedId, setExpandedId] = useState<string | null>('why');
+  const collapsingHeaderScroll = useCollapsingHeaderScroll();
+
+  const handleExpand = (layoutY: number) => {
+    if (collapsingHeaderScroll) {
+      // Scroll so expanded content is visible above tab bar
+      // Add some padding for better UX
+      collapsingHeaderScroll.scrollToY(layoutY - 20);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -20,7 +30,10 @@ export function StepDetailContent({step}: StepDetailContentProps) {
         {step.description}
       </Text>
 
-      <Accordion expandedId={expandedId} onExpandedChange={setExpandedId}>
+      <Accordion
+        expandedId={expandedId}
+        onExpandedChange={setExpandedId}
+        onExpand={handleExpand}>
         <AccordionItem
           id="why"
           title="Why is this step needed?"
