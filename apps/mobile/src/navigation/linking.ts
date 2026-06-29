@@ -26,6 +26,7 @@ export const linking: LinkingOptions<RootStackParamList> = {
           ProfileTab: {
             screens: {
               Profile: 'profile',
+              Legal: 'legal',
               Login: 'login',
             },
           },

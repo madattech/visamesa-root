@@ -52,6 +52,12 @@ jest.mock('@/navigation/navigationRef', () => ({
   navigateToProfile: jest.fn(),
 }));
 
+jest.mock('@/hooks/usePricingLink', () => ({
+  usePricingLink: () => ({
+    openPricing: jest.fn(),
+  }),
+}));
+
 jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
 
 const {useTieSteps} = jest.requireMock('@/features/home/hooks/useTieSteps') as {
@@ -134,7 +140,7 @@ describe('useDashboardScreen', () => {
     expect(getHookState().stepActionLabel).toBeDefined();
   });
 
-  it('shows prerequisites button when not ready', () => {
+  it('shows complete profile dialog when not ready', () => {
     // Set mock before rendering hook
     mockUseProcessReadiness.mockReturnValue({
       canStartProcess: false,
@@ -149,20 +155,20 @@ describe('useDashboardScreen', () => {
 
     expect(getHookState().canStartProcess).toBe(false);
     expect(getHookState().stepActionLabel).toBe('See prerequisites');
-    expect(getHookState().showPrerequisitesModal).toBe(false);
+    expect(getHookState().showCompleteProfileDialog).toBe(false);
 
     act(() => {
       getHookState().onCompleteStep();
     });
 
-    expect(getHookState().showPrerequisitesModal).toBe(true);
+    expect(getHookState().showCompleteProfileDialog).toBe(true);
     expect(completeStep).not.toHaveBeenCalled();
 
     act(() => {
-      getHookState().onClosePrerequisitesModal();
+      getHookState().onCloseCompleteProfileDialog();
     });
 
-    expect(getHookState().showPrerequisitesModal).toBe(false);
+    expect(getHookState().showCompleteProfileDialog).toBe(false);
 
     // Restore default mock for other tests
     mockUseProcessReadiness.mockReturnValue({

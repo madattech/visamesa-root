@@ -8,13 +8,13 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Stepper} from '@/components/Stepper';
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
+import {CompleteProfileDialog} from '@/components/CompleteProfileDialog';
 import {DashboardHeader} from '@/features/dashboard/components/DashboardHeader';
 import {DashboardUnauthenticated} from '@/features/dashboard/components/DashboardUnauthenticated';
 import {RequirementsChecklist} from '@/features/dashboard/components/RequirementsChecklist';
 import {StepActionFooter} from '@/features/dashboard/components/StepActionFooter';
 import {DASHBOARD_STEP_DETAIL_LABEL} from '@/features/dashboard/data/dashboardContent';
 import {useDashboardScreen} from '@/features/dashboard/hooks/useDashboardScreen';
-import {ProcessPrerequisitesModal} from '@/features/home/components/ProcessPrerequisitesModal';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {DashboardStackParamList, RootStackParamList} from '@/navigation/types';
 
@@ -46,8 +46,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     stepActionLabel,
     currentStepRequirements,
     canStartProcess,
-    processMissing,
-    showPrerequisitesModal,
+    showCompleteProfileDialog,
     onSignInPress,
     onStepPress,
     onStepDetailPress,
@@ -57,8 +56,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onViewAppointmentPress,
     onClearAutomationPress,
     onFormPress,
-    onClosePrerequisitesModal,
-    onGetServicePress,
+    onCloseCompleteProfileDialog,
     onCompleteProfilePress,
   } = useDashboardScreen(navigation);
 
@@ -148,12 +146,10 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
           />
         </View>
       </View>
-      <ProcessPrerequisitesModal
-        visible={showPrerequisitesModal}
-        missing={processMissing}
-        onClose={onClosePrerequisitesModal}
-        onGetServicePress={onGetServicePress}
-        onCompleteProfilePress={onCompleteProfilePress}
+      <CompleteProfileDialog
+        visible={showCompleteProfileDialog}
+        onClose={onCloseCompleteProfileDialog}
+        onCompleteProfile={onCompleteProfilePress}
       />
     </SafeAreaView>
   );

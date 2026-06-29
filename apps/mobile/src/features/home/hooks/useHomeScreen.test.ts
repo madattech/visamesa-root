@@ -19,6 +19,12 @@ jest.mock('@/components/Toast/ToastProvider', () => ({
   }),
 }));
 
+jest.mock('@/hooks/usePricingLink', () => ({
+  usePricingLink: () => ({
+    openPricing: jest.fn(),
+  }),
+}));
+
 jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
@@ -89,7 +95,7 @@ describe('useHomeScreen', () => {
     expect(getHookState().activeStep?.id).toBe(2);
   });
 
-  it('shows prerequisites modal for signed-in users without payment', async () => {
+  it('shows complete profile dialog for signed-in users who cannot start process', async () => {
     const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
@@ -97,7 +103,7 @@ describe('useHomeScreen', () => {
       getHookState().onPrimaryPress();
     });
 
-    expect(getHookState().showPrerequisitesModal).toBe(true);
+    expect(getHookState().showCompleteProfileDialog).toBe(true);
     expect(Linking.openURL).not.toHaveBeenCalled();
   });
 

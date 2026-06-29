@@ -37,9 +37,18 @@ export function isLegalPrivacyComplete(hasConsent: boolean): boolean {
   return hasConsent;
 }
 
+/**
+ * Determines whether the Payment section is complete.
+ * Checks if user has paid for the service.
+ */
+export function isPaymentComplete(hasPaid: boolean): boolean {
+  return hasPaid;
+}
+
 export type ProfileCompleteness = {
   personalInformation: boolean;
   legalPrivacy: boolean;
+  payment: boolean;
 };
 
 /**
@@ -48,9 +57,11 @@ export type ProfileCompleteness = {
 export function selectProfileCompleteness(
   profileData: ProfileData | null,
   hasConsent: boolean,
+  hasPaid: boolean,
 ): ProfileCompleteness {
   return {
     personalInformation: isPersonalInformationComplete(profileData),
     legalPrivacy: isLegalPrivacyComplete(hasConsent),
+    payment: isPaymentComplete(hasPaid),
   };
 }

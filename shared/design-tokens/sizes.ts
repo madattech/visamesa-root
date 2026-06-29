@@ -10,8 +10,18 @@ export const sizes = {
   stepper: {
     itemWidth: 72,
   },
+  breakpoints: {
+    sm: 640,
+    md: 768,
+    lg: 900,
+    xl: 1200,
+  },
+  viewportMin: 320,
   contentMaxWidth: 480,
   marketingMaxWidth: 1120,
+  readingMaxWidth: 720,
+  heroCopyMaxWidth: 576,
+  sectionLeadMaxWidth: 640,
 } as const
 
 export type Sizes = typeof sizes

@@ -1,3 +1,8 @@
+import {
+  PROFILE_PERSONAL_TITLE,
+  PROFILE_PERSONAL_DESCRIPTION,
+} from './profileContent';
+
 export type ProfileSectionId = 'personal';
 
 export type ProfileSectionConfig = {
@@ -10,9 +15,9 @@ export type ProfileSectionConfig = {
 export const PROFILE_SECTIONS: ProfileSectionConfig[] = [
   {
     id: 'personal',
-    title: 'Personal Information',
+    title: PROFILE_PERSONAL_TITLE,
     formId: 'profile-personal',
-    description: 'Your identity, contact details, registered address',
+    description: PROFILE_PERSONAL_DESCRIPTION,
   },
 ];
 

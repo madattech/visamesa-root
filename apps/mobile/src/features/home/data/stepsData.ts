@@ -160,10 +160,6 @@ export const tieStepsDetail: TieStepDetail[] = [
         label: 'Barcelona TIE Info – National Police',
         url: 'https://www.barcelona.cat/internationalwelcome/en/identity-card-foreign-nationals-tie',
       },
-      {
-        label: 'TIE Requirements & Documents (Indicative)',
-        url: 'https://immigrationlawyerbarcelona.es/apply-for-tie-spain-online/',
-      },
     ],
     whyItExists:
       'Spanish bureaucracy is strict about completeness and accuracy — official forms, passport copies, fee payments, and certificates must be exact.',

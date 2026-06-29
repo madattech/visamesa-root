@@ -8,6 +8,13 @@ import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
 import {WEBSITE_BASE_URL} from '@/config/website';
 import {useAuth} from '@/contexts/AuthContext';
+import {
+  OFFICIAL_SOURCES_INTRO,
+  OFFICIAL_SOURCES_SECTION_TITLE,
+  SERVICE_DISCLAIMER_MASTER_PARAGRAPHS,
+  SERVICE_DISCLAIMER_SECTION_TITLE,
+} from '@/features/legal/data/legalDisclaimerContent';
+import {selectOfficialInformationSources} from '@/features/home/selectors/selectOfficialInformationSources';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {accountService} from '@/services/accountService';
 
@@ -18,6 +25,7 @@ const LegalScreen = () => {
   const {profileData} = useProfileData();
   const [isExporting, setIsExporting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const officialSources = selectOfficialInformationSources();
 
   const handleOpenLink = (path: string) => {
     const url = `${WEBSITE_BASE_URL}${path}`;
@@ -121,6 +129,40 @@ const LegalScreen = () => {
     <CollapsingHeaderScreen title="Legal & Privacy">
       <View style={styles.section}>
         <Text variant="labelLarge" color="onSurfaceVariant">
+          {SERVICE_DISCLAIMER_SECTION_TITLE}
+        </Text>
+        {SERVICE_DISCLAIMER_MASTER_PARAGRAPHS.map(paragraph => (
+          <Text
+            key={paragraph}
+            variant="bodyMedium"
+            color="onSurfaceVariant"
+            style={styles.paragraph}>
+            {paragraph}
+          </Text>
+        ))}
+      </View>
+
+      <View style={styles.section}>
+        <Text variant="labelLarge" color="onSurfaceVariant">
+          {OFFICIAL_SOURCES_SECTION_TITLE}
+        </Text>
+        <Text variant="bodyMedium" color="onSurfaceVariant">
+          {OFFICIAL_SOURCES_INTRO}
+        </Text>
+        {officialSources.map(source => (
+          <DetailLinkRow
+            key={source.url}
+            title={source.label}
+            description={source.url}
+            onPress={() => Linking.openURL(source.url).catch(() => {
+              Alert.alert('Error', 'Could not open the link');
+            })}
+          />
+        ))}
+      </View>
+
+      <View style={styles.section}>
+        <Text variant="labelLarge" color="onSurfaceVariant">
           Legal Documents
         </Text>
         <DetailLinkRow
@@ -172,6 +214,9 @@ const LegalScreen = () => {
 const stylesheet = createStyleSheet(theme => ({
   section: {
     gap: theme.spacing.sm,
+  },
+  paragraph: {
+    lineHeight: 22,
   },
 }));
 
