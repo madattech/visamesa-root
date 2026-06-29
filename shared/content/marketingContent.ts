@@ -1,7 +1,6 @@
 export const HERO_TITLE_PREFIX = 'Paperwork,'
 export const HERO_TITLE_ACCENT = 'all in one'
 export const HERO_SUBTITLE = 'Manage your TIE, forms, and appointments'
-export const HERO_SECTION_TITLE = 'Your TIE process, step by step'
 export const HERO_LEAD =
   'VisaMesa guides you through the real-world residency process with clear steps and optional automation when appointments are hard to find.'
 export const PROCESS_SECTION_LEAD =
@@ -17,4 +16,10 @@ export const CLOSING_CTA_LEAD =
   'Choose your service, complete checkout, and continue in the mobile app.'
 
 export const CTA_GET_SERVICE = 'Get VisaMesa service'
+export const CTA_GET_SERVICE_SHORT = 'Get service'
 export const SIGN_IN_HINT = 'Use the same Google account you will use in the mobile app.'
+
+/** @deprecated Use PROCESS_SECTION_TITLE — kept for mobile re-export compatibility */
+export const HERO_SECTION_TITLE = 'Your TIE process, step by step'
+
+export const PROCESS_SECTION_TITLE = HERO_SECTION_TITLE

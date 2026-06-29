@@ -1,5 +1,7 @@
 import {LinkingOptions} from '@react-navigation/native';
 
+import {SITE_URL} from '@visamesa/content/site';
+
 import {RootStackParamList} from '@/navigation/types';
 
 /**
@@ -7,7 +9,7 @@ import {RootStackParamList} from '@/navigation/types';
  * Payment return uses visamesa://checkout/success (handled by PaymentReturnListener).
  */
 export const linking: LinkingOptions<RootStackParamList> = {
-  prefixes: ['visamesa://', 'https://visa-mesa.web.app'],
+  prefixes: ['visamesa://', SITE_URL],
   config: {
     screens: {
       MainTabs: {

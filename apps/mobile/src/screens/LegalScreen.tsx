@@ -6,33 +6,27 @@ import {useNavigation} from '@react-navigation/native';
 import {CollapsingHeaderScreen} from '@/components/layout/CollapsingHeaderScreen';
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
-import {WEBSITE_BASE_URL} from '@/config/website';
+import {useWebsiteLink} from '@/hooks/useWebsiteLink';
 import {useAuth} from '@/contexts/AuthContext';
 import {
+  OFFICIAL_INFORMATION_SOURCES,
   OFFICIAL_SOURCES_INTRO,
   OFFICIAL_SOURCES_SECTION_TITLE,
   SERVICE_DISCLAIMER_MASTER_PARAGRAPHS,
   SERVICE_DISCLAIMER_SECTION_TITLE,
 } from '@/features/legal/data/legalDisclaimerContent';
-import {selectOfficialInformationSources} from '@/features/home/selectors/selectOfficialInformationSources';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {accountService} from '@/services/accountService';
+import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
 
 const LegalScreen = () => {
   const {styles} = useStyles(stylesheet);
   const navigation = useNavigation();
   const {logout} = useAuth();
   const {profileData} = useProfileData();
+  const {openWebsitePath} = useWebsiteLink();
   const [isExporting, setIsExporting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const officialSources = selectOfficialInformationSources();
-
-  const handleOpenLink = (path: string) => {
-    const url = `${WEBSITE_BASE_URL}${path}`;
-    Linking.openURL(url).catch(() => {
-      Alert.alert('Error', 'Could not open the link');
-    });
-  };
 
   const handleExportData = async () => {
     setIsExporting(true);
@@ -149,14 +143,18 @@ const LegalScreen = () => {
         <Text variant="bodyMedium" color="onSurfaceVariant">
           {OFFICIAL_SOURCES_INTRO}
         </Text>
-        {officialSources.map(source => (
+        {OFFICIAL_INFORMATION_SOURCES.map(source => (
           <DetailLinkRow
             key={source.url}
             title={source.label}
             description={source.url}
-            onPress={() => Linking.openURL(source.url).catch(() => {
-              Alert.alert('Error', 'Could not open the link');
-            })}
+            onPress={() => {
+              openWebsiteUrl(source.url).then(opened => {
+                if (!opened) {
+                  Alert.alert('Error', 'Could not open the link');
+                }
+              });
+            }}
           />
         ))}
       </View>
@@ -168,12 +166,12 @@ const LegalScreen = () => {
         <DetailLinkRow
           title="Privacy Policy"
           description="How we handle your data"
-          onPress={() => handleOpenLink('/privacy')}
+          onPress={() => openWebsitePath('/privacy')}
         />
         <DetailLinkRow
           title="Terms of Service"
           description="Terms and conditions"
-          onPress={() => handleOpenLink('/terms')}
+          onPress={() => openWebsitePath('/terms')}
         />
       </View>
 
