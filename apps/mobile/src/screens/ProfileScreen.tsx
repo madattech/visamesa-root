@@ -16,10 +16,17 @@ import {Text} from '@/components/ui/Text';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {ProfileActions} from '@/features/profile/components/ProfileActions';
 import {ProfileHeader} from '@/features/profile/components/ProfileHeader';
-import {ProfileSectionList} from '@/features/profile/components/ProfileSectionList';
 import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnauthenticated';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
 import {selectProfileCompleteness} from '@/features/profile/selectors/selectProfileCompleteness';
+import {
+  PROFILE_PERSONAL_TITLE,
+  PROFILE_PERSONAL_DESCRIPTION,
+  PROFILE_LEGAL_TITLE,
+  PROFILE_LEGAL_DESCRIPTION,
+  PROFILE_PAYMENT_TITLE,
+  PROFILE_PAYMENT_DESCRIPTION,
+} from '@/features/profile/data/profileContent';
 import {consentService} from '@/services/consentService';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {
@@ -47,9 +54,11 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     userEmail,
     isProfileLoading,
     profileError,
+    hasPaid,
     onSectionPress,
     onSignInPress,
     onSignOutPress,
+    onPaymentPress,
   } = useProfileScreen(navigation);
 
   useEffect(() => {
@@ -58,7 +67,7 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     }
   }, [userEmail]);
 
-  const completeness = selectProfileCompleteness(profileData, hasConsent);
+  const completeness = selectProfileCompleteness(profileData, hasConsent, hasPaid);
 
   const handleLegalPress = () => {
     navigation.navigate('Legal');
@@ -102,16 +111,25 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
             </Text>
           ) : null}
 
-          <ProfileSectionList
-            onSectionPress={onSectionPress}
-            completeness={completeness}
+          <DetailLinkRow
+            title={PROFILE_PERSONAL_TITLE}
+            description={PROFILE_PERSONAL_DESCRIPTION}
+            onPress={() => onSectionPress('personal')}
+            status={completeness.personalInformation ? 'done' : 'notDone'}
           />
 
           <DetailLinkRow
-            title="Legal & Privacy"
-            description="Privacy policy, terms, and data rights"
+            title={PROFILE_LEGAL_TITLE}
+            description={PROFILE_LEGAL_DESCRIPTION}
             onPress={handleLegalPress}
             status={completeness.legalPrivacy ? 'done' : 'notDone'}
+          />
+
+          <DetailLinkRow
+            title={PROFILE_PAYMENT_TITLE}
+            description={PROFILE_PAYMENT_DESCRIPTION}
+            onPress={onPaymentPress}
+            status={completeness.payment ? 'done' : 'notDone'}
           />
 
           <ProfileActions onSignOutPress={onSignOutPress} />

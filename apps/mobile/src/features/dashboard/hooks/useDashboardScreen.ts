@@ -1,12 +1,12 @@
 import {useEffect, useMemo, useState} from 'react';
-import {Alert, Linking} from 'react-native';
+import {Alert} from 'react-native';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {useToast} from '@/components/Toast/ToastProvider';
-import {WEBSITE_PRICING_URL} from '@/config/website';
 import {useAuth} from '@/contexts/AuthContext';
 import {useEntitlements} from '@/contexts/EntitlementsContext';
+import {usePricingLink} from '@/hooks/usePricingLink';
 import {RequirementWithProgress} from '@/features/dashboard/components/RequirementsChecklist';
 import {
   DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT,
@@ -61,8 +61,7 @@ export type UseDashboardScreenResult = {
   stepActionLabel: string;
   currentStepRequirements: RequirementWithProgress[];
   canStartProcess: boolean;
-  processMissing: ProcessReadinessMissing[];
-  showPrerequisitesModal: boolean;
+  showCompleteProfileDialog: boolean;
   onSignInPress: () => void;
   onStepPress: (stepId: number) => void;
   onStepDetailPress: () => void;
@@ -72,8 +71,7 @@ export type UseDashboardScreenResult = {
   onViewAppointmentPress: (label: string) => void;
   onClearAutomationPress: (label: string) => void;
   onFormPress: (formId: string, label: string) => void;
-  onClosePrerequisitesModal: () => void;
-  onGetServicePress: () => void;
+  onCloseCompleteProfileDialog: () => void;
   onCompleteProfilePress: () => void;
 };
 
@@ -111,6 +109,7 @@ export function useDashboardScreen(
   const {user, isLoading: isAuthLoading} = useAuth();
   const {canUseAutomation: canUseAutomationEntitlement} = useEntitlements();
   const {showToast} = useToast();
+  const {openPricing} = usePricingLink();
   const {steps, isLoading: isStepsLoading, error: stepsError} = useTieSteps();
   const {
     progress,
@@ -121,10 +120,10 @@ export function useDashboardScreen(
     clearAutomationRequirement,
     completeFormRequirement,
   } = useUserProgress();
-  const {canStartProcess, missing: processMissing} = useProcessReadiness();
+  const {canStartProcess} = useProcessReadiness();
 
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
-  const [showPrerequisitesModal, setShowPrerequisitesModal] = useState(false);
+  const [showCompleteProfileDialog, setShowCompleteProfileDialog] = useState(false);
 
   const activeStepId = progress
     ? getNextIncompleteStepId(progress, steps)
@@ -173,11 +172,11 @@ export function useDashboardScreen(
     !isCurrentStepCompleted && canStartProcess;
 
   const stepActionLabel = useMemo(() => {
-    if (!canStartProcess && processMissing.length > 0) {
+    if (!canStartProcess) {
       return PREREQUISITES_BUTTON_LABEL;
     }
     return currentStep?.cta.complete ?? 'Complete step';
-  }, [canStartProcess, processMissing, currentStep]);
+  }, [canStartProcess, currentStep]);
 
   const stepActionDisabledHint = useMemo(() => {
     if (!isCurrentStepCompleted && currentStepId !== activeStepId) {
@@ -208,9 +207,9 @@ export function useDashboardScreen(
   };
 
   const onCompleteStep = () => {
-    // If prerequisites not met, show modal instead
-    if (!canStartProcess && processMissing.length > 0) {
-      setShowPrerequisitesModal(true);
+    // If prerequisites not met, show dialog instead
+    if (!canStartProcess) {
+      setShowCompleteProfileDialog(true);
       return;
     }
 
@@ -278,7 +277,7 @@ export function useDashboardScreen(
           {
             text: 'Get service',
             onPress: () => {
-              void Linking.openURL(WEBSITE_PRICING_URL);
+              void openPricing();
             },
           },
         ],
@@ -338,17 +337,12 @@ export function useDashboardScreen(
     );
   };
 
-  const onClosePrerequisitesModal = () => {
-    setShowPrerequisitesModal(false);
-  };
-
-  const onGetServicePress = () => {
-    setShowPrerequisitesModal(false);
-    void Linking.openURL(WEBSITE_PRICING_URL);
+  const onCloseCompleteProfileDialog = () => {
+    setShowCompleteProfileDialog(false);
   };
 
   const onCompleteProfilePress = () => {
-    setShowPrerequisitesModal(false);
+    setShowCompleteProfileDialog(false);
     navigateToProfile();
   };
 
@@ -372,8 +366,7 @@ export function useDashboardScreen(
     stepActionLabel,
     currentStepRequirements,
     canStartProcess,
-    processMissing,
-    showPrerequisitesModal,
+    showCompleteProfileDialog,
     onSignInPress,
     onStepPress,
     onStepDetailPress,
@@ -383,8 +376,7 @@ export function useDashboardScreen(
     onViewAppointmentPress,
     onClearAutomationPress,
     onFormPress,
-    onClosePrerequisitesModal,
-    onGetServicePress,
+    onCloseCompleteProfileDialog,
     onCompleteProfilePress,
   };
 }

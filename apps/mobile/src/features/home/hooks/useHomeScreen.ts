@@ -1,9 +1,7 @@
 import {useMemo, useState} from 'react';
-import {Alert, Linking} from 'react-native';
+import {Alert} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {WEBSITE_PRICING_URL} from '@/config/website';
-import {useToast} from '@/components/Toast/ToastProvider';
 import {useAuth} from '@/contexts/AuthContext';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
@@ -11,6 +9,7 @@ import {HomeStackParamList} from '@/navigation/types';
 import {configureLayoutAnimation} from '@/utils/layoutAnimation';
 import {useProcessReadiness} from '@/hooks/useProcessReadiness';
 import {navigateToDashboard, navigateToProfile} from '@/navigation/navigationRef';
+import {usePricingLink} from '@/hooks/usePricingLink';
 
 const DEFAULT_STEP_ID = 1;
 
@@ -28,9 +27,8 @@ export type UseHomeScreenResult = {
   onStepPress: (stepId: number) => void;
   onPrimaryPress: () => void;
   onSecondaryPress: () => void;
-  showPrerequisitesModal: boolean;
-  onClosePrerequisitesModal: () => void;
-  onGetServicePress: () => void;
+  showCompleteProfileDialog: boolean;
+  onCloseCompleteProfileDialog: () => void;
   onCompleteProfilePress: () => void;
 };
 
@@ -39,10 +37,10 @@ export function useHomeScreen(
 ): UseHomeScreenResult {
   const {steps, isLoading, error} = useTieSteps();
   const {user} = useAuth();
-  const {showToast} = useToast();
   const {canStartProcess} = useProcessReadiness();
+  const {openPricing} = usePricingLink();
   const [activeStepId, setActiveStepId] = useState(DEFAULT_STEP_ID);
-  const [showPrerequisitesModal, setShowPrerequisitesModal] = useState(false);
+  const [showCompleteProfileDialog, setShowCompleteProfileDialog] = useState(false);
 
   const activeStep = useMemo(
     () => steps.find(step => step.id === activeStepId),
@@ -54,20 +52,6 @@ export function useHomeScreen(
     setActiveStepId(stepId);
   };
 
-  const openPricingWebsite = async () => {
-    try {
-      const canOpen = await Linking.canOpenURL(WEBSITE_PRICING_URL);
-      if (!canOpen) {
-        showToast('Unable to open the VisaMesa website');
-        return;
-      }
-
-      await Linking.openURL(WEBSITE_PRICING_URL);
-    } catch {
-      showToast('Unable to open the VisaMesa website');
-    }
-  };
-
   const onPrimaryPress = () => {
     if (!user) {
       Alert.alert(
@@ -75,7 +59,7 @@ export function useHomeScreen(
         'You will complete payment on our website. After paying, return to the app and sign in with the same Google account to unlock your service.',
         [
           {text: 'Cancel', style: 'cancel'},
-          {text: 'Continue', onPress: () => void openPricingWebsite()},
+          {text: 'Continue', onPress: () => void openPricing()},
         ],
       );
       return;
@@ -87,25 +71,20 @@ export function useHomeScreen(
       return;
     }
 
-    // Otherwise, show prerequisites modal
-    setShowPrerequisitesModal(true);
+    // Otherwise, show complete profile dialog
+    setShowCompleteProfileDialog(true);
   };
 
   const onSecondaryPress = () => {
     navigation.navigate('Steps');
   };
 
-  const onClosePrerequisitesModal = () => {
-    setShowPrerequisitesModal(false);
-  };
-
-  const onGetServicePress = () => {
-    setShowPrerequisitesModal(false);
-    void openPricingWebsite();
+  const onCloseCompleteProfileDialog = () => {
+    setShowCompleteProfileDialog(false);
   };
 
   const onCompleteProfilePress = () => {
-    setShowPrerequisitesModal(false);
+    setShowCompleteProfileDialog(false);
     navigateToProfile();
   };
 
@@ -118,9 +97,8 @@ export function useHomeScreen(
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
-    showPrerequisitesModal,
-    onClosePrerequisitesModal,
-    onGetServicePress,
+    showCompleteProfileDialog,
+    onCloseCompleteProfileDialog,
     onCompleteProfilePress,
   };
 }

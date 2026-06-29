@@ -2,6 +2,7 @@ import {
   selectProfileCompleteness,
   isPersonalInformationComplete,
   isLegalPrivacyComplete,
+  isPaymentComplete,
 } from './selectProfileCompleteness';
 import {ProfileData} from '../types/ProfileData';
 
@@ -68,40 +69,74 @@ describe('selectProfileCompleteness', () => {
     });
   });
 
+  describe('isPaymentComplete', () => {
+    it('returns true when user has paid', () => {
+      expect(isPaymentComplete(true)).toBe(true);
+    });
+
+    it('returns false when user has not paid', () => {
+      expect(isPaymentComplete(false)).toBe(false);
+    });
+  });
+
+  describe('isPaymentComplete', () => {
+    it('returns true when user has paid', () => {
+      expect(isPaymentComplete(true)).toBe(true);
+    });
+
+    it('returns false when user has not paid', () => {
+      expect(isPaymentComplete(false)).toBe(false);
+    });
+  });
+
   describe('selectProfileCompleteness', () => {
-    it('returns correct completeness when both sections are complete', () => {
-      const result = selectProfileCompleteness(completeProfileData, true);
+    it('returns correct completeness when all sections are complete', () => {
+      const result = selectProfileCompleteness(completeProfileData, true, true);
 
       expect(result).toEqual({
         personalInformation: true,
         legalPrivacy: true,
+        payment: true,
       });
     });
 
     it('returns correct completeness when personal info is incomplete', () => {
-      const result = selectProfileCompleteness(null, true);
+      const result = selectProfileCompleteness(null, true, true);
 
       expect(result).toEqual({
         personalInformation: false,
         legalPrivacy: true,
+        payment: true,
       });
     });
 
     it('returns correct completeness when consent is missing', () => {
-      const result = selectProfileCompleteness(completeProfileData, false);
+      const result = selectProfileCompleteness(completeProfileData, false, true);
 
       expect(result).toEqual({
         personalInformation: true,
         legalPrivacy: false,
+        payment: true,
       });
     });
 
-    it('returns correct completeness when both sections are incomplete', () => {
-      const result = selectProfileCompleteness(null, false);
+    it('returns correct completeness when payment is missing', () => {
+      const result = selectProfileCompleteness(completeProfileData, true, false);
+
+      expect(result).toEqual({
+        personalInformation: true,
+        legalPrivacy: true,
+        payment: false,
+      });
+    });
+
+    it('returns correct completeness when all sections are incomplete', () => {
+      const result = selectProfileCompleteness(null, false, false);
 
       expect(result).toEqual({
         personalInformation: false,
         legalPrivacy: false,
+        payment: false,
       });
     });
   });

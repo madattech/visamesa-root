@@ -1,20 +1,20 @@
-import React from 'react'
-import { ActivityIndicator, ScrollView, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import React from 'react';
+import {ActivityIndicator, ScrollView, View} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
-import { Stepper } from '@/components/Stepper'
-import { ButtonGroup } from '@/components/ui/ButtonGroup'
-import { Surface } from '@/components/ui/Surface'
-import { Text } from '@/components/ui/Text'
-import { HeroSection } from '@/features/home/components/HeroSection'
-import { ProcessPrerequisitesModal } from '@/features/home/components/ProcessPrerequisitesModal'
-import { StepOverview } from '@/features/home/components/StepOverview'
-import { useHomeScreen } from '@/features/home/hooks/useHomeScreen'
-import { HomeStackParamList } from '@/navigation/types'
-import { useTabBarInset } from '@/navigation/useTabBarInset'
-import { useProcessReadiness } from '@/hooks/useProcessReadiness'
-import { NativeStackNavigationProp } from '@react-navigation/native-stack'
+import {CompleteProfileDialog} from '@/components/CompleteProfileDialog';
+import {Stepper} from '@/components/Stepper';
+import {ButtonGroup} from '@/components/ui/ButtonGroup';
+import {Surface} from '@/components/ui/Surface';
+import {Text} from '@/components/ui/Text';
+import {ServiceDisclaimerShort} from '@/features/legal/components/ServiceDisclaimerShort';
+import {HeroSection} from '@/features/home/components/HeroSection';
+import {StepOverview} from '@/features/home/components/StepOverview';
+import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
+import {HomeStackParamList} from '@/navigation/types';
+import {useTabBarInset} from '@/navigation/useTabBarInset';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type HomeScreenProps = {
   navigation: NativeStackNavigationProp<HomeStackParamList, 'Home'>;
@@ -23,7 +23,6 @@ type HomeScreenProps = {
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
   const tabBarInset = useTabBarInset();
-  const {missing} = useProcessReadiness();
   const {
     steps,
     isLoading,
@@ -33,9 +32,8 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
-    showPrerequisitesModal,
-    onClosePrerequisitesModal,
-    onGetServicePress,
+    showCompleteProfileDialog,
+    onCloseCompleteProfileDialog,
     onCompleteProfilePress,
   } = useHomeScreen(navigation);
 
@@ -72,6 +70,7 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
               styles.footer,
               {paddingBottom: theme.spacing.md + tabBarInset},
             ]}>
+            <ServiceDisclaimerShort centered />
             <ButtonGroup
               primaryButton={{
                 label: 'Do It All for Me',
@@ -85,12 +84,10 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           </View>
         </View>
       )}
-      <ProcessPrerequisitesModal
-        visible={showPrerequisitesModal}
-        missing={missing}
-        onClose={onClosePrerequisitesModal}
-        onGetServicePress={onGetServicePress}
-        onCompleteProfilePress={onCompleteProfilePress}
+      <CompleteProfileDialog
+        visible={showCompleteProfileDialog}
+        onClose={onCloseCompleteProfileDialog}
+        onCompleteProfile={onCompleteProfilePress}
       />
     </SafeAreaView>
   );
@@ -123,6 +120,7 @@ const stylesheet = createStyleSheet(theme => ({
   footer: {
     paddingTop: theme.spacing.sm,
     backgroundColor: theme.colors.background,
+    gap: theme.spacing.sm,
   },
   centered: {
     flex: 1,
