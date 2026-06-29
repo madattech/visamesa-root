@@ -1,7 +1,6 @@
-import {Linking} from 'react-native';
-
 import {WEBSITE_PRICING_URL} from '@/config/website';
 import {useToast} from '@/components/Toast/ToastProvider';
+import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
 
 export type UsePricingLinkResult = {
   openPricing: () => Promise<void>;
@@ -9,21 +8,13 @@ export type UsePricingLinkResult = {
 
 /**
  * Hook that provides a function to open the VisaMesa pricing website.
- * Handles URL validation and shows error toast on failure.
  */
 export function usePricingLink(): UsePricingLinkResult {
   const {showToast} = useToast();
 
   const openPricing = async () => {
-    try {
-      const canOpen = await Linking.canOpenURL(WEBSITE_PRICING_URL);
-      if (!canOpen) {
-        showToast('Unable to open the VisaMesa website');
-        return;
-      }
-
-      await Linking.openURL(WEBSITE_PRICING_URL);
-    } catch {
+    const opened = await openWebsiteUrl(WEBSITE_PRICING_URL);
+    if (!opened) {
       showToast('Unable to open the VisaMesa website');
     }
   };

@@ -1,3 +1,8 @@
+export const HOW_TO_NAME = 'Student TIE process in Barcelona'
+
+export const HOW_TO_DESCRIPTION =
+  'Six guided steps to complete your student TIE residency card process in Barcelona.'
+
 export const tieSteps = [
   {
     id: 1,

@@ -1,4 +1,7 @@
 export const SITE_URL = 'https://visa-mesa.web.app'
+
+/** Lowest published service price in EUR (matches visamesa_be payment.config.ts). */
+export const SERVICE_STARTING_PRICE_EUR = 10
 export const SITE_NAME = 'VisaMesa'
 export const SITE_TAGLINE = 'TIE assistance in Barcelona'
 export const SUPPORT_EMAIL = 'support@visamesa.com'

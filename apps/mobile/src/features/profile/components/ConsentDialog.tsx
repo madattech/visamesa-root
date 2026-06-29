@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {Alert, Linking, View} from 'react-native';
+import {Alert, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Dialog} from '@/components/ui/Dialog';
 import {Text} from '@/components/ui/Text';
-import {WEBSITE_BASE_URL} from '@/config/website';
+import {useWebsiteLink} from '@/hooks/useWebsiteLink';
 
 type ConsentDialogProps = {
   onAccept: () => Promise<void>;
@@ -13,16 +13,14 @@ type ConsentDialogProps = {
 
 export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
   const {styles} = useStyles(stylesheet);
-  const [_isAccepting, setIsAccepting] = useState(false);
-
-  const handleLinkPress = (path: string) => {
-    const url = `${WEBSITE_BASE_URL}${path}`;
-    Linking.openURL(url).catch(() => {
-      Alert.alert('Error', 'Could not open the link');
-    });
-  };
+  const {openWebsitePath} = useWebsiteLink();
+  const [isAccepting, setIsAccepting] = useState(false);
 
   const handleAccept = async () => {
+    if (isAccepting) {
+      return;
+    }
+
     setIsAccepting(true);
 
     try {
@@ -46,7 +44,7 @@ export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
           variant: 'outline',
         },
         {
-          label: 'Accept & Continue',
+          label: isAccepting ? 'Saving…' : 'Accept & Continue',
           onPress: handleAccept,
           variant: 'primary',
         },
@@ -61,7 +59,7 @@ export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
           <Text
             variant="bodyMedium"
             color="primary"
-            onPress={() => handleLinkPress('/privacy')}
+            onPress={() => openWebsitePath('/privacy')}
             style={styles.link}>
             Privacy Policy
           </Text>
@@ -71,7 +69,7 @@ export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
           <Text
             variant="bodyMedium"
             color="primary"
-            onPress={() => handleLinkPress('/terms')}
+            onPress={() => openWebsitePath('/terms')}
             style={styles.link}>
             Terms of Service
           </Text>
