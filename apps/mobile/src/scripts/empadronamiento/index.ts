@@ -2,10 +2,7 @@ import type {WebViewInjectionRule} from '../../webViewInjection/scriptRegistry';
 
 import type {EmpadronamientoAutomationProfile} from './config';
 import {empadronamientoPiiConfig} from './config';
-import {
-  EMPADRONAMIENTO_HOME_URL,
-  INITIA_SCRIPT,
-} from './initia';
+import {EMPADRONAMIENTO_HOME_URL, INITIA_SCRIPT} from './initia';
 import {buildMotiveScript} from './motive';
 import {
   EMPADRONAMIENTO_SEARCH_RESULT_PATH,
@@ -33,6 +30,8 @@ export {EMPADRONAMIENTO_HOME_URL} from './initia';
 
 /** Appointment flow pages after starting the tramit (update if Barcelona changes routes). */
 const EMPADRONAMIENTO_CITA_PREFIX = `${EMPADRONAMIENTO_HOME_URL}/cita`;
+const EMPADRONAMIENTO_FORM_PREFIX =
+  'https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/form/diac-cites/ca/citizen/sol';
 
 export interface EmpadronamientoScriptMap {
   [url: string]: string;
@@ -73,14 +72,17 @@ const buildEmpadronamientoScriptEntries = (
       value: `${EMPADRONAMIENTO_HOME_URL}${EMPADRONAMIENTO_TRAMIT_PATH}`,
     },
     script: START_TRAMIT_SCRIPT,
-    ready: {selector: 'button[type="button"][rel="nofollow"]', timeoutMs: 10000},
+    ready: {
+      selector: 'button[type="button"][rel="nofollow"]',
+      timeoutMs: 10000,
+    },
   },
   {
     id: 'empadronamiento-tema',
-    url: `${EMPADRONAMIENTO_CITA_PREFIX}/tema`,
-    match: {type: 'prefix', value: `${EMPADRONAMIENTO_CITA_PREFIX}/tema`},
+    url: `${EMPADRONAMIENTO_FORM_PREFIX}/new/2393`,
+    match: {type: 'prefix', value: `${EMPADRONAMIENTO_FORM_PREFIX}/new/2393`},
     script: TEMA_SCRIPT,
-    ready: {selector: 'select[aria-label="tema"][name="tematicas"]'},
+    ready: {selector: 'body', timeoutMs: 30000},
   },
   {
     id: 'empadronamiento-personal-info',
@@ -93,11 +95,44 @@ const buildEmpadronamientoScriptEntries = (
     ready: {selector: 'input[formcontrolname="identifier"]'},
   },
   {
+    id: 'empadronamiento-personal-info-form',
+    url: `${EMPADRONAMIENTO_FORM_PREFIX}/identification/2393`,
+    match: {
+      type: 'prefix',
+      value: `${EMPADRONAMIENTO_FORM_PREFIX}/identification/2393`,
+    },
+    script: buildPersonalInfoScript(profile.personalInfo),
+    ready: {selector: 'input[formcontrolname="identifier"]', timeoutMs: 30000},
+  },
+  {
     id: 'empadronamiento-motive',
     url: `${EMPADRONAMIENTO_CITA_PREFIX}/motive`,
     match: {type: 'prefix', value: `${EMPADRONAMIENTO_CITA_PREFIX}/motive`},
     script: buildMotiveScript(profile.motive),
     ready: {selector: 'textarea#motivo[name="motivo"]'},
+  },
+  {
+    id: 'empadronamiento-motive-form',
+    url: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingReason`,
+    match: {
+      type: 'prefix',
+      value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingReason`,
+    },
+    script: buildMotiveScript(profile.motive),
+    ready: {selector: 'textarea#motivo[name="motivo"]', timeoutMs: 30000},
+  },
+  {
+    id: 'empadronamiento-select-date-form',
+    url: `${EMPADRONAMIENTO_FORM_PREFIX}/subthemes/detail/OAPAD`,
+    match: {
+      type: 'prefix',
+      value: `${EMPADRONAMIENTO_FORM_PREFIX}/subthemes/detail/OAPAD`,
+    },
+    script: SELECT_DATE_SCRIPT,
+    ready: {
+      selector: 'mat-calendar td[role="button"][aria-label]',
+      timeoutMs: 30000,
+    },
   },
   {
     id: 'empadronamiento-select-oficina',
@@ -108,6 +143,16 @@ const buildEmpadronamientoScriptEntries = (
     },
     script: SELECT_OFICINA_SCRIPT,
     ready: {selector: '#OAC-DR'},
+  },
+  {
+    id: 'empadronamiento-select-oficina-form',
+    url: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitDataOffice`,
+    match: {
+      type: 'prefix',
+      value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitDataOffice`,
+    },
+    script: SELECT_OFICINA_SCRIPT,
+    ready: {selector: '#OAC-DR', timeoutMs: 30000},
   },
   {
     id: 'empadronamiento-select-date',
@@ -128,6 +173,19 @@ const buildEmpadronamientoScriptEntries = (
     },
     script: SELECT_TIME_SCRIPT,
     ready: {selector: 'input[type="radio"][name="hora"][aria-label]'},
+  },
+  {
+    id: 'empadronamiento-select-time-form',
+    url: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingSchedule`,
+    match: {
+      type: 'prefix',
+      value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingSchedule`,
+    },
+    script: SELECT_TIME_SCRIPT,
+    ready: {
+      selector: 'input[type="radio"][name="hora"][aria-label]',
+      timeoutMs: 30000,
+    },
   },
   {
     id: 'empadronamiento-solicit',
@@ -179,4 +237,6 @@ export const buildEmpadronamientoInjectionRules = (
       script: entry.script,
       ready: entry.ready,
     }))
-    .sort((left, right) => getRuleMatchLength(right) - getRuleMatchLength(left));
+    .sort(
+      (left, right) => getRuleMatchLength(right) - getRuleMatchLength(left),
+    );
