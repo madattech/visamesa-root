@@ -3,14 +3,33 @@ export const OFICINA_URL =
 
 export const buildOficinaScript = tramitesOptionIndex => `
   (function() {
-    const tramites = window.document.querySelector('#tramiteGrupo\\\\[0\\\\]');
+    const normalize = value =>
+      (value || '')
+        .normalize('NFD')
+        .replace(/[\\u0300-\\u036f]/g, '')
+        .toUpperCase();
 
-    if (tramites?.options?.[${tramitesOptionIndex}]) {
-      tramites.options[${tramitesOptionIndex}].selected = true;
+    const tramites =
+      window.document.querySelector('#tramiteGrupo\\\\[0\\\\]') ||
+      window.document.querySelector('select[name="tramiteGrupo[0]"]');
+
+    const tomarHuellaOption = tramites
+      ? Array.from(tramites.options).find(option =>
+          normalize(option.text).includes('TOMA DE HUELLA'),
+        )
+      : null;
+    const targetOption = tomarHuellaOption || tramites?.options?.[${tramitesOptionIndex}];
+
+    if (!tramites || !targetOption) {
+      return;
     }
 
-    const acceptButton = window.document.querySelector('#btnAceptar');
+    tramites.value = targetOption.value;
+    targetOption.selected = true;
+    tramites.dispatchEvent(new Event('input', {bubbles: true}));
+    tramites.dispatchEvent(new Event('change', {bubbles: true}));
 
+    const acceptButton = window.document.querySelector('#btnAceptar');
     if (acceptButton) {
       acceptButton.click();
     }
