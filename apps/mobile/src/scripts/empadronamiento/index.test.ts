@@ -9,6 +9,8 @@ import {EMPADRONAMIENTO_SEARCH_RESULT_URL} from './OSC-select';
 import {EMPADRONAMIENTO_TRAMIT_URL} from './start-tramit';
 
 const EMPADRONAMIENTO_CITA_PREFIX = `${EMPADRONAMIENTO_HOME_URL}/cita`;
+const EMPADRONAMIENTO_FORM_PREFIX =
+  'https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/form/diac-cites/ca/citizen/sol';
 
 describe('empadronamiento script map', () => {
   const profile: EmpadronamientoAutomationProfile = {
@@ -29,12 +31,17 @@ describe('empadronamiento script map', () => {
         EMPADRONAMIENTO_HOME_URL,
         EMPADRONAMIENTO_SEARCH_RESULT_URL,
         EMPADRONAMIENTO_TRAMIT_URL,
-        `${EMPADRONAMIENTO_CITA_PREFIX}/tema`,
+        `${EMPADRONAMIENTO_FORM_PREFIX}/new/2393`,
+        `${EMPADRONAMIENTO_FORM_PREFIX}/subthemes/detail/OAPAD`,
         `${EMPADRONAMIENTO_CITA_PREFIX}/personal-info`,
+        `${EMPADRONAMIENTO_FORM_PREFIX}/identification/2393`,
         `${EMPADRONAMIENTO_CITA_PREFIX}/motive`,
+        `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingReason`,
         `${EMPADRONAMIENTO_CITA_PREFIX}/select-oficina`,
+        `${EMPADRONAMIENTO_FORM_PREFIX}/tramitDataOffice`,
         `${EMPADRONAMIENTO_CITA_PREFIX}/select-date`,
         `${EMPADRONAMIENTO_CITA_PREFIX}/select-time`,
+        `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingSchedule`,
         `${EMPADRONAMIENTO_CITA_PREFIX}/solicit`,
         `${EMPADRONAMIENTO_CITA_PREFIX}/submit-final`,
       ]),
@@ -57,9 +64,9 @@ describe('empadronamiento script map', () => {
     expect(scriptMap[`${EMPADRONAMIENTO_CITA_PREFIX}/motive`]).toContain(
       'Test empadronamiento appointment.',
     );
-    expect(scriptMap[`${EMPADRONAMIENTO_CITA_PREFIX}/select-oficina`]).toContain(
-      '#OAC-DR',
-    );
+    expect(
+      scriptMap[`${EMPADRONAMIENTO_CITA_PREFIX}/select-oficina`],
+    ).toContain('#OAC-DR');
     expect(scriptMap[`${EMPADRONAMIENTO_CITA_PREFIX}/select-date`]).toContain(
       'pickFirstAvailableDate',
     );
@@ -89,7 +96,7 @@ describe('empadronamiento script map', () => {
   it('converts entries into injection rules with exact and prefix matches', () => {
     const rules = buildEmpadronamientoInjectionRules(profile);
 
-    expect(rules).toHaveLength(11);
+    expect(rules).toHaveLength(16);
     expect(rules).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -116,6 +123,25 @@ describe('empadronamiento script map', () => {
           },
         }),
         expect.objectContaining({
+          id: 'empadronamiento-tema',
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_FORM_PREFIX}/new/2393`,
+          },
+          ready: {selector: 'body', timeoutMs: 30000},
+        }),
+        expect.objectContaining({
+          id: 'empadronamiento-select-date-form',
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_FORM_PREFIX}/subthemes/detail/OAPAD`,
+          },
+          ready: {
+            selector: 'mat-calendar td[role="button"][aria-label]',
+            timeoutMs: 30000,
+          },
+        }),
+        expect.objectContaining({
           id: 'empadronamiento-personal-info',
           match: {
             type: 'prefix',
@@ -124,9 +150,31 @@ describe('empadronamiento script map', () => {
           ready: {selector: 'input[formcontrolname="identifier"]'},
         }),
         expect.objectContaining({
+          id: 'empadronamiento-personal-info-form',
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_FORM_PREFIX}/identification/2393`,
+          },
+          ready: {
+            selector: 'input[formcontrolname="identifier"]',
+            timeoutMs: 30000,
+          },
+        }),
+        expect.objectContaining({
           id: 'empadronamiento-motive',
-          match: {type: 'prefix', value: `${EMPADRONAMIENTO_CITA_PREFIX}/motive`},
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_CITA_PREFIX}/motive`,
+          },
           ready: {selector: 'textarea#motivo[name="motivo"]'},
+        }),
+        expect.objectContaining({
+          id: 'empadronamiento-motive-form',
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingReason`,
+          },
+          ready: {selector: 'textarea#motivo[name="motivo"]', timeoutMs: 30000},
         }),
         expect.objectContaining({
           id: 'empadronamiento-select-oficina',
@@ -135,6 +183,14 @@ describe('empadronamiento script map', () => {
             value: `${EMPADRONAMIENTO_CITA_PREFIX}/select-oficina`,
           },
           ready: {selector: '#OAC-DR'},
+        }),
+        expect.objectContaining({
+          id: 'empadronamiento-select-oficina-form',
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitDataOffice`,
+          },
+          ready: {selector: '#OAC-DR', timeoutMs: 30000},
         }),
         expect.objectContaining({
           id: 'empadronamiento-select-date',
@@ -153,8 +209,22 @@ describe('empadronamiento script map', () => {
           ready: {selector: 'input[type="radio"][name="hora"][aria-label]'},
         }),
         expect.objectContaining({
+          id: 'empadronamiento-select-time-form',
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitData/meetingSchedule`,
+          },
+          ready: {
+            selector: 'input[type="radio"][name="hora"][aria-label]',
+            timeoutMs: 30000,
+          },
+        }),
+        expect.objectContaining({
           id: 'empadronamiento-solicit',
-          match: {type: 'prefix', value: `${EMPADRONAMIENTO_CITA_PREFIX}/solicit`},
+          match: {
+            type: 'prefix',
+            value: `${EMPADRONAMIENTO_CITA_PREFIX}/solicit`,
+          },
           ready: {selector: '#solicitud'},
         }),
         expect.objectContaining({

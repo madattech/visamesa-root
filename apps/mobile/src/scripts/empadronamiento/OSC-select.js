@@ -7,21 +7,29 @@ const TARGET_TEXT = "Cita amb les Oficines d'Atenció Ciutadana";
 
 export const OSC_SELECT_SCRIPT = `
   (function() {
-    const selectOAC = () => {
-      const paragraphs = window.document.querySelectorAll('p');
-      for (var index = 0; index < paragraphs.length; index += 1) {
-        var paragraph = paragraphs[index];
-        if (paragraph.textContent.trim() === ${JSON.stringify(TARGET_TEXT)}) {
-          paragraph.click();
-          return true;
-        }
+    const targetText = ${JSON.stringify(TARGET_TEXT)};
+    const normalize = value => (value || '').replace(/\\s+/g, ' ').trim();
+
+    const selectOAC = (attempt = 1) => {
+      const target = Array.from(
+        document.querySelectorAll('p, a, button, [role="button"]'),
+      ).find(element => normalize(element.textContent).includes(targetText));
+      const clickable =
+        target?.closest('a, button, [role="button"]') ||
+        target?.parentElement?.closest('a, button, [role="button"]') ||
+        target;
+
+      if (clickable) {
+        clickable.click();
+        return;
       }
-      return false;
+
+      if (attempt < 20) {
+        setTimeout(() => selectOAC(attempt + 1), 250);
+      }
     };
 
-    if (!selectOAC()) {
-      setTimeout(selectOAC, 250);
-    }
+    selectOAC();
   })();
   true;
 `;

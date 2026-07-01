@@ -12,7 +12,6 @@ export const buildPersonalInfoScript = (info = {}) => {
       function setField(selector, value) {
         const el = document.querySelector(selector);
         if (!el) {
-          console.warn('Not found:', selector);
           return false;
         }
 

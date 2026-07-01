@@ -118,6 +118,7 @@ export const useWebViewInjection = (
     null,
   );
   const pendingReadyRuleKeyRef = React.useRef<string | null>(null);
+  const previousUrlForEffectRef = React.useRef<string | null>(initialUrl);
 
   const activeRule = resolveWebViewInjectionRule(currentUrl, rules);
   const activeScript = activeRule?.script ?? null;
@@ -261,6 +262,20 @@ export const useWebViewInjection = (
     },
     [beginReadinessPolling, injectRuleScript, rules],
   );
+
+  React.useEffect(() => {
+    if (previousUrlForEffectRef.current === currentUrl) {
+      return;
+    }
+
+    previousUrlForEffectRef.current = currentUrl;
+
+    const timer = setTimeout(() => {
+      runInjectionForUrl(currentUrlRef.current);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [currentUrl, runInjectionForUrl]);
 
   const onLoadEnd = React.useCallback(() => {
     const url = currentUrlRef.current;
