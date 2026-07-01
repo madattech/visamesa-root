@@ -10,26 +10,15 @@ export const OSC_SELECT_SCRIPT = `
     const targetText = ${JSON.stringify(TARGET_TEXT)};
     const normalize = value => (value || '').replace(/\\s+/g, ' ').trim();
 
-    const selectOAC = (attempt = 1) => {
-      const target = Array.from(
-        document.querySelectorAll('p, a, button, [role="button"]'),
-      ).find(element => normalize(element.textContent).includes(targetText));
-      const clickable =
-        target?.closest('a, button, [role="button"]') ||
-        target?.parentElement?.closest('a, button, [role="button"]') ||
-        target;
+    const target = Array.from(
+      document.querySelectorAll('p, a, button, [role="button"]'),
+    ).find(element => normalize(element.textContent).includes(targetText));
+    const clickable =
+      target?.closest('a, button, [role="button"]') ||
+      target?.parentElement?.closest('a, button, [role="button"]') ||
+      target;
 
-      if (clickable) {
-        clickable.click();
-        return;
-      }
-
-      if (attempt < 20) {
-        setTimeout(() => selectOAC(attempt + 1), 250);
-      }
-    };
-
-    selectOAC();
+    clickable?.click();
   })();
   true;
 `;

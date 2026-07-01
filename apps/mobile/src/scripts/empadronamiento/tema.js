@@ -19,26 +19,103 @@ export const TEMA_SCRIPT = `
         (button.textContent || '').trim().includes(text),
       );
 
-    const submit = (attempt = 1) => {
-      const button =
-        document.querySelector('button[type="submit"]') || findButtonByText('Següent');
+    const isVisible = element =>
+      Boolean(element && (element.offsetParent || element.getClientRects().length));
 
-      if (button && !button.disabled) {
-        button.click();
+    const observeUntil = condition => {
+      if (condition()) {
         return;
       }
 
-      if (attempt < 20) {
-        setTimeout(() => submit(attempt + 1), 500);
-      }
+      const observer = new MutationObserver(() => {
+        if (condition()) {
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['disabled', 'class', 'aria-disabled'],
+      });
     };
 
-    const completeSolicitStep = () => {
-      const solicitud = document.querySelector('#solicitud');
-      if (!solicitud || window.__visaMesaEmpadronamientoSolicitSelected) {
-        return false;
-      }
+    const submitWhenReady = () => {
+      observeUntil(() => {
+        const button =
+          document.querySelector('button[type="submit"]') || findButtonByText('Següent');
 
+        if (!button || button.disabled) {
+          return false;
+        }
+
+        button.click();
+        return true;
+      });
+    };
+
+    const closeModalWhenPresent = () => {
+      observeUntil(() => {
+        const modal = window.document.querySelector('[aria-modal="true"]');
+        const closeTarget = modal?.querySelector('p[tabindex="0"]');
+        if (!closeTarget) {
+          return false;
+        }
+
+        closeTarget.click();
+        return true;
+      });
+    };
+
+    const selectSubTemaWhenReady = () => {
+      observeUntil(() => {
+        const subtemaSelect = document.querySelector('select[name="subtematicas"]');
+
+        if (!subtemaSelect || subtemaSelect.options.length <= 1) {
+          return false;
+        }
+
+        if (
+          !chooseOption(
+            subtemaSelect,
+            option => option.value === 'OAPAD' || option.textContent.includes('OAPAD'),
+          )
+        ) {
+          return false;
+        }
+
+        submitWhenReady();
+        closeModalWhenPresent();
+        return true;
+      });
+    };
+
+    const selectTemaWhenReady = () => {
+      observeUntil(() => {
+        const temaSelect =
+          document.querySelector('select[name="tematicas"]') ||
+          document.querySelector('select[aria-label="tema"]');
+
+        if (!temaSelect || !isVisible(temaSelect)) {
+          return false;
+        }
+
+        if (
+          !chooseOption(
+            temaSelect,
+            option => option.textContent.trim() === "OAC: ATENCIÓ PRESENCIAL A L'OFICINA",
+          )
+        ) {
+          return false;
+        }
+
+        selectSubTemaWhenReady();
+        return true;
+      });
+    };
+
+    const solicitud = document.querySelector('#solicitud');
+    if (solicitud && !window.__visaMesaEmpadronamientoSolicitSelected) {
       window.__visaMesaEmpadronamientoSolicitSelected = true;
       if (!solicitud.checked) {
         solicitud.click();
@@ -46,66 +123,12 @@ export const TEMA_SCRIPT = `
         solicitud.dispatchEvent(new Event('change', {bubbles: true}));
       }
 
-      setTimeout(submit, 300);
-      return true;
-    };
+      submitWhenReady();
+      selectTemaWhenReady();
+      return;
+    }
 
-    const closeModal = () => {
-      const modal = window.document.querySelector('[aria-modal="true"]');
-      modal?.querySelector('p[tabindex="0"]')?.click();
-    };
-
-    const tryTema = (attempt = 1) => {
-      if (completeSolicitStep()) {
-        setTimeout(() => tryTema(attempt + 1), 1000);
-        return;
-      }
-
-      const temaSelect =
-        document.querySelector('select[name="tematicas"]') ||
-        document.querySelector('select[aria-label="tema"]');
-
-      if (!temaSelect) {
-        if (attempt < 40) {
-          setTimeout(() => tryTema(attempt + 1), 500);
-        }
-        return;
-      }
-
-      if (
-        chooseOption(
-          temaSelect,
-          option => option.textContent.trim() === "OAC: ATENCIÓ PRESENCIAL A L'OFICINA",
-        )
-      ) {
-        trySubTema();
-      }
-    };
-
-    const trySubTema = (attempt = 1) => {
-      const subtemaSelect = document.querySelector('select[name="subtematicas"]');
-
-      if (!subtemaSelect || subtemaSelect.options.length <= 1) {
-        if (attempt < 40) {
-          setTimeout(() => trySubTema(attempt + 1), 500);
-        }
-        return;
-      }
-
-      if (
-        chooseOption(
-          subtemaSelect,
-          option => option.value === 'OAPAD' || option.textContent.includes('OAPAD'),
-        )
-      ) {
-        setTimeout(() => {
-          submit();
-          setTimeout(closeModal, 1500);
-        }, 1000);
-      }
-    };
-
-    tryTema();
+    selectTemaWhenReady();
   })();
   true;
 `;

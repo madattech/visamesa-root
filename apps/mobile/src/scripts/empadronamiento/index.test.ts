@@ -93,15 +93,34 @@ describe('empadronamiento script map', () => {
     });
   });
 
+  it('keeps page scripts free of timer-based polling', () => {
+    const scriptMap = buildEmpadronamientoScriptMap(profile);
+
+    Object.values(scriptMap).forEach(script => {
+      expect(script).not.toContain('setTimeout');
+      expect(script).not.toContain('setInterval');
+    });
+  });
+
   it('converts entries into injection rules with exact and prefix matches', () => {
     const rules = buildEmpadronamientoInjectionRules(profile);
 
     expect(rules).toHaveLength(16);
+    expect(
+      rules
+        .filter(rule => rule.id !== 'empadronamiento-select-oficina-form')
+        .every(rule => Boolean(rule.ready?.selector)),
+    ).toBe(true);
     expect(rules).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           id: 'empadronamiento-home',
           match: {type: 'exact', value: EMPADRONAMIENTO_HOME_URL},
+          ready: {
+            selector:
+              'a[href*="/oficinavirtual/ca/search-result"][href*="idCategory=21"]',
+            timeoutMs: 30000,
+          },
         }),
         expect.objectContaining({
           id: 'empadronamiento-search-result',
@@ -128,7 +147,7 @@ describe('empadronamiento script map', () => {
             type: 'prefix',
             value: `${EMPADRONAMIENTO_FORM_PREFIX}/new/2393`,
           },
-          ready: {selector: 'body', timeoutMs: 30000},
+          ready: {selector: '#solicitud', timeoutMs: 30000},
         }),
         expect.objectContaining({
           id: 'empadronamiento-select-date-form',
@@ -190,7 +209,7 @@ describe('empadronamiento script map', () => {
             type: 'prefix',
             value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitDataOffice`,
           },
-          ready: {selector: '#OAC-DR', timeoutMs: 30000},
+          ready: undefined,
         }),
         expect.objectContaining({
           id: 'empadronamiento-select-date',

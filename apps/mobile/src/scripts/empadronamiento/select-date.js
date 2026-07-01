@@ -12,13 +12,39 @@ export const SELECT_DATE_SCRIPT = `
       return d;
     }
 
-    const submit = () => {
-      const button =
-        document.querySelector('button[type="submit"]') ||
-        Array.from(document.querySelectorAll('button')).find(button =>
-          /següent|continuar/i.test(button.textContent || ''),
-        );
-      button?.click();
+    const observeUntil = condition => {
+      if (condition()) {
+        return;
+      }
+
+      const observer = new MutationObserver(() => {
+        if (condition()) {
+          observer.disconnect();
+        }
+      });
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['disabled', 'class', 'aria-disabled'],
+      });
+    };
+
+    const submitWhenReady = () => {
+      observeUntil(() => {
+        const button =
+          document.querySelector('button[type="submit"]') ||
+          Array.from(document.querySelectorAll('button')).find(button =>
+            /següent|continuar/i.test(button.textContent || ''),
+          );
+
+        if (!button || button.disabled) {
+          return false;
+        }
+
+        button.click();
+        return true;
+      });
     };
 
     const months = {
@@ -65,12 +91,29 @@ export const SELECT_DATE_SCRIPT = `
       return new Date(Number(year), month, Number(day));
     }
 
-    function isDisabled(cell) {
-      const className = String(cell.className || '');
+    function isDisabled(element) {
+      const className = String(element.className || '');
       return (
         className.includes('disabled') ||
-        cell.getAttribute('aria-disabled') === 'true'
+        element.disabled ||
+        element.getAttribute('aria-disabled') === 'true'
       );
+    }
+
+    function isVisible(element) {
+      return Boolean(element && (element.offsetParent || element.getClientRects().length));
+    }
+
+    function calendarCells() {
+      return [
+        ...document.querySelectorAll('mat-calendar td[role="button"][aria-label]'),
+      ].filter(isVisible);
+    }
+
+    function calendarSignature() {
+      return calendarCells()
+        .map(cell => cell.getAttribute('aria-label'))
+        .join('|');
     }
 
     function findNextMonthButton() {
@@ -79,11 +122,20 @@ export const SELECT_DATE_SCRIPT = `
       );
     }
 
-    function pickFirstAvailableDate(attempt = 1, monthChanges = 0) {
+    function waitForCalendarChange(previousSignature, onChange) {
+      const calendar = document.querySelector('mat-calendar') || document.documentElement;
+      const observer = new MutationObserver(() => {
+        if (calendarSignature() !== previousSignature) {
+          observer.disconnect();
+          onChange();
+        }
+      });
+      observer.observe(calendar, {childList: true, subtree: true, attributes: true});
+    }
+
+    function pickFirstAvailableDate(monthChanges = 0) {
       const minDate = nextWeekday();
-      const cells = [
-        ...document.querySelectorAll('mat-calendar td[role="button"][aria-label]'),
-      ];
+      const cells = calendarCells();
 
       const availableCells = cells
         .filter(cell => !isDisabled(cell))
@@ -96,24 +148,29 @@ export const SELECT_DATE_SCRIPT = `
 
       if (availableCells.length) {
         availableCells[0].cell.click();
-        setTimeout(submit, 500);
+        submitWhenReady();
         return true;
       }
 
       const nextMonthButton = findNextMonthButton();
-      if (cells.length && nextMonthButton && monthChanges < 6) {
+      if (
+        cells.length &&
+        nextMonthButton &&
+        !isDisabled(nextMonthButton) &&
+        monthChanges < 6
+      ) {
+        const previousSignature = calendarSignature();
+        waitForCalendarChange(previousSignature, () =>
+          pickFirstAvailableDate(monthChanges + 1),
+        );
         nextMonthButton.click();
-        setTimeout(() => pickFirstAvailableDate(1, monthChanges + 1), 800);
         return false;
       }
 
-      if (attempt < 20) {
-        setTimeout(() => pickFirstAvailableDate(attempt + 1, monthChanges), 500);
-      }
       return false;
     }
 
-    pickFirstAvailableDate();
+    observeUntil(() => pickFirstAvailableDate());
   })();
   true;
 `;
