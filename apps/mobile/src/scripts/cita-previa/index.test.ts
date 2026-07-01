@@ -86,10 +86,21 @@ describe('cita previa script map', () => {
     });
   });
 
+  it('keeps page scripts simple without internal polling timers', () => {
+    const scriptMap = buildCitaPreviaScriptMap(profile);
+
+    Object.values(scriptMap).forEach(script => {
+      expect(script).not.toContain('setTimeout');
+      expect(script).not.toContain('setInterval');
+      expect(script).not.toContain('MutationObserver');
+    });
+  });
+
   it('converts the map into exact-match injection rules', () => {
     const rules = buildCitaPreviaInjectionRules(profile);
 
     expect(rules).toHaveLength(7);
+    expect(rules.every(rule => Boolean(rule.ready?.selector))).toBe(true);
     expect(rules).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -98,6 +109,7 @@ describe('cita previa script map', () => {
             value:
               'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus',
           },
+          ready: {selector: '#submit'},
         }),
         expect.objectContaining({
           match: {
