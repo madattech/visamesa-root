@@ -38,7 +38,10 @@ export const buildDetailsScript = (details = {}) => {
         ${nationality} !== null &&
         nationalityField.options[${nationality}]
       ) {
-        nationalityField.options[${nationality}].selected = true;
+        const nationalityOption = nationalityField.options[${nationality}];
+        nationalityField.value = nationalityOption.value;
+        nationalityOption.selected = true;
+        nationalityField.dispatchEvent(new Event('input', {bubbles: true}));
         nationalityField.dispatchEvent(new Event('change', {bubbles: true}));
       }
 

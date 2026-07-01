@@ -32,25 +32,44 @@ describe('cita previa script map', () => {
     );
 
     expect(
-      scriptMap['https://icp.administracionelectronica.gob.es/icpplus/index.html'],
-    ).toContain('optionIndex: 5');
-    expect(
-      scriptMap['https://icp.administracionelectronica.gob.es/icpplus/index.html'],
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplus/index.html'
+      ],
     ).toContain('options?.[5]');
     expect(
-      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es'],
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplus/index.html'
+      ],
+    ).toContain("dispatchEvent(new Event('change'");
+    expect(
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es'
+      ],
+    ).toContain('TOMA DE HUELLA');
+    expect(
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es'
+      ],
     ).toContain('options?.[3]');
     expect(
-      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es'],
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es'
+      ],
     ).toContain('#tramiteGrupo\\\\[0\\\\]');
     expect(
-      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'],
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'
+      ],
     ).toContain('Y1234567X');
     expect(
-      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'],
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'
+      ],
     ).toContain('Test User');
     expect(
-      scriptMap['https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'],
+      scriptMap[
+        'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada'
+      ],
     ).toContain('88');
   });
 
@@ -76,48 +95,55 @@ describe('cita previa script map', () => {
         expect.objectContaining({
           match: {
             type: 'exact',
-            value: 'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus',
+            value:
+              'https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus',
           },
         }),
         expect.objectContaining({
           match: {
             type: 'prefix',
-            value: 'https://sede.administracionespublicas.gob.es/icpplus/index.html',
-          },
-          ready: {selector: 'select#form, #form, select[name="form"]'},
-        }),
-        expect.objectContaining({
-          match: {
-            type: 'prefix',
-            value: 'https://icp.administracionelectronica.gob.es/icpplus/index.html',
+            value:
+              'https://sede.administracionespublicas.gob.es/icpplus/index.html',
           },
           ready: {selector: 'select#form, #form, select[name="form"]'},
         }),
         expect.objectContaining({
           match: {
             type: 'prefix',
-            value: 'https://icp.administracionelectronica.gob.es/icpplustieb/acInfo',
+            value:
+              'https://icp.administracionelectronica.gob.es/icpplus/index.html',
+          },
+          ready: {selector: 'select#form, #form, select[name="form"]'},
+        }),
+        expect.objectContaining({
+          match: {
+            type: 'prefix',
+            value:
+              'https://icp.administracionelectronica.gob.es/icpplustieb/acInfo',
           },
           ready: {selector: '#btnEntrar'},
         }),
         expect.objectContaining({
           match: {
             type: 'prefix',
-            value: 'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada',
+            value:
+              'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada',
           },
           ready: {selector: '#txtIdCitado'},
         }),
         expect.objectContaining({
           match: {
             type: 'exact',
-            value: 'https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es',
+            value:
+              'https://icp.administracionelectronica.gob.es/icpplustieb/citar?p=8&locale=es',
           },
           ready: {selector: '#tramiteGrupo\\[0\\]'},
         }),
         expect.objectContaining({
           match: {
             type: 'prefix',
-            value: 'https://icp.administracionelectronica.gob.es/icpplustieb/acValidarEntrada',
+            value:
+              'https://icp.administracionelectronica.gob.es/icpplustieb/acValidarEntrada',
           },
           ready: {selector: '#btnEnviar'},
         }),
