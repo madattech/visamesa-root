@@ -51,6 +51,9 @@ const buildCitaPreviaScriptEntries = (
     {
       url: ICP_PLUS_URL,
       script: INITIAL_PAGE_SCRIPT,
+      ready: {
+        selector: '#submit',
+      },
     },
     {
       url: CITA_PREVIA_SEDE_ENTRY_URL,
@@ -134,11 +137,10 @@ export const buildCitaPreviaInjectionRules = (
 ): WebViewInjectionRule[] =>
   buildCitaPreviaScriptEntries(profile).map(entry => ({
     id: `cita-previa-${entry.url}`,
-    match:
-      entry.match ?? {
-        type: 'exact',
-        value: entry.url,
-      },
+    match: entry.match ?? {
+      type: 'exact',
+      value: entry.url,
+    },
     script: entry.script,
     ready: entry.ready,
   }));
