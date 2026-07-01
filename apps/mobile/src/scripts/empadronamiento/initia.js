@@ -11,25 +11,8 @@ export const INITIA_SCRIPT = `
         element => pattern.test(element.textContent || element.value || ''),
       );
 
-    const closeCookieBanner = () => {
-      findButtonByText(/accept|acceptar|d'acord|acept/i)?.click();
-    };
-
-    const tryStart = (attempt = 1) => {
-      closeCookieBanner();
-
-      const link = window.document.querySelector(selector);
-      if (link) {
-        link.click();
-        return;
-      }
-
-      if (attempt < 20) {
-        setTimeout(() => tryStart(attempt + 1), 250);
-      }
-    };
-
-    tryStart();
+    findButtonByText(/accept|acceptar|d'acord|acept/i)?.click();
+    window.document.querySelector(selector)?.click();
   })();
   true;
 `;

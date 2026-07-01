@@ -53,6 +53,11 @@ const buildEmpadronamientoScriptEntries = (
     url: EMPADRONAMIENTO_HOME_URL,
     match: {type: 'exact', value: EMPADRONAMIENTO_HOME_URL},
     script: INITIA_SCRIPT,
+    ready: {
+      selector:
+        'a[href*="/oficinavirtual/ca/search-result"][href*="idCategory=21"]',
+      timeoutMs: 30000,
+    },
   },
   {
     id: 'empadronamiento-search-result',
@@ -82,7 +87,7 @@ const buildEmpadronamientoScriptEntries = (
     url: `${EMPADRONAMIENTO_FORM_PREFIX}/new/2393`,
     match: {type: 'prefix', value: `${EMPADRONAMIENTO_FORM_PREFIX}/new/2393`},
     script: TEMA_SCRIPT,
-    ready: {selector: 'body', timeoutMs: 30000},
+    ready: {selector: '#solicitud', timeoutMs: 30000},
   },
   {
     id: 'empadronamiento-personal-info',
@@ -152,7 +157,6 @@ const buildEmpadronamientoScriptEntries = (
       value: `${EMPADRONAMIENTO_FORM_PREFIX}/tramitDataOffice`,
     },
     script: SELECT_OFICINA_SCRIPT,
-    ready: {selector: '#OAC-DR', timeoutMs: 30000},
   },
   {
     id: 'empadronamiento-select-date',
