@@ -1,17 +1,10 @@
-import React from 'react'
-import { act } from 'react'
-import renderer from 'react-test-renderer'
+import React from 'react';
+import {act} from 'react';
+import renderer from 'react-test-renderer';
 
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  jest
-} from '@jest/globals'
+import {afterEach, beforeEach, describe, expect, it, jest} from '@jest/globals';
 
-import { useWebViewInjection } from './useWebViewInjection'
+import {useWebViewInjection} from './useWebViewInjection';
 
 import type {
   WebViewInjectionHandle,
@@ -30,7 +23,6 @@ describe('useWebViewInjection', () => {
     ready: {
       selector: '#ready',
       timeoutMs: 250,
-      pollIntervalMs: 100,
     },
   };
 
@@ -44,7 +36,6 @@ describe('useWebViewInjection', () => {
     ready: {
       selector: '#other-ready',
       timeoutMs: 250,
-      pollIntervalMs: 100,
     },
   };
 
@@ -103,7 +94,6 @@ describe('useWebViewInjection', () => {
   const triggerLoadEnd = (getHookState: () => UseWebViewInjectionResult) => {
     act(() => {
       getHookState().onLoadEnd();
-      jest.advanceTimersByTime(300);
     });
   };
 
@@ -145,6 +135,9 @@ describe('useWebViewInjection', () => {
     expect(injectJavaScript).toHaveBeenCalledTimes(1);
     expect(injectJavaScript.mock.calls[0][0]).toContain('"#ready"');
     expect(injectJavaScript.mock.calls[0][0]).toContain('ReactNativeWebView');
+    expect(injectJavaScript.mock.calls[0][0]).toContain('MutationObserver');
+    expect(injectJavaScript.mock.calls[0][0]).toContain('allSelectors.every');
+    expect(injectJavaScript.mock.calls[0][0]).toContain('characterData: true');
     expect(injectJavaScript).not.toHaveBeenCalledWith('matching-script');
   });
 
@@ -222,13 +215,13 @@ describe('useWebViewInjection', () => {
       ).toBe(true);
     });
 
-    expect(injectJavaScript).toHaveBeenCalledTimes(1);
+    expect(injectJavaScript).toHaveBeenCalledTimes(2);
     expect(injectJavaScript).not.toHaveBeenCalledWith('matching-script');
+    expect(injectJavaScript.mock.calls[1][0]).toContain('"#other-ready"');
 
     triggerLoadEnd(getHookState);
 
     expect(injectJavaScript).toHaveBeenCalledTimes(2);
-    expect(injectJavaScript.mock.calls[1][0]).toContain('"#other-ready"');
   });
 
   it('does not double-inject on duplicate load end events', () => {
@@ -247,7 +240,6 @@ describe('useWebViewInjection', () => {
     act(() => {
       getHookState().onLoadEnd();
       getHookState().onLoadEnd();
-      jest.advanceTimersByTime(300);
     });
 
     expect(injectJavaScript).toHaveBeenCalledTimes(1);
@@ -266,14 +258,13 @@ describe('useWebViewInjection', () => {
         }),
       );
       getHookState().onLoadEnd();
-      jest.advanceTimersByTime(300);
     });
 
     expect(injectJavaScript).toHaveBeenCalledTimes(2);
     expect(injectJavaScript).toHaveBeenLastCalledWith('matching-script');
   });
 
-  it('injects the page script when readiness polling times out', () => {
+  it('injects the page script when readiness observation times out', () => {
     jest.useFakeTimers();
     const injectJavaScript = jest.fn();
     const debugSpy = jest.spyOn(console, 'debug').mockImplementation(() => {});
@@ -293,10 +284,50 @@ describe('useWebViewInjection', () => {
       jest.advanceTimersByTime(600);
     });
 
-    expect(injectJavaScript).toHaveBeenCalledTimes(4);
+    expect(injectJavaScript).toHaveBeenCalledTimes(2);
     expect(injectJavaScript).toHaveBeenLastCalledWith('matching-script');
     expect(debugSpy).toHaveBeenCalledWith(
       '[WebViewInjection] Readiness timed out; injecting anyway',
+      {
+        currentUrl: 'https://example.com/match',
+        ruleId: 'matching-rule',
+        selector: '#ready',
+        timeoutMs: 250,
+      },
+    );
+  });
+
+  it('skips page script injection when readiness times out with injectOnTimeout disabled', () => {
+    const skipTimeoutRule: WebViewInjectionRule = {
+      ...readyRule,
+      ready: {
+        selector: '#ready',
+        timeoutMs: 250,
+        injectOnTimeout: false,
+      },
+    };
+    const injectJavaScript = jest.fn();
+    const debugSpy = jest.spyOn(console, 'debug').mockImplementation(() => {});
+    const getHookState = renderHook(
+      {
+        current: {
+          injectJavaScript,
+        },
+      } as React.RefObject<WebViewInjectionHandle>,
+      'https://example.com/match',
+      [skipTimeoutRule],
+    );
+
+    triggerLoadEnd(getHookState);
+
+    act(() => {
+      jest.advanceTimersByTime(600);
+    });
+
+    expect(injectJavaScript).toHaveBeenCalledTimes(1);
+    expect(injectJavaScript).not.toHaveBeenCalledWith('matching-script');
+    expect(debugSpy).toHaveBeenCalledWith(
+      '[WebViewInjection] Readiness timed out; skipping injection',
       {
         currentUrl: 'https://example.com/match',
         ruleId: 'matching-rule',

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 import {
   resolveWebViewInjectionRule,
@@ -39,7 +39,6 @@ export interface UseWebViewInjectionResult {
 }
 
 const DEFAULT_READY_TIMEOUT_MS = 5000;
-const DEFAULT_READY_POLL_INTERVAL_MS = 200;
 
 const buildRuleKey = (rule: WebViewInjectionRule, url: string) =>
   `${rule.id}::${url}`;
@@ -47,43 +46,67 @@ const buildRuleKey = (rule: WebViewInjectionRule, url: string) =>
 const buildReadyProbeScript = (rule: WebViewInjectionRule, url: string) => `
   (function() {
     var selector = ${JSON.stringify(rule.ready?.selector ?? '')};
-    var attempt = 0;
-    var maxAttempts = 30;
+    var allSelectors = ${JSON.stringify(rule.ready?.allSelectors ?? [])};
+    var observer = null;
 
-    function postReadyState(ready) {
+    function postReadyState() {
       try {
         var bridge = window.ReactNativeWebView;
         if (!bridge || typeof bridge.postMessage !== 'function') {
-          return false;
+          return;
         }
         bridge.postMessage(JSON.stringify({
           __webViewInjection: true,
           type: 'ready-state',
           payload: {
-            ready: ready,
+            ready: true,
             ruleId: ${JSON.stringify(rule.id)},
             url: ${JSON.stringify(url)},
             selector: selector,
           },
         }));
-        return true;
-      } catch (error) {
+      } catch (error) {}
+    }
+
+    function isReady() {
+      if (!selector || !window.document.querySelector(selector)) {
         return false;
       }
+
+      return allSelectors.every(function(requiredSelector) {
+        return Boolean(window.document.querySelector(requiredSelector));
+      });
     }
 
-    function probe() {
-      var ready = Boolean(selector && window.document.querySelector(selector));
-      if (postReadyState(ready)) {
-        return;
+    function finishIfReady() {
+      if (!isReady()) {
+        return false;
       }
-      attempt += 1;
-      if (attempt < maxAttempts) {
-        setTimeout(probe, 50);
+
+      if (observer) {
+        observer.disconnect();
+        observer = null;
       }
+      postReadyState();
+      return true;
     }
 
-    probe();
+    if (finishIfReady()) {
+      return;
+    }
+
+    var target = window.document.documentElement || window.document.body;
+    if (!target || typeof MutationObserver === 'undefined') {
+      return;
+    }
+
+    observer = new MutationObserver(finishIfReady);
+    observer.observe(target, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      characterData: true,
+    });
   })();
   true;
 `;
@@ -155,12 +178,8 @@ export const useWebViewInjection = (
     [resetReadinessState, webViewRef],
   );
 
-  const beginReadinessPolling = React.useCallback(
-    (
-      rule: WebViewInjectionRule,
-      url: string,
-      startedAt: number = Date.now(),
-    ) => {
+  const beginReadinessObservation = React.useCallback(
+    (rule: WebViewInjectionRule, url: string) => {
       const ready = rule.ready;
 
       if (!ready) {
@@ -170,20 +189,7 @@ export const useWebViewInjection = (
 
       const ruleKey = buildRuleKey(rule, url);
       const timeoutMs = ready.timeoutMs ?? DEFAULT_READY_TIMEOUT_MS;
-      const pollIntervalMs =
-        ready.pollIntervalMs ?? DEFAULT_READY_POLL_INTERVAL_MS;
-      const elapsedMs = Date.now() - startedAt;
-
-      if (elapsedMs >= timeoutMs) {
-        console.debug('[WebViewInjection] Readiness timed out; injecting anyway', {
-          currentUrl: url,
-          ruleId: rule.id,
-          selector: ready.selector,
-          timeoutMs,
-        });
-        injectRuleScript(rule, url);
-        return;
-      }
+      const injectOnTimeout = ready.injectOnTimeout ?? true;
 
       pendingReadyRuleKeyRef.current = ruleKey;
       webViewRef.current?.injectJavaScript(buildReadyProbeScript(rule, url));
@@ -193,8 +199,32 @@ export const useWebViewInjection = (
           return;
         }
 
-        beginReadinessPolling(rule, url, startedAt);
-      }, pollIntervalMs);
+        if (!injectOnTimeout) {
+          console.debug(
+            '[WebViewInjection] Readiness timed out; skipping injection',
+            {
+              currentUrl: url,
+              ruleId: rule.id,
+              selector: ready.selector,
+              timeoutMs,
+            },
+          );
+          pendingReadyRuleKeyRef.current = null;
+          clearReadinessTimer();
+          return;
+        }
+
+        console.debug(
+          '[WebViewInjection] Readiness timed out; injecting anyway',
+          {
+            currentUrl: url,
+            ruleId: rule.id,
+            selector: ready.selector,
+            timeoutMs,
+          },
+        );
+        injectRuleScript(rule, url);
+      }, timeoutMs);
     },
     [clearReadinessTimer, injectRuleScript, webViewRef],
   );
@@ -221,46 +251,49 @@ export const useWebViewInjection = (
 
   const runInjectionForUrl = React.useCallback(
     (url: string | null) => {
-    const activeRuleForUrl = resolveWebViewInjectionRule(url, rules);
+      const activeRuleForUrl = resolveWebViewInjectionRule(url, rules);
 
-    console.debug('[WebViewInjection] Run injection', {
-      currentUrl: url,
-      activeRuleId: activeRuleForUrl?.id ?? null,
-    });
-
-    if (!url || !activeRuleForUrl) {
-      console.debug('[WebViewInjection] No matching rule for current URL', {
+      console.debug('[WebViewInjection] Run injection', {
         currentUrl: url,
+        activeRuleId: activeRuleForUrl?.id ?? null,
       });
-      return;
-    }
 
-    const ruleKey = buildRuleKey(activeRuleForUrl, url);
+      if (!url || !activeRuleForUrl) {
+        console.debug('[WebViewInjection] No matching rule for current URL', {
+          currentUrl: url,
+        });
+        return;
+      }
 
-    if (lastInjectedRuleKeyRef.current === ruleKey) {
-      console.debug('[WebViewInjection] Rule already injected for current URL', {
-        currentUrl: url,
-        ruleId: activeRuleForUrl.id,
-      });
-      return;
-    }
+      const ruleKey = buildRuleKey(activeRuleForUrl, url);
 
-    if (pendingReadyRuleKeyRef.current === ruleKey) {
-      console.debug('[WebViewInjection] Readiness polling already active', {
-        currentUrl: url,
-        ruleId: activeRuleForUrl.id,
-      });
-      return;
-    }
+      if (lastInjectedRuleKeyRef.current === ruleKey) {
+        console.debug(
+          '[WebViewInjection] Rule already injected for current URL',
+          {
+            currentUrl: url,
+            ruleId: activeRuleForUrl.id,
+          },
+        );
+        return;
+      }
 
-    if (!activeRuleForUrl.ready) {
-      injectRuleScript(activeRuleForUrl, url);
-      return;
-    }
+      if (pendingReadyRuleKeyRef.current === ruleKey) {
+        console.debug('[WebViewInjection] Readiness observer already active', {
+          currentUrl: url,
+          ruleId: activeRuleForUrl.id,
+        });
+        return;
+      }
 
-    beginReadinessPolling(activeRuleForUrl, url);
+      if (!activeRuleForUrl.ready) {
+        injectRuleScript(activeRuleForUrl, url);
+        return;
+      }
+
+      beginReadinessObservation(activeRuleForUrl, url);
     },
-    [beginReadinessPolling, injectRuleScript, rules],
+    [beginReadinessObservation, injectRuleScript, rules],
   );
 
   React.useEffect(() => {
@@ -270,19 +303,13 @@ export const useWebViewInjection = (
 
     previousUrlForEffectRef.current = currentUrl;
 
-    const timer = setTimeout(() => {
-      runInjectionForUrl(currentUrlRef.current);
-    }, 300);
-
-    return () => clearTimeout(timer);
+    runInjectionForUrl(currentUrlRef.current);
   }, [currentUrl, runInjectionForUrl]);
 
   const onLoadEnd = React.useCallback(() => {
     const url = currentUrlRef.current;
     console.debug('[WebViewInjection] Load end', {currentUrl: url});
-    setTimeout(() => {
-      runInjectionForUrl(currentUrlRef.current);
-    }, 300);
+    runInjectionForUrl(currentUrlRef.current);
   }, [runInjectionForUrl]);
 
   const handleMessage = React.useCallback(
@@ -301,14 +328,17 @@ export const useWebViewInjection = (
 
       const {payload} = parsedMessage;
       const pendingRuleKey = pendingReadyRuleKeyRef.current;
-      const readyRule =
-        rules?.find(rule => rule.id === payload.ruleId) ?? null;
+      const readyRule = rules?.find(rule => rule.id === payload.ruleId) ?? null;
       const injectionUrl = currentUrlRef.current ?? payload.url;
       const messageRuleKey = readyRule
         ? buildRuleKey(readyRule, injectionUrl)
         : null;
 
-      if (!payload.ready || !messageRuleKey || pendingRuleKey !== messageRuleKey) {
+      if (
+        !payload.ready ||
+        !messageRuleKey ||
+        pendingRuleKey !== messageRuleKey
+      ) {
         return true;
       }
 

@@ -1,4 +1,7 @@
-import {INITIAL_PAGE_SCRIPT, ICP_PLUS_URL} from '../scripts/cita-previa/initialPage';
+import {
+  INITIAL_PAGE_SCRIPT,
+  ICP_PLUS_URL,
+} from '../scripts/cita-previa/initialPage';
 
 export {ICP_PLUS_URL} from '../scripts/cita-previa/initialPage';
 
@@ -26,8 +29,9 @@ export interface WebViewInjectionRule {
   script: string;
   ready?: {
     selector: string;
+    allSelectors?: string[];
     timeoutMs?: number;
-    pollIntervalMs?: number;
+    injectOnTimeout?: boolean;
   };
 }
 
@@ -102,8 +106,9 @@ export const resolveWebViewInjectionRule = (
   return (
     rules
       .filter(rule => matchesWebViewInjectionRule(currentUrl, rule))
-      .sort((left, right) => getMatchSpecificity(right) - getMatchSpecificity(left))[0] ??
-    null
+      .sort(
+        (left, right) => getMatchSpecificity(right) - getMatchSpecificity(left),
+      )[0] ?? null
   );
 };
 
