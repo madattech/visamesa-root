@@ -10,56 +10,30 @@ export const OSC_SELECT_SCRIPT = `
     const targetText = ${JSON.stringify(TARGET_TEXT)};
     const normalize = value => (value || '').replace(/\\s+/g, ' ').trim();
 
-    const findClickable = () => {
-      const tramitLinks = Array.from(
-        document.querySelectorAll('a[href*="/tramit/"]'),
-      );
-      const targetTramitLink = tramitLinks.find(link =>
-        normalize(link.closest('article, li, div, section')?.textContent).includes(
-          targetText,
-        ),
-      );
+    const tramitLinks = Array.from(
+      document.querySelectorAll('a[href*="/tramit/"]'),
+    );
+    const targetTramitLink = tramitLinks.find(link =>
+      normalize(link.closest('article, li, div, section')?.textContent).includes(
+        targetText,
+      ),
+    );
 
-      if (targetTramitLink) {
-        return targetTramitLink;
-      }
-
-      const target = Array.from(
-        document.querySelectorAll('p, a, button, [role="button"]'),
-      ).find(element => normalize(element.textContent).includes(targetText));
-
-      return (
-        target?.closest('a, button, [role="button"]') ||
-        target?.parentElement?.closest('a, button, [role="button"]') ||
-        target ||
-        (tramitLinks.length === 1 ? tramitLinks[0] : null)
-      );
-    };
-
-    const clickWhenReady = () => {
-      const clickable = findClickable();
-      if (!clickable) {
-        return false;
-      }
-
-      clickable.click();
-      return true;
-    };
-
-    if (clickWhenReady()) {
+    if (targetTramitLink) {
+      targetTramitLink.click();
       return;
     }
 
-    const observer = new MutationObserver(() => {
-      if (clickWhenReady()) {
-        observer.disconnect();
-      }
-    });
-    observer.observe(document.documentElement, {
-      childList: true,
-      subtree: true,
-      characterData: true,
-    });
+    const target = Array.from(
+      document.querySelectorAll('p, a, button, [role="button"]'),
+    ).find(element => normalize(element.textContent).includes(targetText));
+    const clickable =
+      target?.closest('a, button, [role="button"]') ||
+      target?.parentElement?.closest('a, button, [role="button"]') ||
+      target ||
+      (tramitLinks.length === 1 ? tramitLinks[0] : null);
+
+    clickable?.click();
   })();
   true;
 `;
