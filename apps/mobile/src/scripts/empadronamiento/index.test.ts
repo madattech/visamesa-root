@@ -108,7 +108,13 @@ describe('empadronamiento script map', () => {
     expect(rules).toHaveLength(16);
     expect(
       rules
-        .filter(rule => rule.id !== 'empadronamiento-select-oficina-form')
+        .filter(
+          rule =>
+            ![
+              'empadronamiento-search-result',
+              'empadronamiento-select-oficina-form',
+            ].includes(rule.id),
+        )
         .every(rule => Boolean(rule.ready?.selector)),
     ).toBe(true);
     expect(rules).toEqual(
@@ -128,7 +134,7 @@ describe('empadronamiento script map', () => {
             type: 'prefix',
             value: `${EMPADRONAMIENTO_HOME_URL}/search-result`,
           },
-          ready: {selector: 'p', timeoutMs: 10000},
+          ready: undefined,
         }),
         expect.objectContaining({
           id: 'empadronamiento-start-tramit',

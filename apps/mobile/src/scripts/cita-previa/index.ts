@@ -44,6 +44,11 @@ const buildCitaPreviaScriptEntries = (
     nationality: profile.details.nationality,
     documentType: profile.details.documentType,
   });
+  const nationalityOptionSelector = Number.isInteger(
+    profile.details.nationality,
+  )
+    ? `#txtPaisNac option:nth-child(${profile.details.nationality + 1})`
+    : '#txtPaisNac option';
 
   const provinciaScript = buildProvinciaScript(profile.provinceOptionIndex);
 
@@ -97,6 +102,11 @@ const buildCitaPreviaScriptEntries = (
       },
       ready: {
         selector: '#txtIdCitado',
+        allSelectors: [
+          '#txtDesCitado',
+          nationalityOptionSelector,
+          '#btnEnviar',
+        ],
       },
     },
     {

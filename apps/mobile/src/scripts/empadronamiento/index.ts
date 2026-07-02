@@ -67,7 +67,6 @@ const buildEmpadronamientoScriptEntries = (
       value: `${EMPADRONAMIENTO_HOME_URL}${EMPADRONAMIENTO_SEARCH_RESULT_PATH}`,
     },
     script: OSC_SELECT_SCRIPT,
-    ready: {selector: 'p', timeoutMs: 10000},
   },
   {
     id: 'empadronamiento-start-tramit',
