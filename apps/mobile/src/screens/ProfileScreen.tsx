@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -8,32 +8,29 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
-import {CompositeNavigationProp} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
-import {useProfileData} from '@/features/profile/context/ProfileDataContext';
+import {PaymentAlreadyPaidDialog} from '@/features/profile/components/PaymentAlreadyPaidDialog';
 import {ProfileActions} from '@/features/profile/components/ProfileActions';
 import {ProfileHeader} from '@/features/profile/components/ProfileHeader';
 import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnauthenticated';
+import {useProfileData} from '@/features/profile/context/ProfileDataContext';
+import {
+  PROFILE_LEGAL_DESCRIPTION,
+  PROFILE_LEGAL_TITLE,
+  PROFILE_PAYMENT_DESCRIPTION,
+  PROFILE_PAYMENT_TITLE,
+  PROFILE_PERSONAL_DESCRIPTION,
+  PROFILE_PERSONAL_TITLE,
+} from '@/features/profile/data/profileContent';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
 import {selectProfileCompleteness} from '@/features/profile/selectors/selectProfileCompleteness';
-import {
-  PROFILE_PERSONAL_TITLE,
-  PROFILE_PERSONAL_DESCRIPTION,
-  PROFILE_LEGAL_TITLE,
-  PROFILE_LEGAL_DESCRIPTION,
-  PROFILE_PAYMENT_TITLE,
-  PROFILE_PAYMENT_DESCRIPTION,
-} from '@/features/profile/data/profileContent';
-import {consentService} from '@/services/consentService';
+import {ProfileStackParamList, RootStackParamList} from '@/navigation/types';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
-import {
-  ProfileStackParamList,
-  RootStackParamList,
-} from '@/navigation/types';
-import {useState, useEffect} from 'react';
+import {consentService} from '@/services/consentService';
+import {CompositeNavigationProp} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type ProfileScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<ProfileStackParamList, 'Profile'>,
@@ -59,15 +56,25 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     onSignInPress,
     onSignOutPress,
     onPaymentPress,
+    showAlreadyPaidDialog,
+    onDismissAlreadyPaidDialog,
+    onSeePaymentStatus,
   } = useProfileScreen(navigation);
 
   useEffect(() => {
     if (userEmail) {
-      consentService.hasAcceptedConsent().then(setHasConsent).catch(() => {});
+      consentService
+        .hasAcceptedConsent()
+        .then(setHasConsent)
+        .catch(() => {});
     }
   }, [userEmail]);
 
-  const completeness = selectProfileCompleteness(profileData, hasConsent, hasPaid);
+  const completeness = selectProfileCompleteness(
+    profileData,
+    hasConsent,
+    hasPaid,
+  );
 
   const handleLegalPress = () => {
     navigation.navigate('Legal');
@@ -135,6 +142,11 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
           <ProfileActions onSignOutPress={onSignOutPress} />
         </ScrollView>
       </KeyboardAvoidingView>
+      <PaymentAlreadyPaidDialog
+        visible={showAlreadyPaidDialog}
+        onClose={onDismissAlreadyPaidDialog}
+        onSeeStatus={onSeePaymentStatus}
+      />
     </SafeAreaView>
   );
 };

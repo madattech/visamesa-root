@@ -2,8 +2,11 @@ import {WEBSITE_PRICING_URL} from '@/config/website';
 import {useToast} from '@/components/Toast/ToastProvider';
 import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
 
+const APP_CHECKOUT_SOURCE = 'source=app';
+
 export type UsePricingLinkResult = {
   openPricing: () => Promise<void>;
+  openPricingStatus: () => Promise<void>;
 };
 
 /**
@@ -12,12 +15,20 @@ export type UsePricingLinkResult = {
 export function usePricingLink(): UsePricingLinkResult {
   const {showToast} = useToast();
 
-  const openPricing = async () => {
-    const opened = await openWebsiteUrl(WEBSITE_PRICING_URL);
+  const openWebsitePricing = async (pricingUrl: string) => {
+    const opened = await openWebsiteUrl(pricingUrl);
     if (!opened) {
       showToast('Unable to open the VisaMesa website');
     }
   };
 
-  return {openPricing};
+  const openPricing = async () => {
+    await openWebsitePricing(`${WEBSITE_PRICING_URL}?${APP_CHECKOUT_SOURCE}`);
+  };
+
+  const openPricingStatus = async () => {
+    await openWebsitePricing(WEBSITE_PRICING_URL);
+  };
+
+  return {openPricing, openPricingStatus};
 }

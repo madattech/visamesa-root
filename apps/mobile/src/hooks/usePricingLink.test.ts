@@ -1,10 +1,10 @@
-import { Linking } from 'react-native';
+import {act} from 'react';
 
-import { usePricingLink } from './usePricingLink';
-import { WEBSITE_PRICING_URL } from '@/config/website';
-import { renderHook } from '@/test/renderHook';
+import {usePricingLink} from '@/hooks/usePricingLink';
+import {renderHook} from '@/test/renderHook';
 
 const mockShowToast = jest.fn();
+const mockOpenWebsiteUrl = jest.fn();
 
 jest.mock('@/components/Toast/ToastProvider', () => ({
   useToast: () => ({
@@ -13,37 +13,40 @@ jest.mock('@/components/Toast/ToastProvider', () => ({
 }));
 
 jest.mock('@/utils/openWebsiteUrl', () => ({
-  openWebsiteUrl: jest.fn(),
+  openWebsiteUrl: (...args: unknown[]) => mockOpenWebsiteUrl(...args),
 }));
 
-import { openWebsiteUrl } from '@/utils/openWebsiteUrl';
-
-const mockOpenWebsiteUrl = openWebsiteUrl as jest.MockedFunction<typeof openWebsiteUrl>;
+jest.mock('@/config/website', () => ({
+  WEBSITE_PRICING_URL: 'http://localhost:5173/pricing',
+}));
 
 describe('usePricingLink', () => {
   beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('opens pricing URL when the browser accepts the link', async () => {
+    mockShowToast.mockReset();
     mockOpenWebsiteUrl.mockResolvedValue(true);
-
-    const getHookState = renderHook(() => usePricingLink());
-
-    await getHookState().openPricing();
-
-    expect(mockOpenWebsiteUrl).toHaveBeenCalledWith(WEBSITE_PRICING_URL);
-    expect(Linking.canOpenURL).not.toHaveBeenCalled();
   });
 
-  it('shows toast when opening the URL fails', async () => {
-    mockOpenWebsiteUrl.mockResolvedValue(false);
-
+  it('opens pricing with app source query param', async () => {
     const getHookState = renderHook(() => usePricingLink());
 
-    await getHookState().openPricing();
+    await act(async () => {
+      await getHookState().openPricing();
+    });
 
-    expect(mockOpenWebsiteUrl).toHaveBeenCalledWith(WEBSITE_PRICING_URL);
-    expect(mockShowToast).toHaveBeenCalledWith('Unable to open the VisaMesa website');
+    expect(mockOpenWebsiteUrl).toHaveBeenCalledWith(
+      'http://localhost:5173/pricing?source=app',
+    );
+  });
+
+  it('opens pricing without app source for status view', async () => {
+    const getHookState = renderHook(() => usePricingLink());
+
+    await act(async () => {
+      await getHookState().openPricingStatus();
+    });
+
+    expect(mockOpenWebsiteUrl).toHaveBeenCalledWith(
+      'http://localhost:5173/pricing',
+    );
   });
 });

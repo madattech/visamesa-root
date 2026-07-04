@@ -31,6 +31,7 @@ export function PaymentReturnListener() {
 
       if (!isAuthenticated) {
         showToast('Sign in with the same Google account to unlock your service');
+        navigationRef.navigate('Login');
         return;
       }
 
