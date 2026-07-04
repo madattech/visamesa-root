@@ -1,17 +1,18 @@
-# VisaMesa Automation Repository
+# VisaMesa Mobile (`visamesa-root`)
 
-Mobile automation apps for VisaMesa workflows. Each automation runs on the user's device to avoid IP blocking.
+React Native monorepo for the VisaMesa mobile app and shared packages. On-device WebView automation runs on the user's phone to avoid government website blocking.
 
 ## Repository Structure
 
 ```
-visamesa_automation/
-├── shared/                           # Shared code across all automations
+visamesa-root/
+├── shared/                           # Shared code across packages
 │   ├── types/                       # Common TypeScript types
-│   └── utils/                       # Shared utility functions
-├── apps/                            # Individual automation apps
-│   └── mobile/                      # Mobile automation app
-│       ├── src/                    # React Native app code
+│   ├── content/                     # Shared legal/content copy
+│   └── design-tokens/               # Shared design tokens
+├── apps/                            # Applications
+│   └── mobile/                      # React Native mobile app
+│       ├── src/                    # App code + WebView automation scripts
 │       ├── package.json
 │       ├── README.md               # App-specific documentation
 │       └── ...
@@ -45,7 +46,7 @@ User's Mobile Device (React Native App)
           ↓
     Results sent to Backend API (visamesa_be)
           ↓
-    Web App (visamesa_fe) displays results
+    Mobile app displays status + entitlements
 ```
 
 ### Why Mobile Apps?

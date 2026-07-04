@@ -1,5 +1,5 @@
 export const SERVICE_DISCLAIMER_SHORT =
-  'VisaMesa is not a law firm, gestoría, or government body, and gives guidance only — not legal advice. This official process can be done by yourself for free. We just make it clearer.';
+  'VisaMesa is not a law firm, gestoría, or government body, and gives guidance only — not legal advice. We just make the process clearer.';
 
 export const STORE_LISTING_DISCLAIMER =
   'VisaMesa is an independent guidance service and is not affiliated with, endorsed by, or representing any government entity. Official information comes from Spanish public administration sources. VisaMesa does not provide legal advice.';
