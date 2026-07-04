@@ -25,7 +25,7 @@ import {
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {AutomationId, TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {PREREQUISITES_BUTTON_LABEL} from '@/features/home/data/prerequisitesContent';
-import {useProcessReadiness, ProcessReadinessMissing} from '@/hooks/useProcessReadiness';
+import {useProcessReadiness} from '@/hooks/useProcessReadiness';
 import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
 import { navigateToProfile } from '@/navigation/navigationRef';
 import {
@@ -277,7 +277,7 @@ export function useDashboardScreen(
           {
             text: 'Get service',
             onPress: () => {
-              void openPricing();
+              openPricing().catch(() => {});
             },
           },
         ],

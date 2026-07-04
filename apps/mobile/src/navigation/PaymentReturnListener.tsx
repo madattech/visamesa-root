@@ -58,10 +58,10 @@ export function PaymentReturnListener() {
       }
     }
 
-    void Linking.getInitialURL().then(handlePaymentReturn);
+    Linking.getInitialURL().then(handlePaymentReturn).catch(() => {});
 
     const subscription = Linking.addEventListener('url', event => {
-      void handlePaymentReturn(event.url);
+      handlePaymentReturn(event.url).catch(() => {});
     });
 
     return () => {

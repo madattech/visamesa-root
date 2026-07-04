@@ -1,5 +1,4 @@
 import React from 'react';
-import {act} from 'react';
 
 import {CompleteProfileDialog} from './CompleteProfileDialog';
 import {renderComponent} from '@/test/testRenderer';

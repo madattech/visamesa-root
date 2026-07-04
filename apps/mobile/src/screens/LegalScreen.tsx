@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Linking, Platform, Share, View} from 'react-native';
+import {Alert, Platform, Share, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {useNavigation} from '@react-navigation/native';
 

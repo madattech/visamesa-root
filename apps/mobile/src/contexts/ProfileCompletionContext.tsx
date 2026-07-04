@@ -48,7 +48,7 @@ export function ProfileCompletionProvider({children}: {children: ReactNode}) {
   }, [user]);
 
   useEffect(() => {
-    void refreshCompletion();
+    refreshCompletion().catch(() => {});
   }, [refreshCompletion]);
 
   const value = useMemo<ProfileCompletionContextValue>(
