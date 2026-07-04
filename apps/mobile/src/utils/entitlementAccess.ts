@@ -1,34 +1,13 @@
-import { AutomationId } from '@/features/home/types/TieStepDetail';
 import {
   EntitlementType,
   UserEntitlement,
-} from '@/types/entitlements';
+  hasEntitlement,
+  hasPaidService,
+} from '@visamesa/content/entitlements';
 
-function activeTypes(entitlements: UserEntitlement[]): Set<string> {
-  const now = Date.now();
-  return new Set(
-    entitlements
-      .filter(entry => !entry.expiresAt || Date.parse(entry.expiresAt) > now)
-      .map(entry => entry.type),
-  );
-}
+import { AutomationId } from '@/features/home/types/TieStepDetail';
 
-export function hasEntitlement(
-  entitlements: UserEntitlement[],
-  type: EntitlementType,
-): boolean {
-  const types = activeTypes(entitlements);
-
-  if (types.has(EntitlementType.FULL_SERVICE)) {
-    return true;
-  }
-
-  return types.has(type);
-}
-
-export function hasPaidService(entitlements: UserEntitlement[]): boolean {
-  return activeTypes(entitlements).size > 0;
-}
+export { hasEntitlement, hasPaidService, isProductAlreadyCovered } from '@visamesa/content/entitlements';
 
 const AUTOMATION_ENTITLEMENT: Record<AutomationId, EntitlementType> = {
   empadronamiento: EntitlementType.EMPADRONAMIENTO_AUTO,

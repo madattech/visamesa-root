@@ -1,4 +1,4 @@
-import {useCallback} from 'react';
+import {useCallback, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -28,6 +28,9 @@ export type UseProfileScreenResult = {
   onSignInPress: () => void;
   onSignOutPress: () => Promise<void>;
   onPaymentPress: () => void;
+  showAlreadyPaidDialog: boolean;
+  onDismissAlreadyPaidDialog: () => void;
+  onSeePaymentStatus: () => void;
 };
 
 export function useProfileScreen(
@@ -36,7 +39,8 @@ export function useProfileScreen(
   const {user, isLoading: isAuthLoading, logout} = useAuth();
   const {hasPaidService, refreshEntitlements} = useEntitlements();
   const {showToast} = useToast();
-  const {openPricing} = usePricingLink();
+  const {openPricing, openPricingStatus} = usePricingLink();
+  const [showAlreadyPaidDialog, setShowAlreadyPaidDialog] = useState(false);
   const {isLoading: isProfileLoading, error: profileError} = useProfileData();
 
   useFocusEffect(
@@ -62,8 +66,24 @@ export function useProfileScreen(
     }
   };
 
+  const isPaid = hasPaidService();
+
   const onPaymentPress = () => {
+    if (isPaid) {
+      setShowAlreadyPaidDialog(true);
+      return;
+    }
+
     void openPricing();
+  };
+
+  const onDismissAlreadyPaidDialog = () => {
+    setShowAlreadyPaidDialog(false);
+  };
+
+  const onSeePaymentStatus = () => {
+    setShowAlreadyPaidDialog(false);
+    void openPricingStatus();
   };
 
   return {
@@ -71,10 +91,13 @@ export function useProfileScreen(
     userEmail: user?.email ?? null,
     isProfileLoading,
     profileError,
-    hasPaid: hasPaidService(),
+    hasPaid: isPaid,
     onSectionPress,
     onSignInPress,
     onSignOutPress,
     onPaymentPress,
+    showAlreadyPaidDialog,
+    onDismissAlreadyPaidDialog,
+    onSeePaymentStatus,
   };
 }

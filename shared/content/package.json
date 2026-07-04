@@ -7,6 +7,11 @@
     "./legal": "./legalDisclaimerContent.ts",
     "./marketing": "./marketingContent.ts",
     "./site": "./siteConstants.ts",
-    "./tieSteps": "./tieStepsMarketing.ts"
+    "./tieSteps": "./tieStepsMarketing.ts",
+    "./checkout": "./checkoutContent.ts",
+    "./entitlements": "./entitlements.ts"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
   }
 }

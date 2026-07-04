@@ -12,6 +12,7 @@ const mockLogout = jest.fn();
 const mockHasPaidService = jest.fn();
 const mockRefreshEntitlements = jest.fn();
 const mockOpenPricing = jest.fn();
+const mockOpenPricingStatus = jest.fn();
 
 jest.mock('@/components/Toast/ToastProvider', () => ({
   useToast: () => ({
@@ -33,6 +34,7 @@ jest.mock('@/contexts/EntitlementsContext', () => ({
 jest.mock('@/hooks/usePricingLink', () => ({
   usePricingLink: () => ({
     openPricing: mockOpenPricing,
+    openPricingStatus: mockOpenPricingStatus,
   }),
 }));
 
@@ -64,9 +66,12 @@ describe('useProfileScreen', () => {
   beforeEach(() => {
     mockShowToast.mockReset();
     mockLogout.mockReset();
-    mockHasPaidService.mockReturnValue(false);
+    mockHasPaidService.mockImplementation(() => false);
     mockRefreshEntitlements.mockResolvedValue([]);
+    mockOpenPricing.mockReset();
     mockOpenPricing.mockResolvedValue(undefined);
+    mockOpenPricingStatus.mockReset();
+    mockOpenPricingStatus.mockResolvedValue(undefined);
     useProfileData.mockReturnValue({
       isLoading: false,
       error: null,
@@ -142,7 +147,7 @@ describe('useProfileScreen', () => {
     expect(getHookState().hasPaid).toBe(true);
   });
 
-  it('opens pricing website when payment is pressed', () => {
+  it('opens pricing website when payment is pressed and user is unpaid', () => {
     useAuth.mockReturnValue({
       user: {id: '1', email: 'user@example.com'},
       isLoading: false,
@@ -160,5 +165,57 @@ describe('useProfileScreen', () => {
     });
 
     expect(mockOpenPricing).toHaveBeenCalled();
+  });
+
+  it('shows already paid dialog instead of opening pricing when user already paid', () => {
+    useAuth.mockReturnValue({
+      user: {id: '1', email: 'user@example.com'},
+      isLoading: false,
+      logout: mockLogout,
+    });
+    mockHasPaidService.mockImplementation(() => true);
+
+    const navigation = createMockNavigation<
+      ProfileStackParamList,
+      'Profile'
+    >() as ProfileScreenNavigation;
+    const getHookState = renderHook(() => useProfileScreen(navigation));
+
+    expect(getHookState().hasPaid).toBe(true);
+    expect(getHookState().showAlreadyPaidDialog).toBe(false);
+
+    act(() => {
+      getHookState().onPaymentPress();
+    });
+
+    expect(mockOpenPricing).not.toHaveBeenCalled();
+    expect(mockShowToast).not.toHaveBeenCalled();
+    expect(getHookState().showAlreadyPaidDialog).toBe(true);
+  });
+
+  it('opens pricing status page when see status is pressed', () => {
+    useAuth.mockReturnValue({
+      user: {id: '1', email: 'user@example.com'},
+      isLoading: false,
+      logout: mockLogout,
+    });
+    mockHasPaidService.mockImplementation(() => true);
+
+    const navigation = createMockNavigation<
+      ProfileStackParamList,
+      'Profile'
+    >() as ProfileScreenNavigation;
+    const getHookState = renderHook(() => useProfileScreen(navigation));
+
+    act(() => {
+      getHookState().onPaymentPress();
+    });
+
+    act(() => {
+      getHookState().onSeePaymentStatus();
+    });
+
+    expect(mockOpenPricingStatus).toHaveBeenCalled();
+    expect(getHookState().showAlreadyPaidDialog).toBe(false);
   });
 });
