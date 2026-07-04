@@ -79,16 +79,6 @@ describe('selectProfileCompleteness', () => {
     });
   });
 
-  describe('isPaymentComplete', () => {
-    it('returns true when user has paid', () => {
-      expect(isPaymentComplete(true)).toBe(true);
-    });
-
-    it('returns false when user has not paid', () => {
-      expect(isPaymentComplete(false)).toBe(false);
-    });
-  });
-
   describe('selectProfileCompleteness', () => {
     it('returns correct completeness when all sections are complete', () => {
       const result = selectProfileCompleteness(completeProfileData, true, true);

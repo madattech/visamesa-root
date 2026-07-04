@@ -89,7 +89,7 @@ export function BottomSheet({
       statusBarTranslucent>
       <View style={StyleSheet.absoluteFill}>
         <Pressable
-          style={{flex: 1}}
+          style={styles.scrimPressable}
           onPress={onClose}
           accessibilityRole="button"
           accessibilityLabel="Close">
@@ -149,6 +149,9 @@ export function BottomSheet({
 }
 
 const stylesheet = createStyleSheet(theme => ({
+  scrimPressable: {
+    flex: 1,
+  },
   scrim: {
     flex: 1,
   },

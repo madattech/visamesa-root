@@ -55,9 +55,9 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
         await onSubmit(pendingData);
         setPendingData(null);
       }
-    } catch (error) {
+    } catch (consentError) {
       // Error handling is done in ConsentDialog
-      throw error;
+      throw consentError;
     }
   };
 

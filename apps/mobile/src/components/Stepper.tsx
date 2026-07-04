@@ -72,7 +72,6 @@ export function Stepper({
                 isCompleted && styles.stepButtonCompleted,
                 !pressable && styles.stepButtonDisabled,
                 elevationStyle,
-                {borderWidth: 0},
               ]}>
               {isCompleted ? (
                 <Icon name="check" size="md" color="success" />
@@ -122,6 +121,7 @@ const stylesheet = createStyleSheet(theme => ({
   stepButton: {
     minWidth: theme.sizes.touchTargetMin,
     minHeight: theme.sizes.touchTargetMin,
+    borderWidth: 0,
   },
   stepButtonInactive: {
     borderWidth: 0,

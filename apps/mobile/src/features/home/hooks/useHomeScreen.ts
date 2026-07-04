@@ -59,7 +59,7 @@ export function useHomeScreen(
         'You will complete payment on our website. After paying, return to the app and sign in with the same Google account to unlock your service.',
         [
           {text: 'Cancel', style: 'cancel'},
-          {text: 'Continue', onPress: () => void openPricing()},
+          {text: 'Continue', onPress: () => { openPricing().catch(() => {}); }},
         ],
       );
       return;

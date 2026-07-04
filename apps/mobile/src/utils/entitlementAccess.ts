@@ -2,7 +2,6 @@ import {
   EntitlementType,
   UserEntitlement,
   hasEntitlement,
-  hasPaidService,
 } from '@visamesa/content/entitlements';
 
 import { AutomationId } from '@/features/home/types/TieStepDetail';

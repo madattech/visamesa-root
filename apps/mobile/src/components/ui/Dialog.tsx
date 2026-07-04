@@ -75,7 +75,7 @@ export function Dialog({
       <View style={styles.overlay}>
         <View style={StyleSheet.absoluteFill}>
           <Pressable
-            style={{flex: 1}}
+            style={styles.scrimPressable}
             onPress={onClose}
             accessibilityRole="button"
             accessibilityLabel="Close dialog">
@@ -135,6 +135,9 @@ const stylesheet = createStyleSheet(theme => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: theme.spacing.lg,
+  },
+  scrimPressable: {
+    flex: 1,
   },
   scrim: {
     flex: 1,

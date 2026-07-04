@@ -45,7 +45,7 @@ export function useProfileScreen(
 
   useFocusEffect(
     useCallback(() => {
-      void refreshEntitlements();
+      refreshEntitlements().catch(() => {});
     }, [refreshEntitlements]),
   );
 
@@ -74,7 +74,7 @@ export function useProfileScreen(
       return;
     }
 
-    void openPricing();
+    openPricing().catch(() => {});
   };
 
   const onDismissAlreadyPaidDialog = () => {
@@ -83,7 +83,7 @@ export function useProfileScreen(
 
   const onSeePaymentStatus = () => {
     setShowAlreadyPaidDialog(false);
-    void openPricingStatus();
+    openPricingStatus().catch(() => {});
   };
 
   return {

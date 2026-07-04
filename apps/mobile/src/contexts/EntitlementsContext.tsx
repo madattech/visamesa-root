@@ -87,7 +87,7 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
   }, [refreshEntitlements]);
 
   useEffect(() => {
-    void refreshEntitlements();
+    refreshEntitlements().catch(() => {});
   }, [user?.id, refreshEntitlements]);
 
   const value = useMemo<EntitlementsContextValue>(

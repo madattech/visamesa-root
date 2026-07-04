@@ -42,6 +42,46 @@ function TabBarButton({style, ...props}: BottomTabBarButtonProps) {
   );
 }
 
+type TabBarLabelProps = {
+  focused: boolean;
+  color: string;
+  label: string;
+};
+
+function TabBarLabel({focused, color, label}: TabBarLabelProps) {
+  const {theme} = useStyles(stylesheet);
+
+  return (
+    <Text
+      style={{
+        ...brandFontStyle(
+          focused ? '600' : theme.typography.labelMedium.fontWeight,
+          theme.typography.labelMedium.fontSize,
+          theme.typography.labelMedium.lineHeight,
+        ),
+        color,
+      }}>
+      {label}
+    </Text>
+  );
+}
+
+function createTabBarLabelRenderer(label: string) {
+  return function TabBarLabelRenderer({
+    focused,
+    color,
+  }: {
+    focused: boolean;
+    color: string;
+  }) {
+    return <TabBarLabel focused={focused} color={color} label={label} />;
+  };
+}
+
+const TAB_BAR_LABELS = Object.fromEntries(
+  TAB_CONFIG.map(tab => [tab.name, createTabBarLabelRenderer(tab.label)]),
+) as Record<keyof MainTabParamList, ReturnType<typeof createTabBarLabelRenderer>>;
+
 const MainTabNavigator = () => {
   const {theme} = useStyles(stylesheet);
   const insets = useSafeAreaInsets();
@@ -105,19 +145,7 @@ const MainTabNavigator = () => {
 
             return {
               title: tab.label,
-              tabBarLabel: ({focused, color}) => (
-                <Text
-                  style={{
-                    ...brandFontStyle(
-                      focused ? '600' : theme.typography.labelMedium.fontWeight,
-                      theme.typography.labelMedium.fontSize,
-                      theme.typography.labelMedium.lineHeight,
-                    ),
-                    color,
-                  }}>
-                  {tab.label}
-                </Text>
-              ),
+              tabBarLabel: TAB_BAR_LABELS[tab.name],
               tabBarAccessibilityLabel: tab.label,
               tabBarIcon: TAB_BAR_ICONS[tab.icon],
               tabBarStyle: hideTabBar
