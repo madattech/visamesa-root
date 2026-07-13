@@ -9,9 +9,18 @@
     "./site": "./siteConstants.ts",
     "./tieSteps": "./tieStepsMarketing.ts",
     "./checkout": "./checkoutContent.ts",
-    "./entitlements": "./entitlements.ts"
+    "./entitlements": "./entitlements.ts",
+    "./i18n": "./i18n/index.ts",
+    "./i18n/useTranslation": "./i18n/useTranslation.ts",
+    "./tieSteps/detail": "./tieSteps/index.ts"
+  },
+  "peerDependencies": {
+    "i18next": "^25.5.2",
+    "react-i18next": "^15.7.3"
   },
   "devDependencies": {
+    "i18next": "^25.5.2",
+    "react-i18next": "^15.7.3",
     "vitest": "^3.2.4"
   }
 }

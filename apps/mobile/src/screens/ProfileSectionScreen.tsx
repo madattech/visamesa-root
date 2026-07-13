@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {ActivityIndicator, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {RouteProp, useNavigation} from '@react-navigation/native';
 
@@ -8,10 +9,13 @@ import {DynamicForm} from '@/features/forms/components/DynamicForm';
 import {ConsentDialog} from '@/features/profile/components/ConsentDialog';
 import {useFormSchema} from '@/features/forms/hooks/useFormSchema';
 import {useProfileSectionScreen} from '@/features/profile/hooks/useProfileSectionScreen';
-import {getProfileSection} from '@/features/profile/data/profileSections';
 import {Text} from '@/components/ui/Text';
 import {ProfileStackParamList} from '@/navigation/types';
 import {consentService} from '@/services/consentService';
+
+const PROFILE_SECTION_TITLE_KEYS = {
+  personal: 'personalTitle',
+} as const;
 
 type ProfileSectionScreenProps = {
   route: RouteProp<ProfileStackParamList, 'ProfileSection'>;
@@ -19,6 +23,7 @@ type ProfileSectionScreenProps = {
 
 const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('profile');
   const navigation = useNavigation();
   const {formId, initialValues, isSubmitting, onSubmit} =
     useProfileSectionScreen(route);
@@ -28,7 +33,9 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
     null,
   );
 
-  const title = getProfileSection(route.params.sectionId).title;
+  const title = t(
+    PROFILE_SECTION_TITLE_KEYS[route.params.sectionId],
+  );
 
   const handleSubmit = async (data: Record<string, unknown>) => {
     // Check if consent has been given

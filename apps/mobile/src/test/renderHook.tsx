@@ -1,5 +1,7 @@
 import React, {act} from 'react';
+import {I18nextProvider} from 'react-i18next';
 import renderer from 'react-test-renderer';
+import {i18n} from '@visamesa/content/i18n';
 
 export function renderHook<T>(useHook: () => T): () => T {
   let hookResult: T | null = null;
@@ -10,7 +12,11 @@ export function renderHook<T>(useHook: () => T): () => T {
   };
 
   act(() => {
-    renderer.create(<Harness />);
+    renderer.create(
+      <I18nextProvider i18n={i18n as never}>
+        <Harness />
+      </I18nextProvider>,
+    );
   });
 
   if (!hookResult) {
@@ -32,7 +38,11 @@ export async function renderHookAsync<T>(
   };
 
   await act(async () => {
-    renderer.create(<Harness />);
+    renderer.create(
+      <I18nextProvider i18n={i18n as never}>
+        <Harness />
+      </I18nextProvider>,
+    );
   });
 
   if (!hookResult) {

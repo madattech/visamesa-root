@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Button} from '@/components/ui/Button';
@@ -44,6 +45,7 @@ export function DashboardReadinessCard({
   onCompleteProfilePress,
 }: DashboardReadinessCardProps) {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation('dashboard');
 
   const isPaymentMissing = missing.includes('payment');
   const isProfileMissing = missing.includes('profile');
@@ -53,17 +55,17 @@ export function DashboardReadinessCard({
       <View style={styles.header}>
         <Icon name="info-outline" size="md" color="primary" />
         <Text variant="titleSmall" color="onSurface">
-          Before we can start
+          {t('readinessTitle')}
         </Text>
       </View>
 
       <View style={styles.items}>
         <ReadinessItem
-          label="VisaMesa service payment"
+          label={t('readinessPayment')}
           isComplete={!isPaymentMissing}
         />
         <ReadinessItem
-          label="Complete your profile"
+          label={t('readinessProfile')}
           isComplete={!isProfileMissing}
         />
       </View>
@@ -72,7 +74,7 @@ export function DashboardReadinessCard({
         <View style={styles.actions}>
           {isPaymentMissing ? (
             <Button
-              label="Get service"
+              label={t('getService')}
               variant="primary"
               onPress={onGetServicePress}
               fullWidth
@@ -80,7 +82,7 @@ export function DashboardReadinessCard({
           ) : null}
           {isProfileMissing ? (
             <Button
-              label="Complete profile"
+              label={t('completeProfile')}
               variant={isPaymentMissing ? 'outline' : 'primary'}
               onPress={onCompleteProfilePress}
               fullWidth
@@ -96,6 +98,9 @@ const stylesheet = createStyleSheet(theme => ({
   container: {
     padding: theme.spacing.md,
     gap: theme.spacing.md,
+    maxWidth: theme.sizes.contentMaxWidth,
+    alignSelf: 'center',
+    width: '100%',
   },
   header: {
     flexDirection: 'row',
@@ -112,6 +117,5 @@ const stylesheet = createStyleSheet(theme => ({
   },
   actions: {
     gap: theme.spacing.sm,
-    marginTop: theme.spacing.xs,
   },
 }));

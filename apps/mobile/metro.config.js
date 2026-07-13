@@ -17,6 +17,11 @@ const config = {
       path.resolve(projectRoot, 'node_modules'),
       path.resolve(monorepoRoot, 'node_modules'),
     ],
+    extraNodeModules: {
+      i18next: path.resolve(projectRoot, 'node_modules/i18next'),
+      'react-i18next': path.resolve(projectRoot, 'node_modules/react-i18next'),
+      react: path.resolve(projectRoot, 'node_modules/react'),
+    },
     unstable_enablePackageExports: true,
   },
 };

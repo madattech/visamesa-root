@@ -1,15 +1,17 @@
 import React from 'react';
 import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
 
 export function ProfileHeader() {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation('common');
 
   return (
     <View style={styles.container}>
-      <Text variant="titleMedium">Profile</Text>
+      <Text variant="titleMedium">{t('tabs.profile')}</Text>
     </View>
   );
 }

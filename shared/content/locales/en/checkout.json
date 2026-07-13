@@ -1,0 +1,66 @@
+{
+  "pricing": {
+    "title": "Choose your VisaMesa service",
+    "introType1": "One-time payment on our website. After checkout, download the VisaMesa app and sign in with the same Google account to start your TIE journey.",
+    "introType2": "Complete payment here, then return to the VisaMesa app with the same Google account to unlock your service.",
+    "alreadyPaidTitle": "You already have an active service",
+    "alreadyPaidBody": "Your payment is linked to this Google account. Open the VisaMesa app and sign in with the same account to continue.",
+    "type2ReturnNote": "After payment, use the button on the success page to return to the VisaMesa app.",
+    "returnToApp": "Return to VisaMesa app",
+    "securityTitle": "Your data stays private",
+    "securityLead": "VisaMesa uses client-side encryption. Your personal information is encrypted on your phone before it reaches our servers.",
+    "securityPoints": [
+      "We store only encrypted data in our database — we cannot read your name, document number, or address without your device.",
+      "Encryption keys stay on your device (iOS Keychain / Android Keystore), protected by your passcode or biometrics.",
+      "All data in transit is protected with TLS/SSL encryption.",
+      "You can export or permanently delete your data at any time in the app."
+    ],
+    "securityGdpr": "We follow EU GDPR regulations. For full details, see our <privacyLink>Privacy Policy</privacyLink>.",
+    "signInTitle": "Sign in to continue",
+    "consentTitle": "Privacy and terms of service",
+    "consentLabel": "I accept the <privacyLink>Privacy Policy</privacyLink> and <termsLink>Terms of Service</termsLink>",
+    "consentRequired": "You must accept the Privacy Policy and Terms of Service before selecting a plan.",
+    "acceptTermsToContinue": "Accept terms to continue",
+    "chooseService": "Choose this service",
+    "doItAllForMe": "Do it all for me",
+    "bestValue": "Best value"
+  },
+  "products": {
+    "full_service": {
+      "name": "VisaMesa Full Service",
+      "description": "Complete TIE assistance including all automations and guidance"
+    },
+    "empadronamiento_auto": {
+      "name": "Empadronamiento Automation",
+      "description": "Automated appointment booking for address registration"
+    },
+    "cita_previa_auto": {
+      "name": "Cita Previa Automation",
+      "description": "Automated appointment booking for fingerprint appointment"
+    },
+    "guidance": {
+      "name": "TIE Process Guidance",
+      "description": "Step-by-step guidance for document preparation and process"
+    }
+  },
+  "success": {
+    "title": "Payment successful",
+    "type1Lead": "Your VisaMesa service is now linked to your Google account. Follow these steps to get started in the app.",
+    "type2Lead": "Your VisaMesa service is now linked to your account. Return to the app to continue your TIE journey.",
+    "openApp": "Open VisaMesa app",
+    "downloadFallback": "Download VisaMesa from the App Store or Google Play, then sign in with the same Google account.",
+    "postPaymentSteps": [
+      "Download the VisaMesa app from the App Store or Google Play",
+      "Sign in with the same Google account you used on this website",
+      "Complete your profile in the app to unlock the features"
+    ]
+  },
+  "cancel": {
+    "title": "Checkout cancelled",
+    "lead": "Your payment was not completed. You can return to pricing whenever you are ready."
+  },
+  "profileAlreadyPaid": {
+    "dialogTitle": "Already paid",
+    "dialogMessage": "You already have an active VisaMesa service on this account."
+  }
+}

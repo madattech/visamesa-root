@@ -1,4 +1,5 @@
-import {tieStepsDetail} from '@/features/home/data/stepsData';
+import {TIE_STEP_ORDER, tieStepManifest} from '@visamesa/content/tieSteps/detail';
+
 import type {OfficialLink} from '@/features/home/types/TieStepDetail';
 
 const EXCLUDED_HOSTS = ['immigrationlawyerbarcelona.es'];
@@ -25,13 +26,17 @@ export function selectOfficialInformationSources(): OfficialLink[] {
     links.push(link);
   };
 
-  for (const step of tieStepsDetail) {
-    for (const link of step.officialLinks) {
-      addLink(link);
+  for (const slug of TIE_STEP_ORDER) {
+    const step = tieStepManifest[slug];
+
+    for (const url of step.officialLinkUrls) {
+      addLink({label: url, url});
     }
 
     for (const requirement of step.requirements) {
-      addLink(requirement.link);
+      if (requirement.link) {
+        addLink({label: requirement.link.url, url: requirement.link.url});
+      }
     }
   }
 

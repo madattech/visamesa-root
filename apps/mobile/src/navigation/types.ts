@@ -22,6 +22,7 @@ export type ProfileStackParamList = {
   };
   Legal: undefined;
   Login: undefined;
+  Settings: undefined;
 };
 
 export type MainTabParamList = {

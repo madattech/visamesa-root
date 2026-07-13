@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import {useTranslation} from 'react-i18next';
 
 import {Button} from '@/components/ui/Button';
 
@@ -14,11 +15,12 @@ export function ProfileActions({
   disabled = false,
 }: ProfileActionsProps) {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation('profile');
 
   return (
     <View style={styles.container}>
       <Button
-        label="Sign Out"
+        label={t('signOut')}
         variant="outline"
         onPress={onSignOutPress}
         disabled={disabled}

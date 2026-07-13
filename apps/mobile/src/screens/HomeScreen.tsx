@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 import {ActivityIndicator, ScrollView, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
@@ -8,10 +9,10 @@ import {Stepper} from '@/components/Stepper';
 import {ButtonGroup} from '@/components/ui/ButtonGroup';
 import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
-import {ServiceDisclaimerShort} from '@/features/legal/components/ServiceDisclaimerShort';
 import {HeroSection} from '@/features/home/components/HeroSection';
 import {StepOverview} from '@/features/home/components/StepOverview';
 import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
+import {ServiceDisclaimerShort} from '@/features/legal/components/ServiceDisclaimerShort';
 import {HomeStackParamList} from '@/navigation/types';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -22,6 +23,7 @@ type HomeScreenProps = {
 
 const HomeScreen = ({navigation}: HomeScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('home');
   const tabBarInset = useTabBarInset();
   const {
     steps,
@@ -73,11 +75,11 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
             <ServiceDisclaimerShort centered />
             <ButtonGroup
               primaryButton={{
-                label: 'Do It All for Me',
+                label: t('primaryCta'),
                 onPress: onPrimaryPress,
               }}
               secondaryButton={{
-                label: 'Learn More',
+                label: t('secondaryCta'),
                 onPress: onSecondaryPress,
               }}
             />

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
+import {useTranslation} from 'react-i18next';
 
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
@@ -16,14 +17,6 @@ import {ProfileActions} from '@/features/profile/components/ProfileActions';
 import {ProfileHeader} from '@/features/profile/components/ProfileHeader';
 import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnauthenticated';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
-import {
-  PROFILE_LEGAL_DESCRIPTION,
-  PROFILE_LEGAL_TITLE,
-  PROFILE_PAYMENT_DESCRIPTION,
-  PROFILE_PAYMENT_TITLE,
-  PROFILE_PERSONAL_DESCRIPTION,
-  PROFILE_PERSONAL_TITLE,
-} from '@/features/profile/data/profileContent';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
 import {selectProfileCompleteness} from '@/features/profile/selectors/selectProfileCompleteness';
 import {ProfileStackParamList, RootStackParamList} from '@/navigation/types';
@@ -43,6 +36,7 @@ type ProfileScreenProps = {
 
 const ProfileScreen = ({navigation}: ProfileScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('profile');
   const tabBarInset = useTabBarInset();
   const {profileData} = useProfileData();
   const [hasConsent, setHasConsent] = useState(false);
@@ -78,6 +72,10 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
 
   const handleLegalPress = () => {
     navigation.navigate('Legal');
+  };
+
+  const handleSettingsPress = () => {
+    navigation.navigate('Settings');
   };
 
   if (isAuthLoading || (userEmail && isProfileLoading)) {
@@ -119,24 +117,31 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
           ) : null}
 
           <DetailLinkRow
-            title={PROFILE_PERSONAL_TITLE}
-            description={PROFILE_PERSONAL_DESCRIPTION}
+            title={t('personalTitle')}
+            description={t('personalDescription')}
             onPress={() => onSectionPress('personal')}
             status={completeness.personalInformation ? 'done' : 'notDone'}
           />
 
           <DetailLinkRow
-            title={PROFILE_LEGAL_TITLE}
-            description={PROFILE_LEGAL_DESCRIPTION}
+            title={t('legalTitle')}
+            description={t('legalDescription')}
             onPress={handleLegalPress}
             status={completeness.legalPrivacy ? 'done' : 'notDone'}
           />
 
           <DetailLinkRow
-            title={PROFILE_PAYMENT_TITLE}
-            description={PROFILE_PAYMENT_DESCRIPTION}
+            title={t('paymentTitle')}
+            description={t('paymentDescription')}
             onPress={onPaymentPress}
             status={completeness.payment ? 'done' : 'notDone'}
+          />
+
+          <DetailLinkRow
+            title={t('settingsTitle')}
+            description={t('settingsDescription')}
+            icon="settings"
+            onPress={handleSettingsPress}
           />
 
           <ProfileActions onSignOutPress={onSignOutPress} />

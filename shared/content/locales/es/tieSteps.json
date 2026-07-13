@@ -1,0 +1,431 @@
+{
+  "howToName": "Proceso del TIE de estudiante en Barcelona",
+  "howToDescription": "Seis pasos guiados para completar tu proceso de tarjeta de residencia TIE de estudiante en Barcelona.",
+  "marketingSteps": [
+    {
+      "id": 1,
+      "title": "Empadrona tu domicilio",
+      "description": "Obtén el empadronamiento en tu Ayuntamiento local de Barcelona."
+    },
+    {
+      "id": 2,
+      "title": "Reserva cita para huellas",
+      "description": "Consigue una cita previa en la web oficial de la policía."
+    },
+    {
+      "id": 3,
+      "title": "Prepara los documentos",
+      "description": "Reúne el EX-17, copias del pasaporte, fotos y confirmaciones."
+    },
+    {
+      "id": 4,
+      "title": "Paga la tasa del TIE",
+      "description": "Completa el Modelo 790 código 012 y paga en un banco español."
+    },
+    {
+      "id": 5,
+      "title": "Acude a la cita",
+      "description": "Presenta la documentación, facilita las huellas y recibe el resguardo."
+    },
+    {
+      "id": 6,
+      "title": "Recoge tu TIE",
+      "description": "Vuelve a recoger tu tarjeta física cuando esté lista."
+    }
+  ],
+  "faqs": [
+    {
+      "question": "¿Necesito cita para el empadronamiento?",
+      "answer": "A menudo sí — consulta en tu Ayuntamiento local."
+    },
+    {
+      "question": "¿Puedo usar solo un contrato de alquiler para el empadronamiento?",
+      "answer": "No — necesitas el certificado oficial de empadronamiento."
+    },
+    {
+      "question": "¿Puede alguien reservar mi cita previa en mi nombre?",
+      "answer": "Sí, pero debes acudir en persona."
+    },
+    {
+      "question": "¿Necesito un NIE para reservar una cita previa?",
+      "answer": "La mayoría de sistemas piden datos del NIE/pasaporte para reservar una cita."
+    },
+    {
+      "question": "¿Qué pasa si no hay citas previa disponibles?",
+      "answer": "Sigue comprobando con regularidad; se abren en momentos aleatorios."
+    },
+    {
+      "question": "¿Las fotos del TIE tienen requisitos específicos?",
+      "answer": "Sí — formato de pasaporte con fondo blanco."
+    },
+    {
+      "question": "¿Puedo pagar la tasa del Modelo 790 más tarde?",
+      "answer": "No — debes pagar la tasa 790-012 y llevar el justificante de pago a la cita."
+    },
+    {
+      "question": "¿Entregan el TIE en el momento de la cita?",
+      "answer": "No — lo recoges más adelante."
+    },
+    {
+      "question": "¿Puede otra persona recoger mi TIE?",
+      "answer": "Normalmente debes estar presente tú."
+    }
+  ],
+  "steps": {
+    "empadronamiento": {
+      "title": "Empadrona tu domicilio",
+      "short": "Registra tu domicilio en el Ayuntamiento local (empadronamiento).",
+      "description": "El empadronamiento es el registro oficial de tu domicilio en el padrón municipal de Barcelona. Acredita que vives en un barrio concreto y es necesario para muchos trámites, incluida la cita del TIE.",
+      "whyItExists": "El sistema español utiliza el empadronamiento para acreditar la residencia en trámites administrativos como sanidad, escolarización y formalidades de inmigración.",
+      "completionPrompt": "¿Recibiste tu certificado de empadronamiento en el Ayuntamiento?",
+      "cta": {
+        "start": "Voy a empadronarme",
+        "complete": "Ya tengo mi empadronamiento"
+      },
+      "estimatedTime": [
+        {
+          "label": "Tiempo habitual",
+          "value": "1-3 horas en el Ayuntamiento + tiempo de espera para la cita"
+        },
+        {
+          "label": "Espera de cita",
+          "value": "Varía según el ayuntamiento (a menudo 1–2 semanas)*"
+        },
+        {
+          "label": "Validez del certificado",
+          "value": "El certificado suele ser válido durante 90 días"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Ajuntament de Barcelona – Empadronamiento"
+        },
+        {
+          "label": "Información de servicios ciudadanos de Barcelona"
+        }
+      ],
+      "commonQuestions": [
+        {
+          "question": "¿Necesito cita previa?",
+          "answer": "A menudo sí — consulta en tu Ayuntamiento local"
+        },
+        {
+          "question": "¿Puedo usar solo un contrato de alquiler?",
+          "answer": "No — necesitas el certificado oficial de empadronamiento"
+        },
+        {
+          "question": "¿Qué antigüedad debe tener el certificado?",
+          "answer": "Normalmente no más de 90 días"
+        }
+      ],
+      "requirements": {
+        "passport-nie": {
+          "label": "Pasaporte válido y NIE"
+        },
+        "proof-of-residence": {
+          "label": "Contrato de alquiler o prueba de domicilio",
+          "description": "Contrato de alquiler, escritura de la vivienda o autorización del propietario (según tu situación de vivienda)."
+        },
+        "appointment-confirmation": {
+          "label": "Confirmación de cita",
+          "description": "Algunos Ayuntamientos exigen reservar cita antes de acudir."
+        }
+      }
+    },
+    "toma-de-huellas": {
+      "title": "Reserva tu cita para toma de huellas",
+      "short": "Reserva una cita online para presentar tu solicitud de TIE y facilitar tus huellas dactilares.",
+      "description": "Antes de solicitar tu TIE, debes reservar una cita previa en la web oficial del Gobierno de España. En esa cita presentarás la documentación y te tomarán las huellas. La demanda es alta en Barcelona y las citas suelen agotarse rápidamente, especialmente en meses punta (como septiembre).",
+      "whyItExists": "La policía española exige verificación presencial y toma de huellas para las tarjetas de identidad. Las citas garantizan un trámite ordenado y una verificación adecuada.",
+      "completionPrompt": "¿Tienes guardada o impresa la confirmación de tu cita previa?",
+      "cta": {
+        "start": "Voy a reservar mi cita",
+        "complete": "Ya reservé mi cita"
+      },
+      "estimatedTime": [
+        {
+          "label": "Tiempo de búsqueda",
+          "value": "1–10 días comprobando la disponibilidad de citas"
+        },
+        {
+          "label": "Plazo habitual hasta la cita",
+          "value": "1–3 semanas hasta la fecha de la cita"
+        },
+        {
+          "label": "Consejos",
+          "value": "Actualiza con frecuencia; pueden abrirse citas en momentos imprevisibles"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Cita Previa – Reserva oficial de citas (Policía)"
+        }
+      ],
+      "commonQuestions": [
+        {
+          "question": "¿Puede alguien reservar en mi nombre?",
+          "answer": "Sí, pero debes acudir en persona"
+        },
+        {
+          "question": "¿Necesito un NIE para reservar?",
+          "answer": "La mayoría de sistemas piden datos del NIE/pasaporte para reservar una cita"
+        },
+        {
+          "question": "¿Qué hago si no hay citas disponibles?",
+          "answer": "Sigue comprobando con regularidad; se abren en momentos aleatorios"
+        }
+      ],
+      "requirements": {
+        "personal-id-details": {
+          "label": "Datos de identificación personal",
+          "description": "Se requiere el número de pasaporte, la nacionalidad y datos personales básicos para reservar."
+        },
+        "cita-previa-access": {
+          "label": "Acceso a la web oficial de Cita Previa",
+          "link": {
+            "label": "Reservar cita para toma de huellas"
+          }
+        },
+        "appointment-confirmation": {
+          "label": "Confirmación de cita",
+          "description": "Imprime o guarda la confirmación para llevarla a la comisaría."
+        }
+      }
+    },
+    "required-documents": {
+      "title": "Prepara la documentación requerida",
+      "short": "Reúne y organiza toda la documentación que necesitas antes de tu cita.",
+      "description": "Lleva toda la documentación impresa y bien organizada. Así evitas rechazos en la cita: si falta un solo documento, a menudo tendrás que volver a reservar y esperar más tiempo.",
+      "whyItExists": "La burocracia española es estricta con la completitud y exactitud: formularios oficiales, copias del pasaporte, tasas y certificados deben cumplir los requisitos al pie de la letra.",
+      "completionPrompt": "¿Tienes toda la documentación requerida impresa y organizada para tu cita?",
+      "cta": {
+        "start": "Voy a preparar mi documentación",
+        "complete": "Ya tengo toda la documentación lista"
+      },
+      "estimatedTime": [
+        {
+          "label": "Tiempo de preparación",
+          "value": "1–3 días para reunir y hacer copias"
+        },
+        {
+          "label": "Validez del empadronamiento",
+          "value": "menos de 3 meses de antigüedad"
+        },
+        {
+          "label": "Fotografías",
+          "value": "recientes, en formato de pasaporte"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Información del TIE en Barcelona – Policía Nacional"
+        }
+      ],
+      "commonQuestions": [
+        {
+          "question": "¿Las fotos tienen requisitos específicos?",
+          "answer": "Sí — formato de pasaporte con fondo blanco"
+        },
+        {
+          "question": "¿Puedo pagar la tasa más tarde?",
+          "answer": "No — debes pagar la tasa 790-012 y llevar el justificante de pago a la cita"
+        },
+        {
+          "question": "¿Pueden estar los documentos en inglés?",
+          "answer": "La mayoría deben traducirse si no están en español — consulta las normas de tu país de origen"
+        }
+      ],
+      "requirements": {
+        "ex-17-form": {
+          "label": "Formulario de solicitud EX-17 cumplimentado"
+        },
+        "valid-passport": {
+          "label": "Pasaporte válido",
+          "description": "Original más fotocopias de la página principal y del visado/sello de entrada."
+        },
+        "student-visa": {
+          "label": "Visado de estudiante o autorización de residencia",
+          "description": "Prueba de permiso para permanecer más de 6 meses."
+        },
+        "empadronamiento-certificate": {
+          "label": "Certificado de empadronamiento",
+          "description": "Prueba de registro de domicilio local."
+        },
+        "passport-photos": {
+          "label": "Fotografías tipo carnet",
+          "description": "Fotos recientes a color con fondo blanco."
+        },
+        "appointment-confirmation-doc": {
+          "label": "Confirmación de cita",
+          "description": "Confirmación impresa de la web de Cita Previa."
+        }
+      }
+    },
+    "pay-fee": {
+      "title": "Paga la tasa de expedición del TIE",
+      "short": "Cumplimenta y paga la tasa oficial del Modelo 790 código 012 antes de tu cita.",
+      "description": "Debes cumplimentar el formulario oficial de tasas Modelo 790 (código 012) y pagarlo en un banco español antes de tu cita del TIE. Debes llevar el justificante de pago contigo: sin él pueden rechazar la solicitud en el acto.",
+      "whyItExists": "La tasa es un requisito legal para tramitar y fabricar tu tarjeta TIE. Pagarla antes de la cita confirma tu compromiso y cubre los costes administrativos.",
+      "completionPrompt": "¿Pagaste la tasa del Modelo 790 y recibiste tu justificante de pago?",
+      "cta": {
+        "start": "Voy a pagar la tasa",
+        "complete": "Ya pagué la tasa del TIE"
+      },
+      "estimatedTime": [
+        {
+          "label": "Visita al banco",
+          "value": "30 minutos a 1 hora en una sucursal bancaria"
+        },
+        {
+          "label": "Tramitación",
+          "value": "Emisión inmediata del justificante de pago"
+        },
+        {
+          "label": "Importe de la tasa",
+          "value": "Aprox. 16–22 € según el tipo de permiso"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Descargar Modelo 790 (Gobierno)"
+        },
+        {
+          "label": "Información sobre tasas – Portal de inmigración"
+        }
+      ],
+      "commonQuestions": [
+        {
+          "question": "¿Puedo pagar online?",
+          "answer": "Normalmente en un banco para el código 012 — comprueba si tu banca online lo permite"
+        },
+        {
+          "question": "¿Necesito el código exacto?",
+          "answer": "Sí — utiliza específicamente el código 012 para la expedición del TIE"
+        }
+      ],
+      "requirements": {
+        "modelo-790-form": {
+          "label": "Formulario Modelo 790 código 012"
+        },
+        "fee-payment-receipt": {
+          "label": "Justificante de pago de la tasa",
+          "description": "Recibo que entrega el banco tras el pago — debes llevarlo a la cita."
+        },
+        "fee-form-source": {
+          "label": "Fuente oficial del formulario de tasas",
+          "link": {
+            "label": "Modelo 790 código 012"
+          }
+        }
+      }
+    },
+    "fingerprint-appointment": {
+      "title": "Acude a tu cita de toma de huellas",
+      "short": "Acude a tu cita con toda la documentación: se toman las huellas y se presenta la solicitud.",
+      "description": "El día de tu cita en la comisaría presentarás toda la documentación, te tomarán las huellas y una foto, y recibirás un resguardo de la cita. Este documento confirma tu solicitud e indica cuándo y dónde recoger tu TIE.",
+      "whyItExists": "Este paso presencial verifica tu identidad (biometría) y garantiza que toda la información de tu tarjeta sea exacta y esté vinculada a tus huellas dactilares.",
+      "completionPrompt": "¿Acudiste a tu cita y recibiste tu resguardo?",
+      "cta": {
+        "start": "Voy a mi cita",
+        "complete": "Ya acudí a mi cita"
+      },
+      "estimatedTime": [
+        {
+          "label": "Duración de la cita",
+          "value": "30–60 minutos"
+        },
+        {
+          "label": "Tramitación administrativa",
+          "value": "Resguardo entregado al momento"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Información oficial del TIE (Barcelona International Welcome)"
+        }
+      ],
+      "commonQuestions": [
+        {
+          "question": "¿Qué pasa si olvido un documento?",
+          "answer": "Pueden cancelar tu cita — tendrás que reservar de nuevo"
+        },
+        {
+          "question": "¿Entregan el TIE en el acto?",
+          "answer": "No — lo recoges más adelante"
+        }
+      ],
+      "requirements": {
+        "documents-from-step-3": {
+          "label": "Toda la documentación preparada en el paso 3"
+        },
+        "fee-payment-proof": {
+          "label": "Justificante de pago de la tasa (Modelo 790)"
+        },
+        "original-passport": {
+          "label": "Pasaporte original",
+          "description": "Necesario para la verificación de identidad."
+        }
+      }
+    },
+    "collect-tie": {
+      "title": "Recoge tu TIE",
+      "short": "Vuelve a la comisaría tras el procesamiento para recoger tu tarjeta TIE física.",
+      "description": "Cuando tu TIE esté listo (a menudo unos 30–45 días después de la cita), vuelves con tu resguardo para recoger la tarjeta física. En algunos casos puede ser necesario reservar cita para la recogida.",
+      "whyItExists": "La tarjeta TIE se fabrica de forma centralizada y no se imprime in situ. El tiempo de espera forma parte del proceso de fabricación y entrega de la tarjeta.",
+      "completionPrompt": "¿Recogiste tu tarjeta TIE física?",
+      "cta": {
+        "start": "Voy a recoger mi TIE",
+        "complete": "¡Ya tengo mi tarjeta TIE!"
+      },
+      "estimatedTime": [
+        {
+          "label": "Procesamiento",
+          "value": "Aprox. 30–45 días después de la cita"
+        },
+        {
+          "label": "Visita de recogida",
+          "value": "30 minutos a 1 hora"
+        }
+      ],
+      "officialLinks": [
+        {
+          "label": "Información sobre recogida del TIE (Policía)"
+        }
+      ],
+      "commonQuestions": [
+        {
+          "question": "¿Puede recogerla otra persona?",
+          "answer": "Normalmente debes estar presente tú"
+        },
+        {
+          "question": "¿Qué pasa si no la recojo?",
+          "answer": "Las tarjetas pueden destruirse tras un plazo — consulta las normas locales"
+        }
+      ],
+      "requirements": {
+        "resguardo": {
+          "label": "Resguardo de la cita de toma de huellas",
+          "description": "Se entrega al presentar tu solicitud."
+        },
+        "passport-collection": {
+          "label": "Pasaporte",
+          "description": "Necesario para verificar tu identidad al recoger la tarjeta."
+        }
+      }
+    }
+  },
+  "accordion": {
+    "whyNeeded": "¿Por qué es necesario este paso?",
+    "estimatedTime": "Tiempo estimado",
+    "requirements": "Requisitos",
+    "officialLinks": "Enlaces oficiales",
+    "commonQuestions": "Preguntas frecuentes"
+  },
+  "stepDetailTitle": "Detalles del paso",
+  "stepDetailHeading": "Paso {{stepId}}: {{title}}",
+  "stepNotFound": "Paso no encontrado",
+  "stepperLabel": "Paso {{stepId}}: {{title}}",
+  "stepperCompleted": ", completado",
+  "screenTitle": "Pasos del TIE",
+  "screenDescription": "Aquí aparecerán guías detalladas para cada etapa de tu proceso del TIE en Barcelona."
+}

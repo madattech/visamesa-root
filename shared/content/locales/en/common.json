@@ -1,0 +1,40 @@
+{
+  "brand": "VisaMesa",
+  "actions": {
+    "signIn": "Sign in",
+    "signOut": "Sign out",
+    "back": "Back",
+    "continue": "Continue",
+    "notNow": "Not now",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "gotIt": "Got it",
+    "ok": "OK",
+    "seeStatus": "See status",
+    "learnMore": "Learn more",
+    "skipToContent": "Skip to content"
+  },
+  "tabs": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "profile": "Profile"
+  },
+  "status": {
+    "loading": "Loading…",
+    "checkingAccount": "Checking your account…",
+    "loadingServices": "Loading services…"
+  },
+  "errors": {
+    "generic": "Something went wrong. Please try again.",
+    "loadServices": "Could not load services. Please refresh the page."
+  },
+  "footer": {
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "copyright": "© {{year}} VisaMesa. All rights reserved."
+  },
+  "languageSwitcher": {
+    "label": "Language",
+    "current": "Current language: {{language}}"
+  }
+}

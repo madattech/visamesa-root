@@ -1,16 +1,17 @@
 import React from 'react';
 import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
-import {DASHBOARD_HEADER_TITLE} from '@/features/dashboard/data/dashboardContent';
 
 export function DashboardHeader() {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation('dashboard');
 
   return (
     <View style={styles.container}>
-      <Text variant="titleMedium">{DASHBOARD_HEADER_TITLE}</Text>
+      <Text variant="titleMedium">{t('headerTitle')}</Text>
     </View>
   );
 }

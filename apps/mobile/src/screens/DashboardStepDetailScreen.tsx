@@ -1,5 +1,6 @@
 import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {RouteProp} from '@react-navigation/native';
 
@@ -16,12 +17,15 @@ type DashboardStepDetailScreenProps = {
 
 const DashboardStepDetailScreen = ({route}: DashboardStepDetailScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('tieSteps');
   const {step, isLoading, error} = useDashboardStepDetailScreen(route);
 
-  // Fallback title while loading
   const title = step
-    ? `Step ${step.id}: ${getStepShortLabel(step.title)}`
-    : 'Step details';
+    ? t('stepDetailHeading', {
+        stepId: step.id,
+        title: getStepShortLabel(step.title),
+      })
+    : t('stepDetailTitle');
 
   if (isLoading) {
     return (
@@ -37,7 +41,7 @@ const DashboardStepDetailScreen = ({route}: DashboardStepDetailScreenProps) => {
     return (
       <CollapsingHeaderScreen title={title}>
         <Text variant="bodyMedium" color="error" style={styles.error}>
-          {error?.message ?? 'Step not found'}
+          {error?.message ?? t('stepNotFound')}
         </Text>
       </CollapsingHeaderScreen>
     );

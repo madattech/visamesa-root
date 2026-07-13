@@ -1,0 +1,67 @@
+{
+  "hero": {
+    "titlePrefix": "Trámites,",
+    "titleAccent": "todo en uno",
+    "subtitle": "Gestiona tu TIE, formularios y citas",
+    "lead": "VisaMesa te guía por el proceso real de residencia con pasos claros y automatización opcional cuando las citas son difíciles de conseguir."
+  },
+  "process": {
+    "sectionTitle": "Tu proceso de TIE, paso a paso",
+    "sectionLead": "El trámite oficial es gratuito, pero confuso. VisaMesa te mantiene al día y puede automatizar las partes más difíciles."
+  },
+  "features": {
+    "sectionTitle": "Qué incluye",
+    "items": {
+      "checklist": {
+        "title": "Lista de tareas estructurada",
+        "description": "Cada paso burocrático está mapeado para que siempre sepas qué toca hacer a continuación."
+      },
+      "calendar": {
+        "title": "Monitorización de citas",
+        "description": "La automatización opcional vigila las citas previa de alta demanda."
+      },
+      "form": {
+        "title": "Prellenado de formularios",
+        "description": "Los datos de tu perfil están listos en la app cuando toque rellenar formularios oficiales."
+      },
+      "payment": {
+        "title": "Servicio de pago único",
+        "description": "Paga una sola vez en la web — sin suscripciones de App Store."
+      }
+    }
+  },
+  "faq": {
+    "sectionTitle": "Preguntas frecuentes"
+  },
+  "appDownload": {
+    "sectionTitle": "Descarga la app VisaMesa",
+    "lead": "Descarga la app e inicia sesión con la misma cuenta de Google que usas en esta web.",
+    "appStoreEyebrow": "Descargar en",
+    "appStoreName": "App Store",
+    "googlePlayEyebrow": "Disponible en",
+    "googlePlayName": "Google Play"
+  },
+  "closingCta": {
+    "title": "¿Listo para empezar?",
+    "lead": "Elige tu servicio, completa el pago y continúa en la app móvil."
+  },
+  "cta": {
+    "getService": "Contratar servicio VisaMesa",
+    "getServiceShort": "Contratar servicio"
+  },
+  "signInHint": "Usa la misma cuenta de Google que usarás en la app móvil.",
+  "seo": {
+    "homeTitle": "VisaMesa — Asistencia con el TIE en Barcelona",
+    "homeDescription": "VisaMesa ayuda a estudiantes en Barcelona a gestionar el proceso del TIE con pasos guiados, preparación de documentos y automatización opcional de citas. No es asesoramiento legal.",
+    "pricingTitle": "Precios — Servicio TIE VisaMesa",
+    "pricingDescription": "Elige tu servicio VisaMesa para el proceso del TIE de estudiante en Barcelona. Pago único y luego usa la app móvil con la misma cuenta de Google.",
+    "privacyTitle": "Política de privacidad — VisaMesa",
+    "privacyDescription": "Cómo VisaMesa recopila, cifra y protege tu información personal para el proceso de solicitud del TIE en Barcelona.",
+    "termsTitle": "Términos del servicio — VisaMesa",
+    "termsDescription": "Términos de uso de la guía y automatización de VisaMesa para el proceso del TIE de estudiante en Barcelona. VisaMesa no es un despacho de abogados ni una entidad gubernamental.",
+    "checkoutSuccessTitle": "Pago completado — VisaMesa",
+    "checkoutSuccessDescription": "Tu pago en VisaMesa se ha completado correctamente.",
+    "checkoutCancelTitle": "Pago cancelado — VisaMesa",
+    "checkoutCancelDescription": "Tu proceso de pago en VisaMesa se ha cancelado."
+  }
+}

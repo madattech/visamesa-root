@@ -6,10 +6,10 @@ describe('TAB_CONFIG', () => {
 
     expect(routeNames).toEqual(['HomeTab', 'DashboardTab', 'ProfileTab']);
     expect(new Set(routeNames).size).toBe(3);
-    expect(TAB_CONFIG.map(tab => tab.label)).toEqual([
-      'Home',
-      'Dashboard',
-      'Profile',
+    expect(TAB_CONFIG.map(tab => tab.labelKey)).toEqual([
+      'tabs.home',
+      'tabs.dashboard',
+      'tabs.profile',
     ]);
   });
 });

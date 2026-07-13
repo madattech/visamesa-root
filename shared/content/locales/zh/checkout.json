@@ -1,0 +1,66 @@
+{
+  "pricing": {
+    "title": "选择您的 VisaMesa 服务",
+    "introType1": "在本网站一次性付款。结账完成后，下载 VisaMesa 应用并使用同一 Google 账户登录，即可开始 TIE 办理之旅。",
+    "introType2": "在此完成付款后，使用同一 Google 账户返回 VisaMesa 应用以解锁您的服务。",
+    "alreadyPaidTitle": "您已拥有有效服务",
+    "alreadyPaidBody": "您的付款已绑定到此 Google 账户。打开 VisaMesa 应用并使用同一账户登录即可继续。",
+    "type2ReturnNote": "付款完成后，请使用成功页面上的按钮返回 VisaMesa 应用。",
+    "returnToApp": "返回 VisaMesa 应用",
+    "securityTitle": "您的数据保持私密",
+    "securityLead": "VisaMesa 采用客户端加密。您的个人信息在到达我们的服务器之前，已在您的手机上完成加密。",
+    "securityPoints": [
+      "我们的数据库中仅存储加密数据——没有您的设备，我们无法读取您的姓名、证件号码或地址。",
+      "加密密钥保存在您的设备上（iOS Keychain / Android Keystore），由您的密码或生物识别保护。",
+      "所有传输中的数据均受 TLS/SSL 加密保护。",
+      "您可随时在应用中导出或永久删除您的数据。"
+    ],
+    "securityGdpr": "我们遵循欧盟 GDPR 法规。完整详情请参阅我们的<privacyLink>隐私政策</privacyLink>。",
+    "signInTitle": "登录以继续",
+    "consentTitle": "隐私政策与服务条款",
+    "consentLabel": "我接受<privacyLink>隐私政策</privacyLink>和<termsLink>服务条款</termsLink>",
+    "consentRequired": "选择方案前，您必须接受隐私政策和服务条款。",
+    "acceptTermsToContinue": "接受条款以继续",
+    "chooseService": "选择此服务",
+    "doItAllForMe": "全程代办",
+    "bestValue": "最超值"
+  },
+  "products": {
+    "full_service": {
+      "name": "VisaMesa 全程服务",
+      "description": "完整的 TIE 协助，包括所有自动化与分步指引"
+    },
+    "empadronamiento_auto": {
+      "name": "Empadronamiento 自动化",
+      "description": "地址登记（empadronamiento）预约自动预订"
+    },
+    "cita_previa_auto": {
+      "name": "Cita Previa 自动化",
+      "description": "指纹预约（cita previa）自动预订"
+    },
+    "guidance": {
+      "name": "TIE 流程指引",
+      "description": "文件准备与办理流程的分步指引"
+    }
+  },
+  "success": {
+    "title": "付款成功",
+    "type1Lead": "您的 VisaMesa 服务现已绑定到您的 Google 账户。请按以下步骤在应用中开始办理。",
+    "type2Lead": "您的 VisaMesa 服务现已绑定到您的账户。返回应用以继续 TIE 办理之旅。",
+    "openApp": "打开 VisaMesa 应用",
+    "downloadFallback": "从 App Store 或 Google Play 下载 VisaMesa，然后使用同一 Google 账户登录。",
+    "postPaymentSteps": [
+      "从 App Store 或 Google Play 下载 VisaMesa 应用",
+      "使用您在本网站使用的同一 Google 账户登录",
+      "在应用中完善个人资料以解锁功能"
+    ]
+  },
+  "cancel": {
+    "title": "结账已取消",
+    "lead": "您的付款未完成。准备好后可随时返回价格页面。"
+  },
+  "profileAlreadyPaid": {
+    "dialogTitle": "已付款",
+    "dialogMessage": "此账户已拥有有效的 VisaMesa 服务。"
+  }
+}
