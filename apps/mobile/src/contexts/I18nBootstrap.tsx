@@ -46,7 +46,23 @@ export function I18nBootstrap({ children }: I18nBootstrapProps) {
   const [ready, setReady] = React.useState(false)
 
   React.useEffect(() => {
-    void ensureI18nBootstrapped().then(() => setReady(true))
+    let cancelled = false
+
+    ensureI18nBootstrapped()
+      .then(() => {
+        if (!cancelled) {
+          setReady(true)
+        }
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setReady(true)
+        }
+      })
+
+    return () => {
+      cancelled = true
+    }
   }, [])
 
   if (!ready) {

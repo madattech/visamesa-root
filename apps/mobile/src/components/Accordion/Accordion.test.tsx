@@ -1,62 +1,56 @@
-import React from 'react';
+import React, {useState} from 'react';
 
 import {Accordion, AccordionItem} from '@/components/Accordion/Accordion';
 import {act, renderComponent, TestRendererTree} from '@/test/testRenderer';
 
-function renderAccordion(
-  expandedId: string | null,
-  onExpandedChange: (id: string | null) => void,
-): TestRendererTree {
-  return renderComponent(
-    <Accordion expandedId={expandedId} onExpandedChange={onExpandedChange}>
+function findAccordionHeaders(tree: TestRendererTree) {
+  return tree.root.findAll(
+    node =>
+      typeof node.props.onPress === 'function' &&
+      node.props.accessibilityRole === 'button',
+  );
+}
+
+function AccordionHarness({
+  onExpandedChange,
+}: {
+  onExpandedChange: (id: string | null) => void;
+}) {
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  const handleExpandedChange = (nextId: string | null) => {
+    onExpandedChange(nextId);
+    setExpandedId(nextId);
+  };
+
+  return (
+    <Accordion expandedId={expandedId} onExpandedChange={handleExpandedChange}>
       <AccordionItem id="one" title="One" expanded={false} onToggle={() => {}}>
         <></>
       </AccordionItem>
       <AccordionItem id="two" title="Two" expanded={false} onToggle={() => {}}>
         <></>
       </AccordionItem>
-    </Accordion>,
+    </Accordion>
   );
 }
 
 describe('Accordion', () => {
   it('expands one section at a time', () => {
-    let expandedId: string | null = null;
-    const onExpandedChange = jest.fn((nextId: string | null) => {
-      expandedId = nextId;
-    });
+    const onExpandedChange = jest.fn();
 
-    const tree = renderAccordion(expandedId, onExpandedChange);
-
-    const headers = tree.root.findAll(
-      node =>
-        typeof node.props.onPress === 'function' &&
-        node.props.accessibilityRole === 'button',
+    const tree = renderComponent(
+      <AccordionHarness onExpandedChange={onExpandedChange} />,
     );
 
     act(() => {
-      headers[0].props.onPress();
+      findAccordionHeaders(tree)[0].props.onPress();
     });
 
     expect(onExpandedChange).toHaveBeenCalledWith('one');
 
-    expandedId = 'one';
-
     act(() => {
-      tree.update(
-        <Accordion expandedId={expandedId} onExpandedChange={onExpandedChange}>
-          <AccordionItem id="one" title="One" expanded={false} onToggle={() => {}}>
-            <></>
-          </AccordionItem>
-          <AccordionItem id="two" title="Two" expanded={false} onToggle={() => {}}>
-            <></>
-          </AccordionItem>
-        </Accordion>,
-      );
-    });
-
-    act(() => {
-      headers[1].props.onPress();
+      findAccordionHeaders(tree)[1].props.onPress();
     });
 
     expect(onExpandedChange).toHaveBeenLastCalledWith('two');

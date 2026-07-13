@@ -19,15 +19,14 @@ import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnaut
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
 import {selectProfileCompleteness} from '@/features/profile/selectors/selectProfileCompleteness';
-import {ProfileStackParamList, RootStackParamList} from '@/navigation/types';
+import {ProfileStackParamList} from '@/navigation/types';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {consentService} from '@/services/consentService';
-import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-type ProfileScreenNavigation = CompositeNavigationProp<
-  NativeStackNavigationProp<ProfileStackParamList, 'Profile'>,
-  NativeStackNavigationProp<RootStackParamList>
+type ProfileScreenNavigation = NativeStackNavigationProp<
+  ProfileStackParamList,
+  'Profile'
 >;
 
 type ProfileScreenProps = {
