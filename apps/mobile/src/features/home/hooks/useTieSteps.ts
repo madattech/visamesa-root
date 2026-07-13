@@ -37,7 +37,7 @@ export function useTieSteps(): UseTieStepsResult {
       isInitialLoad.current = false;
     }
 
-    void fetchTieSteps()
+    fetchTieSteps()
       .then(data => {
         if (!cancelled) {
           setSteps(data);

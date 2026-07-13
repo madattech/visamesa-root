@@ -1,6 +1,5 @@
 import {useCallback, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
-import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {useToast} from '@/components/Toast/ToastProvider';
@@ -9,11 +8,11 @@ import {useEntitlements} from '@/contexts/EntitlementsContext';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {usePricingLink} from '@/hooks/usePricingLink';
 import {ProfileSectionId} from '@/features/profile/data/profileSections';
-import {ProfileStackParamList, RootStackParamList} from '@/navigation/types';
+import {ProfileStackParamList} from '@/navigation/types';
 
-type ProfileScreenNavigation = CompositeNavigationProp<
-  NativeStackNavigationProp<ProfileStackParamList, 'Profile'>,
-  NativeStackNavigationProp<RootStackParamList>
+type ProfileScreenNavigation = NativeStackNavigationProp<
+  ProfileStackParamList,
+  'Profile'
 >;
 
 export type {ProfileSectionId} from '@/features/profile/data/profileSections';

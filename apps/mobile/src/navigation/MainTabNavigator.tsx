@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import {
   BottomTabBarButtonProps,
   createBottomTabNavigator,
@@ -67,10 +67,29 @@ function TabBarLabel({focused, color, label}: TabBarLabelProps) {
   );
 }
 
+function createTabBarLabelRenderer(label: string) {
+  return function TabBarLabelRenderer({
+    focused,
+    color,
+  }: {
+    focused: boolean;
+    color: string;
+  }) {
+    return <TabBarLabel focused={focused} color={color} label={label} />;
+  };
+}
+
 const MainTabNavigator = () => {
   const {theme} = useStyles(stylesheet);
   const {t} = useTranslation('common');
   const insets = useSafeAreaInsets();
+  const tabBarLabels = useMemo(
+    () =>
+      Object.fromEntries(
+        TAB_CONFIG.map(tab => [tab.name, createTabBarLabelRenderer(t(tab.labelKey))]),
+      ) as Record<keyof MainTabParamList, ReturnType<typeof createTabBarLabelRenderer>>,
+    [t],
+  );
 
   const tabBarHeight =
     theme.sizes.touchTargetMin +
@@ -134,9 +153,7 @@ const MainTabNavigator = () => {
 
               return {
                 title: label,
-                tabBarLabel: ({focused, color}) => (
-                  <TabBarLabel focused={focused} color={color} label={label} />
-                ),
+                tabBarLabel: tabBarLabels[tab.name],
                 tabBarAccessibilityLabel: label,
                 tabBarIcon: TAB_BAR_ICONS[tab.icon],
                 tabBarStyle: hideTabBar

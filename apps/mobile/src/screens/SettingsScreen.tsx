@@ -42,7 +42,7 @@ const SettingsScreen = () => {
           value={locale}
           options={languageOptions}
           onChange={(value) => {
-            void changeLocale(value as SupportedLanguage)
+            changeLocale(value as SupportedLanguage).catch(() => {})
           }}
         />
       </View>
