@@ -1,0 +1,17 @@
+{
+  "personalTitle": "个人信息",
+  "personalDescription": "身份、联系方式、登记地址",
+  "legalTitle": "法律与隐私",
+  "legalDescription": "隐私政策、服务条款与数据权利",
+  "paymentTitle": "付款",
+  "paymentDescription": "付款与服务状态",
+  "settingsTitle": "应用设置",
+  "settingsDescription": "语言与应用偏好",
+  "signOut": "退出登录",
+  "completeProfileDialog": {
+    "title": "完善个人资料",
+    "message": "请先完善个人资料，我们才能开始办理。",
+    "notNow": "暂不",
+    "action": "完善资料"
+  }
+}

@@ -1,5 +1,6 @@
 import {useEffect, useMemo, useState} from 'react';
 import {Alert} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
@@ -8,11 +9,7 @@ import {useAuth} from '@/contexts/AuthContext';
 import {useEntitlements} from '@/contexts/EntitlementsContext';
 import {usePricingLink} from '@/hooks/usePricingLink';
 import {RequirementWithProgress} from '@/features/dashboard/components/RequirementsChecklist';
-import {
-  DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT,
-  getAppointmentDetailsMessage,
-  getCompletedInStepHint,
-} from '@/features/dashboard/data/dashboardContent';
+import {formatAppointmentDetailsMessage} from '@/features/dashboard/data/dashboardContent';
 import {useUserProgress} from '@/features/dashboard/hooks/useUserProgress';
 import {UserProgress} from '@/features/dashboard/types/UserProgress';
 import {
@@ -24,7 +21,6 @@ import {
 } from '@/features/dashboard/utils/progressUtils';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {AutomationId, TieStepDetail} from '@/features/home/types/TieStepDetail';
-import {PREREQUISITES_BUTTON_LABEL} from '@/features/home/data/prerequisitesContent';
 import {useProcessReadiness} from '@/hooks/useProcessReadiness';
 import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
 import { navigateToProfile } from '@/navigation/navigationRef';
@@ -78,12 +74,13 @@ export type UseDashboardScreenResult = {
 function buildRequirementsWithProgress(
   progress: UserProgress,
   step: TieStepDetail,
+  getCompletedInStepHint: (stepId: number) => string,
 ): RequirementWithProgress[] {
   return step.requirements.map(requirement => {
     const effectiveProgress = getEffectiveRequirementProgress(
       progress,
       step,
-      requirement.label,
+      requirement.key,
     );
 
     const referencedComplete =
@@ -106,6 +103,9 @@ function buildRequirementsWithProgress(
 export function useDashboardScreen(
   navigation: DashboardScreenNavigation,
 ): UseDashboardScreenResult {
+  const {t: tDashboard} = useTranslation('dashboard');
+  const {t: tHome} = useTranslation('home');
+  const {t: tCommon} = useTranslation('common');
   const {user, isLoading: isAuthLoading} = useAuth();
   const {canUseAutomation: canUseAutomationEntitlement} = useEntitlements();
   const {showToast} = useToast();
@@ -156,8 +156,15 @@ export function useDashboardScreen(
       return [];
     }
 
-    return buildRequirementsWithProgress(progress, currentStep);
-  }, [currentStep, progress]);
+    const getCompletedInStepHint = (stepId: number) =>
+      tDashboard('completedInStepHint', {stepId});
+
+    return buildRequirementsWithProgress(
+      progress,
+      currentStep,
+      getCompletedInStepHint,
+    );
+  }, [currentStep, progress, tDashboard]);
 
   const canCompleteStep = Boolean(
     progress &&
@@ -173,14 +180,14 @@ export function useDashboardScreen(
 
   const stepActionLabel = useMemo(() => {
     if (!canStartProcess) {
-      return PREREQUISITES_BUTTON_LABEL;
+      return tHome('prerequisitesButton');
     }
-    return currentStep?.cta.complete ?? 'Complete step';
-  }, [canStartProcess, currentStep]);
+    return currentStep?.cta.complete ?? tDashboard('completeStepFallback');
+  }, [canStartProcess, currentStep, tDashboard, tHome]);
 
   const stepActionDisabledHint = useMemo(() => {
     if (!isCurrentStepCompleted && currentStepId !== activeStepId) {
-      return DASHBOARD_COMPLETE_PREVIOUS_STEP_HINT;
+      return tDashboard('completePreviousStepHint');
     }
 
     return undefined;
@@ -188,6 +195,7 @@ export function useDashboardScreen(
     isCurrentStepCompleted,
     currentStepId,
     activeStepId,
+    tDashboard,
   ]);
 
   const onSignInPress = () => {
@@ -217,10 +225,10 @@ export function useDashboardScreen(
       return;
     }
 
-    Alert.alert('Confirm completion', currentStep.completionPrompt, [
-      {text: 'Not yet', style: 'cancel'},
+    Alert.alert(tDashboard('confirmCompletionTitle'), currentStep.completionPrompt, [
+      {text: tDashboard('notYet'), style: 'cancel'},
       {
-        text: 'Yes, done',
+        text: tDashboard('yesDone'),
         onPress: async () => {
           const nextStepId = getNextIncompleteStepId(
             {
@@ -235,7 +243,7 @@ export function useDashboardScreen(
           );
           await completeStep(currentStep.id, nextStepId);
           setSelectedStepId(nextStepId);
-          showToast('Step completed');
+          showToast(tDashboard('stepCompleted'));
         },
       },
     ]);
@@ -270,12 +278,12 @@ export function useDashboardScreen(
 
     if (!canUseAutomationEntitlement(automationId)) {
       Alert.alert(
-        'VisaMesa service required',
-        'Appointment automation is included in our paid service. Complete payment on our website, then sign in here with the same Google account.',
+        tDashboard('serviceRequiredTitle'),
+        tDashboard('serviceRequiredMessage'),
         [
-          {text: 'Not now', style: 'cancel'},
+          {text: tCommon('actions.notNow'), style: 'cancel'},
           {
-            text: 'Get service',
+            text: tDashboard('getService'),
             onPress: () => {
               openPricing().catch(() => {});
             },
@@ -304,7 +312,13 @@ export function useDashboardScreen(
         ? requirementProgress.source.appointment
         : undefined;
 
-    Alert.alert('Appointment details', getAppointmentDetailsMessage(appointment));
+    Alert.alert(
+      tDashboard('appointmentDetailsTitle'),
+      formatAppointmentDetailsMessage(
+        (key, options) => tDashboard(key, options),
+        appointment,
+      ),
+    );
   };
 
   const onClearAutomationPress = async (label: string) => {
@@ -313,7 +327,7 @@ export function useDashboardScreen(
     }
 
     await clearAutomationRequirement(currentStep.id, label);
-    showToast('Booking status reset');
+    showToast(tDashboard('bookingStatusReset'));
   };
 
   const onFormPress = (formId: string, label: string) => {
@@ -322,15 +336,15 @@ export function useDashboardScreen(
     }
 
     Alert.alert(
-      'Confirm form',
-      'Review the pre-filled form and confirm it is ready.',
+      tDashboard('confirmFormTitle'),
+      tDashboard('confirmFormMessage'),
       [
-        {text: 'Cancel', style: 'cancel'},
+        {text: tCommon('actions.cancel'), style: 'cancel'},
         {
-          text: 'Confirm',
+          text: tCommon('actions.confirm'),
           onPress: async () => {
             await completeFormRequirement(currentStep.id, label, formId);
-            showToast('Form confirmed');
+            showToast(tDashboard('formConfirmed'));
           },
         },
       ],

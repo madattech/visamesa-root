@@ -11,6 +11,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { ToastProvider } from './components/Toast/ToastProvider'
 import { AuthProvider } from './contexts/AuthContext'
 import { EntitlementsProvider } from './contexts/EntitlementsContext'
+import { I18nBootstrap } from './contexts/I18nBootstrap'
+import { LocaleProvider } from './contexts/LocaleContext'
 import { ProfileCompletionProvider } from './contexts/ProfileCompletionContext'
 import { linking } from './navigation/linking'
 import { navigationRef } from './navigation/navigationRef'
@@ -34,19 +36,23 @@ const appStylesheet = createStyleSheet(() => ({}));
 const App = () => {
   return (
     <SafeAreaProvider>
-      <AuthProvider>
-        <EntitlementsProvider>
-          <ProfileCompletionProvider>
-            <ToastProvider>
-              <AppStatusBar />
-              <NavigationContainer ref={navigationRef} linking={linking}>
-                <PaymentReturnListener />
-                <RootNavigator />
-              </NavigationContainer>
-            </ToastProvider>
-          </ProfileCompletionProvider>
-        </EntitlementsProvider>
-      </AuthProvider>
+      <I18nBootstrap>
+        <LocaleProvider>
+          <AuthProvider>
+            <EntitlementsProvider>
+              <ProfileCompletionProvider>
+                <ToastProvider>
+                  <AppStatusBar />
+                  <NavigationContainer ref={navigationRef} linking={linking}>
+                    <PaymentReturnListener />
+                    <RootNavigator />
+                  </NavigationContainer>
+                </ToastProvider>
+              </ProfileCompletionProvider>
+            </EntitlementsProvider>
+          </AuthProvider>
+        </LocaleProvider>
+      </I18nBootstrap>
     </SafeAreaProvider>
   );
 };

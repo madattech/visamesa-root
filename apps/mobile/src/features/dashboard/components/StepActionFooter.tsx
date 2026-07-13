@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Button} from '@/components/ui/Button';
@@ -23,18 +24,18 @@ export function StepActionFooter({
   onPress,
 }: StepActionFooterProps) {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation('dashboard');
 
   if (completed) {
     return (
       <View style={styles.container}>
         <Text variant="labelLarge" color="success" style={styles.completedLabel}>
-          Step completed
+          {t('stepCompleted')}
         </Text>
       </View>
     );
   }
 
-  // Show prerequisites button when not ready, regardless of other disabled states
   const shouldShowPrerequisitesButton = !canStartProcess;
   const isButtonDisabled = shouldShowPrerequisitesButton ? false : disabled;
 

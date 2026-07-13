@@ -1,16 +1,13 @@
 import React from 'react';
 import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Button} from '@/components/ui/Button';
 import {Icon} from '@/components/ui/Icon';
 import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
-import {
-  DASHBOARD_EMPTY_ICON,
-  DASHBOARD_EMPTY_SUBTITLE,
-  DASHBOARD_EMPTY_TITLE,
-} from '@/features/dashboard/data/dashboardContent';
+import {DASHBOARD_EMPTY_ICON} from '@/features/dashboard/data/dashboardContent';
 
 type DashboardUnauthenticatedProps = {
   onSignInPress: () => void;
@@ -20,6 +17,8 @@ export function DashboardUnauthenticated({
   onSignInPress,
 }: DashboardUnauthenticatedProps) {
   const {styles} = useStyles(stylesheet);
+  const {t: tDashboard} = useTranslation('dashboard');
+  const {t: tCommon} = useTranslation('common');
 
   return (
     <View style={styles.container}>
@@ -28,12 +27,16 @@ export function DashboardUnauthenticated({
           <Icon name={DASHBOARD_EMPTY_ICON} size="hero" color="primary" />
         </View>
         <Text variant="headlineSmall" style={styles.title}>
-          {DASHBOARD_EMPTY_TITLE}
+          {tDashboard('emptyTitle')}
         </Text>
         <Text variant="bodyLarge" color="onSurfaceVariant" style={styles.subtitle}>
-          {DASHBOARD_EMPTY_SUBTITLE}
+          {tDashboard('emptySubtitle')}
         </Text>
-        <Button label="Sign In" onPress={onSignInPress} fullWidth />
+        <Button
+          label={tCommon('actions.signIn')}
+          onPress={onSignInPress}
+          fullWidth
+        />
       </Surface>
     </View>
   );

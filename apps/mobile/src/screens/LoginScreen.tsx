@@ -8,6 +8,7 @@ import {
 import { GoogleSigninButton } from '@react-native-google-signin/google-signin';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { createStyleSheet, useStyles } from 'react-native-unistyles';
+import { useTranslation } from 'react-i18next';
 
 import { Button } from '@/components/ui/Button';
 import { Text } from '@/components/ui/Text';
@@ -25,6 +26,7 @@ type LoginScreenProps = {
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const { styles, theme } = useStyles(stylesheet);
+  const { t } = useTranslation(['auth', 'common']);
   const { isLoading, onGoogleSignInPress, onBackPress } =
     useLoginScreen(navigation);
 
@@ -34,13 +36,13 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <View style={styles.content}>
         <Text variant="headlineSmall" style={styles.title}>
-          Sign In
+          {t('auth:title')}
         </Text>
         <Text
           variant="bodyMedium"
           color="onSurfaceVariant"
           style={styles.subtitle}>
-          Sign in with Google to view and manage your profile
+          {t('auth:subtitle')}
         </Text>
 
         <View style={styles.actions}>
@@ -61,7 +63,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
           </View>
 
           <Button
-            label="Back"
+            label={t('common:actions.back')}
             variant="outline"
             onPress={onBackPress}
             disabled={isLoading}

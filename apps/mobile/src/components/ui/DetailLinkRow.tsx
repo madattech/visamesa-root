@@ -2,7 +2,7 @@ import React from 'react';
 import {Pressable, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
-import {Icon} from '@/components/ui/Icon';
+import {Icon, type IconProps} from '@/components/ui/Icon';
 import {StatusIndicator} from '@/components/ui/StatusIndicator';
 import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
@@ -11,6 +11,7 @@ type DetailLinkRowProps = {
   title: string;
   description?: string;
   variant?: 'default' | 'compact';
+  icon?: IconProps['name'];
   onPress: () => void;
   accessibilityLabel?: string;
   /** Optional status indicator (before chevron) */
@@ -22,6 +23,7 @@ export function DetailLinkRow({
   title,
   description,
   variant = 'default',
+  icon,
   onPress,
   accessibilityLabel,
   status,
@@ -86,6 +88,11 @@ export function DetailLinkRow({
           ) : null}
         </View>
         {status ? <StatusIndicator status={status} size="md" /> : null}
+        {icon ? (
+          <View style={styles.iconWrap}>
+            <Icon name={icon} size="md" color="primary" />
+          </View>
+        ) : null}
         <Icon name="chevron-right" size="md" color="onSurfaceVariant" />
       </Pressable>
     </Surface>
@@ -119,5 +126,9 @@ const stylesheet = createStyleSheet(theme => ({
   textBlock: {
     flex: 1,
     gap: theme.spacing.xs / 2,
+  },
+  iconWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 }));

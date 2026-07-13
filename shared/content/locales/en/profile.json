@@ -1,0 +1,17 @@
+{
+  "personalTitle": "Personal Information",
+  "personalDescription": "Identity, contact details, registered address",
+  "legalTitle": "Legal & Privacy",
+  "legalDescription": "Privacy policy, terms, and data rights",
+  "paymentTitle": "Payment",
+  "paymentDescription": "Payment and service status",
+  "settingsTitle": "App Settings",
+  "settingsDescription": "Language and app preferences",
+  "signOut": "Sign Out",
+  "completeProfileDialog": {
+    "title": "Complete your profile",
+    "message": "Complete your profile before we can start.",
+    "notNow": "Not now",
+    "action": "Complete profile"
+  }
+}

@@ -26,17 +26,17 @@ export function isStepCompleted(progress: UserProgress, stepId: number): boolean
 export function getEffectiveRequirementProgress(
   progress: UserProgress,
   step: TieStepDetail,
-  requirementLabel: string,
+  requirementKey: string,
 ): RequirementProgress {
   const stored =
-    getStepProgress(progress, step.id)?.requirements[requirementLabel];
+    getStepProgress(progress, step.id)?.requirements[requirementKey];
 
   if (stored?.completed) {
     return stored;
   }
 
   const requirement = step.requirements.find(
-    item => item.label === requirementLabel,
+    item => item.key === requirementKey,
   );
 
   if (
@@ -60,7 +60,7 @@ export function areAllRequirementsComplete(
   step: TieStepDetail,
 ): boolean {
   return step.requirements.every(requirement =>
-    getEffectiveRequirementProgress(progress, step, requirement.label)
+    getEffectiveRequirementProgress(progress, step, requirement.key)
       .completed,
   );
 }
@@ -79,18 +79,17 @@ export function getNextIncompleteStepId(
 export function isStepAccessible(
   progress: UserProgress,
   stepId: number,
+  steps: TieStepDetail[],
 ): boolean {
-  if (stepId <= 1) {
+  const index = steps.findIndex(step => step.id === stepId);
+
+  if (index <= 0) {
     return true;
   }
 
-  for (let id = 1; id < stepId; id += 1) {
-    if (!isStepCompleted(progress, id)) {
-      return false;
-    }
-  }
-
-  return true;
+  return steps
+    .slice(0, index)
+    .every(priorStep => isStepCompleted(progress, priorStep.id));
 }
 
 export function getCompletedStepIds(progress: UserProgress): number[] {

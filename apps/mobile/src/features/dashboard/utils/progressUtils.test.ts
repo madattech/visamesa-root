@@ -14,8 +14,9 @@ describe('progressUtils', () => {
   const step = createTieStep({
     id: 1,
     requirements: [
-      {label: 'Passport', type: 'self_declared'},
+      {key: 'passport', label: 'Passport', type: 'self_declared'},
       {
+        key: 'certificate',
         label: 'Certificate',
         type: 'self_declared',
         referencesStepId: 2,
@@ -35,7 +36,7 @@ describe('progressUtils', () => {
         {
           stepId: 1,
           status: 'not_started',
-          requirements: {Passport: {completed: false}},
+          requirements: {passport: {completed: false}},
         },
         {
           stepId: 2,
@@ -48,7 +49,7 @@ describe('progressUtils', () => {
     const effective = getEffectiveRequirementProgress(
       progress,
       step,
-      'Certificate',
+      'certificate',
     );
 
     expect(effective.completed).toBe(true);
@@ -62,8 +63,8 @@ describe('progressUtils', () => {
           stepId: 1,
           status: 'in_progress',
           requirements: {
-            Passport: {completed: true, source: {type: 'self_declared'}},
-            Certificate: {completed: false},
+            passport: {completed: true, source: {type: 'self_declared'}},
+            certificate: {completed: false},
           },
         },
         {
@@ -103,8 +104,9 @@ describe('progressUtils', () => {
         {stepId: 2, status: 'not_started', requirements: {}},
       ],
     });
+    const steps = [createTieStep({id: 1}), createTieStep({id: 2})];
 
-    expect(isStepAccessible(progress, 1)).toBe(true);
-    expect(isStepAccessible(progress, 2)).toBe(false);
+    expect(isStepAccessible(progress, 1, steps)).toBe(true);
+    expect(isStepAccessible(progress, 2, steps)).toBe(false);
   });
 });

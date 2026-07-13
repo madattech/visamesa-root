@@ -26,8 +26,8 @@ describe('progressService', () => {
       {
         id: 1,
         requirements: [
-          {label: 'Passport', type: 'self_declared'},
-          {label: 'Appointment confirmation', type: 'automation'},
+          {key: 'passport', label: 'Passport', type: 'self_declared'},
+          {key: 'appointment-confirmation', label: 'Appointment confirmation', type: 'automation'},
         ],
       },
     ]);
@@ -38,19 +38,19 @@ describe('progressService', () => {
 
     expect(progress.currentStepId).toBe(1);
     expect(progress.steps).toHaveLength(1);
-    expect(progress.steps[0]?.requirements.Passport?.completed).toBe(false);
+    expect(progress.steps[0]?.requirements.passport?.completed).toBe(false);
   });
 
   it('updates step and requirement progress', async () => {
     let progress = await fetchUserProgress();
 
     progress = await updateStepStatus(progress, 1, 'in_progress');
-    progress = await updateRequirementProgress(progress, 1, 'Passport', {
+    progress = await updateRequirementProgress(progress, 1, 'passport', {
       completed: true,
       source: {type: 'self_declared'},
     });
 
     expect(progress.steps[0]?.status).toBe('in_progress');
-    expect(progress.steps[0]?.requirements.Passport?.completed).toBe(true);
+    expect(progress.steps[0]?.requirements.passport?.completed).toBe(true);
   });
 });

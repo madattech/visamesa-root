@@ -1,12 +1,7 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {Dialog} from '@/components/ui/Dialog';
-import {
-  COMPLETE_PROFILE_DIALOG_TITLE,
-  COMPLETE_PROFILE_DIALOG_MESSAGE,
-  COMPLETE_PROFILE_DIALOG_NOT_NOW_BUTTON,
-  COMPLETE_PROFILE_DIALOG_ACTION_BUTTON,
-} from '@/components/data/completeProfileDialogContent';
 
 type CompleteProfileDialogProps = {
   visible: boolean;
@@ -19,24 +14,26 @@ export function CompleteProfileDialog({
   onClose,
   onCompleteProfile,
 }: CompleteProfileDialogProps) {
+  const {t} = useTranslation('profile');
+
   return (
     <Dialog
       visible={visible}
       onClose={onClose}
-      title={COMPLETE_PROFILE_DIALOG_TITLE}
+      title={t('completeProfileDialog.title')}
       actions={[
         {
-          label: COMPLETE_PROFILE_DIALOG_NOT_NOW_BUTTON,
+          label: t('completeProfileDialog.notNow'),
           onPress: onClose,
           variant: 'outline',
         },
         {
-          label: COMPLETE_PROFILE_DIALOG_ACTION_BUTTON,
+          label: t('completeProfileDialog.action'),
           onPress: onCompleteProfile,
           variant: 'primary',
         },
       ]}>
-      {COMPLETE_PROFILE_DIALOG_MESSAGE}
+      {t('completeProfileDialog.message')}
     </Dialog>
   );
 }

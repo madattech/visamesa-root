@@ -1,0 +1,40 @@
+{
+  "brand": "VisaMesa",
+  "actions": {
+    "signIn": "登录",
+    "signOut": "退出登录",
+    "back": "返回",
+    "continue": "继续",
+    "notNow": "暂不",
+    "cancel": "取消",
+    "confirm": "确认",
+    "gotIt": "知道了",
+    "ok": "确定",
+    "seeStatus": "查看状态",
+    "learnMore": "了解更多",
+    "skipToContent": "跳至正文"
+  },
+  "tabs": {
+    "home": "首页",
+    "dashboard": "仪表盘",
+    "profile": "个人资料"
+  },
+  "status": {
+    "loading": "加载中…",
+    "checkingAccount": "正在验证您的账户…",
+    "loadingServices": "正在加载服务…"
+  },
+  "errors": {
+    "generic": "出了点问题，请重试。",
+    "loadServices": "无法加载服务，请刷新页面。"
+  },
+  "footer": {
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款",
+    "copyright": "© {{year}} VisaMesa. 保留所有权利。"
+  },
+  "languageSwitcher": {
+    "label": "语言",
+    "current": "当前语言：{{language}}"
+  }
+}

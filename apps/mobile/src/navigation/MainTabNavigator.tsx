@@ -5,6 +5,7 @@ import {
 } from '@react-navigation/bottom-tabs';
 import {getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {Platform, Pressable, StyleSheet} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
@@ -66,24 +67,9 @@ function TabBarLabel({focused, color, label}: TabBarLabelProps) {
   );
 }
 
-function createTabBarLabelRenderer(label: string) {
-  return function TabBarLabelRenderer({
-    focused,
-    color,
-  }: {
-    focused: boolean;
-    color: string;
-  }) {
-    return <TabBarLabel focused={focused} color={color} label={label} />;
-  };
-}
-
-const TAB_BAR_LABELS = Object.fromEntries(
-  TAB_CONFIG.map(tab => [tab.name, createTabBarLabelRenderer(tab.label)]),
-) as Record<keyof MainTabParamList, ReturnType<typeof createTabBarLabelRenderer>>;
-
 const MainTabNavigator = () => {
   const {theme} = useStyles(stylesheet);
+  const {t} = useTranslation('common');
   const insets = useSafeAreaInsets();
 
   const tabBarHeight =
@@ -126,39 +112,45 @@ const MainTabNavigator = () => {
         },
         tabBarButton: TabBarButton,
       }}>
-      {TAB_CONFIG.map(tab => (
-        <Tab.Screen
-          key={tab.name}
-          name={tab.name}
-          component={TAB_STACKS[tab.name]}
-          options={({route}) => {
-            const focusedRouteName =
-              tab.name === 'HomeTab'
-                ? getFocusedRouteNameFromRoute(route) ?? 'Home'
-                : tab.name === 'ProfileTab'
-                  ? getFocusedRouteNameFromRoute(route) ?? 'Profile'
-                  : undefined;
+      {TAB_CONFIG.map(tab => {
+        const label = t(tab.labelKey);
 
-            const hideTabBar =
-              focusedRouteName !== undefined &&
-              TAB_BAR_HIDDEN_ROUTES.has(focusedRouteName);
+        return (
+          <Tab.Screen
+            key={tab.name}
+            name={tab.name}
+            component={TAB_STACKS[tab.name]}
+            options={({route}) => {
+              const focusedRouteName =
+                tab.name === 'HomeTab'
+                  ? getFocusedRouteNameFromRoute(route) ?? 'Home'
+                  : tab.name === 'ProfileTab'
+                    ? getFocusedRouteNameFromRoute(route) ?? 'Profile'
+                    : undefined;
 
-            return {
-              title: tab.label,
-              tabBarLabel: TAB_BAR_LABELS[tab.name],
-              tabBarAccessibilityLabel: tab.label,
-              tabBarIcon: TAB_BAR_ICONS[tab.icon],
-              tabBarStyle: hideTabBar
-                ? {
-                    ...baseTabBarStyle,
-                    opacity: 0,
-                    pointerEvents: 'none' as const,
-                  }
-                : baseTabBarStyle,
-            };
-          }}
-        />
-      ))}
+              const hideTabBar =
+                focusedRouteName !== undefined &&
+                TAB_BAR_HIDDEN_ROUTES.has(focusedRouteName);
+
+              return {
+                title: label,
+                tabBarLabel: ({focused, color}) => (
+                  <TabBarLabel focused={focused} color={color} label={label} />
+                ),
+                tabBarAccessibilityLabel: label,
+                tabBarIcon: TAB_BAR_ICONS[tab.icon],
+                tabBarStyle: hideTabBar
+                  ? {
+                      ...baseTabBarStyle,
+                      opacity: 0,
+                      pointerEvents: 'none' as const,
+                    }
+                  : baseTabBarStyle,
+              };
+            }}
+          />
+        );
+      })}
     </Tab.Navigator>
   );
 };

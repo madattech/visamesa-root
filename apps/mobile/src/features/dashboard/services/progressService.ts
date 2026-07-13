@@ -25,7 +25,7 @@ const buildInitialStepProgress = (
   status: 'not_started',
   requirements: requirements.reduce<Record<string, RequirementProgress>>(
     (acc, requirement) => {
-      acc[requirement.label] = createEmptyRequirementProgress();
+      acc[requirement.key] = createEmptyRequirementProgress();
       return acc;
     },
     {},
@@ -65,8 +65,8 @@ const mergeProgressWithSteps = async (
       const requirements = stepDefinition.requirements.reduce<
         Record<string, RequirementProgress>
       >((acc, requirement) => {
-        acc[requirement.label] =
-          existing.requirements[requirement.label] ??
+        acc[requirement.key] =
+          existing.requirements[requirement.key] ??
           createEmptyRequirementProgress();
         return acc;
       }, {});

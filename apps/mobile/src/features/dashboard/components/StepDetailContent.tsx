@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Linking, Pressable, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Accordion, AccordionItem} from '@/components/Accordion/Accordion';
@@ -13,13 +14,12 @@ type StepDetailContentProps = {
 
 export function StepDetailContent({step}: StepDetailContentProps) {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('tieSteps');
   const [expandedId, setExpandedId] = useState<string | null>('why');
   const collapsingHeaderScroll = useCollapsingHeaderScroll();
 
   const handleExpand = (layoutY: number) => {
     if (collapsingHeaderScroll) {
-      // Scroll so expanded content is visible above tab bar
-      // Add some padding for better UX
       collapsingHeaderScroll.scrollToY(layoutY - 20);
     }
   };
@@ -36,7 +36,7 @@ export function StepDetailContent({step}: StepDetailContentProps) {
         onExpand={handleExpand}>
         <AccordionItem
           id="why"
-          title="Why is this step needed?"
+          title={t('accordion.whyNeeded')}
           expanded={expandedId === 'why'}
           onToggle={() => {}}>
           <Text variant="bodyMedium" color="onSurfaceVariant">
@@ -46,7 +46,7 @@ export function StepDetailContent({step}: StepDetailContentProps) {
 
         <AccordionItem
           id="estimated-time"
-          title="Estimated time"
+          title={t('accordion.estimatedTime')}
           expanded={expandedId === 'estimated-time'}
           onToggle={() => {}}>
           <View style={styles.list}>
@@ -63,12 +63,12 @@ export function StepDetailContent({step}: StepDetailContentProps) {
 
         <AccordionItem
           id="requirements"
-          title="Requirements"
+          title={t('accordion.requirements')}
           expanded={expandedId === 'requirements'}
           onToggle={() => {}}>
           <View style={styles.list}>
             {step.requirements.map(requirement => (
-              <View key={requirement.label} style={styles.listItem}>
+              <View key={requirement.key} style={styles.listItem}>
                 <Text variant="bodyMedium">{requirement.label}</Text>
                 {requirement.description ? (
                   <Text variant="bodySmall" color="onSurfaceVariant">
@@ -82,7 +82,7 @@ export function StepDetailContent({step}: StepDetailContentProps) {
 
         <AccordionItem
           id="official-links"
-          title="Official links"
+          title={t('accordion.officialLinks')}
           expanded={expandedId === 'official-links'}
           onToggle={() => {}}>
           <View style={styles.list}>
@@ -107,7 +107,7 @@ export function StepDetailContent({step}: StepDetailContentProps) {
 
         <AccordionItem
           id="common-questions"
-          title="Common questions"
+          title={t('accordion.commonQuestions')}
           expanded={expandedId === 'common-questions'}
           onToggle={() => {}}>
           <View style={styles.list}>

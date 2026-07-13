@@ -7,4 +7,5 @@ export const TAB_BAR_HIDDEN_ROUTES = new Set([
   'Steps',
   'Login',
   'ProfileSection',
+  'Settings',
 ]);

@@ -1,25 +1,21 @@
 import React from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslation } from 'react-i18next'
 
 import { Text } from '@/components/ui/Text'
-import {
-  HERO_SECTION_TITLE,
-  HERO_SUBTITLE,
-  HERO_TITLE_ACCENT,
-  HERO_TITLE_PREFIX
-} from '@/features/home/data/heroContent'
 
 export function HeroSection() {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation('marketing');
 
   return (
     <View style={styles.wrapper}>
       <View style={styles.band}>
         <Text variant="headlineMedium" style={styles.title}>
-          {HERO_TITLE_PREFIX}{' '}
+          {t('hero.titlePrefix')}{' '}
           <Text variant="headlineMedium" color="secondary">
-            {HERO_TITLE_ACCENT}
+            {t('hero.titleAccent')}
           </Text>
           .
         </Text>
@@ -27,11 +23,11 @@ export function HeroSection() {
           variant="bodyLarge"
           color="onSurfaceVariant"
           style={styles.subtitle}>
-          {HERO_SUBTITLE}
+          {t('hero.subtitle')}
         </Text>
       </View>
       <Text variant="titleLarge" style={styles.sectionTitle}>
-        {HERO_SECTION_TITLE}
+        {t('process.sectionTitle')}
       </Text>
     </View>
   );

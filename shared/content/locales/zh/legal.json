@@ -1,0 +1,285 @@
+{
+  "disclaimer": {
+    "short": "VisaMesa 并非律师事务所、gestoría 或政府机构，仅提供办理指引——非法律建议。我们让流程更清晰。",
+    "storeListing": "VisaMesa 是独立的办理指引服务，与任何政府实体均无关联、背书或代表关系。官方信息来自西班牙公共行政来源。VisaMesa 不提供法律建议。",
+    "sectionTitle": "服务免责声明",
+    "masterParagraphs": [
+      "VisaMesa 并非律师事务所、gestoría 或政府机构，与任何政府实体均无关联或背书关系。我们不提供法律建议、法律代理，也不提供仅限持证律师（abogados）或注册行政代理人（gestores administrativos）提供的服务。",
+      "VisaMesa 是独立的办理辅助与指引工具。我们帮助您理解并组织一项公共行政流程——您完全有权自行免费向西班牙当局完成，或选择持证 abogado 或 gestor administrativo 协助办理。",
+      "官方政府流程（如 empadronamiento、cita previa 及 TIE/Tarjeta de Identidad de Extranjero 申请）由相关西班牙公共机构提供。VisaMesa 中的信息来自公开可用的官方来源。我们不对政府流程本身收费；我们的费用仅用于我们提供的指引、组织及可选自动化服务。",
+      "本应用或本网站中的任何内容均不构成法律建议，也不建立律师–客户关系。您有责任在向任何当局提交前，自行核对所有信息与文件的准确性。我们不保证任何特定结果、批准或预约可用性。如需了解您的法律权利或处理复杂案件，请咨询持证 abogado。"
+    ],
+    "limitations": {
+      "approval": {
+        "title": "不保证获批",
+        "body": "虽然我们帮助您完成申请流程，但无法保证西班牙当局会批准您的 TIE 申请。批准取决于我们无法控制的因素。"
+      },
+      "appointments": {
+        "title": "预约可用性",
+        "body": "政府预约名额超出我们的控制范围。我们会尽力预约，但无法保证一定有名额。"
+      }
+    }
+  },
+  "officialSources": {
+    "sectionTitle": "官方信息来源",
+    "intro": "VisaMesa 中的政府流程信息基于 TIE 办理各步骤中链接的同一官方来源。",
+    "items": [
+      {
+        "label": "Ajuntament de Barcelona – Empadronamiento",
+        "url": "https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/es"
+      },
+      {
+        "label": "Barcelona Citizen Services Info",
+        "url": "https://www.barcelona.cat/internationalwelcome/en"
+      },
+      {
+        "label": "Cita Previa – Official Appointment Booking (Policía)",
+        "url": "https://sede.administracionespublicas.gob.es/icpplus/index.html"
+      },
+      {
+        "label": "Barcelona TIE Info – National Police",
+        "url": "https://www.barcelona.cat/internationalwelcome/en/identity-card-foreign-nationals-tie"
+      },
+      {
+        "label": "Download Modelo 790 (Government)",
+        "url": "https://sede.policia.gob.es"
+      }
+    ]
+  },
+  "privacy": {
+    "title": "隐私政策",
+    "lastUpdated": "最后更新：2026 年 6 月 27 日",
+    "intro": "本隐私政策说明 VisaMesa（「我们」）在您使用我们的移动应用和网站服务时，如何收集、使用和保护您的个人信息。",
+    "blocks": [
+      { "type": "h2", "text": "1. 我们收集的信息" },
+      { "type": "h3", "text": "1.1 您提供的个人信息" },
+      { "type": "p", "text": "使用 VisaMesa 时，您可能向我们提供：" },
+      {
+        "type": "ul",
+        "items": [
+          "身份信息（姓名、证件号码、国籍）",
+          "联系信息（电子邮箱、电话号码）",
+          "登记住址信息（地址、城市、邮政编码）",
+          "支付信息（由 Stripe 处理）"
+        ]
+      },
+      { "type": "h3", "text": "1.2 自动收集的信息" },
+      { "type": "p", "text": "我们会自动收集：" },
+      {
+        "type": "ul",
+        "items": [
+          "设备信息（操作系统、应用版本）",
+          "使用数据（访问的功能、遇到的错误）",
+          "认证数据（用于登录的 Google 账户邮箱）"
+        ]
+      },
+      { "type": "h2", "text": "2. 我们如何使用您的信息" },
+      { "type": "p", "text": "我们使用您的信息以：" },
+      {
+        "type": "ul",
+        "items": [
+          "处理您的 TIE 居留卡申请",
+          "向西班牙政府机构预约",
+          "用您的信息预填官方表格",
+          "处理服务付款",
+          "就申请状态与您沟通",
+          "改进我们的服务与用户体验"
+        ]
+      },
+      { "type": "h2", "text": "3. 数据安全与加密" },
+      {
+        "type": "p",
+        "text": "**客户端加密：** 您的个人信息在传输至我们的服务器之前，会在您的设备上加密。我们使用 AES-256-GCM 加密，密钥与设备绑定并存储在设备安全区域（iOS Keychain / Android Keystore）。这意味着没有您的设备，我们无法访问您的个人信息。"
+      },
+      {
+        "type": "p",
+        "text": "**传输中的数据：** 您的设备与我们服务器之间传输的所有数据均受 TLS/SSL 加密保护。"
+      },
+      { "type": "h2", "text": "4. 数据共享与第三方" },
+      { "type": "h3", "text": "4.1 支付处理" },
+      {
+        "type": "pLink",
+        "before": "我们使用 Stripe 处理付款。Stripe 直接接收您的支付信息，并受其",
+        "linkText": "Stripe 隐私政策",
+        "linkHref": "https://stripe.com/privacy",
+        "after": "约束。"
+      },
+      { "type": "h3", "text": "4.2 西班牙政府机构" },
+      {
+        "type": "p",
+        "text": "当您使用我们的自动化服务时，我们会代表您向西班牙政府机构（例如办理 empadronamiento 或预约）提交您的信息，以满足 TIE 申请所需。"
+      },
+      { "type": "h3", "text": "4.3 不出售数据" },
+      {
+        "type": "p",
+        "text": "我们不会出于营销目的向第三方出售、出租或交易您的个人信息。"
+      },
+      { "type": "h2", "text": "5. 您的权利（GDPR 与西班牙法律）" },
+      {
+        "type": "p",
+        "text": "根据欧盟 GDPR 及西班牙数据保护法，您有权："
+      },
+      {
+        "type": "ul",
+        "items": [
+          "**访问权：** 请求获取您的数据副本（应用内「导出我的数据」）",
+          "**更正权：** 通过个人资料更正不准确的数据",
+          "**删除权：** 删除账户及全部数据（应用内「删除我的账户」）",
+          "**数据可携权：** 以结构化格式接收您的数据",
+          "**撤回同意：** 随时撤回同意"
+        ]
+      },
+      { "type": "h2", "text": "6. 数据保留" },
+      {
+        "type": "p",
+        "text": "我们仅在提供服务所需或法律要求的期限内保留您的数据。当您删除账户时，所有数据将从我们的服务器永久删除。"
+      },
+      { "type": "h2", "text": "7. 儿童隐私" },
+      {
+        "type": "p",
+        "text": "我们的服务不面向 18 岁以下用户。我们不会故意收集儿童的个人信息。"
+      },
+      { "type": "h2", "text": "8. 本政策的变更" },
+      {
+        "type": "p",
+        "text": "我们可能会不时更新本隐私政策。重大变更将通过应用或电子邮件通知您。"
+      },
+      { "type": "h2", "text": "9. 联系我们" },
+      {
+        "type": "p",
+        "text": "如有隐私相关问题或需行使您的权利，请通过以下方式联系我们："
+      },
+      { "type": "email", "label": "电子邮箱：", "email": "privacy@visamesa.com" }
+    ]
+  },
+  "terms": {
+    "title": "服务条款",
+    "lastUpdated": "最后更新：2026 年 6 月 29 日",
+    "intro": "本服务条款（「条款」）规范您对 VisaMesa 移动应用和网站（统称「服务」）的使用。使用我们的服务即表示您同意这些条款。",
+    "blocks": [
+      { "type": "h2", "text": "1. 服务说明" },
+      {
+        "type": "p",
+        "text": "VisaMesa 提供指引与自动化工具，帮助个人在西班牙（具体为巴塞罗那）申请 TIE（Tarjeta de Identidad de Extranjero）居留卡。我们的服务包括："
+      },
+      {
+        "type": "ul",
+        "items": [
+          "分步申请指引",
+          "与政府机构的自动预约",
+          "表格预填与文件准备协助",
+          "申请状态跟踪"
+        ]
+      },
+      { "type": "h2", "text": "2. 用户责任" },
+      { "type": "p", "text": "您同意：" },
+      {
+        "type": "ul",
+        "items": [
+          "提供准确、完整的信息",
+          "妥善保管账户凭据",
+          "遵守所有适用的西班牙移民法律",
+          "在向当局提交前，复核所有预填表格与文件",
+          "不得滥用或不当使用服务"
+        ]
+      },
+      { "type": "h3", "text": "官方信息来源" },
+      {
+        "type": "p",
+        "text": "VisaMesa 中的政府流程信息基于 TIE 办理各步骤中链接的同一官方来源。"
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Ajuntament de Barcelona – Empadronamiento",
+        "linkHref": "https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/es",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Barcelona Citizen Services Info",
+        "linkHref": "https://www.barcelona.cat/internationalwelcome/en",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Cita Previa – Official Appointment Booking (Policía)",
+        "linkHref": "https://sede.administracionespublicas.gob.es/icpplus/index.html",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Barcelona TIE Info – National Police",
+        "linkHref": "https://www.barcelona.cat/internationalwelcome/en/identity-card-foreign-nationals-tie",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Download Modelo 790 (Government)",
+        "linkHref": "https://sede.policia.gob.es",
+        "after": ""
+      },
+      { "type": "h2", "text": "4. 付款与退款" },
+      { "type": "h3", "text": "4.1 定价" },
+      {
+        "type": "p",
+        "text": "价格显示在网站上。付款通过 Stripe 安全处理。除非另有说明，所有价格均以欧元计价。"
+      },
+      { "type": "h3", "text": "4.2 退款政策" },
+      {
+        "type": "p",
+        "text": "退款将逐案评估。如需申请退款，请在付款后 7 天内通过 support@visamesa.com 联系我们，并说明申请理由。"
+      },
+      { "type": "h2", "text": "5. 知识产权" },
+      {
+        "type": "p",
+        "text": "服务的全部内容、功能（包括文字、图形、标识、软件）均归 VisaMesa 所有，受版权、商标及其他知识产权法律保护。"
+      },
+      { "type": "h2", "text": "6. 数据隐私" },
+      {
+        "type": "privacyLink",
+        "before": "您对服务的使用亦受我们的",
+        "after": "约束，其中说明我们如何收集、使用和保护您的个人信息。"
+      },
+      { "type": "h2", "text": "7. 账户终止" },
+      {
+        "type": "p",
+        "text": "若您违反本条款或存在欺诈、滥用行为，我们保留暂停或终止您账户的权利。您可随时在应用设置中删除账户。"
+      },
+      { "type": "h2", "text": "8. 责任限制" },
+      {
+        "type": "p",
+        "text": "在法律允许的最大范围内，VisaMesa 不对因您使用服务而产生的任何间接、附带、特殊或后果性损害承担责任，包括但不限于："
+      },
+      {
+        "type": "ul",
+        "items": [
+          "TIE 申请被拒",
+          "预约延迟",
+          "预填表格中的错误（由您负责复核）",
+          "数据丢失或服务中断"
+        ]
+      },
+      { "type": "h2", "text": "9. 适用法律" },
+      {
+        "type": "p",
+        "text": "本条款受西班牙法律管辖。任何争议应在西班牙巴塞罗那法院解决。"
+      },
+      { "type": "h2", "text": "10. 条款变更" },
+      {
+        "type": "p",
+        "text": "我们可能会不时更新本条款。变更后继续使用服务即视为接受更新后的条款。"
+      },
+      { "type": "h2", "text": "11. 联系我们" },
+      {
+        "type": "p",
+        "text": "如对本条款有疑问，请通过以下方式联系我们："
+      },
+      { "type": "email", "label": "电子邮箱：", "email": "support@visamesa.com" }
+    ]
+  }
+}

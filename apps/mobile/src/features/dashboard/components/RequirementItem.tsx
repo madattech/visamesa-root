@@ -1,5 +1,6 @@
 import React from 'react'
 import { Pressable, View } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Button } from '@/components/ui/Button'
@@ -34,6 +35,7 @@ export function RequirementItem({
   onFormPress,
 }: RequirementItemProps) {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('dashboard');
   const completed = progress.completed;
   const canToggle = interactive && !isReferenced;
   const automationSource =
@@ -117,37 +119,45 @@ export function RequirementItem({
       {details}
       {hasBookAction ? (
         <Button
-          label="Book via VisaMesa"
+          label={t('bookViaVisaMesa')}
           variant="tonal"
           onPress={onAutomationPress}
-          accessibilityLabel={`Book ${requirement.label}`}
+          accessibilityLabel={t('bookAccessibilityLabel', {
+            label: requirement.label,
+          })}
           style={styles.actionButton}
         />
       ) : null}
       {hasFormAction ? (
         <Button
-          label="Review form filled by VisaMesa"
+          label={t('reviewForm')}
           variant="tonal"
           onPress={onFormPress}
-          accessibilityLabel={`Review ${requirement.label}`}
+          accessibilityLabel={t('reviewAccessibilityLabel', {
+            label: requirement.label,
+          })}
           style={styles.actionButton}
         />
       ) : null}
       {hasAppointmentAction ? (
         <View style={styles.completedActions}>
           <Button
-            label="View appointment"
+            label={t('viewAppointment')}
             variant="tonal"
             onPress={onViewAppointmentPress}
-            accessibilityLabel={`View appointment for ${requirement.label}`}
+            accessibilityLabel={t('viewAppointmentAccessibilityLabel', {
+              label: requirement.label,
+            })}
             style={styles.actionButton}
           />
           {canClearAutomation ? (
             <Button
-              label="Mark as not booked"
+              label={t('markAsNotBooked')}
               variant="outline"
               onPress={onClearAutomationPress}
-              accessibilityLabel={`Mark ${requirement.label} as not booked`}
+              accessibilityLabel={t('markAsNotBookedAccessibilityLabel', {
+                label: requirement.label,
+              })}
               style={styles.actionButton}
             />
           ) : null}

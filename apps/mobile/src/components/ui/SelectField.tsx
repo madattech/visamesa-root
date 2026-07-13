@@ -16,6 +16,7 @@ export type SelectFieldProps = {
   placeholder?: string;
   disabled?: boolean;
   containerStyle?: StyleProp<ViewStyle>;
+  hideLabel?: boolean;
 };
 
 export function SelectField({
@@ -27,6 +28,7 @@ export function SelectField({
   placeholder = 'Select an option',
   disabled = false,
   containerStyle,
+  hideLabel = false,
 }: SelectFieldProps) {
   const {styles, theme} = useStyles(stylesheet);
   const [isOpen, setIsOpen] = useState(false);
@@ -41,9 +43,11 @@ export function SelectField({
 
   return (
     <View style={[styles.container, containerStyle]}>
-      <Text variant="labelMedium" style={styles.label}>
-        {label}
-      </Text>
+      {hideLabel ? null : (
+        <Text variant="labelMedium" style={styles.label}>
+          {label}
+        </Text>
+      )}
       <Pressable
         disabled={disabled}
         accessibilityRole="button"

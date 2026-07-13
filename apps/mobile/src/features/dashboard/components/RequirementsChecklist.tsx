@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {Pressable, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Dialog} from '@/components/ui/Dialog';
@@ -7,11 +8,6 @@ import {Icon} from '@/components/ui/Icon';
 import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
 import {RequirementItem} from '@/features/dashboard/components/RequirementItem';
-import {
-  DASHBOARD_REQUIREMENTS_INFO_MESSAGE,
-  DASHBOARD_REQUIREMENTS_INFO_TITLE,
-  DASHBOARD_REQUIREMENTS_TITLE,
-} from '@/features/dashboard/data/dashboardContent';
 import {RequirementProgress} from '@/features/dashboard/types/UserProgress';
 import {AutomationId, Requirement} from '@/features/home/types/TieStepDetail';
 
@@ -24,11 +20,11 @@ export type RequirementWithProgress = Requirement & {
 type RequirementsChecklistProps = {
   requirements: RequirementWithProgress[];
   interactive?: boolean;
-  onSelfDeclaredToggle: (label: string) => void;
-  onAutomationPress: (automationId: AutomationId, label: string) => void;
-  onViewAppointmentPress: (label: string) => void;
-  onClearAutomationPress: (label: string) => void;
-  onFormPress: (formId: string, label: string) => void;
+  onSelfDeclaredToggle: (requirementKey: string) => void;
+  onAutomationPress: (automationId: AutomationId, requirementKey: string) => void;
+  onViewAppointmentPress: (requirementKey: string) => void;
+  onClearAutomationPress: (requirementKey: string) => void;
+  onFormPress: (formId: string, requirementKey: string) => void;
 };
 
 export function RequirementsChecklist({
@@ -41,6 +37,8 @@ export function RequirementsChecklist({
   onFormPress,
 }: RequirementsChecklistProps) {
   const {styles, theme} = useStyles(stylesheet);
+  const {t: tDashboard} = useTranslation('dashboard');
+  const {t: tCommon} = useTranslation('common');
   const [showInfoDialog, setShowInfoDialog] = useState(false);
 
   if (requirements.length === 0) {
@@ -50,11 +48,11 @@ export function RequirementsChecklist({
   const content = (
     <View style={styles.content}>
       <View style={styles.header}>
-        <Text variant="titleMedium">{DASHBOARD_REQUIREMENTS_TITLE}</Text>
+        <Text variant="titleMedium">{tDashboard('requirementsTitle')}</Text>
         <Pressable
           onPress={() => setShowInfoDialog(true)}
           accessibilityRole="button"
-          accessibilityLabel="About Checklist"
+          accessibilityLabel={tDashboard('requirementsInfoAccessibilityLabel')}
           android_ripple={{
             color: theme.colors.primaryContainer,
             borderless: true,
@@ -67,27 +65,27 @@ export function RequirementsChecklist({
       <View style={styles.list}>
         {requirements.map(requirement => (
           <RequirementItem
-            key={requirement.label}
+            key={requirement.key}
             requirement={requirement}
             progress={requirement.progress}
             hint={requirement.hint}
             isReferenced={requirement.isReferenced}
             interactive={interactive}
-            onSelfDeclaredToggle={() => onSelfDeclaredToggle(requirement.label)}
+            onSelfDeclaredToggle={() => onSelfDeclaredToggle(requirement.key)}
             onAutomationPress={() =>
               requirement.automationId
-                ? onAutomationPress(requirement.automationId, requirement.label)
+                ? onAutomationPress(requirement.automationId, requirement.key)
                 : undefined
             }
             onViewAppointmentPress={() =>
-              onViewAppointmentPress(requirement.label)
+              onViewAppointmentPress(requirement.key)
             }
             onClearAutomationPress={() =>
-              onClearAutomationPress(requirement.label)
+              onClearAutomationPress(requirement.key)
             }
             onFormPress={() =>
               requirement.formId
-                ? onFormPress(requirement.formId, requirement.label)
+                ? onFormPress(requirement.formId, requirement.key)
                 : undefined
             }
           />
@@ -96,15 +94,15 @@ export function RequirementsChecklist({
       <Dialog
         visible={showInfoDialog}
         onClose={() => setShowInfoDialog(false)}
-        title={DASHBOARD_REQUIREMENTS_INFO_TITLE}
+        title={tDashboard('requirementsInfoTitle')}
         actions={[
           {
-            label: 'Got it',
+            label: tCommon('actions.gotIt'),
             onPress: () => setShowInfoDialog(false),
             variant: 'tonal',
           },
         ]}>
-        {DASHBOARD_REQUIREMENTS_INFO_MESSAGE}
+        {tDashboard('requirementsInfoMessage')}
       </Dialog>
     </View>
   );

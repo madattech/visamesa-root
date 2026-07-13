@@ -1,0 +1,285 @@
+{
+  "disclaimer": {
+    "short": "VisaMesa is not a law firm, gestoría, or government body, and gives guidance only — not legal advice. We just make the process clearer.",
+    "storeListing": "VisaMesa is an independent guidance service and is not affiliated with, endorsed by, or representing any government entity. Official information comes from Spanish public administration sources. VisaMesa does not provide legal advice.",
+    "sectionTitle": "Service disclaimer",
+    "masterParagraphs": [
+      "VisaMesa is not a law firm, a gestoría, or a government agency, and we are not affiliated with or endorsed by any government entity. We do not provide legal advice, legal representation, or any service reserved for licensed lawyers (abogados) or registered administrative agents (gestores administrativos).",
+      "VisaMesa is an independent facilitation and guidance tool. We help you understand and organize a public administrative process that you are fully entitled to complete yourself, free of charge, directly with the Spanish authorities — or with the help of a licensed abogado or gestor administrativo of your choosing.",
+      "The official government procedures (such as empadronamiento, cita previa, and TIE/Tarjeta de Identidad de Extranjero applications) are provided by the relevant Spanish public bodies. Information in VisaMesa is drawn from publicly available official sources. We do not charge you for the government procedures themselves; our fee is solely for the guidance, organization, and optional automation we provide.",
+      "Nothing in this app or on this website constitutes legal advice or creates a lawyer–client relationship. You are responsible for reviewing all information and documents for accuracy before submitting them to any authority. We do not guarantee any specific outcome, approval, or appointment availability. For advice on your legal rights or a complex case, please consult a licensed abogado."
+    ],
+    "limitations": {
+      "approval": {
+        "title": "No guarantee of approval",
+        "body": "While we help you navigate the application process, we cannot guarantee that your TIE application will be approved by Spanish authorities. Approval depends on factors outside our control."
+      },
+      "appointments": {
+        "title": "Appointment availability",
+        "body": "Government appointment availability is beyond our control. We will make best efforts to book appointments, but cannot guarantee availability."
+      }
+    }
+  },
+  "officialSources": {
+    "sectionTitle": "Official information sources",
+    "intro": "Government procedure information in VisaMesa is based on the same official sources linked in each step of the TIE process.",
+    "items": [
+      {
+        "label": "Ajuntament de Barcelona – Empadronamiento",
+        "url": "https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/es"
+      },
+      {
+        "label": "Barcelona Citizen Services Info",
+        "url": "https://www.barcelona.cat/internationalwelcome/en"
+      },
+      {
+        "label": "Cita Previa – Official Appointment Booking (Policía)",
+        "url": "https://sede.administracionespublicas.gob.es/icpplus/index.html"
+      },
+      {
+        "label": "Barcelona TIE Info – National Police",
+        "url": "https://www.barcelona.cat/internationalwelcome/en/identity-card-foreign-nationals-tie"
+      },
+      {
+        "label": "Download Modelo 790 (Government)",
+        "url": "https://sede.policia.gob.es"
+      }
+    ]
+  },
+  "privacy": {
+    "title": "Privacy Policy",
+    "lastUpdated": "Last updated: June 27, 2026",
+    "intro": "This Privacy Policy describes how VisaMesa (\"we\", \"our\", or \"us\") collects, uses, and protects your personal information when you use our mobile application and website services.",
+    "blocks": [
+      { "type": "h2", "text": "1. Information We Collect" },
+      { "type": "h3", "text": "1.1 Personal Information You Provide" },
+      { "type": "p", "text": "When you use VisaMesa, you may provide us with:" },
+      {
+        "type": "ul",
+        "items": [
+          "Identity information (name, document number, nationality)",
+          "Contact information (email address, phone number)",
+          "Registered address information (address, city, postal code)",
+          "Payment information (processed by Stripe)"
+        ]
+      },
+      { "type": "h3", "text": "1.2 Automatically Collected Information" },
+      { "type": "p", "text": "We automatically collect:" },
+      {
+        "type": "ul",
+        "items": [
+          "Device information (operating system, app version)",
+          "Usage data (features accessed, errors encountered)",
+          "Authentication data (Google account email for sign-in)"
+        ]
+      },
+      { "type": "h2", "text": "2. How We Use Your Information" },
+      { "type": "p", "text": "We use your information to:" },
+      {
+        "type": "ul",
+        "items": [
+          "Process your TIE residency card application",
+          "Book appointments with Spanish government offices",
+          "Pre-fill official forms with your information",
+          "Process payments for our services",
+          "Communicate with you about your application status",
+          "Improve our services and user experience"
+        ]
+      },
+      { "type": "h2", "text": "3. Data Security & Encryption" },
+      {
+        "type": "p",
+        "text": "**Client-Side Encryption:** Your personal information is encrypted on your device before being transmitted to our servers. We use AES-256-GCM encryption with device-bound keys stored in your device's secure enclave (iOS Keychain / Android Keystore). This means we cannot access your personal information without your device."
+      },
+      {
+        "type": "p",
+        "text": "**Data in Transit:** All data transmitted between your device and our servers is protected using TLS/SSL encryption."
+      },
+      { "type": "h2", "text": "4. Data Sharing & Third Parties" },
+      { "type": "h3", "text": "4.1 Payment Processing" },
+      {
+        "type": "pLink",
+        "before": "We use Stripe to process payments. Stripe receives your payment information directly and is governed by",
+        "linkText": "Stripe's Privacy Policy",
+        "linkHref": "https://stripe.com/privacy",
+        "after": "."
+      },
+      { "type": "h3", "text": "4.2 Spanish Government Offices" },
+      {
+        "type": "p",
+        "text": "When you use our automation services, we submit your information to Spanish government offices (e.g., for empadronamiento or appointment booking) on your behalf, as required for your TIE application."
+      },
+      { "type": "h3", "text": "4.3 No Data Selling" },
+      {
+        "type": "p",
+        "text": "We do not sell, rent, or trade your personal information to third parties for marketing purposes."
+      },
+      { "type": "h2", "text": "5. Your Rights (GDPR & Spanish Law)" },
+      {
+        "type": "p",
+        "text": "Under EU GDPR and Spanish data protection law, you have the right to:"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "**Access:** Request a copy of your data (\"Export My Data\" in the app)",
+          "**Rectification:** Correct inaccurate data through your profile",
+          "**Erasure:** Delete your account and all data (\"Delete My Account\" in the app)",
+          "**Data Portability:** Receive your data in a structured format",
+          "**Withdraw Consent:** Revoke consent at any time"
+        ]
+      },
+      { "type": "h2", "text": "6. Data Retention" },
+      {
+        "type": "p",
+        "text": "We retain your data only as long as necessary to provide our services or as required by law. When you delete your account, all your data is permanently deleted from our servers."
+      },
+      { "type": "h2", "text": "7. Children's Privacy" },
+      {
+        "type": "p",
+        "text": "Our services are not intended for users under 18 years of age. We do not knowingly collect personal information from children."
+      },
+      { "type": "h2", "text": "8. Changes to This Policy" },
+      {
+        "type": "p",
+        "text": "We may update this Privacy Policy from time to time. We will notify you of significant changes through the app or via email."
+      },
+      { "type": "h2", "text": "9. Contact Us" },
+      {
+        "type": "p",
+        "text": "For privacy-related questions or to exercise your rights, contact us at:"
+      },
+      { "type": "email", "label": "Email:", "email": "privacy@visamesa.com" }
+    ]
+  },
+  "terms": {
+    "title": "Terms of Service",
+    "lastUpdated": "Last updated: June 29, 2026",
+    "intro": "These Terms of Service (\"Terms\") govern your use of the VisaMesa mobile application and website (collectively, the \"Service\"). By using our Service, you agree to these Terms.",
+    "blocks": [
+      { "type": "h2", "text": "1. Service Description" },
+      {
+        "type": "p",
+        "text": "VisaMesa provides guidance and automation tools to help individuals apply for their TIE (Tarjeta de Identidad de Extranjero) residency card in Spain, specifically Barcelona. Our services include:"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Step-by-step application guidance",
+          "Automated appointment booking with government offices",
+          "Form pre-filling and document preparation assistance",
+          "Application status tracking"
+        ]
+      },
+      { "type": "h2", "text": "2. User Responsibilities" },
+      { "type": "p", "text": "You agree to:" },
+      {
+        "type": "ul",
+        "items": [
+          "Provide accurate and complete information",
+          "Maintain the security of your account credentials",
+          "Comply with all applicable Spanish immigration laws",
+          "Review all pre-filled forms and documents before submission to authorities",
+          "Not misuse or abuse the Service"
+        ]
+      },
+      { "type": "h3", "text": "Official information sources" },
+      {
+        "type": "p",
+        "text": "Government procedure information in VisaMesa is based on the same official sources linked in each step of the TIE process."
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Ajuntament de Barcelona – Empadronamiento",
+        "linkHref": "https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/es",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Barcelona Citizen Services Info",
+        "linkHref": "https://www.barcelona.cat/internationalwelcome/en",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Cita Previa – Official Appointment Booking (Policía)",
+        "linkHref": "https://sede.administracionespublicas.gob.es/icpplus/index.html",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Barcelona TIE Info – National Police",
+        "linkHref": "https://www.barcelona.cat/internationalwelcome/en/identity-card-foreign-nationals-tie",
+        "after": ""
+      },
+      {
+        "type": "pLink",
+        "before": "",
+        "linkText": "Download Modelo 790 (Government)",
+        "linkHref": "https://sede.policia.gob.es",
+        "after": ""
+      },
+      { "type": "h2", "text": "4. Payment & Refunds" },
+      { "type": "h3", "text": "4.1 Pricing" },
+      {
+        "type": "p",
+        "text": "Our pricing is displayed on the website. Payments are processed securely through Stripe. All prices are in Euros unless otherwise stated."
+      },
+      { "type": "h3", "text": "4.2 Refund Policy" },
+      {
+        "type": "p",
+        "text": "Refunds are considered on a case-by-case basis. To request a refund, contact us at support@visamesa.com within 7 days of payment with a reason for your request."
+      },
+      { "type": "h2", "text": "5. Intellectual Property" },
+      {
+        "type": "p",
+        "text": "All content, features, and functionality of the Service (including text, graphics, logos, software) are owned by VisaMesa and protected by copyright, trademark, and other intellectual property laws."
+      },
+      { "type": "h2", "text": "6. Data Privacy" },
+      {
+        "type": "privacyLink",
+        "before": "Your use of the Service is also governed by our",
+        "after": ", which describes how we collect, use, and protect your personal information."
+      },
+      { "type": "h2", "text": "7. Account Termination" },
+      {
+        "type": "p",
+        "text": "We reserve the right to suspend or terminate your account if you violate these Terms or engage in fraudulent or abusive behavior. You may delete your account at any time through the app settings."
+      },
+      { "type": "h2", "text": "8. Limitation of Liability" },
+      {
+        "type": "p",
+        "text": "To the maximum extent permitted by law, VisaMesa shall not be liable for any indirect, incidental, special, or consequential damages arising from your use of the Service, including but not limited to:"
+      },
+      {
+        "type": "ul",
+        "items": [
+          "Rejection of your TIE application",
+          "Delays in appointment booking",
+          "Errors in pre-filled forms (your responsibility to review)",
+          "Loss of data or service interruptions"
+        ]
+      },
+      { "type": "h2", "text": "9. Governing Law" },
+      {
+        "type": "p",
+        "text": "These Terms are governed by the laws of Spain. Any disputes shall be resolved in the courts of Barcelona, Spain."
+      },
+      { "type": "h2", "text": "10. Changes to Terms" },
+      {
+        "type": "p",
+        "text": "We may update these Terms from time to time. Continued use of the Service after changes constitutes acceptance of the updated Terms."
+      },
+      { "type": "h2", "text": "11. Contact Us" },
+      {
+        "type": "p",
+        "text": "For questions about these Terms, contact us at:"
+      },
+      { "type": "email", "label": "Email:", "email": "support@visamesa.com" }
+    ]
+  }
+}

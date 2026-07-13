@@ -108,6 +108,6 @@ export function createThemeCssVariables() {
   ${breakpointVariables()}
   ${layoutVariables()}
   --gutter: ${spacing.xl}px;
-  --font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-family: 'Plus Jakarta Sans', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
 }`
 }

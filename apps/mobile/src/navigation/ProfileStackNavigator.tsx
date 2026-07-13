@@ -7,6 +7,7 @@ import LegalScreen from '@/screens/LegalScreen';
 import LoginScreen from '@/screens/LoginScreen';
 import ProfileScreen from '@/screens/ProfileScreen';
 import ProfileSectionScreen from '@/screens/ProfileSectionScreen';
+import SettingsScreen from '@/screens/SettingsScreen';
 
 import {ProfileStackParamList} from './types';
 
@@ -25,6 +26,7 @@ function ProfileStackScreens() {
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="ProfileSection" component={ProfileSectionScreen} />
       <Stack.Screen name="Legal" component={LegalScreen} />
+      <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen
         name="Login"
         component={LoginScreen}

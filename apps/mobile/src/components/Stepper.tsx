@@ -1,5 +1,6 @@
 import React from 'react';
 import {ScrollView, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Button} from '@/components/ui/Button';
@@ -27,6 +28,7 @@ export function Stepper({
   onStepPress,
 }: StepperProps) {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('tieSteps');
   const completedSet = new Set(completedStepIds);
   const elevationStyle = createElevationStyle(2, theme.colors);
 
@@ -62,9 +64,10 @@ export function Stepper({
                 disabled: !pressable,
                 checked: isCompleted,
               }}
-              accessibilityLabel={`Step ${step.id}: ${step.title}${
-                isCompleted ? ', completed' : ''
-              }`}
+              accessibilityLabel={`${t('stepperLabel', {
+                stepId: step.id,
+                title: step.title,
+              })}${isCompleted ? t('stepperCompleted') : ''}`}
               onPress={() => onStepPress(step.id)}
               style={[
                 styles.stepButton,

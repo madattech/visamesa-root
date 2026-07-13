@@ -1,5 +1,6 @@
 import React from 'react';
 import {ActivityIndicator, ScrollView, View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {CompositeNavigationProp} from '@react-navigation/native';
@@ -13,7 +14,6 @@ import {DashboardHeader} from '@/features/dashboard/components/DashboardHeader';
 import {DashboardUnauthenticated} from '@/features/dashboard/components/DashboardUnauthenticated';
 import {RequirementsChecklist} from '@/features/dashboard/components/RequirementsChecklist';
 import {StepActionFooter} from '@/features/dashboard/components/StepActionFooter';
-import {DASHBOARD_STEP_DETAIL_LABEL} from '@/features/dashboard/data/dashboardContent';
 import {useDashboardScreen} from '@/features/dashboard/hooks/useDashboardScreen';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 import {DashboardStackParamList, RootStackParamList} from '@/navigation/types';
@@ -29,6 +29,7 @@ type DashboardScreenProps = {
 
 const DashboardScreen = ({navigation}: DashboardScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('dashboard');
   const tabBarInset = useTabBarInset();
   const {
     isAuthLoading,
@@ -116,7 +117,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
           <View style={styles.stepHeader}>
             <Text variant="titleLarge">{currentStep.title}</Text>
             <DetailLinkRow
-              title={DASHBOARD_STEP_DETAIL_LABEL}
+              title={t('stepDetailLabel')}
               variant="compact"
               onPress={onStepDetailPress}
             />
