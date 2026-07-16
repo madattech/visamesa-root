@@ -10,13 +10,28 @@ export const OSC_SELECT_SCRIPT = `
     const targetText = ${JSON.stringify(TARGET_TEXT)};
     const normalize = value => (value || '').replace(/\\s+/g, ' ').trim();
 
+    const tramitLinks = Array.from(
+      document.querySelectorAll('a[href*="/tramit/"]'),
+    );
+    const targetTramitLink = tramitLinks.find(link =>
+      normalize(link.closest('article, li, div, section')?.textContent).includes(
+        targetText,
+      ),
+    );
+
+    if (targetTramitLink) {
+      targetTramitLink.click();
+      return;
+    }
+
     const target = Array.from(
       document.querySelectorAll('p, a, button, [role="button"]'),
     ).find(element => normalize(element.textContent).includes(targetText));
     const clickable =
       target?.closest('a, button, [role="button"]') ||
       target?.parentElement?.closest('a, button, [role="button"]') ||
-      target;
+      target ||
+      (tramitLinks.length === 1 ? tramitLinks[0] : null);
 
     clickable?.click();
   })();

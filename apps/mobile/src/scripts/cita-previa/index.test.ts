@@ -141,7 +141,14 @@ describe('cita previa script map', () => {
             value:
               'https://icp.administracionelectronica.gob.es/icpplustieb/acEntrada',
           },
-          ready: {selector: '#txtIdCitado'},
+          ready: {
+            selector: '#txtIdCitado',
+            allSelectors: [
+              '#txtDesCitado',
+              '#txtPaisNac option:nth-child(89)',
+              '#btnEnviar',
+            ],
+          },
         }),
         expect.objectContaining({
           match: {

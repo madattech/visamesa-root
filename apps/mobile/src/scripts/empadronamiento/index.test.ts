@@ -128,7 +128,7 @@ describe('empadronamiento script map', () => {
             type: 'prefix',
             value: `${EMPADRONAMIENTO_HOME_URL}/search-result`,
           },
-          ready: {selector: 'p', timeoutMs: 10000},
+          ready: {selector: 'a[href*="/tramit/"]', timeoutMs: 10000},
         }),
         expect.objectContaining({
           id: 'empadronamiento-start-tramit',
