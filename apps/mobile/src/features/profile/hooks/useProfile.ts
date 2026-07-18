@@ -129,12 +129,40 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
       const result = await updateProfile(section, payload);
       setProfileData(result);
 
-      // Update the completion flag
       const complete = isProfileComplete(result);
       await profileCompletionService.setIsComplete(complete);
-
-      // Refresh the context to pick up the new completion status
       await refreshCompletion();
+
+      if (section === 'personal') {
+        try {
+          const {fetchUserProgress, saveUserProgress} = await import(
+            '@/features/dashboard/services/progressService'
+          );
+          const {syncEmpadronamientoStepFromProfile} = await import(
+            '@/features/dashboard/services/empadronamientoProgressService'
+          );
+          const {reconcileStepStatuses} = await import(
+            '@/features/dashboard/services/progressReconciliationService'
+          );
+          const {fetchTieSteps} = await import(
+            '@/features/home/services/tieStepsService'
+          );
+
+          const progress = await fetchUserProgress();
+          const tieSteps = await fetchTieSteps();
+          let synced = await syncEmpadronamientoStepFromProfile(progress, result);
+          synced = reconcileStepStatuses(synced, tieSteps, {
+            isProfileComplete: complete,
+            allSteps: tieSteps,
+          });
+
+          if (JSON.stringify(synced) !== JSON.stringify(progress)) {
+            await saveUserProgress(synced);
+          }
+        } catch {
+          // Progress sync is best-effort after profile save
+        }
+      }
 
       showToast(successMessage);
     } catch (err) {

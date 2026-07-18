@@ -9,31 +9,42 @@ import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
 import {RequirementItem} from '@/features/dashboard/components/RequirementItem';
 import {RequirementProgress} from '@/features/dashboard/types/UserProgress';
+import {groupRequirementsByLocation} from '@/features/dashboard/utils/requirementGroups';
 import {AutomationId, Requirement} from '@/features/home/types/TieStepDetail';
 
 export type RequirementWithProgress = Requirement & {
   progress: RequirementProgress;
   hint?: string;
   isReferenced?: boolean;
+  canCheck?: boolean;
+  canUncheck?: boolean;
+  showDocumentActions?: boolean;
 };
 
 type RequirementsChecklistProps = {
   requirements: RequirementWithProgress[];
   interactive?: boolean;
-  onSelfDeclaredToggle: (requirementKey: string) => void;
+  onRequirementCheckboxToggle: (requirementKey: string) => void;
   onAutomationPress: (automationId: AutomationId, requirementKey: string) => void;
   onViewAppointmentPress: (requirementKey: string) => void;
   onClearAutomationPress: (requirementKey: string) => void;
+  onDevMarkAutomationBookedPress?: (
+    automationId: AutomationId,
+    requirementKey: string,
+  ) => void;
+  onDevConfirmFormPress?: (formId: string, requirementKey: string) => void;
   onFormPress: (formId: string, requirementKey: string) => void;
 };
 
 export function RequirementsChecklist({
   requirements,
   interactive = true,
-  onSelfDeclaredToggle,
+  onRequirementCheckboxToggle,
   onAutomationPress,
   onViewAppointmentPress,
   onClearAutomationPress,
+  onDevMarkAutomationBookedPress,
+  onDevConfirmFormPress,
   onFormPress,
 }: RequirementsChecklistProps) {
   const {styles, theme} = useStyles(stylesheet);
@@ -44,6 +55,8 @@ export function RequirementsChecklist({
   if (requirements.length === 0) {
     return null;
   }
+
+  const groups = groupRequirementsByLocation(requirements);
 
   const content = (
     <View style={styles.content}>
@@ -56,39 +69,73 @@ export function RequirementsChecklist({
           android_ripple={{
             color: theme.colors.primaryContainer,
             borderless: true,
-            radius: 20,
+            radius: theme.sizes.touchTargetMin / 2,
           }}
           style={styles.infoButton}>
           <Icon name="info-outline" size="md" color="primary" />
         </Pressable>
       </View>
       <View style={styles.list}>
-        {requirements.map(requirement => (
-          <RequirementItem
-            key={requirement.key}
-            requirement={requirement}
-            progress={requirement.progress}
-            hint={requirement.hint}
-            isReferenced={requirement.isReferenced}
-            interactive={interactive}
-            onSelfDeclaredToggle={() => onSelfDeclaredToggle(requirement.key)}
-            onAutomationPress={() =>
-              requirement.automationId
-                ? onAutomationPress(requirement.automationId, requirement.key)
-                : undefined
-            }
-            onViewAppointmentPress={() =>
-              onViewAppointmentPress(requirement.key)
-            }
-            onClearAutomationPress={() =>
-              onClearAutomationPress(requirement.key)
-            }
-            onFormPress={() =>
-              requirement.formId
-                ? onFormPress(requirement.formId, requirement.key)
-                : undefined
-            }
-          />
+        {groups.map(group => (
+          <View
+            key={group.location ?? 'default'}
+            style={styles.group}>
+            {group.location === 'in_person' ? (
+              <View style={styles.groupHeader}>
+                <Icon name="location-on" size="sm" color="onSurfaceVariant" />
+                <Text variant="labelLarge" color="onSurfaceVariant">
+                  {tDashboard('locationInPerson')}
+                </Text>
+              </View>
+            ) : null}
+            {group.requirements.map(requirement => (
+              <RequirementItem
+                key={requirement.key}
+                requirement={requirement}
+                progress={requirement.progress}
+                hint={requirement.hint}
+                isReferenced={requirement.isReferenced}
+                interactive={interactive}
+                canCheck={requirement.canCheck}
+                canUncheck={requirement.canUncheck}
+                showDocumentActions={requirement.showDocumentActions}
+                onRequirementCheckboxToggle={() =>
+                  onRequirementCheckboxToggle(requirement.key)
+                }
+                onAutomationPress={() =>
+                  requirement.automationId
+                    ? onAutomationPress(requirement.automationId, requirement.key)
+                    : undefined
+                }
+                onViewAppointmentPress={() =>
+                  onViewAppointmentPress(requirement.key)
+                }
+                onClearAutomationPress={() =>
+                  onClearAutomationPress(requirement.key)
+                }
+                onDevMarkAutomationBookedPress={
+                  onDevMarkAutomationBookedPress && requirement.automationId
+                    ? () =>
+                        onDevMarkAutomationBookedPress(
+                          requirement.automationId!,
+                          requirement.key,
+                        )
+                    : undefined
+                }
+                onFormPress={() =>
+                  requirement.formId
+                    ? onFormPress(requirement.formId, requirement.key)
+                    : undefined
+                }
+                onDevConfirmFormPress={
+                  onDevConfirmFormPress && requirement.formId
+                    ? () =>
+                        onDevConfirmFormPress(requirement.formId!, requirement.key)
+                    : undefined
+                }
+              />
+            ))}
+          </View>
         ))}
       </View>
       <Dialog
@@ -145,6 +192,15 @@ const stylesheet = createStyleSheet(theme => ({
     alignItems: 'center',
   },
   list: {
+    gap: theme.spacing.md,
+  },
+  group: {
+    gap: theme.spacing.sm,
+  },
+  groupHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: theme.spacing.xs,
+    paddingTop: theme.spacing.xs,
   },
 }));

@@ -1,5 +1,4 @@
 import {act} from 'react';
-import {Alert} from 'react-native';
 
 import {useDashboardScreen} from '@/features/dashboard/hooks/useDashboardScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
@@ -44,6 +43,29 @@ jest.mock('@/hooks/useProcessReadiness', () => ({
   useProcessReadiness: () => mockUseProcessReadiness(),
 }));
 
+jest.mock('@/contexts/ProfileCompletionContext', () => ({
+  useProfileCompletion: () => ({
+    isProfileComplete: true,
+    isLoading: false,
+    refreshCompletion: jest.fn(),
+  }),
+}));
+
+jest.mock('@/features/profile/services/profileService', () => ({
+  getProfile: jest.fn(() => Promise.resolve({personal: null})),
+}));
+
+jest.mock('@/features/dashboard/services/empadronamientoProgressService', () => ({
+  syncEmpadronamientoStepFromProfile: jest.fn((progress: unknown) =>
+    Promise.resolve(progress),
+  ),
+}));
+
+jest.mock('@/features/dashboard/services/progressService', () => ({
+  saveUserProgress: jest.fn((progress: unknown) => Promise.resolve(progress)),
+  subscribeToProgressReset: jest.fn(() => () => {}),
+}));
+
 jest.mock('@/utils/entitlementAccess', () => ({
   canUseAutomationEntitlement: () => true,
 }));
@@ -58,7 +80,14 @@ jest.mock('@/hooks/usePricingLink', () => ({
   }),
 }));
 
-jest.spyOn(Alert, 'alert').mockImplementation(() => undefined);
+jest.mock('@/contexts/AppDialogContext', () => ({
+  useAppDialog: () => ({
+    showAlert: jest.fn(),
+    showDialog: jest.fn(),
+    closeDialog: jest.fn(),
+  }),
+  AppDialogProvider: ({children}: {children: React.ReactNode}) => children,
+}));
 
 const {useTieSteps} = jest.requireMock('@/features/home/hooks/useTieSteps') as {
   useTieSteps: jest.Mock;
@@ -120,10 +149,11 @@ describe('useDashboardScreen', () => {
       completeAutomationRequirement,
       clearAutomationRequirement,
       completeFormRequirement,
+      refreshProgress: jest.fn(),
     });
   });
 
-  it('allows browsing future steps without enabling completion', () => {
+  it('allows browsing future steps without enabling completion or interaction', () => {
     const navigation = createMockNavigation() as Parameters<
       typeof useDashboardScreen
     >[0];
@@ -135,9 +165,44 @@ describe('useDashboardScreen', () => {
 
     expect(getHookState().currentStepId).toBe(2);
     expect(getHookState().canCompleteStep).toBe(false);
-    expect(getHookState().canInteractWithRequirements).toBe(true);
-    expect(getHookState().stepActionDisabledHint).toBeTruthy();
+    expect(getHookState().canInteractWithRequirements).toBe(false);
+    expect(getHookState().stepActionDisabledHint).toBe(
+      'Complete the previous step before marking this one done.',
+    );
     expect(getHookState().stepActionLabel).toBeDefined();
+  });
+
+  it('enables completion on step 1 when all items are checked', () => {
+    useUserProgress.mockReturnValue({
+      progress: createUserProgress({
+        currentStepId: 1,
+        steps: [
+          {
+            stepId: 1,
+            status: 'in_progress',
+            requirements: {
+              passport: {completed: true, source: {type: 'self_declared'}},
+            },
+          },
+        ],
+      }),
+      isLoading: false,
+      error: null,
+      completeStep,
+      toggleSelfDeclaredRequirement,
+      completeAutomationRequirement,
+      clearAutomationRequirement,
+      completeFormRequirement,
+      refreshProgress: jest.fn(),
+    });
+
+    const navigation = createMockNavigation() as Parameters<
+      typeof useDashboardScreen
+    >[0];
+    const getHookState = renderHook(() => useDashboardScreen(navigation));
+
+    expect(getHookState().canCompleteStep).toBe(true);
+    expect(getHookState().stepActionDisabledHint).toBeUndefined();
   });
 
   it('shows complete profile dialog when not ready', () => {
@@ -199,5 +264,20 @@ describe('useDashboardScreen', () => {
     expect(navigation.navigate).toHaveBeenCalledWith('WebsiteWebView', {
       automation: 'empadronamiento',
     });
+  });
+
+  it('does not expose dev-only checklist shortcuts when __DEV__ is false', () => {
+    const originalDev = (global as {__DEV__?: boolean}).__DEV__;
+    (global as {__DEV__?: boolean}).__DEV__ = false;
+
+    const navigation = createMockNavigation() as Parameters<
+      typeof useDashboardScreen
+    >[0];
+    const getHookState = renderHook(() => useDashboardScreen(navigation));
+
+    expect(getHookState().onDevMarkAutomationBookedPress).toBeUndefined();
+    expect(getHookState().onDevConfirmFormPress).toBeUndefined();
+
+    (global as {__DEV__?: boolean}).__DEV__ = originalDev;
   });
 });

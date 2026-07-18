@@ -1,6 +1,7 @@
 import {
   fetchUserProgress,
   resetUserProgress,
+  subscribeToProgressReset,
   updateRequirementProgress,
   updateStepStatus,
 } from '@/features/dashboard/services/progressService';
@@ -52,5 +53,14 @@ describe('progressService', () => {
 
     expect(progress.steps[0]?.status).toBe('in_progress');
     expect(progress.steps[0]?.requirements.passport?.completed).toBe(true);
+  });
+
+  it('notifies dev subscribers when progress is reset', async () => {
+    const listener = jest.fn();
+
+    subscribeToProgressReset(listener);
+    await resetUserProgress();
+
+    expect(listener).toHaveBeenCalled();
   });
 });

@@ -14,23 +14,23 @@
     },
     {
       "id": 3,
-      "title": "Prepare documents",
-      "description": "Gather EX-17, passport copies, photos, and confirmations."
+      "title": "Fill your EX-17 form",
+      "description": "VisaMesa pre-fills your TIE application form from your profile."
     },
     {
       "id": 4,
       "title": "Pay the TIE fee",
-      "description": "Complete Modelo 790 code 012 and pay at a Spanish bank."
+      "description": "Complete Modelo 790 code 012, print it, and pay at a Spanish bank."
     },
     {
       "id": 5,
-      "title": "Attend appointment",
-      "description": "Submit paperwork, provide biometrics, and receive resguardo."
+      "title": "Attend fingerprint appointment",
+      "description": "Print your documents, go to the police station, and submit your application."
     },
     {
       "id": 6,
       "title": "Collect your TIE",
-      "description": "Return to pick up your physical card when ready."
+      "description": "Return with your resguardo and passport to pick up your card."
     }
   ],
   "faqs": [
@@ -43,28 +43,28 @@
       "answer": "No — you need the official empadronamiento certificate."
     },
     {
+      "question": "What if I don't have a rental contract?",
+      "answer": "Your landlord may need to come with you to the Ayuntamiento."
+    },
+    {
       "question": "Can someone book my cita previa on my behalf?",
       "answer": "Yes, but you must attend in person."
     },
     {
-      "question": "Do I need an NIE to book a cita previa?",
-      "answer": "Most systems ask for NIE/passport info to reserve a slot."
-    },
-    {
       "question": "What if no cita previa appointments are available?",
-      "answer": "Keep checking regularly; they open at random times."
-    },
-    {
-      "question": "Do TIE photos need specific specs?",
-      "answer": "Yes — passport format with white background."
+      "answer": "Keep checking regularly; slots open at unpredictable times."
     },
     {
       "question": "Can I pay the Modelo 790 fee later?",
-      "answer": "No — you must pay the 790-012 fee and bring proof of payment at appointment."
+      "answer": "No — bring proof of payment to your fingerprint appointment."
     },
     {
-      "question": "Do they issue the TIE on the spot at the appointment?",
-      "answer": "No — you collect it later."
+      "question": "Which banks accept Modelo 790 code 012?",
+      "answer": "Most major Spanish banks — you do not need an account."
+    },
+    {
+      "question": "Do they issue the TIE on the spot?",
+      "answer": "No — you collect it later with your resguardo."
     },
     {
       "question": "Can someone else pick up my TIE?",
@@ -74,9 +74,9 @@
   "steps": {
     "empadronamiento": {
       "title": "Register Your Address",
-      "short": "Register your address at the local Ayuntamiento (empadronamiento).",
-      "description": "Empadronamiento is the official registration of your residence address in Barcelona's municipal register. It proves that you live in a specific neighbourhood and is required for many formalities — including your TIE appointment.",
-      "whyItExists": "The Spanish system uses empadronamiento to prove residence for administrative procedures like healthcare, school, and immigration formalities.",
+      "short": "Get empadronamiento at the Ayuntamiento.",
+      "description": "Gather your documents, book an Ayuntamiento appointment if needed, and attend in person to receive your empadronamiento certificate. VisaMesa can help book the appointment; you must go to the office yourself to register.",
+      "whyItExists": "Empadronamiento registers your address in Barcelona's municipal census. Immigration and many other procedures require proof that you live at a specific address.",
       "completionPrompt": "Did you receive your empadronamiento certificate at the Ayuntamiento?",
       "cta": {
         "start": "I'm going to register my address",
@@ -84,16 +84,16 @@
       },
       "estimatedTime": [
         {
-          "label": "Typical",
-          "value": "1-3 hours at the Ayuntamiento + waiting time for appointment"
+          "label": "At the office",
+          "value": "1–3 hours including waiting"
         },
         {
-          "label": "Appointment Wait",
-          "value": "Varies by town hall (often 1–2 weeks)*"
+          "label": "Appointment wait",
+          "value": "Often 1–2 weeks in Barcelona"
         },
         {
-          "label": "Document Validity",
-          "value": "Certificate is usually valid for 90 days"
+          "label": "Certificate validity",
+          "value": "Usually 90 days for TIE use"
         }
       ],
       "officialLinks": [
@@ -101,315 +101,326 @@
           "label": "Ajuntament de Barcelona – Empadronamiento"
         },
         {
-          "label": "Barcelona Citizen Services Info"
+          "label": "Barcelona International Welcome"
         }
       ],
       "commonQuestions": [
         {
           "question": "Do I need an appointment?",
-          "answer": "Often yes — check your local Ayuntamiento"
+          "answer": "Often yes — check the Barcelona online office or call your district office."
         },
         {
-          "question": "Can I use a rental contract alone?",
-          "answer": "No — you need the official empadronamiento certificate"
+          "question": "What if I don't have a rental contract?",
+          "answer": "Your landlord usually must come with their ID and sign an authorization."
         },
         {
           "question": "How recent must the certificate be?",
-          "answer": "Usually within 90 days"
+          "answer": "For TIE, it should usually be issued within the last 90 days."
         }
       ],
       "requirements": {
         "passport-nie": {
-          "label": "Valid passport and NIE"
+          "label": "Valid passport and NIE",
+          "description": "Bring originals to the Ayuntamiento."
         },
         "proof-of-residence": {
-          "label": "A rental contract or proof of residence",
-          "description": "Rental contract, property deed, or landlord authorization (depending on your housing situation)."
+          "label": "Rental contract or proof of residence",
+          "description": "Signed contract, deed, or landlord authorization."
         },
         "appointment-confirmation": {
           "label": "Appointment confirmation",
-          "description": "Some Ayuntamientos require booking an appointment before visiting."
+          "description": "Book your visit — VisaMesa can help.",
+          "detail": "After booking, the Ajuntament de Barcelona (Oficina Virtual) sends a confirmation email with the office address, date, and time. Save or print it before your visit."
+        },
+        "attend-ayuntamiento": {
+          "label": "Attend and collect your certificate",
+          "description": "Go in person with all documents above.",
+          "detail": "Leave with your volante or certificado de empadronamiento in hand. Without the certificate, this step is not done."
         }
       }
     },
     "toma-de-huellas": {
       "title": "Book Your Fingerprint Appointment",
-      "short": "Reserve an online appointment to submit your TIE application and have fingerprints taken.",
-      "description": "Before you apply for your TIE, you must book a \"cita previa\" on the official Spanish government site. This appointment is when you'll submit your documents and have your fingerprints captured. Demand is high in Barcelona so appointments often get fully booked quickly, especially in peak months (like September).",
-      "whyItExists": "The Spanish police require in-person verification and fingerprints for identity cards. Appointments ensure orderly processing and verification.",
-      "completionPrompt": "Do you have your Cita Previa appointment confirmation saved or printed?",
+      "short": "Reserve your cita previa for fingerprints and document submission.",
+      "description": "Book a cita previa on the official police website for \"Toma de huellas\" (fingerprints). VisaMesa uses your profile to fill the booking form and can search for available slots. After booking, you receive a confirmation email from Cita Previa (Ministerio de Política Territorial y Memoria Democrática) with the police office, date, and time — save or print it for Step 5.",
+      "whyItExists": "Spanish police require a scheduled appointment for TIE applications. Slots in Barcelona are limited and fill quickly, especially in September.",
+      "completionPrompt": "Do you have your Cita Previa confirmation saved or printed?",
       "cta": {
         "start": "I'm booking my appointment",
         "complete": "I booked my appointment"
       },
       "estimatedTime": [
         {
-          "label": "Search Time",
-          "value": "1–10 days of checking for slots"
+          "label": "Finding a slot",
+          "value": "1–10 days of checking"
         },
         {
-          "label": "Typical Schedule Range",
-          "value": "1–3 weeks until actual appointment date"
-        },
-        {
-          "label": "Tips",
-          "value": "Refresh often, new slots may open at unpredictable times"
+          "label": "Until appointment day",
+          "value": "Often 1–3 weeks"
         }
       ],
       "officialLinks": [
         {
-          "label": "Cita Previa – Official Appointment Booking (Policía)"
+          "label": "Cita Previa – Policía Nacional"
         }
       ],
       "commonQuestions": [
         {
           "question": "Can someone book on my behalf?",
-          "answer": "Yes, but you must attend in person"
+          "answer": "Yes, but you must attend in person."
         },
         {
-          "question": "Do I need an NIE to book?",
-          "answer": "Most systems ask for NIE/passport info to reserve a slot"
-        },
-        {
-          "question": "What if no appointments are available?",
-          "answer": "Keep checking regularly; they open at random times"
+          "question": "What if no slots appear?",
+          "answer": "Keep checking — new slots open at random times, often early morning."
         }
       ],
       "requirements": {
-        "personal-id-details": {
-          "label": "Personal identification details",
-          "description": "Passport number, nationality, and basic personal information are required to book."
-        },
-        "cita-previa-access": {
-          "label": "Access to the official Cita Previa website",
-          "link": {
-            "label": "Book fingerprint appointment"
-          }
-        },
         "appointment-confirmation": {
           "label": "Appointment confirmation",
-          "description": "Print or save the confirmation to bring to the police station."
+          "description": "Book via VisaMesa or the official site.",
+          "detail": "After booking, Cita Previa sends an official confirmation email showing the police office, date, and time. Print or save that email — you will need it at the station in Step 5.",
+          "link": {
+            "label": "Official Cita Previa site"
+          }
         }
       }
     },
     "required-documents": {
-      "title": "Prepare the Required Documents",
-      "short": "Gather and organise all the paperwork you need before your appointment.",
-      "description": "Bring all required documents printed and organised. This prevents rejections at your appointment — missing even one piece often means you have to reschedule and wait longer.",
-      "whyItExists": "Spanish bureaucracy is strict about completeness and accuracy — official forms, passport copies, fee payments, and certificates must be exact.",
-      "completionPrompt": "Do you have all required documents printed and organised for your appointment?",
+      "title": "Fill Your EX-17 Form",
+      "short": "VisaMesa pre-fills your TIE application form.",
+      "description": "Review the EX-17 application form that VisaMesa fills from your profile. Confirm it is correct — you will print and sign it before your fingerprint appointment in Step 5.",
+      "whyItExists": "The EX-17 is the official TIE application form. Police require a completed, signed copy at your appointment.",
+      "completionPrompt": "Is your EX-17 form reviewed and ready to print?",
       "cta": {
-        "start": "I'm preparing my documents",
-        "complete": "I have all documents ready"
+        "start": "I'm reviewing my form",
+        "complete": "My EX-17 is ready"
       },
       "estimatedTime": [
         {
-          "label": "Prep Time",
-          "value": "1–3 days to collect and make copies"
-        },
-        {
-          "label": "Empadronamiento Validity",
-          "value": "less than 3 months old"
-        },
-        {
-          "label": "Photos",
-          "value": "recent, correct passport style"
+          "label": "In VisaMesa",
+          "value": "About 5–10 minutes to review"
         }
       ],
       "officialLinks": [
         {
-          "label": "Barcelona TIE Info – National Police"
+          "label": "EX-17 form (official source)"
         }
       ],
       "commonQuestions": [
         {
-          "question": "Do photos need specific specs?",
-          "answer": "Yes — passport format with white background"
+          "question": "Do I submit the form now?",
+          "answer": "No — print and bring it to your fingerprint appointment in Step 5."
         },
         {
-          "question": "Can I pay the fee later?",
-          "answer": "No — you must pay the 790-012 fee and bring proof of payment at appointment"
-        },
-        {
-          "question": "Can documents be in English?",
-          "answer": "Most have to be translated if not in Spanish — check country of origin rules"
+          "question": "What if my profile details are wrong?",
+          "answer": "Update your Profile first, then review the form again."
         }
       ],
       "requirements": {
         "ex-17-form": {
-          "label": "Completed EX-17 application form"
-        },
-        "valid-passport": {
-          "label": "Valid passport",
-          "description": "Original plus photocopies of main page and visa/entry stamp."
-        },
-        "student-visa": {
-          "label": "Student visa or residence authorisation",
-          "description": "Proof of permission to stay longer than 6 months."
-        },
-        "empadronamiento-certificate": {
-          "label": "Empadronamiento certificate",
-          "description": "Proof of local address registration."
-        },
-        "passport-photos": {
-          "label": "Passport-style photographs",
-          "description": "Recent color photos with white background."
-        },
-        "appointment-confirmation-doc": {
-          "label": "Appointment confirmation",
-          "description": "Printed confirmation from the Cita Previa website."
+          "label": "EX-17 application form",
+          "description": "Review the form VisaMesa filled for you.",
+          "detail": "Check every field matches your passport and visa. Sign where indicated before your appointment."
         }
       }
     },
     "pay-fee": {
       "title": "Pay the TIE Issuance Fee",
-      "short": "Complete and pay the official Modelo 790 code 012 fee before your appointment.",
-      "description": "You must fill in the official Modelo 790 fee form (code 012) and pay it at a Spanish bank before your TIE appointment. You'll need to bring proof of payment with you — without it they can reject the application on the spot.",
-      "whyItExists": "The fee is a legal requirement for processing and manufacturing your TIE card. Paying before the appointment confirms your commitment and covers administrative costs.",
-      "completionPrompt": "Did you pay the Modelo 790 fee and receive your payment receipt?",
+      "short": "Fill Modelo 790, print it, and pay at a bank.",
+      "description": "VisaMesa fills Modelo 790 code 012 from your profile. Print all copies, pay at a Spanish bank, and keep the stamped receipt — you must bring it to your fingerprint appointment.",
+      "whyItExists": "Paying the official fee is mandatory before your TIE can be processed. The bank-stamped form is proof of payment.",
+      "completionPrompt": "Did you pay the fee and get your stamped receipt?",
       "cta": {
         "start": "I'm going to pay the fee",
         "complete": "I paid the TIE fee"
       },
       "estimatedTime": [
         {
-          "label": "Bank Visit",
-          "value": "30 minutes to 1 hour at a bank branch"
+          "label": "Bank visit",
+          "value": "30–60 minutes"
         },
         {
-          "label": "Processing",
-          "value": "Immediate issue of a payment receipt"
-        },
-        {
-          "label": "Fee Range",
-          "value": "Approx. €16–€22 depending on permit type"
+          "label": "Fee",
+          "value": "About €16–€22"
         }
       ],
       "officialLinks": [
         {
-          "label": "Download Modelo 790 (Government)"
-        },
-        {
-          "label": "Fee Information – Immigration Portal"
+          "label": "Modelo 790 Code 012 (official)"
         }
       ],
       "commonQuestions": [
         {
-          "question": "Can I pay online?",
-          "answer": "Usually at a bank for code 012 — check if online bank allows this"
+          "question": "Do I need a bank account?",
+          "answer": "No — pay in cash at the counter at most major banks."
         },
         {
-          "question": "Do I need the exact code?",
-          "answer": "Yes — use code 012 specifically for TIE issuance"
+          "question": "Can I pay online?",
+          "answer": "Only with Cl@ve or a digital certificate — most students pay at a branch."
         }
       ],
       "requirements": {
         "modelo-790-form": {
-          "label": "Modelo 790 Code 012 form"
+          "label": "Modelo 790 Code 012 form",
+          "description": "Review the form VisaMesa filled for you.",
+          "detail": "Confirm your details and procedure type before printing."
+        },
+        "print-modelo-790": {
+          "label": "Print the form",
+          "description": "Print all copies — barcodes must be clear.",
+          "detail": "The PDF has three copies. Sign where required. Use a copy shop if needed."
+        },
+        "pay-at-bank": {
+          "label": "Pay at a Spanish bank",
+          "description": "CaixaBank, Santander, BBVA, and others accept this fee.",
+          "detail": "No account needed. Pay at the counter or at some ATMs by scanning the barcode."
         },
         "fee-payment-receipt": {
-          "label": "Fee payment receipt",
-          "description": "Receipt provided by the bank after payment — must be brought to appointment."
-        },
-        "fee-form-source": {
-          "label": "Official fee form source",
-          "link": {
-            "label": "Modelo 790 Code 012"
-          }
+          "label": "Stamped payment receipt",
+          "description": "Keep the copy the bank stamps for your appointment.",
+          "detail": "Without this, police can reject your application on the spot."
         }
       }
     },
     "fingerprint-appointment": {
       "title": "Attend Your Fingerprint Appointment",
-      "short": "Go to your scheduled appointment with all documents — fingerprints are taken and application is submitted.",
-      "description": "At the police station on your appointment day you will submit all documents, have your fingerprints and photo taken, and receive a appointment receipt (resguardo). This confirms your application and tells you when and where to pick up your TIE.",
-      "whyItExists": "This in-person step verifies your identity (biometrics) and ensures all information on your card is accurate and linked to your fingerprints.",
-      "completionPrompt": "Did you attend your appointment and receive your resguardo (receipt)?",
+      "short": "Print everything, go to the police station, submit your application.",
+      "description": "Prepare every document below, print what needs printing, and go to your Cita Previa appointment. You will submit paperwork, provide fingerprints and a photo, and receive a resguardo (receipt) with pickup instructions.",
+      "whyItExists": "Police verify your identity in person, capture biometrics, and accept your application. Missing documents usually means rescheduling.",
+      "completionPrompt": "Did you attend your appointment and receive your resguardo?",
       "cta": {
-        "start": "I'm going to my appointment",
-        "complete": "I attended my appointment"
+        "start": "I'm preparing for my appointment",
+        "complete": "I attended and got my resguardo"
       },
       "estimatedTime": [
         {
-          "label": "Appointment Length",
+          "label": "At the station",
           "value": "30–60 minutes"
         },
         {
-          "label": "Admin Wait",
-          "value": "Resguardo given immediately"
+          "label": "After",
+          "value": "Resguardo issued on the spot"
         }
       ],
       "officialLinks": [
         {
-          "label": "Official TIE Info (Barcelona International Welcome)"
+          "label": "Barcelona TIE information"
+        },
+        {
+          "label": "Cita Previa – Policía Nacional"
         }
       ],
       "commonQuestions": [
         {
           "question": "What if I forget a document?",
-          "answer": "They may cancel your appointment — you'll have to rebook"
+          "answer": "They may turn you away — rebook and try again."
         },
         {
-          "question": "Do they issue the TIE on the spot?",
-          "answer": "No — you collect it later"
+          "question": "Do I get the TIE card that day?",
+          "answer": "No — you receive a resguardo and collect the card later."
         }
       ],
       "requirements": {
-        "documents-from-step-3": {
-          "label": "All required documents prepared in Step 3"
+        "ex-17-form": {
+          "label": "Signed EX-17 form",
+          "description": "From Step 3 — printed and signed.",
+          "detail": "You confirmed the EX-17 in VisaMesa in Step 3. Print it, sign where indicated, and bring the signed copy — it is not stored in the app after printing."
         },
-        "fee-payment-proof": {
-          "label": "Proof of fee payment (Modelo 790 receipt)"
+        "modelo-790-receipt": {
+          "label": "Paid Modelo 790 (stamped receipt)",
+          "description": "From Step 4 — the bank-stamped copy in your hands.",
+          "detail": "This is the physical receipt the bank stamps when you pay in Step 4. VisaMesa cannot view or share it — make sure you have that stamped copy with you."
         },
-        "original-passport": {
+        "valid-passport": {
           "label": "Original passport",
-          "description": "Required for identity verification."
+          "description": "Must be valid and match your application.",
+          "detail": "Your original passport — keep it with you, not a copy."
+        },
+        "passport-copies": {
+          "label": "Passport photocopies",
+          "description": "Photo page and visa/entry stamp page.",
+          "detail": "Make copies at home, at a copy shop (copistería), or at many print kiosks. Bring both the photo page and the visa or entry-stamp page."
+        },
+        "student-visa": {
+          "label": "Student visa or long-stay authorization",
+          "description": "The visa or permit allowing stays over 90 days.",
+          "detail": "The visa sticker or authorization in your passport from your home-country consulate."
+        },
+        "empadronamiento-certificate": {
+          "label": "Empadronamiento certificate",
+          "description": "Usually issued within the last 90 days.",
+          "detail": "The volante or certificado de empadronamiento you received at the Ayuntamiento in Step 1."
+        },
+        "passport-photos": {
+          "label": "Passport-style photos",
+          "description": "Recent photos, white background.",
+          "detail": "Get them at a photo booth (foto máquina), copy shop, or photographer if you do not already have compliant photos."
+        },
+        "appointment-confirmation-doc": {
+          "label": "Cita Previa confirmation",
+          "description": "Printed booking confirmation from Step 2.",
+          "detail": "The confirmation email from Cita Previa after you booked in Step 2 — it shows the police office, date, and time. Print it or show it on your phone."
+        },
+        "print-documents": {
+          "label": "Print all documents",
+          "description": "Forms, confirmations, and copies ready to bring.",
+          "detail": "Use a copy shop if you do not have a printer. Organise everything in a folder before you leave."
+        },
+        "attend-appointment": {
+          "label": "Attend your appointment",
+          "description": "Go to the police office on your booked date and time.",
+          "detail": "Arrive early with all documents and your original passport. After fingerprints and review, you receive a resguardo — keep it safe for Step 6."
         }
       }
     },
     "collect-tie": {
       "title": "Pick Up Your TIE",
-      "short": "Return to the police station after processing to collect your physical TIE card.",
-      "description": "Once your TIE is ready (often ~30–45 days after your appointment), you return with your receipt to collect your physical card. In some cases you may need to schedule an appointment for pickup.",
-      "whyItExists": "The TIE card is produced centrally and not printed on site. The wait time is part of the card manufacturing and delivery process.",
+      "short": "Return to collect your physical card when ready.",
+      "description": "When your TIE is ready (often 30–45 days after your appointment), go back to the police station with your resguardo and passport to collect your card. Some offices require booking a pickup appointment.",
+      "whyItExists": "TIE cards are manufactured centrally and delivered to the station. The resguardo proves your application was accepted and authorizes collection.",
       "completionPrompt": "Did you collect your physical TIE card?",
       "cta": {
-        "start": "I'm going to collect my TIE",
+        "start": "I'm waiting for my TIE",
         "complete": "I got my TIE card!"
       },
       "estimatedTime": [
         {
           "label": "Processing",
-          "value": "Approx. 30–45 days after appointment"
+          "value": "About 30–45 days"
         },
         {
-          "label": "Pickup Visit",
-          "value": "30 minutes to 1 hour"
+          "label": "Pickup visit",
+          "value": "30–60 minutes"
         }
       ],
       "officialLinks": [
         {
-          "label": "TIE Collection Info (Police)"
+          "label": "Policía Nacional – TIE information"
         }
       ],
       "commonQuestions": [
         {
-          "question": "Can someone else pick it up?",
-          "answer": "Usually you must be present"
+          "question": "How do I know when it is ready?",
+          "answer": "Check the instructions on your resguardo or contact the office listed."
         },
         {
-          "question": "What if I don't pick it up?",
-          "answer": "Cards may be destroyed after a period — check local rules"
+          "question": "Can someone else collect it?",
+          "answer": "Usually you must go in person with your passport."
         }
       ],
       "requirements": {
         "resguardo": {
-          "label": "Resguardo (receipt) from fingerprint appointment",
-          "description": "Issued when you submitted your application."
+          "label": "Resguardo from your appointment",
+          "description": "The receipt police gave you in Step 5."
         },
         "passport-collection": {
-          "label": "Passport",
-          "description": "Required to verify your identity at collection."
+          "label": "Original passport",
+          "description": "Same passport used for your application."
+        },
+        "attend-pickup": {
+          "label": "Collect your TIE card",
+          "description": "Go to the office with resguardo and passport.",
+          "detail": "Bring both documents. They verify your identity before handing over the card. Check your resguardo for the exact office and whether you need a new appointment."
         }
       }
     }

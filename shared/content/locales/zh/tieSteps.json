@@ -14,23 +14,23 @@
     },
     {
       "id": 3,
-      "title": "准备文件",
-      "description": "准备 EX-17、护照复印件、照片及确认函等材料。"
+      "title": "填写 EX-17 表格",
+      "description": "VisaMesa 根据您的个人资料预填 TIE 申请表。"
     },
     {
       "id": 4,
       "title": "缴纳 TIE 费用",
-      "description": "填写 Modelo 790 code 012 并在西班牙银行完成缴费。"
+      "description": "填写 Modelo 790 code 012，打印后在西班牙银行完成缴费。"
     },
     {
       "id": 5,
-      "title": "前往预约",
-      "description": "提交材料、采集生物信息并领取 resguardo。"
+      "title": "前往指纹采集预约",
+      "description": "打印文件，前往警局并提交申请。"
     },
     {
       "id": 6,
       "title": "领取 TIE",
-      "description": "卡片就绪后返回领取实体卡。"
+      "description": "携带 resguardo 和护照返回领取卡片。"
     }
   ],
   "faqs": [
@@ -43,28 +43,28 @@
       "answer": "不可以——您需要官方的 empadronamiento 证明。"
     },
     {
-      "question": "可以请人代我预约 cita previa 吗？",
-      "answer": "可以，但您必须本人到场。"
+      "question": "如果没有租赁合同怎么办？",
+      "answer": "房东可能需要与您一同前往 Ayuntamiento。"
     },
     {
-      "question": "预约 cita previa 需要 NIE 吗？",
-      "answer": "大多数系统会要求提供 NIE/护照信息以预留名额。"
+      "question": "可以请人代我预约 cita previa 吗？",
+      "answer": "可以，但您必须本人到场。"
     },
     {
       "question": "如果没有可用的 cita previa 名额怎么办？",
       "answer": "请定期查看；名额会在随机时间开放。"
     },
     {
-      "question": "TIE 照片有特定要求吗？",
-      "answer": "有——需为护照规格、白色背景。"
+      "question": "Modelo 790 费用可以稍后缴纳吗？",
+      "answer": "不可以——请在指纹采集预约时携带缴费证明。"
     },
     {
-      "question": "Modelo 790 费用可以稍后缴纳吗？",
-      "answer": "不可以——您必须缴纳 790-012 费用并在预约时携带缴费证明。"
+      "question": "哪些银行接受 Modelo 790 code 012？",
+      "answer": "大多数西班牙主要银行均可办理——无需开户。"
     },
     {
       "question": "预约当天会当场发放 TIE 吗？",
-      "answer": "不会——需稍后领取。"
+      "answer": "不会——需稍后凭 resguardo 领取。"
     },
     {
       "question": "可以请人代领 TIE 吗？",
@@ -74,9 +74,9 @@
   "steps": {
     "empadronamiento": {
       "title": "登记住址",
-      "short": "在当地 Ayuntamiento 登记您的住址（empadronamiento）。",
-      "description": "Empadronamiento 是在巴塞罗那市政登记册中正式登记您的居住地址。它证明您居住在特定社区，是许多正式手续（包括 TIE 预约）的必要条件。",
-      "whyItExists": "西班牙行政体系使用 empadronamiento 来证明居住地址，用于医疗、入学及移民等行政手续。",
+      "short": "在 Ayuntamiento 办理 empadronamiento。",
+      "description": "准备材料，如有需要请预约 Ayuntamiento 访问，并本人到场领取 empadronamiento 证明。VisaMesa 可协助预约；登记住址须您本人前往办事处办理。",
+      "whyItExists": "Empadronamiento 在巴塞罗那市政登记册中登记您的居住地址。移民及许多其他手续均要求证明您居住在特定地址。",
       "completionPrompt": "您是否已在 Ayuntamiento 领取 empadronamiento 证明？",
       "cta": {
         "start": "我要去登记住址",
@@ -84,16 +84,16 @@
       },
       "estimatedTime": [
         {
-          "label": "通常耗时",
-          "value": "在 Ayuntamiento 停留 1–3 小时 + 等待预约时间"
+          "label": "在办事处",
+          "value": "含等待约 1–3 小时"
         },
         {
           "label": "预约等待",
-          "value": "因市政厅而异（通常 1–2 周）*"
+          "value": "巴塞罗那通常 1–2 周"
         },
         {
           "label": "证明有效期",
-          "value": "证明通常有效期为 90 天"
+          "value": "办理 TIE 通常需在 90 天内"
         }
       ],
       "officialLinks": [
@@ -101,42 +101,49 @@
           "label": "巴塞罗那市政府 – Empadronamiento"
         },
         {
-          "label": "巴塞罗那市民服务信息"
+          "label": "Barcelona International Welcome"
         }
       ],
       "commonQuestions": [
         {
           "question": "需要预约吗？",
-          "answer": "通常需要——请咨询当地 Ayuntamiento"
+          "answer": "通常需要——请查阅巴塞罗那在线办事处或致电所在区办事处。"
         },
         {
-          "question": "仅凭租赁合同可以吗？",
-          "answer": "不可以——您需要官方的 empadronamiento 证明"
+          "question": "如果没有租赁合同怎么办？",
+          "answer": "房东通常需携带身份证件到场并签署授权书。"
         },
         {
           "question": "证明必须在多久以内开具？",
-          "answer": "通常需在 90 天内"
+          "answer": "办理 TIE 时，通常需在 90 天内开具。"
         }
       ],
       "requirements": {
         "passport-nie": {
-          "label": "有效护照和 NIE"
+          "label": "有效护照和 NIE",
+          "description": "请携带原件前往 Ayuntamiento。"
         },
         "proof-of-residence": {
           "label": "租赁合同或居住证明",
-          "description": "租赁合同、房产契约或房东授权书（视您的住房情况而定）。"
+          "description": "已签名的合同、房产契约或房东授权书。"
         },
         "appointment-confirmation": {
           "label": "预约确认函",
-          "description": "部分 Ayuntamiento 要求先预约再前往办理。"
+          "description": "预约访问——VisaMesa 可协助办理。",
+          "detail": "预约后，巴塞罗那市政府（Oficina Virtual）会发送确认邮件，注明办事处地址、日期和时间。赴约前请保存或打印该邮件。"
+        },
+        "attend-ayuntamiento": {
+          "label": "到场并领取证明",
+          "description": "本人携带上述全部材料到场。",
+          "detail": "领取 volante 或 certificado de empadronamiento。未拿到证明则此步骤未完成。"
         }
       }
     },
     "toma-de-huellas": {
       "title": "预约指纹采集",
-      "short": "在线预约提交 TIE 申请并进行指纹采集。",
-      "description": "申请 TIE 前，您必须在西班牙政府官方网站预约 cita previa。届时您将提交材料并完成指纹采集。巴塞罗那需求量大，名额往往很快约满，尤其在高峰月份（如九月）。",
-      "whyItExists": "西班牙警方要求本人到场验证并采集指纹以办理身份证件。预约制度有助于有序办理和身份核验。",
+      "short": "预约 cita previa 进行指纹采集和材料提交。",
+      "description": "在警方官方网站预约「Toma de huellas」（指纹采集）的 cita previa。VisaMesa 使用您的个人资料填写预约表单，并可搜索可用名额。预约后，您将收到 Cita Previa（Ministerio de Política Territorial y Memoria Democrática）发送的官方确认邮件，注明警局、日期和时间——请保存或打印，第 5 步需要用到。",
+      "whyItExists": "西班牙警方要求 TIE 申请必须预约。巴塞罗那名额有限且很快约满，尤其在九月。",
       "completionPrompt": "您是否已保存或打印 Cita Previa 预约确认函？",
       "cta": {
         "start": "我要去预约",
@@ -144,129 +151,85 @@
       },
       "estimatedTime": [
         {
-          "label": "查找时间",
-          "value": "持续查看名额 1–10 天"
+          "label": "查找名额",
+          "value": "持续查看 1–10 天"
         },
         {
-          "label": "通常预约间隔",
-          "value": "距实际预约日 1–3 周"
-        },
-        {
-          "label": "提示",
-          "value": "请频繁刷新，新名额可能在随机时间开放"
+          "label": "距预约日",
+          "value": "通常 1–3 周"
         }
       ],
       "officialLinks": [
         {
-          "label": "Cita Previa – 官方预约系统（警方）"
+          "label": "Cita Previa – 国家警察"
         }
       ],
       "commonQuestions": [
         {
           "question": "可以请人代我预约吗？",
-          "answer": "可以，但您必须本人到场"
-        },
-        {
-          "question": "预约需要 NIE 吗？",
-          "answer": "大多数系统会要求提供 NIE/护照信息以预留名额"
+          "answer": "可以，但您必须本人到场。"
         },
         {
           "question": "如果没有可用名额怎么办？",
-          "answer": "请定期查看；名额会在随机时间开放"
+          "answer": "请持续查看——新名额会在随机时间开放，常在清晨。"
         }
       ],
       "requirements": {
-        "personal-id-details": {
-          "label": "个人身份信息",
-          "description": "预约时需要提供护照号码、国籍及基本个人信息。"
-        },
-        "cita-previa-access": {
-          "label": "访问官方 Cita Previa 网站",
-          "link": {
-            "label": "预约指纹采集"
-          }
-        },
         "appointment-confirmation": {
           "label": "预约确认函",
-          "description": "请打印或保存确认函，前往警局时携带。"
+          "description": "通过 VisaMesa 或官方网站预约。",
+          "detail": "预约后，Cita Previa 会发送官方确认邮件，注明警局、日期和时间。请打印或保存该邮件——第 5 步赴警局时需要携带。",
+          "link": {
+            "label": "Cita Previa 官方网站"
+          }
         }
       }
     },
     "required-documents": {
-      "title": "准备所需文件",
-      "short": "在预约前收集并整理所有所需材料。",
-      "description": "请将所有必需文件打印并整理好。这样可以避免预约被拒——哪怕缺少一份材料，往往也需要重新预约并等待更长时间。",
-      "whyItExists": "西班牙行政手续对完整性和准确性要求严格——官方表格、护照复印件、缴费证明和各类证书都必须完全符合要求。",
-      "completionPrompt": "您是否已打印并整理好预约所需的全部文件？",
+      "title": "填写 EX-17 表格",
+      "short": "VisaMesa 预填您的 TIE 申请表。",
+      "description": "查看 VisaMesa 根据您的个人资料填写的 EX-17 申请表。确认信息无误——您将在第 5 步指纹采集预约前打印并签名。",
+      "whyItExists": "EX-17 是官方的 TIE 申请表。警方要求预约时携带填写完整并签名的副本。",
+      "completionPrompt": "您是否已核对 EX-17 表格并准备好打印？",
       "cta": {
-        "start": "我要去准备文件",
-        "complete": "我已备齐所有文件"
+        "start": "我要去核对表格",
+        "complete": "我的 EX-17 已就绪"
       },
       "estimatedTime": [
         {
-          "label": "准备时间",
-          "value": "收集并复印材料需 1–3 天"
-        },
-        {
-          "label": "Empadronamiento 有效期",
-          "value": "开具时间不超过 3 个月"
-        },
-        {
-          "label": "照片",
-          "value": "近期、符合护照规格"
+          "label": "在 VisaMesa 中",
+          "value": "核对约需 5–10 分钟"
         }
       ],
       "officialLinks": [
         {
-          "label": "巴塞罗那 TIE 信息 – 国家警察"
+          "label": "EX-17 表格（官方来源）"
         }
       ],
       "commonQuestions": [
         {
-          "question": "照片有特定要求吗？",
-          "answer": "有——需为护照规格、白色背景"
+          "question": "现在就要提交表格吗？",
+          "answer": "不需要——请打印并在第 5 步指纹采集预约时携带。"
         },
         {
-          "question": "费用可以稍后缴纳吗？",
-          "answer": "不可以——您必须缴纳 790-012 费用并在预约时携带缴费证明"
-        },
-        {
-          "question": "文件可以是英文的吗？",
-          "answer": "若非西班牙语，多数需要翻译——请查阅原籍国相关规定"
+          "question": "如果个人资料有误怎么办？",
+          "answer": "请先更新个人资料，然后重新核对表格。"
         }
       ],
       "requirements": {
         "ex-17-form": {
-          "label": "填写完整的 EX-17 申请表"
-        },
-        "valid-passport": {
-          "label": "有效护照",
-          "description": "原件及主页、签证/入境章页的复印件。"
-        },
-        "student-visa": {
-          "label": "学生签证或居留许可",
-          "description": "证明获准停留超过 6 个月。"
-        },
-        "empadronamiento-certificate": {
-          "label": "Empadronamiento 证明",
-          "description": "本地住址登记证明。"
-        },
-        "passport-photos": {
-          "label": "护照规格照片",
-          "description": "近期彩色照片，白色背景。"
-        },
-        "appointment-confirmation-doc": {
-          "label": "预约确认函",
-          "description": "自 Cita Previa 网站打印的确认函。"
+          "label": "EX-17 申请表",
+          "description": "查看 VisaMesa 为您填写的表格。",
+          "detail": "逐项核对是否与护照和签证一致。请在预约前在指定位置签名。"
         }
       }
     },
     "pay-fee": {
       "title": "缴纳 TIE 签发费用",
-      "short": "在预约前填写并缴纳官方 Modelo 790 code 012 费用。",
-      "description": "您必须在 TIE 预约前填写官方 Modelo 790 缴费表（code 012）并在西班牙银行完成缴费。预约时需携带缴费证明——若无证明，申请可能被当场拒绝。",
-      "whyItExists": "该费用是办理和制作 TIE 卡的法定要求。在预约前完成缴费表明您的办理意愿，并覆盖相关行政成本。",
-      "completionPrompt": "您是否已缴纳 Modelo 790 费用并收到缴费回执？",
+      "short": "填写 Modelo 790，打印后在银行缴费。",
+      "description": "VisaMesa 根据您的个人资料填写 Modelo 790 code 012。打印全部副本，在西班牙银行缴费并保留盖章回执——指纹采集预约时必须携带。",
+      "whyItExists": "缴纳官方费用是 TIE 办理的必要条件。银行盖章的表格是缴费证明。",
+      "completionPrompt": "您是否已缴费并收到盖章回执？",
       "cta": {
         "start": "我要去缴纳费用",
         "complete": "我已缴纳 TIE 费用"
@@ -274,142 +237,190 @@
       "estimatedTime": [
         {
           "label": "银行办理",
-          "value": "在银行网点停留 30 分钟至 1 小时"
+          "value": "30–60 分钟"
         },
         {
-          "label": "处理时间",
-          "value": "缴费回执当场出具"
-        },
-        {
-          "label": "费用范围",
-          "value": "约 16–22 欧元，视许可类型而定"
+          "label": "费用",
+          "value": "约 16–22 欧元"
         }
       ],
       "officialLinks": [
         {
-          "label": "下载 Modelo 790（政府）"
-        },
-        {
-          "label": "费用信息 – 移民门户"
+          "label": "Modelo 790 Code 012（官方）"
         }
       ],
       "commonQuestions": [
         {
-          "question": "可以在线缴费吗？",
-          "answer": "code 012 通常需在银行办理——请确认您的网银是否支持"
+          "question": "需要银行账户吗？",
+          "answer": "不需要——可在大多数主要银行柜台以现金缴费。"
         },
         {
-          "question": "必须使用正确的代码吗？",
-          "answer": "是的——TIE 签发须使用 code 012"
+          "question": "可以在线缴费吗？",
+          "answer": "仅可使用 Cl@ve 或数字证书——多数学生在银行网点缴费。"
         }
       ],
       "requirements": {
         "modelo-790-form": {
-          "label": "Modelo 790 Code 012 表格"
+          "label": "Modelo 790 Code 012 表格",
+          "description": "查看 VisaMesa 为您填写的表格。",
+          "detail": "打印前请确认个人信息和手续类型无误。"
+        },
+        "print-modelo-790": {
+          "label": "打印表格",
+          "description": "打印全部副本——条形码必须清晰可辨。",
+          "detail": "PDF 包含三份副本。请在要求处签名。如无打印机，可前往复印店。"
+        },
+        "pay-at-bank": {
+          "label": "在西班牙银行缴费",
+          "description": "CaixaBank、Santander、BBVA 等银行均可办理。",
+          "detail": "无需开户。可在柜台缴费，部分银行也可扫描条形码在 ATM 缴费。"
         },
         "fee-payment-receipt": {
-          "label": "缴费回执",
-          "description": "银行缴费后出具的回执——预约时必须携带。"
-        },
-        "fee-form-source": {
-          "label": "官方缴费表格来源",
-          "link": {
-            "label": "Modelo 790 Code 012"
-          }
+          "label": "盖章缴费回执",
+          "description": "保留银行盖章的副本，预约时携带。",
+          "detail": "若无此回执，警方可能当场拒绝受理申请。"
         }
       }
     },
     "fingerprint-appointment": {
       "title": "前往指纹采集预约",
-      "short": "按预约时间携带全部文件到场——采集指纹并提交申请。",
-      "description": "预约当天，您将在警局提交全部材料、采集指纹和照片，并领取 resguardo（受理回执）。该回执确认您的申请已受理，并告知 TIE 的领取时间和地点。",
-      "whyItExists": "此步骤需本人到场以核验身份（生物信息），并确保卡面信息准确且与您的指纹关联。",
+      "short": "打印全部材料，前往警局提交申请。",
+      "description": "准备下方所列全部文件，打印需要打印的材料，并按 Cita Previa 预约时间前往。您将提交材料、采集指纹和照片，并领取 resguardo（受理回执）及领取说明。",
+      "whyItExists": "警方需本人到场核验身份、采集生物信息并受理申请。缺少材料通常需要重新预约。",
       "completionPrompt": "您是否已到场完成预约并领取 resguardo？",
       "cta": {
-        "start": "我要去赴约",
-        "complete": "我已完成预约"
+        "start": "我要去准备预约",
+        "complete": "我已到场并领取 resguardo"
       },
       "estimatedTime": [
         {
-          "label": "预约时长",
+          "label": "在警局",
           "value": "30–60 分钟"
         },
         {
-          "label": "行政处理",
+          "label": "之后",
           "value": "resguardo 当场发放"
         }
       ],
       "officialLinks": [
         {
-          "label": "TIE 官方信息（Barcelona International Welcome）"
+          "label": "巴塞罗那 TIE 信息"
+        },
+        {
+          "label": "Cita Previa – 国家警察"
         }
       ],
       "commonQuestions": [
         {
           "question": "如果忘记带某份文件怎么办？",
-          "answer": "预约可能被取消——您需要重新预约"
+          "answer": "可能被拒收——需重新预约后再试。"
         },
         {
-          "question": "会当场发放 TIE 吗？",
-          "answer": "不会——需稍后领取"
+          "question": "当天会拿到 TIE 卡吗？",
+          "answer": "不会——您会收到 resguardo，卡片需稍后领取。"
         }
       ],
       "requirements": {
-        "documents-from-step-3": {
-          "label": "第 3 步准备的所有必需文件"
+        "ex-17-form": {
+          "label": "已签名的 EX-17 表格",
+          "description": "来自第 3 步——已打印并签名。",
+          "detail": "您已在第 3 步于 VisaMesa 中确认 EX-17。请打印、在指定位置签名并携带签名副本——打印后应用内不再保存该文件。"
         },
-        "fee-payment-proof": {
-          "label": "缴费证明（Modelo 790 回执）"
+        "modelo-790-receipt": {
+          "label": "已缴费的 Modelo 790（盖章回执）",
+          "description": "来自第 4 步——您手中的银行盖章副本。",
+          "detail": "这是第 4 步在银行缴费时获得的实体盖章回执。VisaMesa 无法查看或分享——请确认您已随身携带该盖章副本。"
         },
-        "original-passport": {
+        "valid-passport": {
           "label": "护照原件",
-          "description": "用于身份核验。"
+          "description": "须在有效期内且与申请信息一致。",
+          "detail": "您的护照原件——请随身携带，而非复印件。"
+        },
+        "passport-copies": {
+          "label": "护照复印件",
+          "description": "照片页及签证/入境章页。",
+          "detail": "可在家、复印店（copistería）或许多打印点制作。请携带照片页及签证或入境章页复印件。"
+        },
+        "student-visa": {
+          "label": "学生签证或长期居留许可",
+          "description": "允许停留超过 90 天的签证或许可。",
+          "detail": "母国领事馆签发于您护照内的签证或许可。"
+        },
+        "empadronamiento-certificate": {
+          "label": "Empadronamiento 证明",
+          "description": "通常需在 90 天内开具。",
+          "detail": "第 1 步在市政府（Ayuntamiento）领取的 volante 或 certificado de empadronamiento。"
+        },
+        "passport-photos": {
+          "label": "护照规格照片",
+          "description": "近期照片，白色背景。",
+          "detail": "如尚无符合要求的照片，可在照相亭（foto máquina）、复印店或照相馆拍摄。"
+        },
+        "appointment-confirmation-doc": {
+          "label": "Cita Previa 确认函",
+          "description": "第 2 步预约的打印确认函。",
+          "detail": "第 2 步预约后 Cita Previa 发送的确认邮件——注明警局、日期和时间。请打印或在手机上展示。"
+        },
+        "print-documents": {
+          "label": "打印全部文件",
+          "description": "表格、确认函和复印件准备就绪。",
+          "detail": "如无打印机，可前往复印店。出发前请将材料整理入文件夹。"
+        },
+        "attend-appointment": {
+          "label": "按时赴约",
+          "description": "在预约日期和时间前往警局。",
+          "detail": "请提前到达，携带全部材料及护照原件。完成指纹采集和审核后，您将收到 resguardo——请妥善保管，第 6 步需要用到。"
         }
       }
     },
     "collect-tie": {
       "title": "领取 TIE",
-      "short": "卡片制作完成后返回警局领取实体 TIE 卡。",
-      "description": "TIE 就绪后（通常在预约后约 30–45 天），您需携带 resguardo 返回领取实体卡。部分情况下可能需要预约领取时间。",
-      "whyItExists": "TIE 卡集中制作，不在现场打印。等待时间是卡片制作和发放流程的一部分。",
+      "short": "卡片就绪后返回领取实体卡。",
+      "description": "TIE 就绪后（通常在预约后约 30–45 天），携带 resguardo 和护照返回警局领取卡片。部分办事处要求预约领取时间。",
+      "whyItExists": "TIE 卡集中制作后送至警局。Resguardo 证明您的申请已被受理，并授权领取卡片。",
       "completionPrompt": "您是否已领取实体 TIE 卡？",
       "cta": {
-        "start": "我要去领取 TIE",
+        "start": "我在等待 TIE",
         "complete": "我已拿到 TIE 卡！"
       },
       "estimatedTime": [
         {
           "label": "制作周期",
-          "value": "预约后约 30–45 天"
+          "value": "约 30–45 天"
         },
         {
           "label": "领取耗时",
-          "value": "30 分钟至 1 小时"
+          "value": "30–60 分钟"
         }
       ],
       "officialLinks": [
         {
-          "label": "TIE 领取信息（警方）"
+          "label": "国家警察 – TIE 信息"
         }
       ],
       "commonQuestions": [
         {
-          "question": "可以请人代领吗？",
-          "answer": "通常需要本人到场"
+          "question": "如何知道卡片已就绪？",
+          "answer": "请查看 resguardo 上的说明，或联系所列办事处。"
         },
         {
-          "question": "如果一直不去领取会怎样？",
-          "answer": "卡片可能在一定期限后被销毁——请查阅当地规定"
+          "question": "可以请人代领吗？",
+          "answer": "通常需要本人携带护照到场。"
         }
       ],
       "requirements": {
         "resguardo": {
-          "label": "指纹采集预约的 resguardo",
-          "description": "提交申请时发放。"
+          "label": "预约时的 resguardo",
+          "description": "警方在第 5 步交给您的回执。"
         },
         "passport-collection": {
-          "label": "护照",
-          "description": "领取时用于身份核验。"
+          "label": "护照原件",
+          "description": "申请时使用的同一本护照。"
+        },
+        "attend-pickup": {
+          "label": "领取 TIE 卡",
+          "description": "携带 resguardo 和护照前往办事处。",
+          "detail": "请携带两份文件。工作人员会在发卡前核验身份。请查看 resguardo 上的具体办事处及是否需要重新预约。"
         }
       }
     }

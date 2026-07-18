@@ -1,5 +1,6 @@
 import React, {useEffect, useRef} from 'react';
 import {Animated, Modal, Pressable, View, StyleSheet} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Surface} from '@/components/ui/Surface';
@@ -10,7 +11,7 @@ import {SCRIM_OPACITY} from '@/theme/elevation';
 export type DialogAction = {
   label: string;
   onPress: () => void;
-  variant?: 'primary' | 'outline' | 'tonal';
+  variant?: 'primary' | 'outline' | 'tonal' | 'destructive';
 };
 
 export type DialogProps = {
@@ -21,6 +22,8 @@ export type DialogProps = {
   children: React.ReactNode;
   /** Action buttons (up to 3 recommended) */
   actions?: DialogAction[];
+  /** When false, backdrop press and Android back do not dismiss the dialog */
+  dismissable?: boolean;
 };
 
 export function Dialog({
@@ -29,8 +32,10 @@ export function Dialog({
   title,
   children,
   actions,
+  dismissable = true,
 }: DialogProps) {
   const {styles, theme} = useStyles(stylesheet);
+  const {t} = useTranslation('common');
   const scrimOpacity = useRef(new Animated.Value(0)).current;
   const dialogScale = useRef(new Animated.Value(0.9)).current;
 
@@ -65,30 +70,49 @@ export function Dialog({
     }
   }, [visible, scrimOpacity, dialogScale]);
 
+  const handleClose = () => {
+    if (dismissable) {
+      onClose();
+    }
+  };
+
   return (
     <Modal
       visible={visible}
       transparent
       animationType="none"
-      onRequestClose={onClose}
+      onRequestClose={handleClose}
       statusBarTranslucent>
       <View style={styles.overlay}>
         <View style={StyleSheet.absoluteFill}>
-          <Pressable
-            style={styles.scrimPressable}
-            onPress={onClose}
-            accessibilityRole="button"
-            accessibilityLabel="Close dialog">
+          {dismissable ? (
+            <Pressable
+              style={styles.scrimPressable}
+              onPress={handleClose}
+              accessibilityRole="button"
+              accessibilityLabel={t('dialog.closeAccessibilityLabel')}>
+              <Animated.View
+                style={[
+                  styles.scrim,
+                  {
+                    opacity: scrimOpacity,
+                    backgroundColor: theme.colors.scrim,
+                  },
+                ]}
+              />
+            </Pressable>
+          ) : (
             <Animated.View
               style={[
                 styles.scrim,
+                StyleSheet.absoluteFillObject,
                 {
                   opacity: scrimOpacity,
                   backgroundColor: theme.colors.scrim,
                 },
               ]}
             />
-          </Pressable>
+          )}
         </View>
         <Animated.View
           style={[

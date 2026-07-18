@@ -13,5 +13,42 @@
     "message": "请先完善个人资料，我们才能开始办理。",
     "notNow": "暂不",
     "action": "完善资料"
+  },
+  "consentDialog": {
+    "title": "隐私与数据保护",
+    "message": "保存个人信息前，请阅读并接受我们的数据保护政策。",
+    "privacyPolicy": "隐私政策",
+    "termsOfService": "服务条款",
+    "gdprNote": "您的数据在设备上加密，我们遵循欧盟 GDPR。您可随时删除数据。",
+    "decline": "拒绝",
+    "accept": "接受并继续",
+    "accepting": "保存中…",
+    "recordFailed": "无法记录您的同意，请重试。"
+  },
+  "account": {
+    "exportShareTitle": "VisaMesa 数据导出",
+    "exportNote": "客户端个人资料仅可在此设备上解密",
+    "exportDialogTitle": "导出数据",
+    "exportFailedTitle": "导出失败",
+    "exportFailedMessage": "无法导出您的数据",
+    "deleteTitle": "删除账户",
+    "deleteMessage": "这将永久删除您的账户及所有相关数据，且无法撤销。\n\n您的数据将从我们的服务器和您的设备上删除。",
+    "deletedTitle": "账户已删除",
+    "deletedMessage": "您的账户及所有数据已永久删除。",
+    "deletionFailedTitle": "删除失败",
+    "deletionFailedMessage": "无法删除您的账户，请重试。",
+    "documentsSection": "法律文件",
+    "privacyPolicyTitle": "隐私政策",
+    "privacyPolicyDescription": "我们如何处理您的数据",
+    "termsTitle": "服务条款",
+    "termsDescription": "条款与条件",
+    "dataRightsSection": "您的数据权利",
+    "exportTitle": "导出我的数据",
+    "exportDescription": "下载您的全部信息",
+    "exportingDescription": "导出中…",
+    "deleteAccountTitle": "删除我的账户",
+    "deleteAccountDescription": "永久删除您的账户和数据",
+    "deletingDescription": "删除中…",
+    "gdprFooter": "您的个人数据在设备上加密。我们遵循欧盟 GDPR，并提供工具帮助您管理隐私权利。"
   }
 }

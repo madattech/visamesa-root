@@ -10,6 +10,10 @@
     "confirm": "确认",
     "gotIt": "知道了",
     "ok": "确定",
+    "delete": "删除",
+    "logout": "退出登录",
+    "stop": "停止",
+    "decline": "拒绝",
     "seeStatus": "查看状态",
     "learnMore": "了解更多",
     "skipToContent": "跳至正文"
@@ -26,7 +30,12 @@
   },
   "errors": {
     "generic": "出了点问题，请重试。",
+    "title": "错误",
+    "openLink": "无法打开链接",
     "loadServices": "无法加载服务，请刷新页面。"
+  },
+  "dialog": {
+    "closeAccessibilityLabel": "关闭对话框"
   },
   "footer": {
     "privacyPolicy": "隐私政策",
@@ -36,5 +45,19 @@
   "languageSwitcher": {
     "label": "语言",
     "current": "当前语言：{{language}}"
+  },
+  "automation": {
+    "missingProfile": "缺少案例资料信息",
+    "stopTitle": "停止自动化",
+    "stopMessage": "确定要停止自动化吗？",
+    "successTitle": "成功！",
+    "successMessage": "您的预约已预订：{{date}} {{time}}",
+    "bookingFailedTitle": "预订失败",
+    "unknownError": "未知错误"
+  },
+  "cases": {
+    "fetchFailed": "无法获取案例",
+    "logoutTitle": "退出登录",
+    "logoutMessage": "确定要退出登录吗？"
   }
 }

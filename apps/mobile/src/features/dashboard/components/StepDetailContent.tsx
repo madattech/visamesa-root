@@ -20,7 +20,7 @@ export function StepDetailContent({step}: StepDetailContentProps) {
 
   const handleExpand = (layoutY: number) => {
     if (collapsingHeaderScroll) {
-      collapsingHeaderScroll.scrollToY(layoutY - 20);
+      collapsingHeaderScroll.scrollToY(layoutY - theme.spacing.lg);
     }
   };
 
@@ -70,9 +70,9 @@ export function StepDetailContent({step}: StepDetailContentProps) {
             {step.requirements.map(requirement => (
               <View key={requirement.key} style={styles.listItem}>
                 <Text variant="bodyMedium">{requirement.label}</Text>
-                {requirement.description ? (
+                {requirement.detail ?? requirement.description ? (
                   <Text variant="bodySmall" color="onSurfaceVariant">
-                    {requirement.description}
+                    {requirement.detail ?? requirement.description}
                   </Text>
                 ) : null}
               </View>

@@ -11,7 +11,9 @@ export function createTieStep(overrides: Partial<TieStepDetail> = {}): TieStepDe
     officialLinks: [{label: 'Official link', url: 'https://example.com'}],
     whyItExists: 'Why it exists',
     commonQuestions: [{question: 'Question?', answer: 'Answer.'}],
-    requirements: [{key: 'passport', label: 'Passport', type: 'self_declared'}],
+    requirements: [
+      {key: 'passport', label: 'Passport', type: 'self_declared', location: 'in_app'},
+    ],
     cta: {
       start: "I'm starting this step",
       complete: 'I completed this step',

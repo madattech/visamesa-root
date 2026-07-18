@@ -52,10 +52,12 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onStepPress,
     onStepDetailPress,
     onCompleteStep,
-    onSelfDeclaredToggle,
+    onRequirementCheckboxToggle,
     onAutomationPress,
     onViewAppointmentPress,
     onClearAutomationPress,
+    onDevMarkAutomationBookedPress,
+    onDevConfirmFormPress,
     onFormPress,
     onCloseCompleteProfileDialog,
     onCompleteProfilePress,
@@ -125,10 +127,12 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
           <RequirementsChecklist
             requirements={currentStepRequirements}
             interactive={canInteractWithRequirements}
-            onSelfDeclaredToggle={onSelfDeclaredToggle}
+            onRequirementCheckboxToggle={onRequirementCheckboxToggle}
             onAutomationPress={onAutomationPress}
             onViewAppointmentPress={onViewAppointmentPress}
             onClearAutomationPress={onClearAutomationPress}
+            onDevMarkAutomationBookedPress={onDevMarkAutomationBookedPress}
+            onDevConfirmFormPress={onDevConfirmFormPress}
             onFormPress={onFormPress}
           />
         </ScrollView>

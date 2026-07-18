@@ -1,24 +1,35 @@
 import {useEffect, useMemo, useState} from 'react';
-import {Alert} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {useToast} from '@/components/Toast/ToastProvider';
+import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useAuth} from '@/contexts/AuthContext';
 import {useEntitlements} from '@/contexts/EntitlementsContext';
+import {useProfileCompletion} from '@/contexts/ProfileCompletionContext';
 import {usePricingLink} from '@/hooks/usePricingLink';
 import {RequirementWithProgress} from '@/features/dashboard/components/RequirementsChecklist';
 import {formatAppointmentDetailsMessage} from '@/features/dashboard/data/dashboardContent';
+import {syncEmpadronamientoStepFromProfile} from '@/features/dashboard/services/empadronamientoProgressService';
+import {
+  reconcileStepStatuses,
+} from '@/features/dashboard/services/progressReconciliationService';
+import {saveUserProgress, subscribeToProgressReset} from '@/features/dashboard/services/progressService';
 import {useUserProgress} from '@/features/dashboard/hooks/useUserProgress';
-import {UserProgress} from '@/features/dashboard/types/UserProgress';
+import {ProgressContext, UserProgress} from '@/features/dashboard/types/UserProgress';
+import {formatCompletedInHint} from '@/features/dashboard/utils/completionHints';
+import {getRequirementToggleState} from '@/features/dashboard/utils/requirementDependencies';
 import {
   areAllRequirementsComplete,
+  arePreviousStepsCompleted,
   getCompletedStepIds,
   getEffectiveRequirementProgress,
-  getNextIncompleteStepId,
-  isStepCompleted,
+  getFirstIncompleteStepId,
+  getStepStatus,
+  isRequirementExternallyCompleted,
 } from '@/features/dashboard/utils/progressUtils';
+import {getProfile} from '@/features/profile/services/profileService';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {AutomationId, TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {useProcessReadiness} from '@/hooks/useProcessReadiness';
@@ -62,10 +73,12 @@ export type UseDashboardScreenResult = {
   onStepPress: (stepId: number) => void;
   onStepDetailPress: () => void;
   onCompleteStep: () => void;
-  onSelfDeclaredToggle: (label: string) => void;
+  onRequirementCheckboxToggle: (requirementKey: string) => void;
   onAutomationPress: (automationId: AutomationId, label: string) => void;
   onViewAppointmentPress: (label: string) => void;
   onClearAutomationPress: (label: string) => void;
+  onDevMarkAutomationBookedPress?: (automationId: AutomationId, label: string) => void;
+  onDevConfirmFormPress?: (formId: string, label: string) => void;
   onFormPress: (formId: string, label: string) => void;
   onCloseCompleteProfileDialog: () => void;
   onCompleteProfilePress: () => void;
@@ -74,28 +87,38 @@ export type UseDashboardScreenResult = {
 function buildRequirementsWithProgress(
   progress: UserProgress,
   step: TieStepDetail,
-  getCompletedInStepHint: (stepId: number) => string,
+  context: ProgressContext,
+  steps: TieStepDetail[],
+  tDashboard: (key: string, options?: Record<string, unknown>) => string,
 ): RequirementWithProgress[] {
   return step.requirements.map(requirement => {
     const effectiveProgress = getEffectiveRequirementProgress(
       progress,
       step,
       requirement.key,
+      context,
     );
 
-    const referencedComplete =
-      requirement.referencesStepId &&
-      isStepCompleted(progress, requirement.referencesStepId);
-
-    const hint = referencedComplete
-      ? getCompletedInStepHint(requirement.referencesStepId!)
+    const isReferenced = isRequirementExternallyCompleted(effectiveProgress);
+    const hint = isReferenced
+      ? formatCompletedInHint(tDashboard, effectiveProgress.source)
       : undefined;
+    const toggleState = getRequirementToggleState(
+      progress,
+      step,
+      requirement.key,
+      context,
+      steps,
+    );
 
     return {
       ...requirement,
       progress: effectiveProgress,
       hint,
-      isReferenced: Boolean(referencedComplete),
+      isReferenced,
+      canCheck: isReferenced ? false : toggleState.canCheck,
+      canUncheck: isReferenced ? false : toggleState.canUncheck,
+      showDocumentActions: toggleState.showDocumentActions,
     };
   });
 }
@@ -109,25 +132,74 @@ export function useDashboardScreen(
   const {user, isLoading: isAuthLoading} = useAuth();
   const {canUseAutomation: canUseAutomationEntitlement} = useEntitlements();
   const {showToast} = useToast();
+  const {showAlert} = useAppDialog();
   const {openPricing} = usePricingLink();
   const {steps, isLoading: isStepsLoading, error: stepsError} = useTieSteps();
   const {
     progress,
     isLoading: isProgressLoading,
     error: progressError,
+    refreshProgress,
     completeStep,
     toggleSelfDeclaredRequirement,
     clearAutomationRequirement,
     completeFormRequirement,
+    completeAutomationRequirement,
   } = useUserProgress();
   const {canStartProcess} = useProcessReadiness();
+  const {isProfileComplete} = useProfileCompletion();
 
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
   const [showCompleteProfileDialog, setShowCompleteProfileDialog] = useState(false);
+  const [hasSyncedEmpadronamiento, setHasSyncedEmpadronamiento] = useState(false);
 
-  const activeStepId = progress
-    ? getNextIncompleteStepId(progress, steps)
-    : 1;
+  const progressContext = useMemo<ProgressContext>(
+    () => ({
+      isProfileComplete,
+      allSteps: steps,
+    }),
+    [isProfileComplete, steps],
+  );
+
+  useEffect(() => {
+    return subscribeToProgressReset(() => {
+      setHasSyncedEmpadronamiento(false);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!progress || !steps.length || hasSyncedEmpadronamiento) {
+      return;
+    }
+
+    let cancelled = false;
+
+    getProfile()
+      .then(async profileData => {
+        if (cancelled) {
+          return;
+        }
+
+        let next = await syncEmpadronamientoStepFromProfile(progress, profileData);
+        next = reconcileStepStatuses(next, steps, progressContext);
+
+        if (JSON.stringify(next) !== JSON.stringify(progress)) {
+          await saveUserProgress(next);
+          await refreshProgress();
+        }
+
+        setHasSyncedEmpadronamiento(true);
+      })
+      .catch(() => {
+        setHasSyncedEmpadronamiento(true);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [hasSyncedEmpadronamiento, progress, progressContext, refreshProgress, steps]);
+
+  const activeStepId = progress ? getFirstIncompleteStepId(progress, steps) : 1;
 
   useEffect(() => {
     if (progress && selectedStepId === null) {
@@ -147,36 +219,41 @@ export function useDashboardScreen(
     [progress],
   );
 
-  const isCurrentStepCompleted = progress
-    ? isStepCompleted(progress, currentStepId)
-    : false;
+  const isCurrentStepCompleted = Boolean(
+    progress && getStepStatus(progress, currentStepId) === 'completed',
+  );
 
   const currentStepRequirements = useMemo(() => {
     if (!progress || !currentStep) {
       return [];
     }
 
-    const getCompletedInStepHint = (stepId: number) =>
-      tDashboard('completedInStepHint', {stepId});
-
     return buildRequirementsWithProgress(
       progress,
       currentStep,
-      getCompletedInStepHint,
+      progressContext,
+      steps,
+      (key, options) => tDashboard(key, options),
     );
-  }, [currentStep, progress, tDashboard]);
+  }, [currentStep, progress, progressContext, steps, tDashboard]);
 
   const canCompleteStep = Boolean(
     progress &&
       currentStep &&
       !isCurrentStepCompleted &&
-      currentStepId === activeStepId &&
-      areAllRequirementsComplete(progress, currentStep) &&
+      arePreviousStepsCompleted(progress, currentStepId, steps) &&
+      areAllRequirementsComplete(progress, currentStep, progressContext) &&
       canStartProcess,
   );
 
-  const canInteractWithRequirements =
-    !isCurrentStepCompleted && canStartProcess;
+  const canInteractWithRequirements = Boolean(
+    progress &&
+      currentStep &&
+      !isCurrentStepCompleted &&
+      (currentStepId === 1 ||
+        arePreviousStepsCompleted(progress, currentStepId, steps)) &&
+      canStartProcess,
+  );
 
   const stepActionLabel = useMemo(() => {
     if (!canStartProcess) {
@@ -186,15 +263,26 @@ export function useDashboardScreen(
   }, [canStartProcess, currentStep, tDashboard, tHome]);
 
   const stepActionDisabledHint = useMemo(() => {
-    if (!isCurrentStepCompleted && currentStepId !== activeStepId) {
+    if (!progress || !currentStep || isCurrentStepCompleted) {
+      return undefined;
+    }
+
+    if (!arePreviousStepsCompleted(progress, currentStepId, steps)) {
       return tDashboard('completePreviousStepHint');
+    }
+
+    if (!areAllRequirementsComplete(progress, currentStep, progressContext)) {
+      return tDashboard('completeAllItemsHint');
     }
 
     return undefined;
   }, [
+    progress,
+    currentStep,
     isCurrentStepCompleted,
     currentStepId,
-    activeStepId,
+    steps,
+    progressContext,
     tDashboard,
   ]);
 
@@ -225,12 +313,12 @@ export function useDashboardScreen(
       return;
     }
 
-    Alert.alert(tDashboard('confirmCompletionTitle'), currentStep.completionPrompt, [
+    showAlert(tDashboard('confirmCompletionTitle'), currentStep.completionPrompt, [
       {text: tDashboard('notYet'), style: 'cancel'},
       {
         text: tDashboard('yesDone'),
         onPress: async () => {
-          const nextStepId = getNextIncompleteStepId(
+          const nextStepId = getFirstIncompleteStepId(
             {
               ...progress,
               steps: progress.steps.map(step =>
@@ -246,38 +334,61 @@ export function useDashboardScreen(
           showToast(tDashboard('stepCompleted'));
         },
       },
-    ]);
+    ], {dismissable: false});
   };
 
-  const onSelfDeclaredToggle = async (label: string) => {
-    if (!progress || !currentStep || isCurrentStepCompleted) {
+  const onRequirementCheckboxToggle = async (requirementKey: string) => {
+    if (!progress || !currentStep || !canInteractWithRequirements) {
       return;
     }
 
-    const current = getEffectiveRequirementProgress(
+    const toggleState = getRequirementToggleState(
       progress,
       currentStep,
-      label,
+      requirementKey,
+      progressContext,
+      steps,
     );
+    const stored =
+      progress.steps.find(step => step.stepId === currentStep.id)?.requirements[
+        requirementKey
+      ] ?? {completed: false};
 
-    if (current.source?.type === 'referenced_step') {
+    if (stored.completed) {
+      if (!toggleState.canUncheck) {
+        showToast(tDashboard('requirementLockedHint'));
+        return;
+      }
+    } else if (!toggleState.canCheck) {
+      showToast(tDashboard('requirementDependencyHint'));
+      return;
+    }
+
+    if (isRequirementExternallyCompleted(
+      getEffectiveRequirementProgress(
+        progress,
+        currentStep,
+        requirementKey,
+        progressContext,
+      ),
+    )) {
       return;
     }
 
     await toggleSelfDeclaredRequirement(
       currentStep.id,
-      label,
-      !current.completed,
+      requirementKey,
+      !stored.completed,
     );
   };
 
   const onAutomationPress = (automationId: AutomationId, _label: string) => {
-    if (!currentStep || isCurrentStepCompleted) {
+    if (!currentStep || !canInteractWithRequirements) {
       return;
     }
 
     if (!canUseAutomationEntitlement(automationId)) {
-      Alert.alert(
+      showAlert(
         tDashboard('serviceRequiredTitle'),
         tDashboard('serviceRequiredMessage'),
         [
@@ -289,6 +400,7 @@ export function useDashboardScreen(
             },
           },
         ],
+        {dismissable: false},
       );
       return;
     }
@@ -312,30 +424,69 @@ export function useDashboardScreen(
         ? requirementProgress.source.appointment
         : undefined;
 
-    Alert.alert(
+    showAlert(
       tDashboard('appointmentDetailsTitle'),
       formatAppointmentDetailsMessage(
         (key, options) => tDashboard(key, options),
         appointment,
       ),
+      [{text: tCommon('actions.gotIt')}],
     );
   };
 
-  const onClearAutomationPress = async (label: string) => {
-    if (!currentStep || isCurrentStepCompleted) {
+  const onClearAutomationPress = async (requirementKey: string) => {
+    if (!currentStep || !progress || !canInteractWithRequirements) {
       return;
     }
 
-    await clearAutomationRequirement(currentStep.id, label);
+    const toggleState = getRequirementToggleState(
+      progress,
+      currentStep,
+      requirementKey,
+      progressContext,
+      steps,
+    );
+
+    if (!toggleState.canUncheck) {
+      showToast(tDashboard('requirementLockedHint'));
+      return;
+    }
+
+    await clearAutomationRequirement(currentStep.id, requirementKey);
     showToast(tDashboard('bookingStatusReset'));
   };
 
-  const onFormPress = (formId: string, label: string) => {
-    if (!currentStep || isCurrentStepCompleted) {
+  const onDevMarkAutomationBookedPress = async (
+    automationId: AutomationId,
+    requirementKey: string,
+  ) => {
+    if (!__DEV__ || !currentStep || !progress || !canInteractWithRequirements) {
       return;
     }
 
-    Alert.alert(
+    await completeAutomationRequirement(
+      currentStep.id,
+      requirementKey,
+      automationId,
+    );
+    showToast(tDashboard('devMarkAsBookedSuccess'));
+  };
+
+  const onDevConfirmFormPress = async (formId: string, requirementKey: string) => {
+    if (!__DEV__ || !currentStep || !progress || !canInteractWithRequirements) {
+      return;
+    }
+
+    await completeFormRequirement(currentStep.id, requirementKey, formId);
+    showToast(tDashboard('devFormConfirmedSuccess'));
+  };
+
+  const onFormPress = (formId: string, requirementKey: string) => {
+    if (!currentStep || !progress || !canInteractWithRequirements) {
+      return;
+    }
+
+    showAlert(
       tDashboard('confirmFormTitle'),
       tDashboard('confirmFormMessage'),
       [
@@ -343,11 +494,12 @@ export function useDashboardScreen(
         {
           text: tCommon('actions.confirm'),
           onPress: async () => {
-            await completeFormRequirement(currentStep.id, label, formId);
+            await completeFormRequirement(currentStep.id, requirementKey, formId);
             showToast(tDashboard('formConfirmed'));
           },
         },
       ],
+      {dismissable: false},
     );
   };
 
@@ -385,10 +537,14 @@ export function useDashboardScreen(
     onStepPress,
     onStepDetailPress,
     onCompleteStep,
-    onSelfDeclaredToggle,
+    onRequirementCheckboxToggle,
     onAutomationPress,
     onViewAppointmentPress,
     onClearAutomationPress,
+    onDevMarkAutomationBookedPress: __DEV__
+      ? onDevMarkAutomationBookedPress
+      : undefined,
+    onDevConfirmFormPress: __DEV__ ? onDevConfirmFormPress : undefined,
     onFormPress,
     onCloseCompleteProfileDialog,
     onCompleteProfilePress,

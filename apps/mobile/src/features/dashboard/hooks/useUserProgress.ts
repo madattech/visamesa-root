@@ -4,6 +4,7 @@ import {
   fetchUserProgress,
   saveUserProgress,
   setCurrentStepId,
+  subscribeToProgressReset,
   updateRequirementProgress,
   updateStepStatus,
 } from '@/features/dashboard/services/progressService';
@@ -64,6 +65,16 @@ export function useUserProgress(): UseUserProgressResult {
 
   useEffect(() => {
     loadProgress();
+  }, [loadProgress]);
+
+  useEffect(() => {
+    if (!__DEV__) {
+      return;
+    }
+
+    return subscribeToProgressReset(() => {
+      loadProgress();
+    });
   }, [loadProgress]);
 
   const applyProgress = useCallback(async (next: UserProgress) => {

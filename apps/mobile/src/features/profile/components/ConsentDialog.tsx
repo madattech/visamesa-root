@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
-import {Alert, View} from 'react-native';
+import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Dialog} from '@/components/ui/Dialog';
 import {Text} from '@/components/ui/Text';
+import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useWebsiteLink} from '@/hooks/useWebsiteLink';
 
 type ConsentDialogProps = {
@@ -14,6 +16,9 @@ type ConsentDialogProps = {
 export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
   const {styles} = useStyles(stylesheet);
   const {openWebsitePath} = useWebsiteLink();
+  const {showAlert} = useAppDialog();
+  const {t} = useTranslation('profile');
+  const {t: tCommon} = useTranslation('common');
   const [isAccepting, setIsAccepting] = useState(false);
 
   const handleAccept = async () => {
@@ -26,7 +31,7 @@ export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
     try {
       await onAccept();
     } catch {
-      Alert.alert('Error', 'Failed to record your consent. Please try again.');
+      showAlert(tCommon('errors.title'), t('consentDialog.recordFailed'));
     } finally {
       setIsAccepting(false);
     }
@@ -36,23 +41,23 @@ export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
     <Dialog
       visible={true}
       onClose={onDecline}
-      title="Privacy & Data Protection"
+      dismissable={false}
+      title={t('consentDialog.title')}
       actions={[
         {
-          label: 'Decline',
+          label: t('consentDialog.decline'),
           onPress: onDecline,
           variant: 'outline',
         },
         {
-          label: isAccepting ? 'Saving…' : 'Accept & Continue',
+          label: isAccepting ? t('consentDialog.accepting') : t('consentDialog.accept'),
           onPress: handleAccept,
           variant: 'primary',
         },
       ]}>
       <View style={styles.content}>
         <Text variant="bodyMedium">
-          Before saving your personal information, please review and accept our
-          data protection policies.
+          {t('consentDialog.message')}
         </Text>
 
         <View style={styles.links}>
@@ -61,7 +66,7 @@ export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
             color="primary"
             onPress={() => openWebsitePath('/privacy')}
             style={styles.link}>
-            Privacy Policy
+            {t('consentDialog.privacyPolicy')}
           </Text>
           <Text variant="bodyMedium" color="onSurfaceVariant">
             {' • '}
@@ -71,13 +76,12 @@ export function ConsentDialog({onAccept, onDecline}: ConsentDialogProps) {
             color="primary"
             onPress={() => openWebsitePath('/terms')}
             style={styles.link}>
-            Terms of Service
+            {t('consentDialog.termsOfService')}
           </Text>
         </View>
 
         <Text variant="bodySmall" color="onSurfaceVariant">
-          Your data is encrypted on your device and we follow EU GDPR
-          regulations. You can delete your data at any time.
+          {t('consentDialog.gdprNote')}
         </Text>
       </View>
     </Dialog>

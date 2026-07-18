@@ -1,9 +1,11 @@
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {
+  ProgressContext,
   RequirementProgress,
   StepStatus,
   UserProgress,
 } from '@/features/dashboard/types/UserProgress';
+import {findRequirementInSteps} from '@/features/dashboard/utils/requirementGroups';
 
 export function getStepProgress(
   progress: UserProgress,
@@ -23,10 +25,31 @@ export function isStepCompleted(progress: UserProgress, stepId: number): boolean
   return getStepStatus(progress, stepId) === 'completed';
 }
 
+function isRequirementCompleteInStep(
+  progress: UserProgress,
+  stepId: number,
+  requirementKey: string,
+  context: ProgressContext,
+): boolean {
+  const step = context.allSteps?.find(item => item.id === stepId);
+
+  if (!step) {
+    return false;
+  }
+
+  return getEffectiveRequirementProgress(
+    progress,
+    step,
+    requirementKey,
+    context,
+  ).completed;
+}
+
 export function getEffectiveRequirementProgress(
   progress: UserProgress,
   step: TieStepDetail,
   requirementKey: string,
+  context: ProgressContext = {},
 ): RequirementProgress {
   const stored =
     getStepProgress(progress, step.id)?.requirements[requirementKey];
@@ -39,17 +62,45 @@ export function getEffectiveRequirementProgress(
     item => item.key === requirementKey,
   );
 
-  if (
-    requirement?.referencesStepId &&
-    isStepCompleted(progress, requirement.referencesStepId)
-  ) {
+  if (!requirement) {
+    return stored ?? {completed: false};
+  }
+
+  if (requirement.referencesProfile && context.isProfileComplete) {
     return {
       completed: true,
-      source: {
-        type: 'referenced_step',
-        stepId: requirement.referencesStepId,
-      },
+      source: {type: 'referenced_profile'},
     };
+  }
+
+  if (requirement.referencesRequirement && context.allSteps) {
+    const {stepId, requirementKey: referencedKey} =
+      requirement.referencesRequirement;
+
+    if (
+      isRequirementCompleteInStep(progress, stepId, referencedKey, context)
+    ) {
+      return {
+        completed: true,
+        source: {
+          type: 'referenced_requirement',
+          stepId,
+          requirementKey: referencedKey,
+        },
+      };
+    }
+  }
+
+  if (requirement.referencesStepId) {
+    if (isStepCompleted(progress, requirement.referencesStepId)) {
+      return {
+        completed: true,
+        source: {
+          type: 'referenced_step',
+          stepId: requirement.referencesStepId,
+        },
+      };
+    }
   }
 
   return stored ?? {completed: false};
@@ -58,22 +109,39 @@ export function getEffectiveRequirementProgress(
 export function areAllRequirementsComplete(
   progress: UserProgress,
   step: TieStepDetail,
+  context: ProgressContext = {},
 ): boolean {
   return step.requirements.every(requirement =>
-    getEffectiveRequirementProgress(progress, step, requirement.key)
+    getEffectiveRequirementProgress(progress, step, requirement.key, context)
       .completed,
   );
 }
 
-export function getNextIncompleteStepId(
+export function arePreviousStepsCompleted(
+  progress: UserProgress,
+  stepId: number,
+  steps: TieStepDetail[],
+): boolean {
+  return steps
+    .filter(step => step.id < stepId)
+    .every(step => getStepStatus(progress, step.id) === 'completed');
+}
+
+export function getFirstIncompleteStepId(
   progress: UserProgress,
   steps: TieStepDetail[],
 ): number {
-  const next = steps.find(
+  const incomplete = steps.find(
     step => getStepStatus(progress, step.id) !== 'completed',
   );
 
-  return next?.id ?? steps[steps.length - 1]?.id ?? 1;
+  return incomplete?.id ?? steps[steps.length - 1]?.id ?? 1;
+}
+
+export function getCompletedStepIds(progress: UserProgress): number[] {
+  return progress.steps
+    .filter(step => step.status === 'completed')
+    .map(step => step.stepId);
 }
 
 export function isStepAccessible(
@@ -92,8 +160,35 @@ export function isStepAccessible(
     .every(priorStep => isStepCompleted(progress, priorStep.id));
 }
 
-export function getCompletedStepIds(progress: UserProgress): number[] {
-  return progress.steps
-    .filter(step => step.status === 'completed')
-    .map(step => step.stepId);
+export function getRequirementCompletionHintPlace(
+  source: RequirementProgress['source'],
+): {type: 'profile'} | {type: 'step'; stepId: number} | undefined {
+  if (!source) {
+    return undefined;
+  }
+
+  switch (source.type) {
+    case 'referenced_profile':
+      return {type: 'profile'};
+    case 'referenced_step':
+      return {type: 'step', stepId: source.stepId};
+    case 'referenced_requirement':
+      return {type: 'step', stepId: source.stepId};
+    default:
+      return undefined;
+  }
 }
+
+export function isRequirementExternallyCompleted(
+  progress: RequirementProgress,
+): boolean {
+  const type = progress.source?.type;
+
+  return (
+    type === 'referenced_step' ||
+    type === 'referenced_requirement' ||
+    type === 'referenced_profile'
+  );
+}
+
+export {findRequirementInSteps};

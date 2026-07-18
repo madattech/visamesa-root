@@ -1,5 +1,5 @@
 import {act} from 'react';
-import {Alert, Linking} from 'react-native';
+import {Linking} from 'react-native';
 
 import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
@@ -8,6 +8,16 @@ import {createMockNavigation} from '@/test/navigation';
 import {renderHook} from '@/test/renderHook';
 
 const mockShowToast = jest.fn();
+const mockShowAlert = jest.fn();
+
+jest.mock('@/contexts/AppDialogContext', () => ({
+  useAppDialog: () => ({
+    showAlert: mockShowAlert,
+    showDialog: jest.fn(),
+    closeDialog: jest.fn(),
+  }),
+  AppDialogProvider: ({children}: {children: React.ReactNode}) => children,
+}));
 
 jest.mock('@/features/home/hooks/useTieSteps', () => ({
   useTieSteps: jest.fn(),
@@ -58,7 +68,7 @@ const {navigateToDashboard} = jest.requireMock('@/navigation/navigationRef') as 
 describe('useHomeScreen', () => {
   beforeEach(() => {
     mockShowToast.mockReset();
-    jest.spyOn(Alert, 'alert').mockImplementation(jest.fn());
+    mockShowAlert.mockReset();
     jest.spyOn(Linking, 'canOpenURL').mockResolvedValue(true);
     jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     useTieSteps.mockReturnValue({
@@ -116,7 +126,7 @@ describe('useHomeScreen', () => {
       getHookState().onPrimaryPress();
     });
 
-    expect(Alert.alert).toHaveBeenCalled();
+    expect(mockShowAlert).toHaveBeenCalled();
   });
 
   it('navigates to the steps screen from the secondary action', () => {

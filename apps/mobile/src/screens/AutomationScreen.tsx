@@ -4,12 +4,13 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {RootStackParamList} from '@/navigation/types';
+import {useAppDialog} from '@/contexts/AppDialogContext';
 import {appointmentService} from '../services/appointmentService';
 import {Appointment, AutomationProgress, AppointmentSlot} from '../types';
 import WebViewAutomation from '../components/WebViewAutomation';
@@ -19,6 +20,8 @@ type AutomationScreenRouteProp = RouteProp<RootStackParamList, 'Automation'>;
 const AutomationScreen = () => {
   const route = useRoute<AutomationScreenRouteProp>();
   const {case: caseData} = route.params;
+  const {showAlert} = useAppDialog();
+  const {t} = useTranslation('common');
 
   const [appointment, setAppointment] = useState<Appointment | null>(
     caseData.appointment || null,
@@ -46,7 +49,7 @@ const AutomationScreen = () => {
 
   const handleStartAutomation = () => {
     if (!caseData.profile) {
-      Alert.alert('Error', 'Case profile information is missing');
+      showAlert(t('errors.title'), t('automation.missingProfile'));
       return;
     }
 
@@ -58,13 +61,13 @@ const AutomationScreen = () => {
   };
 
   const handleStopAutomation = () => {
-    Alert.alert(
-      'Stop Automation',
-      'Are you sure you want to stop the automation?',
+    showAlert(
+      t('automation.stopTitle'),
+      t('automation.stopMessage'),
       [
-        {text: 'Cancel', style: 'cancel'},
+        {text: t('actions.cancel'), style: 'cancel'},
         {
-          text: 'Stop',
+          text: t('actions.stop'),
           style: 'destructive',
           onPress: () => {
             setIsRunning(false);
@@ -75,6 +78,7 @@ const AutomationScreen = () => {
           },
         },
       ],
+      {dismissable: false},
     );
   };
 
@@ -112,9 +116,12 @@ const AutomationScreen = () => {
           stage: 'complete',
           message: 'Appointment successfully booked!',
         });
-        Alert.alert(
-          'Success!',
-          `Your appointment has been booked for ${details?.date} at ${details?.time}`,
+        showAlert(
+          t('automation.successTitle'),
+          t('automation.successMessage', {
+            date: details?.date,
+            time: details?.time,
+          }),
         );
       } else {
         setProgress({
@@ -122,7 +129,10 @@ const AutomationScreen = () => {
           message: 'Booking failed',
           error: details?.error,
         });
-        Alert.alert('Booking Failed', details?.error || 'Unknown error');
+        showAlert(
+          t('automation.bookingFailedTitle'),
+          details?.error || t('automation.unknownError'),
+        );
       }
 
       await refreshAppointmentStatus();
@@ -139,7 +149,7 @@ const AutomationScreen = () => {
       message: 'Automation error',
       error,
     });
-    Alert.alert('Error', error);
+    showAlert(t('errors.title'), error);
     setIsRunning(false);
   };
 

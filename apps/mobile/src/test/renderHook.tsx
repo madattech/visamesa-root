@@ -3,6 +3,8 @@ import {I18nextProvider} from 'react-i18next';
 import renderer from 'react-test-renderer';
 import {i18n} from '@visamesa/content/i18n';
 
+import {AppDialogProvider} from '@/contexts/AppDialogContext';
+
 export function renderHook<T>(useHook: () => T): () => T {
   let hookResult: T | null = null;
 
@@ -14,7 +16,9 @@ export function renderHook<T>(useHook: () => T): () => T {
   act(() => {
     renderer.create(
       <I18nextProvider i18n={i18n as never}>
-        <Harness />
+        <AppDialogProvider>
+          <Harness />
+        </AppDialogProvider>
       </I18nextProvider>,
     );
   });
@@ -40,7 +44,9 @@ export async function renderHookAsync<T>(
   await act(async () => {
     renderer.create(
       <I18nextProvider i18n={i18n as never}>
-        <Harness />
+        <AppDialogProvider>
+          <Harness />
+        </AppDialogProvider>
       </I18nextProvider>,
     );
   });

@@ -13,5 +13,42 @@
     "message": "Complete your profile before we can start.",
     "notNow": "Not now",
     "action": "Complete profile"
+  },
+  "consentDialog": {
+    "title": "Privacy & Data Protection",
+    "message": "Before saving your personal information, please review and accept our data protection policies.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
+    "gdprNote": "Your data is encrypted on your device and we follow EU GDPR regulations. You can delete your data at any time.",
+    "decline": "Decline",
+    "accept": "Accept & Continue",
+    "accepting": "Saving…",
+    "recordFailed": "Failed to record your consent. Please try again."
+  },
+  "account": {
+    "exportShareTitle": "VisaMesa Data Export",
+    "exportNote": "Client-side profile can only be decrypted on this device",
+    "exportDialogTitle": "Export Data",
+    "exportFailedTitle": "Export failed",
+    "exportFailedMessage": "Could not export your data",
+    "deleteTitle": "Delete Account",
+    "deleteMessage": "This will permanently delete your account and all associated data. This action cannot be undone.\n\nYour data will be deleted from our servers and your device.",
+    "deletedTitle": "Account deleted",
+    "deletedMessage": "Your account and all data have been permanently deleted.",
+    "deletionFailedTitle": "Deletion failed",
+    "deletionFailedMessage": "Could not delete your account. Please try again.",
+    "documentsSection": "Legal documents",
+    "privacyPolicyTitle": "Privacy Policy",
+    "privacyPolicyDescription": "How we handle your data",
+    "termsTitle": "Terms of Service",
+    "termsDescription": "Terms and conditions",
+    "dataRightsSection": "Your data rights",
+    "exportTitle": "Export My Data",
+    "exportDescription": "Download all your information",
+    "exportingDescription": "Exporting…",
+    "deleteAccountTitle": "Delete My Account",
+    "deleteAccountDescription": "Permanently delete your account and data",
+    "deletingDescription": "Deleting…",
+    "gdprFooter": "Your personal data is encrypted on your device. We follow EU GDPR regulations and provide tools to manage your privacy rights."
   }
 }

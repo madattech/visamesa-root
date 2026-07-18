@@ -40,7 +40,10 @@ export function Checkbox({
         borderless: true,
         radius: 20,
       }}
-      style={style}>
+      style={[
+        style,
+        disabled && {opacity: 0.45},
+      ]}>
       <Icon
         name={checked ? 'check-circle' : 'radio-button-unchecked'}
         size={size}

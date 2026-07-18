@@ -11,6 +11,7 @@ jest.mock('@/features/dashboard/services/progressService', () => ({
   setCurrentStepId: jest.fn(),
   updateRequirementProgress: jest.fn(),
   updateStepStatus: jest.fn(),
+  subscribeToProgressReset: jest.fn(() => () => {}),
 }));
 
 const progressService = jest.requireMock(

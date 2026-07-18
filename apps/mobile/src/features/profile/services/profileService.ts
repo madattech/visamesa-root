@@ -42,11 +42,20 @@ function migrateLegacyProfile(data: unknown): ProfileData {
     if (residence.postalCode && !merged.postalCode) {
       merged.postalCode = residence.postalCode;
     }
-    if (residence.dateOfDocumentIssuance && !merged.dateOfDocumentIssuance) {
-      merged.dateOfDocumentIssuance = residence.dateOfDocumentIssuance;
+    if (residence.dateOfDocumentIssuance && !merged.empadronamientoIssuedAt) {
+      merged.empadronamientoIssuedAt = residence.dateOfDocumentIssuance;
+      merged.hasEmpadronamiento = 'yes';
     }
 
     personal = Object.keys(merged).length > 0 ? merged : null;
+  }
+
+  if (personal?.dateOfDocumentIssuance && !personal.empadronamientoIssuedAt) {
+    personal = {
+      ...personal,
+      empadronamientoIssuedAt: personal.dateOfDocumentIssuance,
+      hasEmpadronamiento: personal.hasEmpadronamiento ?? 'yes',
+    };
   }
 
   return {personal};

@@ -16,23 +16,23 @@ export const tieSteps = [
   },
   {
     id: 3,
-    title: 'Prepare documents',
-    description: 'Gather EX-17, passport copies, photos, and confirmations.',
+    title: 'Fill your EX-17 form',
+    description: 'VisaMesa pre-fills your TIE application form from your profile.',
   },
   {
     id: 4,
     title: 'Pay the TIE fee',
-    description: 'Complete Modelo 790 code 012 and pay at a Spanish bank.',
+    description: 'Complete Modelo 790 code 012, print it, and pay at a Spanish bank.',
   },
   {
     id: 5,
-    title: 'Attend appointment',
-    description: 'Submit paperwork, provide biometrics, and receive resguardo.',
+    title: 'Attend fingerprint appointment',
+    description: 'Print your documents, go to the police station, and submit your application.',
   },
   {
     id: 6,
     title: 'Collect your TIE',
-    description: 'Return to pick up your physical card when ready.',
+    description: 'Return with your resguardo and passport to pick up your card.',
   },
 ] as const;
 
@@ -47,29 +47,28 @@ export const tieStepFaqs = [
     answer: 'No — you need the official empadronamiento certificate.',
   },
   {
+    question: "What if I don't have a rental contract?",
+    answer: 'Your landlord may need to come with you to the Ayuntamiento.',
+  },
+  {
     question: 'Can someone book my cita previa on my behalf?',
     answer: 'Yes, but you must attend in person.',
   },
   {
-    question: 'Do I need an NIE to book a cita previa?',
-    answer: 'Most systems ask for NIE/passport info to reserve a slot.',
-  },
-  {
     question: 'What if no cita previa appointments are available?',
-    answer: 'Keep checking regularly; they open at random times.',
-  },
-  {
-    question: 'Do TIE photos need specific specs?',
-    answer: 'Yes — passport format with white background.',
+    answer: 'Keep checking regularly; slots open at unpredictable times.',
   },
   {
     question: 'Can I pay the Modelo 790 fee later?',
-    answer:
-      'No — you must pay the 790-012 fee and bring proof of payment at appointment.',
+    answer: 'No — bring proof of payment to your fingerprint appointment.',
   },
   {
-    question: 'Do they issue the TIE on the spot at the appointment?',
-    answer: 'No — you collect it later.',
+    question: 'Which banks accept Modelo 790 code 012?',
+    answer: 'Most major Spanish banks — you do not need an account.',
+  },
+  {
+    question: 'Do they issue the TIE on the spot?',
+    answer: 'No — you collect it later with your resguardo.',
   },
   {
     question: 'Can someone else pick up my TIE?',

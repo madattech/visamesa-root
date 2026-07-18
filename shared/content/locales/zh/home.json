@@ -1,5 +1,9 @@
 {
   "primaryCta": "全程代办",
   "secondaryCta": "了解更多",
-  "prerequisitesButton": "查看前置条件"
+  "prerequisitesButton": "查看前置条件",
+  "getServiceDialog": {
+    "title": "获取 VisaMesa 服务",
+    "message": "您将在我们的网站上完成付款。付款后返回应用，使用同一 Google 账户登录即可解锁服务。"
+  }
 }

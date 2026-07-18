@@ -9,15 +9,18 @@ import {
 } from '@visamesa/content/i18n'
 
 import { CollapsingHeaderScreen } from '@/components/layout/CollapsingHeaderScreen'
+import { Button } from '@/components/ui/Button'
 import { Icon } from '@/components/ui/Icon'
 import { SelectField } from '@/components/ui/SelectField'
 import { Text } from '@/components/ui/Text'
 import { useAppLocale } from '@/contexts/LocaleContext'
+import { useSettingsScreen } from '@/features/settings/hooks/useSettingsScreen'
 
 const SettingsScreen = () => {
   const { styles } = useStyles(stylesheet)
   const { t } = useTranslation('settings')
   const { locale, changeLocale } = useAppLocale()
+  const { onResetProgressPress } = useSettingsScreen()
 
   const languageOptions = SUPPORTED_LANGUAGES.map((language) => ({
     label: LANGUAGE_NATIVE_NAMES[language],
@@ -46,6 +49,26 @@ const SettingsScreen = () => {
           }}
         />
       </View>
+      {__DEV__ ? (
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Icon name="build" size="md" color="primary" />
+            <Text variant="labelLarge" color="onSurfaceVariant" style={styles.sectionTitle}>
+              {t('devSectionTitle')}
+            </Text>
+          </View>
+          <Text variant="bodyMedium" color="onSurfaceVariant">
+            {t('devResetProgressDescription')}
+          </Text>
+          <Button
+            label={t('devResetProgressButton')}
+            variant="outline"
+            onPress={onResetProgressPress}
+            fullWidth
+            accessibilityLabel={t('devResetProgressButton')}
+          />
+        </View>
+      ) : null}
     </CollapsingHeaderScreen>
   )
 }
@@ -53,6 +76,7 @@ const SettingsScreen = () => {
 const stylesheet = createStyleSheet(theme => ({
   section: {
     gap: theme.spacing.sm,
+    marginBottom: theme.spacing.lg,
   },
   sectionHeader: {
     flexDirection: 'row',

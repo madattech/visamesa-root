@@ -1,76 +1,148 @@
 import type { RequirementManifest, TieStepManifestEntry, TieStepSlug } from './types'
 
 const empadronamientoRequirements: RequirementManifest[] = [
-  { key: 'passport-nie', type: 'self_declared' },
-  { key: 'proof-of-residence', type: 'self_declared' },
+  { key: 'passport-nie', type: 'self_declared', location: 'in_app' },
+  { key: 'proof-of-residence', type: 'self_declared', location: 'in_app' },
   {
     key: 'appointment-confirmation',
     type: 'automation',
+    location: 'in_app',
     automationId: 'empadronamiento',
+  },
+  {
+    key: 'attend-ayuntamiento',
+    type: 'self_declared',
+    location: 'in_person',
+    dependsOnKeys: ['passport-nie', 'proof-of-residence', 'appointment-confirmation'],
   },
 ]
 
 const tomaDeHuellasRequirements: RequirementManifest[] = [
-  { key: 'personal-id-details', type: 'self_declared' },
   {
-    key: 'cita-previa-access',
+    key: 'appointment-confirmation',
     type: 'automation',
+    location: 'in_app',
     automationId: 'cita-previa',
     link: {
       url: 'https://sede.administracionespublicas.gob.es/icpplus/index.html',
     },
   },
-  { key: 'appointment-confirmation', type: 'self_declared' },
 ]
 
 const requiredDocumentsRequirements: RequirementManifest[] = [
-  { key: 'ex-17-form', type: 'form', formId: 'ex-17' },
-  { key: 'valid-passport', type: 'self_declared' },
-  { key: 'student-visa', type: 'self_declared' },
   {
-    key: 'empadronamiento-certificate',
-    type: 'self_declared',
-    referencesStepSlug: 'empadronamiento',
-  },
-  { key: 'passport-photos', type: 'self_declared' },
-  {
-    key: 'appointment-confirmation-doc',
-    type: 'self_declared',
-    referencesStepSlug: 'toma-de-huellas',
+    key: 'ex-17-form',
+    type: 'form',
+    location: 'in_app',
+    formId: 'ex-17',
+    shareableForm: true,
   },
 ]
 
 const payFeeRequirements: RequirementManifest[] = [
-  { key: 'modelo-790-form', type: 'form', formId: 'modelo-790-012' },
-  { key: 'fee-payment-receipt', type: 'self_declared' },
   {
-    key: 'fee-form-source',
+    key: 'modelo-790-form',
+    type: 'form',
+    location: 'in_app',
+    formId: 'modelo-790-012',
+    shareableForm: true,
+  },
+  {
+    key: 'print-modelo-790',
     type: 'self_declared',
-    link: { url: 'https://sede.policia.gob.es' },
+    location: 'in_person',
+    dependsOnKeys: ['modelo-790-form'],
+  },
+  {
+    key: 'pay-at-bank',
+    type: 'self_declared',
+    location: 'in_person',
+    dependsOnKeys: ['print-modelo-790'],
+  },
+  {
+    key: 'fee-payment-receipt',
+    type: 'self_declared',
+    location: 'in_person',
+    dependsOnKeys: ['pay-at-bank'],
   },
 ]
 
+const step5DocumentKeys = [
+  'ex-17-form',
+  'modelo-790-receipt',
+  'valid-passport',
+  'passport-copies',
+  'student-visa',
+  'empadronamiento-certificate',
+  'passport-photos',
+  'appointment-confirmation-doc',
+] as const
+
 const fingerprintAppointmentRequirements: RequirementManifest[] = [
   {
-    key: 'documents-from-step-3',
+    key: 'ex-17-form',
     type: 'self_declared',
-    referencesStepSlug: 'required-documents',
+    location: 'in_app',
+    formId: 'ex-17',
+    shareableForm: true,
+    referencesRequirement: {
+      stepSlug: 'required-documents',
+      requirementKey: 'ex-17-form',
+    },
   },
   {
-    key: 'fee-payment-proof',
+    key: 'modelo-790-receipt',
     type: 'self_declared',
-    referencesStepSlug: 'pay-fee',
+    location: 'in_app',
+    referencesRequirement: {
+      stepSlug: 'pay-fee',
+      requirementKey: 'fee-payment-receipt',
+    },
   },
-  { key: 'original-passport', type: 'self_declared' },
+  { key: 'valid-passport', type: 'self_declared', location: 'in_app' },
+  { key: 'passport-copies', type: 'self_declared', location: 'in_app' },
+  { key: 'student-visa', type: 'self_declared', location: 'in_app' },
+  {
+    key: 'empadronamiento-certificate',
+    type: 'self_declared',
+    location: 'in_app',
+    referencesStepSlug: 'empadronamiento',
+  },
+  { key: 'passport-photos', type: 'self_declared', location: 'in_app' },
+  {
+    key: 'appointment-confirmation-doc',
+    type: 'self_declared',
+    location: 'in_app',
+    referencesStepSlug: 'toma-de-huellas',
+  },
+  {
+    key: 'print-documents',
+    type: 'self_declared',
+    location: 'in_person',
+    dependsOnKeys: [...step5DocumentKeys],
+  },
+  {
+    key: 'attend-appointment',
+    type: 'self_declared',
+    location: 'in_person',
+    dependsOnKeys: ['print-documents'],
+  },
 ]
 
 const collectTieRequirements: RequirementManifest[] = [
   {
     key: 'resguardo',
     type: 'self_declared',
+    location: 'in_app',
     referencesStepSlug: 'fingerprint-appointment',
   },
-  { key: 'passport-collection', type: 'self_declared' },
+  { key: 'passport-collection', type: 'self_declared', location: 'in_app' },
+  {
+    key: 'attend-pickup',
+    type: 'self_declared',
+    location: 'in_person',
+    dependsOnKeys: ['resguardo', 'passport-collection'],
+  },
 ]
 
 export const tieStepManifest: Record<TieStepSlug, TieStepManifestEntry> = {
@@ -95,14 +167,14 @@ export const tieStepManifest: Record<TieStepSlug, TieStepManifestEntry> = {
     id: 3,
     slug: 'required-documents',
     officialLinkUrls: [
-      'https://www.barcelona.cat/internationalwelcome/en/identity-card-foreign-nationals-tie',
+      'https://sede.administracionespublicas.gob.es/pagina/index/directorio/ex17',
     ],
     requirements: requiredDocumentsRequirements,
   },
   'pay-fee': {
     id: 4,
     slug: 'pay-fee',
-    officialLinkUrls: ['https://sede.policia.gob.es', 'https://sede.policia.gob.es'],
+    officialLinkUrls: ['https://sede.policia.gob.es/Tasa790_012/'],
     requirements: payFeeRequirements,
   },
   'fingerprint-appointment': {
@@ -110,6 +182,7 @@ export const tieStepManifest: Record<TieStepSlug, TieStepManifestEntry> = {
     slug: 'fingerprint-appointment',
     officialLinkUrls: [
       'https://www.barcelona.cat/internationalwelcome/en/identity-card-foreign-nationals-tie',
+      'https://sede.administracionespublicas.gob.es/icpplus/index.html',
     ],
     requirements: fingerprintAppointmentRequirements,
   },

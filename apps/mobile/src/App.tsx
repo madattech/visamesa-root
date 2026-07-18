@@ -9,6 +9,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { NavigationContainer } from '@react-navigation/native'
 
 import { ToastProvider } from './components/Toast/ToastProvider'
+import { AppDialogProvider } from './contexts/AppDialogContext'
 import { AuthProvider } from './contexts/AuthContext'
 import { EntitlementsProvider } from './contexts/EntitlementsContext'
 import { I18nBootstrap } from './contexts/I18nBootstrap'
@@ -42,11 +43,13 @@ const App = () => {
             <EntitlementsProvider>
               <ProfileCompletionProvider>
                 <ToastProvider>
-                  <AppStatusBar />
-                  <NavigationContainer ref={navigationRef} linking={linking}>
-                    <PaymentReturnListener />
-                    <RootNavigator />
-                  </NavigationContainer>
+                  <AppDialogProvider>
+                    <AppStatusBar />
+                    <NavigationContainer ref={navigationRef} linking={linking}>
+                      <PaymentReturnListener />
+                      <RootNavigator />
+                    </NavigationContainer>
+                  </AppDialogProvider>
                 </ToastProvider>
               </ProfileCompletionProvider>
             </EntitlementsProvider>

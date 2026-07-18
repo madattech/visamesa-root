@@ -25,6 +25,13 @@
       "placeholder": "Enter your second last name (optional)"
     },
     {
+      "id": "dateOfBirth",
+      "label": "Date of Birth",
+      "type": "date",
+      "required": true,
+      "placeholder": "Your date of birth"
+    },
+    {
       "id": "nationality",
       "label": "Nationality",
       "type": "text",
@@ -83,11 +90,32 @@
       "placeholder": "e.g., 08001"
     },
     {
-      "id": "dateOfDocumentIssuance",
-      "label": "Date of Document Issuance",
+      "id": "hasEmpadronamiento",
+      "label": "Do you already have empadronamiento?",
+      "type": "select",
+      "required": true,
+      "options": [
+        {
+          "label": "No",
+          "value": "no"
+        },
+        {
+          "label": "Yes",
+          "value": "yes"
+        }
+      ]
+    },
+    {
+      "id": "empadronamientoIssuedAt",
+      "label": "Empadronamiento certificate date",
       "type": "date",
-      "required": false,
-      "placeholder": "When your document was issued"
+      "required": true,
+      "placeholder": "When the certificate was issued",
+      "helperText": "For TIE, the certificate must usually be issued within the last 90 days.",
+      "dependsOn": {
+        "fieldId": "hasEmpadronamiento",
+        "value": "yes"
+      }
     }
   ]
 }
