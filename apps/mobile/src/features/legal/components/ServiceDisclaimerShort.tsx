@@ -1,9 +1,9 @@
 import React from 'react';
 import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
-import {SERVICE_DISCLAIMER_SHORT} from '@/features/legal/data/legalDisclaimerContent';
 
 type ServiceDisclaimerShortProps = {
   centered?: boolean;
@@ -13,6 +13,7 @@ export function ServiceDisclaimerShort({
   centered = false,
 }: ServiceDisclaimerShortProps) {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation('legal');
 
   return (
     <View style={styles.wrapper}>
@@ -20,7 +21,7 @@ export function ServiceDisclaimerShort({
         variant="bodySmall"
         color="onSurfaceVariant"
         style={centered ? styles.centered : undefined}>
-        {SERVICE_DISCLAIMER_SHORT}
+        {t('disclaimer.short')}
       </Text>
     </View>
   );

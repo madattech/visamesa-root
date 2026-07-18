@@ -13,9 +13,10 @@ describe('buildTieSteps', () => {
 
       expect(steps).toHaveLength(TIE_STEP_ORDER.length)
       expect(steps[0]?.slug).toBe('empadronamiento')
-      expect(steps[0]?.title.length).toBeGreaterThan(0)
-      expect(steps[0]?.requirements[0]?.key).toBeTruthy()
-      expect(steps[0]?.requirements[0]?.label).not.toBe(steps[0]?.requirements[0]?.key)
+      expect(steps[1]?.requirements).toHaveLength(1)
+      expect(steps[2]?.requirements).toHaveLength(1)
+      expect(steps[4]?.requirements.some(r => r.key === 'attend-appointment')).toBe(true)
+      expect(steps[5]?.requirements.some(r => r.key === 'attend-pickup')).toBe(true)
     }
   })
 })

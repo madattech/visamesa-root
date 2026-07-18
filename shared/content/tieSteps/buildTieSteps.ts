@@ -1,6 +1,7 @@
 import { tieStepManifest } from './manifest'
 import {
   TIE_STEP_ORDER,
+  type PrintableItem,
   type Requirement,
   type TieStepDetail,
   type TieStepSlug,
@@ -30,9 +31,14 @@ function buildRequirements(
       key: entry.key,
       label: copy.label,
       description: copy.description,
+      detail: copy.detail,
       type: entry.type,
+      location: entry.location,
       automationId: entry.automationId,
       formId: entry.formId,
+      referencesProfile: entry.referencesProfile,
+      dependsOnKeys: entry.dependsOnKeys,
+      shareableForm: entry.shareableForm,
     }
 
     if (entry.link) {
@@ -46,7 +52,44 @@ function buildRequirements(
       requirement.referencesStepId = slugToId[entry.referencesStepSlug]
     }
 
+    if (entry.referencesRequirement) {
+      requirement.referencesRequirement = {
+        ...entry.referencesRequirement,
+        stepId: slugToId[entry.referencesRequirement.stepSlug],
+      }
+    }
+
     return requirement
+  })
+}
+
+function buildPrintables(
+  slug: TieStepSlug,
+  translation: TieStepTranslation,
+): PrintableItem[] | undefined {
+  const manifest = tieStepManifest[slug].printables
+
+  if (!manifest?.length) {
+    return undefined
+  }
+
+  const copy = translation.printables ?? {}
+
+  return manifest.map((entry) => {
+    const itemCopy = copy[entry.key]
+
+    if (!itemCopy) {
+      throw new Error(`Missing printable translation: tieSteps:steps.${slug}.printables.${entry.key}`)
+    }
+
+    return {
+      key: entry.key,
+      title: itemCopy.title,
+      description: itemCopy.description,
+      sourceType: entry.sourceType,
+      url: entry.url,
+      formId: entry.formId,
+    }
   })
 }
 
@@ -79,6 +122,7 @@ export function buildTieSteps(t: TieStepsTranslateFn): TieStepDetail[] {
       })),
       commonQuestions: translation.commonQuestions,
       requirements: buildRequirements(slug, translation, slugToId),
+      printables: buildPrintables(slug, translation),
     }
   })
 }

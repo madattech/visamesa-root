@@ -12,7 +12,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {Text} from '@/components/ui/Text';
 import {AppTheme} from '@/theme';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'tonal';
+export type ButtonVariant = 'primary' | 'secondary' | 'outline' | 'tonal' | 'destructive';
 export type ButtonSize = 'default' | 'icon';
 
 export type ButtonProps = Omit<PressableProps, 'style'> & {
@@ -32,6 +32,7 @@ const LABEL_COLORS: Record<ButtonVariant, ColorToken> = {
   secondary: 'onSecondary',
   outline: 'primary',
   tonal: 'onSecondaryContainer',
+  destructive: 'onError',
 };
 
 export function Button({
@@ -74,7 +75,9 @@ export function Button({
               color:
                 variant === 'primary' || variant === 'secondary'
                   ? theme.colors.onPrimary
-                  : theme.colors.primaryContainer,
+                  : variant === 'destructive'
+                    ? theme.colors.onError
+                    : theme.colors.primaryContainer,
             }
       }
       style={({pressed}) => [
@@ -121,6 +124,9 @@ const stylesheet = createStyleSheet(theme => ({
     backgroundColor: theme.colors.surface,
     borderWidth: StyleSheet.hairlineWidth + 1,
     borderColor: theme.colors.outline,
+  },
+  destructive: {
+    backgroundColor: theme.colors.error,
   },
   fullWidth: {
     alignSelf: 'stretch',

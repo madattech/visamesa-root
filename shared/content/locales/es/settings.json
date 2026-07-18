@@ -2,5 +2,12 @@
   "title": "Ajustes de la app",
   "languageSectionTitle": "Idioma",
   "languageSectionDescription": "Elige el idioma de la app VisaMesa.",
-  "languageSaved": "Idioma actualizado"
+  "languageSaved": "Idioma actualizado",
+  "devSectionTitle": "Desarrollo",
+  "devResetProgressDescription": "Borra todo el progreso del checklist guardado localmente en este dispositivo.",
+  "devResetProgressButton": "Restablecer progreso del checklist",
+  "devResetProgressTitle": "¿Restablecer progreso del checklist?",
+  "devResetProgressMessage": "Esto borra todos los elementos marcados y el estado de los pasos en este dispositivo. No se puede deshacer.",
+  "devResetProgressConfirm": "Restablecer",
+  "devResetProgressSuccess": "Progreso del checklist restablecido"
 }

@@ -1,7 +1,8 @@
 import {useMemo, useState} from 'react';
-import {Alert} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
+import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useAuth} from '@/contexts/AuthContext';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
@@ -39,6 +40,9 @@ export function useHomeScreen(
   const {user} = useAuth();
   const {canStartProcess} = useProcessReadiness();
   const {openPricing} = usePricingLink();
+  const {showAlert} = useAppDialog();
+  const {t} = useTranslation('home');
+  const {t: tCommon} = useTranslation('common');
   const [activeStepId, setActiveStepId] = useState(DEFAULT_STEP_ID);
   const [showCompleteProfileDialog, setShowCompleteProfileDialog] = useState(false);
 
@@ -54,12 +58,12 @@ export function useHomeScreen(
 
   const onPrimaryPress = () => {
     if (!user) {
-      Alert.alert(
-        'Get VisaMesa service',
-        'You will complete payment on our website. After paying, return to the app and sign in with the same Google account to unlock your service.',
+      showAlert(
+        t('getServiceDialog.title'),
+        t('getServiceDialog.message'),
         [
-          {text: 'Cancel', style: 'cancel'},
-          {text: 'Continue', onPress: () => { openPricing().catch(() => {}); }},
+          {text: tCommon('actions.cancel'), style: 'cancel'},
+          {text: tCommon('actions.continue'), onPress: () => { openPricing().catch(() => {}); }},
         ],
       );
       return;

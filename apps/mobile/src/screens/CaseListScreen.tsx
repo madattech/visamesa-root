@@ -7,11 +7,12 @@ import {
   StyleSheet,
   ActivityIndicator,
   RefreshControl,
-  Alert,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useAuth} from '../contexts/AuthContext';
+import {useAppDialog} from '@/contexts/AppDialogContext';
 import {appointmentService} from '../services/appointmentService';
 import {Case} from '../types';
 import {RootStackParamList} from '@/navigation/types';
@@ -21,6 +22,8 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 const CaseListScreen = () => {
   const navigation = useNavigation<NavigationProp>();
   const {user, logout} = useAuth();
+  const {showAlert} = useAppDialog();
+  const {t} = useTranslation('common');
   const [cases, setCases] = useState<Case[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -32,9 +35,9 @@ const CaseListScreen = () => {
       const data = await appointmentService.getAllCases(user.id);
       setCases(data);
     } catch (error: any) {
-      Alert.alert(
-        'Error',
-        error.response?.data?.message || 'Failed to fetch cases',
+      showAlert(
+        t('errors.title'),
+        error.response?.data?.message || t('cases.fetchFailed'),
       );
     } finally {
       setIsLoading(false);
@@ -52,10 +55,10 @@ const CaseListScreen = () => {
   };
 
   const handleLogout = () => {
-    Alert.alert('Logout', 'Are you sure you want to logout?', [
-      {text: 'Cancel', style: 'cancel'},
-      {text: 'Logout', style: 'destructive', onPress: logout},
-    ]);
+    showAlert(t('cases.logoutTitle'), t('cases.logoutMessage'), [
+      {text: t('actions.cancel'), style: 'cancel'},
+      {text: t('actions.logout'), style: 'destructive', onPress: logout},
+    ], {dismissable: false});
   };
 
   const getStatusColor = (status: string) => {

@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
-import {Alert, Platform, Share, View} from 'react-native';
+import React, {useMemo, useState} from 'react';
+import {Platform, Share, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 import {CollapsingHeaderScreen} from '@/components/layout/CollapsingHeaderScreen';
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
+import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useWebsiteLink} from '@/hooks/useWebsiteLink';
 import {useAuth} from '@/contexts/AuthContext';
-import {
-  OFFICIAL_INFORMATION_SOURCES,
-  OFFICIAL_SOURCES_INTRO,
-  OFFICIAL_SOURCES_SECTION_TITLE,
-  SERVICE_DISCLAIMER_MASTER_PARAGRAPHS,
-  SERVICE_DISCLAIMER_SECTION_TITLE,
-} from '@/features/legal/data/legalDisclaimerContent';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {accountService} from '@/services/accountService';
 import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
+
+type OfficialSourceItem = {
+  label: string;
+  url: string;
+};
 
 const LegalScreen = () => {
   const {styles} = useStyles(stylesheet);
@@ -25,17 +25,31 @@ const LegalScreen = () => {
   const {logout} = useAuth();
   const {profileData} = useProfileData();
   const {openWebsitePath} = useWebsiteLink();
+  const {showAlert} = useAppDialog();
+  const {t} = useTranslation('profile');
+  const {t: tLegal} = useTranslation('legal');
+  const {t: tCommon} = useTranslation('common');
   const [isExporting, setIsExporting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+
+  const disclaimerParagraphs = useMemo(() => {
+    const paragraphs = tLegal('disclaimer.masterParagraphs', {returnObjects: true});
+
+    return Array.isArray(paragraphs) ? paragraphs : [];
+  }, [tLegal]);
+
+  const officialSources = useMemo(() => {
+    const items = tLegal('officialSources.items', {returnObjects: true});
+
+    return Array.isArray(items) ? (items as OfficialSourceItem[]) : [];
+  }, [tLegal]);
 
   const handleExportData = async () => {
     setIsExporting(true);
 
     try {
-      // Get backend data
       const backendData = await accountService.exportData();
 
-      // Decrypt and include client-side encrypted profile if available
       let decryptedProfile = null;
       if (profileData?.personal) {
         try {
@@ -49,24 +63,23 @@ const LegalScreen = () => {
         ...backendData,
         clientSideProfile: decryptedProfile,
         exportedAt: new Date().toISOString(),
-        note: 'Client-side profile can only be decrypted on this device',
+        note: t('account.exportNote'),
       };
 
       const jsonString = JSON.stringify(exportData, null, 2);
 
-      // Share the data
       if (Platform.OS === 'ios' || Platform.OS === 'android') {
         await Share.share({
           message: jsonString,
-          title: 'VisaMesa Data Export',
+          title: t('account.exportShareTitle'),
         });
       } else {
-        Alert.alert('Export Data', jsonString);
+        showAlert(t('account.exportDialogTitle'), jsonString);
       }
     } catch (error) {
-      Alert.alert(
-        'Export Failed',
-        error instanceof Error ? error.message : 'Could not export your data',
+      showAlert(
+        t('account.exportFailedTitle'),
+        error instanceof Error ? error.message : t('account.exportFailedMessage'),
       );
     } finally {
       setIsExporting(false);
@@ -74,17 +87,18 @@ const LegalScreen = () => {
   };
 
   const handleDeleteAccount = () => {
-    Alert.alert(
-      'Delete Account',
-      'This will permanently delete your account and all associated data. This action cannot be undone.\n\nYour data will be deleted from our servers and your device.',
+    showAlert(
+      t('account.deleteTitle'),
+      t('account.deleteMessage'),
       [
-        {text: 'Cancel', style: 'cancel'},
+        {text: tCommon('actions.cancel'), style: 'cancel'},
         {
-          text: 'Delete',
+          text: tCommon('actions.delete'),
           style: 'destructive',
           onPress: confirmDeleteAccount,
         },
       ],
+      {dismissable: false},
     );
   };
 
@@ -94,12 +108,12 @@ const LegalScreen = () => {
     try {
       await accountService.deleteAccount();
 
-      Alert.alert(
-        'Account Deleted',
-        'Your account and all data have been permanently deleted.',
+      showAlert(
+        t('account.deletedTitle'),
+        t('account.deletedMessage'),
         [
           {
-            text: 'OK',
+            text: tCommon('actions.ok'),
             onPress: async () => {
               await logout();
               navigation.navigate('Profile' as never);
@@ -108,11 +122,11 @@ const LegalScreen = () => {
         ],
       );
     } catch (error) {
-      Alert.alert(
-        'Deletion Failed',
+      showAlert(
+        t('account.deletionFailedTitle'),
         error instanceof Error
           ? error.message
-          : 'Could not delete your account. Please try again.',
+          : t('account.deletionFailedMessage'),
       );
     } finally {
       setIsDeleting(false);
@@ -120,12 +134,12 @@ const LegalScreen = () => {
   };
 
   return (
-    <CollapsingHeaderScreen title="Legal & Privacy">
+    <CollapsingHeaderScreen title={t('legalTitle')}>
       <View style={styles.section}>
         <Text variant="labelLarge" color="onSurfaceVariant">
-          {SERVICE_DISCLAIMER_SECTION_TITLE}
+          {tLegal('disclaimer.sectionTitle')}
         </Text>
-        {SERVICE_DISCLAIMER_MASTER_PARAGRAPHS.map(paragraph => (
+        {disclaimerParagraphs.map(paragraph => (
           <Text
             key={paragraph}
             variant="bodyMedium"
@@ -138,12 +152,12 @@ const LegalScreen = () => {
 
       <View style={styles.section}>
         <Text variant="labelLarge" color="onSurfaceVariant">
-          {OFFICIAL_SOURCES_SECTION_TITLE}
+          {tLegal('officialSources.sectionTitle')}
         </Text>
         <Text variant="bodyMedium" color="onSurfaceVariant">
-          {OFFICIAL_SOURCES_INTRO}
+          {tLegal('officialSources.intro')}
         </Text>
-        {OFFICIAL_INFORMATION_SOURCES.map(source => (
+        {officialSources.map(source => (
           <DetailLinkRow
             key={source.url}
             title={source.label}
@@ -151,7 +165,7 @@ const LegalScreen = () => {
             onPress={() => {
               openWebsiteUrl(source.url).then(opened => {
                 if (!opened) {
-                  Alert.alert('Error', 'Could not open the link');
+                  showAlert(tCommon('errors.title'), tCommon('errors.openLink'));
                 }
               });
             }}
@@ -161,38 +175,38 @@ const LegalScreen = () => {
 
       <View style={styles.section}>
         <Text variant="labelLarge" color="onSurfaceVariant">
-          Legal Documents
+          {t('account.documentsSection')}
         </Text>
         <DetailLinkRow
-          title="Privacy Policy"
-          description="How we handle your data"
+          title={t('account.privacyPolicyTitle')}
+          description={t('account.privacyPolicyDescription')}
           onPress={() => openWebsitePath('/privacy')}
         />
         <DetailLinkRow
-          title="Terms of Service"
-          description="Terms and conditions"
+          title={t('account.termsTitle')}
+          description={t('account.termsDescription')}
           onPress={() => openWebsitePath('/terms')}
         />
       </View>
 
       <View style={styles.section}>
         <Text variant="labelLarge" color="onSurfaceVariant">
-          Your Data Rights
+          {t('account.dataRightsSection')}
         </Text>
         <DetailLinkRow
-          title="Export My Data"
+          title={t('account.exportTitle')}
           description={
-            isExporting ? 'Exporting...' : 'Download all your information'
+            isExporting ? t('account.exportingDescription') : t('account.exportDescription')
           }
           onPress={handleExportData}
           disabled={isExporting}
         />
         <DetailLinkRow
-          title="Delete My Account"
+          title={t('account.deleteAccountTitle')}
           description={
             isDeleting
-              ? 'Deleting...'
-              : 'Permanently delete your account and data'
+              ? t('account.deletingDescription')
+              : t('account.deleteAccountDescription')
           }
           onPress={handleDeleteAccount}
           disabled={isDeleting}
@@ -201,8 +215,7 @@ const LegalScreen = () => {
 
       <View style={styles.section}>
         <Text variant="bodySmall" color="onSurfaceVariant">
-          Your personal data is encrypted on your device. We follow EU GDPR
-          regulations and provide tools to manage your privacy rights.
+          {t('account.gdprFooter')}
         </Text>
       </View>
     </CollapsingHeaderScreen>

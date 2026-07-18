@@ -1,6 +1,20 @@
 import {isProfileComplete} from './profileCompleteness';
 import {ProfileData} from '../types/ProfileData';
 
+const completePersonal = {
+  firstName: 'John',
+  lastName: 'Doe',
+  nationality: 'USA',
+  dateOfBirth: '1995-05-01',
+  documentType: 'nie',
+  documentNumber: 'X1234567A',
+  address: '123 Main St',
+  city: 'Barcelona',
+  postalCode: '08001',
+  phoneNumber: {countryCode: '+34', number: '600123456'},
+  hasEmpadronamiento: 'no',
+};
+
 describe('isProfileComplete', () => {
   it('returns false for null profile data', () => {
     expect(isProfileComplete(null)).toBe(false);
@@ -16,24 +30,6 @@ describe('isProfileComplete', () => {
       personal: {
         firstName: 'John',
         lastName: 'Doe',
-        // Missing: documentType, documentNumber, address, city, postalCode, phoneNumber
-      },
-    };
-    expect(isProfileComplete(profileData)).toBe(false);
-  });
-
-  it('returns false when required field is empty string', () => {
-    const profileData: ProfileData = {
-      personal: {
-        firstName: 'John',
-        lastName: 'Doe',
-        nationality: 'USA',
-        documentType: 'nie',
-        documentNumber: '',
-        address: '123 Main St',
-        city: 'Barcelona',
-        postalCode: '08001',
-        phoneNumber: {countryCode: '+34', number: '600123456'},
       },
     };
     expect(isProfileComplete(profileData)).toBe(false);
@@ -42,66 +38,36 @@ describe('isProfileComplete', () => {
   it('returns false when phone number is incomplete', () => {
     const profileData: ProfileData = {
       personal: {
-        firstName: 'John',
-        lastName: 'Doe',
-        nationality: 'USA',
-        documentType: 'nie',
-        documentNumber: 'X1234567A',
-        address: '123 Main St',
-        city: 'Barcelona',
-        postalCode: '08001',
+        ...completePersonal,
         phoneNumber: {countryCode: '+34', number: ''},
       },
     };
     expect(isProfileComplete(profileData)).toBe(false);
   });
 
-  it('returns false when nationality is missing', () => {
+  it('returns true when all required fields are present without empadronamiento date', () => {
+    const profileData: ProfileData = {
+      personal: completePersonal,
+    };
+    expect(isProfileComplete(profileData)).toBe(true);
+  });
+
+  it('requires empadronamiento date when user already has empadronamiento', () => {
     const profileData: ProfileData = {
       personal: {
-        firstName: 'John',
-        lastName: 'Doe',
-        documentType: 'nie',
-        documentNumber: 'X1234567A',
-        address: '123 Main St',
-        city: 'Barcelona',
-        postalCode: '08001',
-        phoneNumber: {countryCode: '+34', number: '600123456'},
+        ...completePersonal,
+        hasEmpadronamiento: 'yes',
       },
     };
     expect(isProfileComplete(profileData)).toBe(false);
   });
 
-  it('returns true when all required fields are present', () => {
+  it('returns true when empadronamiento date is provided', () => {
     const profileData: ProfileData = {
       personal: {
-        firstName: 'John',
-        lastName: 'Doe',
-        nationality: 'USA',
-        documentType: 'nie',
-        documentNumber: 'X1234567A',
-        address: '123 Main St',
-        city: 'Barcelona',
-        postalCode: '08001',
-        phoneNumber: {countryCode: '+34', number: '600123456'},
-      },
-    };
-    expect(isProfileComplete(profileData)).toBe(true);
-  });
-
-  it('returns true when optional fields are missing but required are present', () => {
-    const profileData: ProfileData = {
-      personal: {
-        firstName: 'John',
-        lastName: 'Doe',
-        nationality: 'USA',
-        documentType: 'nie',
-        documentNumber: 'X1234567A',
-        address: '123 Main St',
-        city: 'Barcelona',
-        postalCode: '08001',
-        phoneNumber: {countryCode: '+34', number: '600123456'},
-        // Optional: secondLastName, dateOfDocumentIssuance
+        ...completePersonal,
+        hasEmpadronamiento: 'yes',
+        empadronamientoIssuedAt: '2026-01-15',
       },
     };
     expect(isProfileComplete(profileData)).toBe(true);

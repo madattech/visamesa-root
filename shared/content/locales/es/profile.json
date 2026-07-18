@@ -13,5 +13,42 @@
     "message": "Completa tu perfil antes de que podamos empezar.",
     "notNow": "Ahora no",
     "action": "Completar perfil"
+  },
+  "consentDialog": {
+    "title": "Privacidad y protección de datos",
+    "message": "Antes de guardar tu información personal, revisa y acepta nuestras políticas de protección de datos.",
+    "privacyPolicy": "Política de privacidad",
+    "termsOfService": "Términos del servicio",
+    "gdprNote": "Tus datos se cifran en tu dispositivo y cumplimos el RGPD de la UE. Puedes eliminar tus datos en cualquier momento.",
+    "decline": "Rechazar",
+    "accept": "Aceptar y continuar",
+    "accepting": "Guardando…",
+    "recordFailed": "No se ha podido registrar tu consentimiento. Inténtalo de nuevo."
+  },
+  "account": {
+    "exportShareTitle": "Exportación de datos VisaMesa",
+    "exportNote": "El perfil del lado del cliente solo puede descifrarse en este dispositivo",
+    "exportDialogTitle": "Exportar datos",
+    "exportFailedTitle": "Error al exportar",
+    "exportFailedMessage": "No se han podido exportar tus datos",
+    "deleteTitle": "Eliminar cuenta",
+    "deleteMessage": "Esto eliminará permanentemente tu cuenta y todos los datos asociados. Esta acción no se puede deshacer.\n\nTus datos se eliminarán de nuestros servidores y de tu dispositivo.",
+    "deletedTitle": "Cuenta eliminada",
+    "deletedMessage": "Tu cuenta y todos tus datos se han eliminado permanentemente.",
+    "deletionFailedTitle": "Error al eliminar",
+    "deletionFailedMessage": "No se ha podido eliminar tu cuenta. Inténtalo de nuevo.",
+    "documentsSection": "Documentos legales",
+    "privacyPolicyTitle": "Política de privacidad",
+    "privacyPolicyDescription": "Cómo tratamos tus datos",
+    "termsTitle": "Términos del servicio",
+    "termsDescription": "Términos y condiciones",
+    "dataRightsSection": "Tus derechos sobre tus datos",
+    "exportTitle": "Exportar mis datos",
+    "exportDescription": "Descargar toda tu información",
+    "exportingDescription": "Exportando…",
+    "deleteAccountTitle": "Eliminar mi cuenta",
+    "deleteAccountDescription": "Eliminar permanentemente tu cuenta y datos",
+    "deletingDescription": "Eliminando…",
+    "gdprFooter": "Tus datos personales se cifran en tu dispositivo. Cumplimos el RGPD de la UE y te damos herramientas para gestionar tus derechos de privacidad."
   }
 }

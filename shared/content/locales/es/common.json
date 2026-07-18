@@ -10,6 +10,10 @@
     "confirm": "Confirmar",
     "gotIt": "Entendido",
     "ok": "OK",
+    "delete": "Eliminar",
+    "logout": "Cerrar sesión",
+    "stop": "Detener",
+    "decline": "Rechazar",
     "seeStatus": "Ver estado",
     "learnMore": "Más información",
     "skipToContent": "Saltar al contenido"
@@ -26,7 +30,12 @@
   },
   "errors": {
     "generic": "Algo ha salido mal. Inténtalo de nuevo.",
+    "title": "Error",
+    "openLink": "No se ha podido abrir el enlace",
     "loadServices": "No se han podido cargar los servicios. Actualiza la página."
+  },
+  "dialog": {
+    "closeAccessibilityLabel": "Cerrar diálogo"
   },
   "footer": {
     "privacyPolicy": "Política de privacidad",
@@ -36,5 +45,19 @@
   "languageSwitcher": {
     "label": "Idioma",
     "current": "Idioma actual: {{language}}"
+  },
+  "automation": {
+    "missingProfile": "Falta la información del perfil del caso",
+    "stopTitle": "Detener automatización",
+    "stopMessage": "¿Seguro que quieres detener la automatización?",
+    "successTitle": "¡Listo!",
+    "successMessage": "Tu cita se ha reservado para el {{date}} a las {{time}}",
+    "bookingFailedTitle": "Reserva fallida",
+    "unknownError": "Error desconocido"
+  },
+  "cases": {
+    "fetchFailed": "No se han podido cargar los casos",
+    "logoutTitle": "Cerrar sesión",
+    "logoutMessage": "¿Seguro que quieres cerrar sesión?"
   }
 }

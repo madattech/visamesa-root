@@ -1,8 +1,33 @@
 import {ProfileData} from '@/features/profile/types/ProfileData';
 import profilePersonalSchema from '@/features/forms/data/profile-personal.json';
-import {FormSchema} from '@/features/forms/types/formTypes';
+import {FormField, FormSchema} from '@/features/forms/types/formTypes';
 
 const PERSONAL_SCHEMA = profilePersonalSchema as FormSchema;
+
+function isFieldVisible(field: FormField, personal: Record<string, unknown>): boolean {
+  if (!field.dependsOn) {
+    return true;
+  }
+
+  return personal[field.dependsOn.fieldId] === field.dependsOn.value;
+}
+
+function isFieldValuePresent(fieldId: string, value: unknown): boolean {
+  if (value === undefined || value === null || value === '') {
+    return false;
+  }
+
+  if (
+    fieldId === 'phoneNumber' &&
+    typeof value === 'object' &&
+    value !== null
+  ) {
+    const phone = value as {countryCode?: string; number?: string};
+    return Boolean(phone.countryCode && phone.number);
+  }
+
+  return true;
+}
 
 /**
  * Checks if the profile is complete by validating all required fields in the personal section.
@@ -14,29 +39,14 @@ export function isProfileComplete(profileData: ProfileData | null): boolean {
   }
 
   const personal = profileData.personal;
-  const requiredFields = PERSONAL_SCHEMA.fields
-    .filter(field => field.required === true)
-    .map(field => field.id);
 
-  // Check that all required fields exist and have truthy values
-  for (const fieldId of requiredFields) {
-    const value = personal[fieldId];
-
-    // Handle different types of empty values
-    if (value === undefined || value === null || value === '') {
-      return false;
+  for (const field of PERSONAL_SCHEMA.fields) {
+    if (field.required !== true || !isFieldVisible(field, personal)) {
+      continue;
     }
 
-    // For phone number objects (countryCode + number)
-    if (
-      fieldId === 'phoneNumber' &&
-      typeof value === 'object' &&
-      value !== null
-    ) {
-      const phone = value as {countryCode?: string; number?: string};
-      if (!phone.countryCode || !phone.number) {
-        return false;
-      }
+    if (!isFieldValuePresent(field.id, personal[field.id])) {
+      return false;
     }
   }
 

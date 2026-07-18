@@ -20,6 +20,7 @@ export function CompleteProfileDialog({
     <Dialog
       visible={visible}
       onClose={onClose}
+      dismissable={false}
       title={t('completeProfileDialog.title')}
       actions={[
         {

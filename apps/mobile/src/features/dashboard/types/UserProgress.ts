@@ -18,7 +18,9 @@ export type RequirementCompletionSource =
       appointment?: AutomationAppointmentSummary;
     }
   | {type: 'form'; formId: string; confirmedAt: string}
-  | {type: 'referenced_step'; stepId: number};
+  | {type: 'referenced_step'; stepId: number}
+  | {type: 'referenced_requirement'; stepId: number; requirementKey: string}
+  | {type: 'referenced_profile'};
 
 export type RequirementProgress = {
   completed: boolean;
@@ -36,4 +38,9 @@ export type UserStepProgress = {
 export type UserProgress = {
   currentStepId: number;
   steps: UserStepProgress[];
+};
+
+export type ProgressContext = {
+  isProfileComplete?: boolean;
+  allSteps?: import('@/features/home/types/TieStepDetail').TieStepDetail[];
 };

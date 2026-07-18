@@ -1,5 +1,4 @@
 import { act } from 'react';
-import { Alert } from 'react-native';
 
 import { useLoginScreen } from '@/features/auth/hooks/useLoginScreen';
 import { createMockNavigation } from '@/test/navigation';
@@ -8,11 +7,21 @@ import { ProfileStackParamList } from '@/navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 const mockSignInWithGoogle = jest.fn();
+const mockShowAlert = jest.fn();
 
 jest.mock('@/contexts/AuthContext', () => ({
   useAuth: () => ({
     signInWithGoogle: mockSignInWithGoogle,
   }),
+}));
+
+jest.mock('@/contexts/AppDialogContext', () => ({
+  useAppDialog: () => ({
+    showAlert: mockShowAlert,
+    showDialog: jest.fn(),
+    closeDialog: jest.fn(),
+  }),
+  AppDialogProvider: ({children}: {children: React.ReactNode}) => children,
 }));
 
 type LoginScreenNavigation = NativeStackNavigationProp<
@@ -23,7 +32,6 @@ type LoginScreenNavigation = NativeStackNavigationProp<
 describe('useLoginScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.spyOn(Alert, 'alert').mockImplementation(jest.fn());
   });
 
   it('signs in with Google and navigates back on success', async () => {
@@ -43,7 +51,7 @@ describe('useLoginScreen', () => {
     expect(navigation.goBack).toHaveBeenCalled();
   });
 
-  it('shows an alert when Google sign-in fails', async () => {
+  it('shows a dialog when Google sign-in fails', async () => {
     mockSignInWithGoogle.mockRejectedValue(new Error('Google sign-in failed'));
 
     const navigation = createMockNavigation<
@@ -56,8 +64,8 @@ describe('useLoginScreen', () => {
       await getHookState().onGoogleSignInPress();
     });
 
-    expect(Alert.alert).toHaveBeenCalledWith(
-      'Sign In Failed',
+    expect(mockShowAlert).toHaveBeenCalledWith(
+      'Sign in failed',
       'Google sign-in failed',
     );
     expect(navigation.goBack).not.toHaveBeenCalled();

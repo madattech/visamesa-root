@@ -1,12 +1,14 @@
 import React from 'react'
-import { Pressable, View } from 'react-native'
+import { Pressable, Share, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Button } from '@/components/ui/Button'
 import { Checkbox } from '@/components/ui/Checkbox'
+import { Icon } from '@/components/ui/Icon'
 import { Text } from '@/components/ui/Text'
 import { RequirementProgress } from '@/features/dashboard/types/UserProgress'
+import { getRequirementShareMessage } from '@/features/dashboard/utils/requirementGroups'
 import { Requirement } from '@/features/home/types/TieStepDetail'
 
 type RequirementItemProps = {
@@ -15,10 +17,15 @@ type RequirementItemProps = {
   hint?: string;
   isReferenced?: boolean;
   interactive?: boolean;
-  onSelfDeclaredToggle?: () => void;
+  canCheck?: boolean;
+  canUncheck?: boolean;
+  showDocumentActions?: boolean;
+  onRequirementCheckboxToggle?: () => void;
   onAutomationPress?: () => void;
   onViewAppointmentPress?: () => void;
   onClearAutomationPress?: () => void;
+  onDevMarkAutomationBookedPress?: () => void;
+  onDevConfirmFormPress?: () => void;
   onFormPress?: () => void;
 };
 
@@ -28,57 +35,87 @@ export function RequirementItem({
   hint,
   isReferenced = false,
   interactive = true,
-  onSelfDeclaredToggle,
+  canCheck = true,
+  canUncheck = true,
+  showDocumentActions = false,
+  onRequirementCheckboxToggle,
   onAutomationPress,
   onViewAppointmentPress,
   onClearAutomationPress,
+  onDevMarkAutomationBookedPress,
+  onDevConfirmFormPress,
   onFormPress,
 }: RequirementItemProps) {
   const {styles, theme} = useStyles(stylesheet);
   const {t} = useTranslation('dashboard');
   const completed = progress.completed;
-  const canToggle = interactive && !isReferenced;
+  const canToggleCheckbox =
+    interactive &&
+    !isReferenced &&
+    (requirement.type === 'self_declared'
+      ? completed
+        ? canUncheck
+        : canCheck
+      : requirement.type === 'form'
+        ? completed && canUncheck
+        : false);
   const automationSource =
     progress.source?.type === 'automation' ? progress.source : undefined;
   const hasConfirmedAppointment = Boolean(automationSource?.appointment);
   const canClearAutomation =
-    canToggle &&
+    interactive &&
     requirement.type === 'automation' &&
     completed &&
-    !hasConfirmedAppointment;
+    !hasConfirmedAppointment &&
+    canUncheck;
   const hasBookAction =
-    canToggle &&
+    interactive &&
     !completed &&
     requirement.type === 'automation';
   const hasFormAction =
-    canToggle &&
+    interactive &&
     !completed &&
     requirement.type === 'form';
   const hasAppointmentAction =
     requirement.type === 'automation' && completed;
 
+  const handleShareDocument = async () => {
+    const {message, url} = getRequirementShareMessage(requirement);
+    await Share.share({message, url});
+  };
+
   const checkbox = (
     <Checkbox
       checked={completed}
-      onToggle={onSelfDeclaredToggle || (() => {})}
+      onToggle={onRequirementCheckboxToggle || (() => {})}
       size="lg"
-      disabled={!canToggle || !onSelfDeclaredToggle}
+      disabled={!canToggleCheckbox || !onRequirementCheckboxToggle}
       accessibilityLabel={requirement.label}
     />
   );
 
+  const documentActions = showDocumentActions ? (
+    <View style={styles.documentActions}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={t('documentShareAccessibilityLabel', {
+          label: requirement.label,
+        })}
+        onPress={handleShareDocument}
+        android_ripple={{color: theme.colors.primaryContainer, borderless: true}}
+        style={styles.iconButton}>
+        <Icon name="share" size="md" color="primary" />
+      </Pressable>
+    </View>
+  ) : null;
+
   const titleRow = (
     <View style={styles.titleRow}>
       {checkbox}
-      <Text variant="bodyLarge" style={styles.titleText}>
-        {requirement.label}
-      </Text>
-    </View>
-  );
-
-  const details =
-    requirement.description || hint ? (
-      <View style={styles.details}>
+      <View style={styles.titleContent}>
+        <Text variant="bodyLarge" style={styles.titleText}>
+          {requirement.label}
+        </Text>
         {requirement.description ? (
           <Text variant="bodySmall" color="onSurfaceVariant">
             {requirement.description}
@@ -90,25 +127,26 @@ export function RequirementItem({
           </Text>
         ) : null}
       </View>
-    ) : null;
+      {documentActions}
+    </View>
+  );
 
   if (requirement.type === 'self_declared') {
     return (
       <Pressable
         accessibilityRole="checkbox"
-        accessibilityState={{checked: completed, disabled: !canToggle}}
+        accessibilityState={{checked: completed, disabled: !canToggleCheckbox}}
         accessibilityLabel={requirement.label}
-        disabled={!canToggle}
+        disabled={!canToggleCheckbox}
         android_ripple={
-          canToggle ? {color: theme.colors.primaryContainer} : undefined
+          canToggleCheckbox ? {color: theme.colors.primaryContainer} : undefined
         }
-        onPress={onSelfDeclaredToggle}
+        onPress={onRequirementCheckboxToggle}
         style={({pressed}) => [
           styles.item,
-          canToggle && pressed && styles.pressed,
+          canToggleCheckbox && pressed && styles.pressed,
         ]}>
         {titleRow}
-        {details}
       </Pressable>
     );
   }
@@ -116,28 +154,53 @@ export function RequirementItem({
   return (
     <View style={styles.item}>
       {titleRow}
-      {details}
       {hasBookAction ? (
-        <Button
-          label={t('bookViaVisaMesa')}
-          variant="tonal"
-          onPress={onAutomationPress}
-          accessibilityLabel={t('bookAccessibilityLabel', {
-            label: requirement.label,
-          })}
-          style={styles.actionButton}
-        />
+        <View style={styles.actionGroup}>
+          <Button
+            label={t('bookViaVisaMesa')}
+            variant="tonal"
+            onPress={onAutomationPress}
+            accessibilityLabel={t('bookAccessibilityLabel', {
+              label: requirement.label,
+            })}
+            style={styles.actionButtonNested}
+          />
+          {__DEV__ && onDevMarkAutomationBookedPress ? (
+            <Button
+              label={t('devMarkAsBooked')}
+              variant="outline"
+              onPress={onDevMarkAutomationBookedPress}
+              accessibilityLabel={t('devMarkAsBookedAccessibilityLabel', {
+                label: requirement.label,
+              })}
+              style={styles.actionButtonNested}
+            />
+          ) : null}
+        </View>
       ) : null}
       {hasFormAction ? (
-        <Button
-          label={t('reviewForm')}
-          variant="tonal"
-          onPress={onFormPress}
-          accessibilityLabel={t('reviewAccessibilityLabel', {
-            label: requirement.label,
-          })}
-          style={styles.actionButton}
-        />
+        <View style={styles.actionGroup}>
+          <Button
+            label={t('reviewForm')}
+            variant="tonal"
+            onPress={onFormPress}
+            accessibilityLabel={t('reviewAccessibilityLabel', {
+              label: requirement.label,
+            })}
+            style={styles.actionButtonNested}
+          />
+          {__DEV__ && onDevConfirmFormPress ? (
+            <Button
+              label={t('devConfirmForm')}
+              variant="outline"
+              onPress={onDevConfirmFormPress}
+              accessibilityLabel={t('devConfirmFormAccessibilityLabel', {
+                label: requirement.label,
+              })}
+              style={styles.actionButtonNested}
+            />
+          ) : null}
+        </View>
       ) : null}
       {hasAppointmentAction ? (
         <View style={styles.completedActions}>
@@ -169,28 +232,56 @@ export function RequirementItem({
 
 const stylesheet = createStyleSheet(theme => ({
   item: {
-    gap: theme.spacing.xs,
+    width: '100%',
     paddingVertical: theme.spacing.sm,
   },
   titleRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: theme.spacing.sm,
-    minHeight: theme.sizes.touchTargetMin,
+    width: '100%',
+  },
+  titleContent: {
+    flex: 1,
+    gap: theme.spacing.xs,
   },
   titleText: {
-    flex: 1,
+    flexShrink: 1,
   },
-  details: {
-    marginLeft: theme.sizes.icon.lg + theme.spacing.sm,
-    gap: theme.spacing.xs / 2,
+  documentActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing.xs,
+  },
+  iconButton: {
+    width: theme.spacing.xxxl,
+    height: theme.spacing.xxxl,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   actionButton: {
     alignSelf: 'flex-start',
     marginLeft: theme.sizes.icon.lg + theme.spacing.sm,
+    marginTop: theme.spacing.sm,
+  },
+  actionButtonNested: {
+    alignSelf: 'flex-start',
+  },
+  actionGroup: {
+    alignSelf: 'stretch',
+    alignItems: 'flex-start',
+    width: '100%',
+    gap: theme.spacing.sm,
+    marginLeft: theme.sizes.icon.lg + theme.spacing.sm,
+    marginTop: theme.spacing.sm,
   },
   completedActions: {
-    gap: theme.spacing.xs,
+    alignSelf: 'stretch',
+    alignItems: 'flex-start',
+    width: '100%',
+    gap: theme.spacing.sm,
+    marginLeft: theme.sizes.icon.lg + theme.spacing.sm,
+    marginTop: theme.spacing.sm,
   },
   pressed: {
     backgroundColor: theme.colors.surfaceContainer,

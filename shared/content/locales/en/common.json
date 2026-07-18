@@ -10,6 +10,10 @@
     "confirm": "Confirm",
     "gotIt": "Got it",
     "ok": "OK",
+    "delete": "Delete",
+    "logout": "Logout",
+    "stop": "Stop",
+    "decline": "Decline",
     "seeStatus": "See status",
     "learnMore": "Learn more",
     "skipToContent": "Skip to content"
@@ -26,7 +30,12 @@
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
+    "title": "Error",
+    "openLink": "Could not open the link",
     "loadServices": "Could not load services. Please refresh the page."
+  },
+  "dialog": {
+    "closeAccessibilityLabel": "Close dialog"
   },
   "footer": {
     "privacyPolicy": "Privacy Policy",
@@ -36,5 +45,19 @@
   "languageSwitcher": {
     "label": "Language",
     "current": "Current language: {{language}}"
+  },
+  "automation": {
+    "missingProfile": "Case profile information is missing",
+    "stopTitle": "Stop automation",
+    "stopMessage": "Are you sure you want to stop the automation?",
+    "successTitle": "Success!",
+    "successMessage": "Your appointment has been booked for {{date}} at {{time}}",
+    "bookingFailedTitle": "Booking failed",
+    "unknownError": "Unknown error"
+  },
+  "cases": {
+    "fetchFailed": "Failed to fetch cases",
+    "logoutTitle": "Logout",
+    "logoutMessage": "Are you sure you want to logout?"
   }
 }

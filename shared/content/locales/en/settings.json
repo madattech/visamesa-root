@@ -2,5 +2,12 @@
   "title": "App Settings",
   "languageSectionTitle": "Language",
   "languageSectionDescription": "Choose the language for the VisaMesa app.",
-  "languageSaved": "Language updated"
+  "languageSaved": "Language updated",
+  "devSectionTitle": "Development",
+  "devResetProgressDescription": "Clear all locally stored checklist progress on this device.",
+  "devResetProgressButton": "Reset checklist progress",
+  "devResetProgressTitle": "Reset checklist progress?",
+  "devResetProgressMessage": "This clears all checked items and step completion on this device. This action cannot be undone.",
+  "devResetProgressConfirm": "Reset",
+  "devResetProgressSuccess": "Checklist progress reset"
 }
