@@ -1,5 +1,6 @@
 import {act} from 'react';
 
+import {AppAlertButton} from '@/contexts/AppDialogContext';
 import {useSettingsScreen} from '@/features/settings/hooks/useSettingsScreen';
 import {resetUserProgress} from '@/features/dashboard/services/progressService';
 import {renderHook} from '@/test/renderHook';
@@ -31,7 +32,7 @@ describe('useSettingsScreen', () => {
     mockShowToast.mockReset();
     mockShowAlert.mockReset();
     mockShowAlert.mockImplementation((_title, _message, buttons) => {
-      buttons?.find(button => button.style === 'destructive')?.onPress?.();
+      buttons?.find((button: AppAlertButton) => button.style === 'destructive')?.onPress?.();
     });
     (resetUserProgress as jest.Mock).mockClear();
   });

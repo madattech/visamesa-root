@@ -11,6 +11,7 @@ import {useFormSchema} from '@/features/forms/hooks/useFormSchema';
 import {useProfileSectionScreen} from '@/features/profile/hooks/useProfileSectionScreen';
 import {Text} from '@/components/ui/Text';
 import {ProfileStackParamList} from '@/navigation/types';
+import {useConsent} from '@/contexts/ConsentContext';
 import {consentService} from '@/services/consentService';
 
 const PROFILE_SECTION_TITLE_KEYS = {
@@ -28,6 +29,7 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
   const {formId, initialValues, isSubmitting, onSubmit} =
     useProfileSectionScreen(route);
   const {schema, isLoading, error} = useFormSchema(formId);
+  const {refreshConsent} = useConsent();
   const [showConsentDialog, setShowConsentDialog] = useState(false);
   const [pendingData, setPendingData] = useState<Record<string, unknown> | null>(
     null,
@@ -55,6 +57,7 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
   const handleConsentAccept = async () => {
     try {
       await consentService.recordConsent();
+      await refreshConsent();
       setShowConsentDialog(false);
 
       // Now save the pending data

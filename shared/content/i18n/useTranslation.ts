@@ -13,7 +13,10 @@ export function useTranslation<NS extends TranslationNamespace | readonly Transl
   NS extends readonly TranslationNamespace[] ? NS[number] : NS extends TranslationNamespace ? NS : 'common',
   undefined
 > {
-  return useI18nextTranslation(ns, options)
+  return useI18nextTranslation(ns, options as never) as UseTranslationResponse<
+    NS extends readonly TranslationNamespace[] ? NS[number] : NS extends TranslationNamespace ? NS : 'common',
+    undefined
+  >
 }
 
 export { Trans } from 'react-i18next'

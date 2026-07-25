@@ -11,10 +11,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { ToastProvider } from './components/Toast/ToastProvider'
 import { AppDialogProvider } from './contexts/AppDialogContext'
 import { AuthProvider } from './contexts/AuthContext'
+import { ConsentProvider } from './contexts/ConsentContext'
 import { EntitlementsProvider } from './contexts/EntitlementsContext'
 import { I18nBootstrap } from './contexts/I18nBootstrap'
 import { LocaleProvider } from './contexts/LocaleContext'
-import { ProfileCompletionProvider } from './contexts/ProfileCompletionContext'
+import { ProfileDataProvider } from './features/profile/context/ProfileDataContext'
 import { linking } from './navigation/linking'
 import { navigationRef } from './navigation/navigationRef'
 import { PaymentReturnListener } from './navigation/PaymentReturnListener'
@@ -41,17 +42,19 @@ const App = () => {
         <LocaleProvider>
           <AuthProvider>
             <EntitlementsProvider>
-              <ProfileCompletionProvider>
+              <ConsentProvider>
                 <ToastProvider>
-                  <AppDialogProvider>
-                    <AppStatusBar />
-                    <NavigationContainer ref={navigationRef} linking={linking}>
-                      <PaymentReturnListener />
-                      <RootNavigator />
-                    </NavigationContainer>
-                  </AppDialogProvider>
+                  <ProfileDataProvider>
+                    <AppDialogProvider>
+                      <AppStatusBar />
+                      <NavigationContainer ref={navigationRef} linking={linking}>
+                        <PaymentReturnListener />
+                        <RootNavigator />
+                      </NavigationContainer>
+                    </AppDialogProvider>
+                  </ProfileDataProvider>
                 </ToastProvider>
-              </ProfileCompletionProvider>
+              </ConsentProvider>
             </EntitlementsProvider>
           </AuthProvider>
         </LocaleProvider>

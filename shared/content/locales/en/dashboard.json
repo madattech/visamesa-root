@@ -53,7 +53,12 @@
   "devConfirmFormAccessibilityLabel": "Mark {{label}} as confirmed for development",
   "requirementsInfoAccessibilityLabel": "About Checklist",
   "readinessTitle": "Before we can start",
-  "readinessPayment": "VisaMesa service payment",
-  "readinessProfile": "Complete your profile",
-  "completeProfile": "Complete profile"
+  "readinessDescription": "Complete your profile to start the process",
+  "readinessPersonalInformation": "Complete your Personal Information",
+  "readinessPayment": "Complete your Payment",
+  "readinessLegalPrivacy": "Read Legal & Privacy",
+  "prerequisitesDialog": {
+    "notNow": "Not now",
+    "action": "Complete profile"
+  }
 }

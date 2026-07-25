@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 import {useToast} from '@/components/Toast/ToastProvider';
 import {phoneToString, stringToPhone} from '@/features/forms/utils/phoneUtils';
@@ -7,14 +7,12 @@ import {
   getProfile,
   updateProfile,
 } from '@/features/profile/services/profileService';
-import {profileCompletionService} from '@/features/profile/services/profileCompletionService';
 import {
   ProfileData,
   ProfileSection,
 } from '@/features/profile/types/ProfileData';
 import {isProfileComplete} from '@/features/profile/utils/profileCompleteness';
 import {ProfileDecryptionError} from '@/services/profileCryptoErrors';
-import {useProfileCompletion} from '@/contexts/ProfileCompletionContext';
 
 type SubmittingState = Record<ProfileSection, boolean>;
 
@@ -26,65 +24,67 @@ export type UseProfileResult = {
   profileData: ProfileData | null;
   isLoading: boolean;
   error: Error | null;
+  isProfileComplete: boolean;
   personalInitialValues: Record<string, unknown>;
   isSubmittingPersonal: boolean;
   submitPersonal: (data: Record<string, unknown>) => Promise<void>;
+  refreshProfile: () => Promise<boolean>;
 };
 
 export function useProfile(isEnabled: boolean): UseProfileResult {
   const {showToast} = useToast();
-  const {refreshCompletion} = useProfileCompletion();
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [isLoading, setIsLoading] = useState(isEnabled);
   const [error, setError] = useState<Error | null>(null);
   const [submitting, setSubmitting] =
     useState<SubmittingState>(INITIAL_SUBMITTING);
 
-  useEffect(() => {
+  const refreshProfile = useCallback(async (): Promise<boolean> => {
     if (!isEnabled) {
-      setIsLoading(false);
       setProfileData(null);
+      setIsLoading(false);
       setError(null);
-      return;
+      return false;
     }
-
-    let cancelled = false;
 
     setIsLoading(true);
     setError(null);
 
-    getProfile()
-      .then(async data => {
-        if (!cancelled) {
-          setProfileData(data);
-          setIsLoading(false);
+    try {
+      const data = await getProfile();
+      setProfileData(data);
+      return isProfileComplete(data);
+    } catch (err) {
+      if (err instanceof ProfileDecryptionError) {
+        setProfileData(EMPTY_PROFILE);
+        setError(err);
+      } else {
+        setError(
+          err instanceof Error ? err : new Error('Failed to load profile'),
+        );
+      }
 
-          // Update the completion flag
-          const complete = isProfileComplete(data);
-          await profileCompletionService.setIsComplete(complete);
-        }
-      })
-      .catch(async err => {
-        if (!cancelled) {
-          if (err instanceof ProfileDecryptionError) {
-            setProfileData(EMPTY_PROFILE);
-            setError(err);
-          } else {
-            setError(
-              err instanceof Error ? err : new Error('Failed to load profile'),
-            );
-          }
-          setIsLoading(false);
-
-          // Profile not complete if it failed to load
-          await profileCompletionService.setIsComplete(false);
-        }
-      });
-
-    return () => {
-      cancelled = true;
-    };
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
   }, [isEnabled]);
+
+  useEffect(() => {
+    if (!isEnabled) {
+      setProfileData(null);
+      setIsLoading(false);
+      setError(null);
+      return;
+    }
+
+    refreshProfile().catch(() => {});
+  }, [isEnabled, refreshProfile]);
+
+  const isPersonalInfoComplete = useMemo(
+    () => isProfileComplete(profileData),
+    [profileData],
+  );
 
   const personalInitialValues = useMemo(() => {
     if (!profileData?.personal) {
@@ -130,8 +130,6 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
       setProfileData(result);
 
       const complete = isProfileComplete(result);
-      await profileCompletionService.setIsComplete(complete);
-      await refreshCompletion();
 
       if (section === 'personal') {
         try {
@@ -179,6 +177,7 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
     profileData,
     isLoading,
     error,
+    isProfileComplete: isPersonalInfoComplete,
     personalInitialValues,
     isSubmittingPersonal: submitting.personal,
     submitPersonal: data =>
@@ -187,5 +186,6 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
         data,
         'Personal information saved successfully!',
       ),
+    refreshProfile,
   };
 }

@@ -54,7 +54,12 @@
   "devConfirmFormAccessibilityLabel": "Marcar {{label}} como confirmado para desarrollo",
   "requirementsInfoAccessibilityLabel": "Sobre la lista de tareas",
   "readinessTitle": "Antes de empezar",
-  "readinessPayment": "Pago del servicio VisaMesa",
-  "readinessProfile": "Completa tu perfil",
-  "completeProfile": "Completar perfil"
+  "readinessDescription": "Completa tu perfil para empezar el proceso",
+  "readinessPersonalInformation": "Completa tu información personal",
+  "readinessPayment": "Completa tu pago",
+  "readinessLegalPrivacy": "Lee Legal y privacidad",
+  "prerequisitesDialog": {
+    "notNow": "Ahora no",
+    "action": "Completar perfil"
+  }
 }

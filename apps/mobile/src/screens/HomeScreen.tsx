@@ -4,7 +4,6 @@ import {ActivityIndicator, ScrollView, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
-import {CompleteProfileDialog} from '@/components/CompleteProfileDialog';
 import {Stepper} from '@/components/Stepper';
 import {ButtonGroup} from '@/components/ui/ButtonGroup';
 import {Surface} from '@/components/ui/Surface';
@@ -34,9 +33,6 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
-    showCompleteProfileDialog,
-    onCloseCompleteProfileDialog,
-    onCompleteProfilePress,
   } = useHomeScreen(navigation);
 
   return (
@@ -86,11 +82,6 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           </View>
         </View>
       )}
-      <CompleteProfileDialog
-        visible={showCompleteProfileDialog}
-        onClose={onCloseCompleteProfileDialog}
-        onCompleteProfile={onCompleteProfilePress}
-      />
     </SafeAreaView>
   );
 };

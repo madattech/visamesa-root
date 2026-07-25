@@ -9,8 +9,8 @@ import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {Stepper} from '@/components/Stepper';
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
-import {CompleteProfileDialog} from '@/components/CompleteProfileDialog';
 import {DashboardHeader} from '@/features/dashboard/components/DashboardHeader';
+import {PrerequisitesDialog} from '@/features/dashboard/components/PrerequisitesDialog';
 import {DashboardUnauthenticated} from '@/features/dashboard/components/DashboardUnauthenticated';
 import {RequirementsChecklist} from '@/features/dashboard/components/RequirementsChecklist';
 import {StepActionFooter} from '@/features/dashboard/components/StepActionFooter';
@@ -47,7 +47,8 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     stepActionLabel,
     currentStepRequirements,
     canStartProcess,
-    showCompleteProfileDialog,
+    readinessMissing,
+    showPrerequisitesDialog,
     onSignInPress,
     onStepPress,
     onStepDetailPress,
@@ -59,8 +60,8 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onDevMarkAutomationBookedPress,
     onDevConfirmFormPress,
     onFormPress,
-    onCloseCompleteProfileDialog,
-    onCompleteProfilePress,
+    onClosePrerequisitesDialog,
+    onGoToProfilePress,
   } = useDashboardScreen(navigation);
 
   if (isAuthLoading || (isAuthenticated && isLoading)) {
@@ -151,10 +152,11 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
           />
         </View>
       </View>
-      <CompleteProfileDialog
-        visible={showCompleteProfileDialog}
-        onClose={onCloseCompleteProfileDialog}
-        onCompleteProfile={onCompleteProfilePress}
+      <PrerequisitesDialog
+        visible={showPrerequisitesDialog}
+        missing={readinessMissing}
+        onClose={onClosePrerequisitesDialog}
+        onGoToProfile={onGoToProfilePress}
       />
     </SafeAreaView>
   );

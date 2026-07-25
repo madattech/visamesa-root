@@ -4,10 +4,19 @@ import {useDashboardScreen} from '@/features/dashboard/hooks/useDashboardScreen'
 import {createTieSteps} from '@/test/fixtures/tieSteps';
 import {createUserProgress} from '@/test/fixtures/userProgress';
 import {createMockNavigation} from '@/test/navigation';
-import {renderHook} from '@/test/renderHook';
+import {renderHook, flushAsyncEffects} from '@/test/renderHook';
 
 const mockShowToast = jest.fn();
 const mockUseProcessReadiness = jest.fn();
+const mockRefreshReadiness = jest.fn(() => Promise.resolve());
+
+async function renderDashboardScreen(
+  navigation: Parameters<typeof useDashboardScreen>[0],
+) {
+  const getHookState = renderHook(() => useDashboardScreen(navigation));
+  await flushAsyncEffects();
+  return getHookState;
+}
 
 jest.mock('@/features/home/hooks/useTieSteps', () => ({
   useTieSteps: jest.fn(),
@@ -106,6 +115,8 @@ describe('useDashboardScreen', () => {
 
   beforeEach(() => {
     mockShowToast.mockReset();
+    mockRefreshReadiness.mockReset();
+    mockRefreshReadiness.mockResolvedValue(undefined);
     completeStep.mockReset();
     toggleSelfDeclaredRequirement.mockReset();
     completeAutomationRequirement.mockReset();
@@ -116,6 +127,7 @@ describe('useDashboardScreen', () => {
       canStartProcess: true,
       missing: [],
       isLoading: false,
+      refreshReadiness: mockRefreshReadiness,
     });
 
     useTieSteps.mockReturnValue({
@@ -153,11 +165,11 @@ describe('useDashboardScreen', () => {
     });
   });
 
-  it('allows browsing future steps without enabling completion or interaction', () => {
+  it('allows browsing future steps without enabling completion or interaction', async () => {
     const navigation = createMockNavigation() as Parameters<
       typeof useDashboardScreen
     >[0];
-    const getHookState = renderHook(() => useDashboardScreen(navigation));
+    const getHookState = await renderDashboardScreen(navigation);
 
     act(() => {
       getHookState().onStepPress(2);
@@ -172,7 +184,7 @@ describe('useDashboardScreen', () => {
     expect(getHookState().stepActionLabel).toBeDefined();
   });
 
-  it('enables completion on step 1 when all items are checked', () => {
+  it('enables completion on step 1 when all items are checked', async () => {
     useUserProgress.mockReturnValue({
       progress: createUserProgress({
         currentStepId: 1,
@@ -199,55 +211,64 @@ describe('useDashboardScreen', () => {
     const navigation = createMockNavigation() as Parameters<
       typeof useDashboardScreen
     >[0];
-    const getHookState = renderHook(() => useDashboardScreen(navigation));
+    const getHookState = await renderDashboardScreen(navigation);
 
     expect(getHookState().canCompleteStep).toBe(true);
     expect(getHookState().stepActionDisabledHint).toBeUndefined();
   });
 
-  it('shows complete profile dialog when not ready', () => {
+  it('shows prerequisites dialog when not ready', async () => {
     // Set mock before rendering hook
     mockUseProcessReadiness.mockReturnValue({
       canStartProcess: false,
-      missing: ['payment', 'profile'],
+      missing: ['personalInformation', 'legalPrivacy', 'payment'],
       isLoading: false,
+      refreshReadiness: mockRefreshReadiness,
     });
 
     const navigation = createMockNavigation() as Parameters<
       typeof useDashboardScreen
     >[0];
-    const getHookState = renderHook(() => useDashboardScreen(navigation));
+    const getHookState = await renderDashboardScreen(navigation);
 
     expect(getHookState().canStartProcess).toBe(false);
+    expect(getHookState().canInteractWithRequirements).toBe(false);
+    expect(getHookState().readinessMissing).toEqual([
+      'personalInformation',
+      'legalPrivacy',
+      'payment',
+    ]);
     expect(getHookState().stepActionLabel).toBe('See prerequisites');
-    expect(getHookState().showCompleteProfileDialog).toBe(false);
+    expect(getHookState().showPrerequisitesDialog).toBe(false);
 
     act(() => {
       getHookState().onCompleteStep();
     });
 
-    expect(getHookState().showCompleteProfileDialog).toBe(true);
+    expect(getHookState().showPrerequisitesDialog).toBe(true);
+    expect(mockRefreshReadiness).toHaveBeenCalledTimes(1);
     expect(completeStep).not.toHaveBeenCalled();
 
     act(() => {
-      getHookState().onCloseCompleteProfileDialog();
+      getHookState().onClosePrerequisitesDialog();
     });
 
-    expect(getHookState().showCompleteProfileDialog).toBe(false);
+    expect(getHookState().showPrerequisitesDialog).toBe(false);
 
     // Restore default mock for other tests
     mockUseProcessReadiness.mockReturnValue({
       canStartProcess: true,
       missing: [],
       isLoading: false,
+      refreshReadiness: mockRefreshReadiness,
     });
   });
 
-  it('navigates to step detail and automation webview', () => {
+  it('navigates to step detail and automation webview', async () => {
     const navigation = createMockNavigation() as Parameters<
       typeof useDashboardScreen
     >[0];
-    const getHookState = renderHook(() => useDashboardScreen(navigation));
+    const getHookState = await renderDashboardScreen(navigation);
 
     act(() => {
       getHookState().onStepDetailPress();
@@ -266,14 +287,14 @@ describe('useDashboardScreen', () => {
     });
   });
 
-  it('does not expose dev-only checklist shortcuts when __DEV__ is false', () => {
+  it('does not expose dev-only checklist shortcuts when __DEV__ is false', async () => {
     const originalDev = (global as {__DEV__?: boolean}).__DEV__;
     (global as {__DEV__?: boolean}).__DEV__ = false;
 
     const navigation = createMockNavigation() as Parameters<
       typeof useDashboardScreen
     >[0];
-    const getHookState = renderHook(() => useDashboardScreen(navigation));
+    const getHookState = await renderDashboardScreen(navigation);
 
     expect(getHookState().onDevMarkAutomationBookedPress).toBeUndefined();
     expect(getHookState().onDevConfirmFormPress).toBeUndefined();

@@ -1,32 +1,15 @@
+import {isProfileComplete} from '@/features/profile/utils/profileCompleteness';
+
 import {ProfileData} from '../types/ProfileData';
 
 /**
  * Determines whether the profile Personal Information section is complete.
- * Checks if all required fields are filled.
+ * Uses the same schema-based rules as readiness gating.
  */
 export function isPersonalInformationComplete(
   profileData: ProfileData | null,
 ): boolean {
-  if (!profileData?.personal) {
-    return false;
-  }
-
-  const requiredFields = [
-    'firstName',
-    'lastName',
-    'nationality',
-    'documentType',
-    'documentNumber',
-    'phoneNumber',
-    'address',
-    'city',
-    'postalCode',
-  ];
-
-  return requiredFields.every(field => {
-    const value = profileData.personal?.[field];
-    return value !== undefined && value !== null && String(value).trim() !== '';
-  });
+  return isProfileComplete(profileData);
 }
 
 /**

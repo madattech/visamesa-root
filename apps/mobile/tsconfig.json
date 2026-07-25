@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["jest"],
     "target": "esnext",
-    "module": "es2015",
+    "module": "esnext",
     "lib": ["es2017", "es2019"],
     "allowJs": true,
     "jsx": "react-native",

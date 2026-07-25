@@ -1,7 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import {ProfileDataProvider} from '@/features/profile/context/ProfileDataContext';
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
 import LegalScreen from '@/screens/LegalScreen';
 import LoginScreen from '@/screens/LoginScreen';
@@ -13,7 +12,7 @@ import {ProfileStackParamList} from './types';
 
 const Stack = createNativeStackNavigator<ProfileStackParamList>();
 
-function ProfileStackScreens() {
+const ProfileStackNavigator = () => {
   const internalStackScreenOptions = useInternalStackScreenOptions();
 
   return (
@@ -37,12 +36,6 @@ function ProfileStackScreens() {
       />
     </Stack.Navigator>
   );
-}
-
-const ProfileStackNavigator = () => (
-  <ProfileDataProvider>
-    <ProfileStackScreens />
-  </ProfileDataProvider>
-);
+};
 
 export default ProfileStackNavigator;

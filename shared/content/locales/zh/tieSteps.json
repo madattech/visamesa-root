@@ -20,7 +20,7 @@
     {
       "id": 4,
       "title": "缴纳 TIE 费用",
-      "description": "填写 Modelo 790 code 012，打印后在西班牙银行完成缴费。"
+      "description": "填写 Modelo 790（VisaMesa 代您完成），打印后在西班牙银行缴费。"
     },
     {
       "id": 5,
@@ -75,7 +75,7 @@
     "empadronamiento": {
       "title": "登记住址",
       "short": "在 Ayuntamiento 办理 empadronamiento。",
-      "description": "准备材料，如有需要请预约 Ayuntamiento 访问，并本人到场领取 empadronamiento 证明。VisaMesa 可协助预约；登记住址须您本人前往办事处办理。",
+      "description": "准备材料，如有需要请预约 Ayuntamiento 访问，并本人到场登记住址、领取 empadronamiento 证明。",
       "whyItExists": "Empadronamiento 在巴塞罗那市政登记册中登记您的居住地址。移民及许多其他手续均要求证明您居住在特定地址。",
       "completionPrompt": "您是否已在 Ayuntamiento 领取 empadronamiento 证明？",
       "cta": {
@@ -135,7 +135,7 @@
         "attend-ayuntamiento": {
           "label": "到场并领取证明",
           "description": "本人携带上述全部材料到场。",
-          "detail": "领取 volante 或 certificado de empadronamiento。未拿到证明则此步骤未完成。"
+          "detail": "预约当天请提前几分钟到达，携带全部证件原件，前往预约确认函中列明的 Ayuntamiento 办事处。\n\n重要提示：您必须本人到场。VisaMesa 可协助您获取预约，但无法代您办理登记，因为市政府须当面核实您的身份。\n\n到场后，市政府工作人员会审核您的材料、核实身份，并将您的地址登记到市政登记册（padrón）。如一切无误，登记即告完成。\n\n登记处理完成后，您将收到 empadronamiento 证明（亦称 certificado de empadronamiento）。该证明是您在巴塞罗那登记住址的官方凭证，日后移民及行政手续可能会用到。如办事处无法当场开具证明，工作人员会说明何时及如何领取。\n\n请将 empadronamiento 证明妥善保管。第 5 步出席指纹预约时须携带该证明，它是该预约所需材料之一。"
         }
       }
     },
@@ -226,8 +226,8 @@
     },
     "pay-fee": {
       "title": "缴纳 TIE 签发费用",
-      "short": "填写 Modelo 790，打印后在银行缴费。",
-      "description": "VisaMesa 根据您的个人资料填写 Modelo 790 code 012。打印全部副本，在西班牙银行缴费并保留盖章回执——指纹采集预约时必须携带。",
+      "short": "填写 Modelo 790（VisaMesa 代您完成），打印后在银行缴费。",
+      "description": "指纹预约前须使用 Modelo 790 code 012 缴纳政府费用。",
       "whyItExists": "缴纳官方费用是 TIE 办理的必要条件。银行盖章的表格是缴费证明。",
       "completionPrompt": "您是否已缴费并收到盖章回执？",
       "cta": {
@@ -263,22 +263,22 @@
         "modelo-790-form": {
           "label": "Modelo 790 Code 012 表格",
           "description": "查看 VisaMesa 为您填写的表格。",
-          "detail": "打印前请确认个人信息和手续类型无误。"
+          "detail": "VisaMesa 会根据您的个人资料自动填写 Modelo 790 code 012 表格，您无需自行填写。"
         },
         "print-modelo-790": {
           "label": "打印表格",
           "description": "打印全部副本——条形码必须清晰可辨。",
-          "detail": "PDF 包含三份副本。请在要求处签名。如无打印机，可前往复印店。"
+          "detail": "表格准备好后，请下载并打印 Modelo 790 的全部副本。银行会保留一份，并将其余盖章副本作为缴费证明退还给您。"
         },
         "pay-at-bank": {
           "label": "在西班牙银行缴费",
-          "description": "CaixaBank、Santander、BBVA 等银行均可办理。",
-          "detail": "无需开户。可在柜台缴费，部分银行也可扫描条形码在 ATM 缴费。"
+          "description": "携带打印好的表格前往西班牙银行。",
+          "detail": "携带打印好的表格前往西班牙境内接受政府规费缴付的银行。\n\n常见可办理该规费的银行包括：\n• CaixaBank\n• BBVA\n• Banco Santander\n• Banco Sabadell\n• Bankinter\n\n在银行，将打印好的 Modelo 790 表格交给柜员，使用银行接受的付款方式缴纳费用，银行会在表格上盖章确认已收到款项。"
         },
         "fee-payment-receipt": {
           "label": "盖章缴费回执",
           "description": "保留银行盖章的副本，预约时携带。",
-          "detail": "若无此回执，警方可能当场拒绝受理申请。"
+          "detail": "缴费后，银行会将盖章的 Modelo 790 副本退还给您。\n\n重要提示：请妥善保管该盖章回执，它是您已缴纳政府规费的官方证明。\n\n第 5 步出席指纹预约时，必须携带盖章的 Modelo 790 回执。如无缴费证明，预约可能无法完成。"
         }
       }
     },

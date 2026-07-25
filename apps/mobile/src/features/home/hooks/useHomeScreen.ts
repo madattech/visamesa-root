@@ -8,8 +8,7 @@ import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {HomeStackParamList} from '@/navigation/types';
 import {configureLayoutAnimation} from '@/utils/layoutAnimation';
-import {useProcessReadiness} from '@/hooks/useProcessReadiness';
-import {navigateToDashboard, navigateToProfile} from '@/navigation/navigationRef';
+import {navigateToDashboard} from '@/navigation/navigationRef';
 import {usePricingLink} from '@/hooks/usePricingLink';
 
 const DEFAULT_STEP_ID = 1;
@@ -28,9 +27,6 @@ export type UseHomeScreenResult = {
   onStepPress: (stepId: number) => void;
   onPrimaryPress: () => void;
   onSecondaryPress: () => void;
-  showCompleteProfileDialog: boolean;
-  onCloseCompleteProfileDialog: () => void;
-  onCompleteProfilePress: () => void;
 };
 
 export function useHomeScreen(
@@ -38,13 +34,11 @@ export function useHomeScreen(
 ): UseHomeScreenResult {
   const {steps, isLoading, error} = useTieSteps();
   const {user} = useAuth();
-  const {canStartProcess} = useProcessReadiness();
   const {openPricing} = usePricingLink();
   const {showAlert} = useAppDialog();
   const {t} = useTranslation('home');
   const {t: tCommon} = useTranslation('common');
   const [activeStepId, setActiveStepId] = useState(DEFAULT_STEP_ID);
-  const [showCompleteProfileDialog, setShowCompleteProfileDialog] = useState(false);
 
   const activeStep = useMemo(
     () => steps.find(step => step.id === activeStepId),
@@ -69,27 +63,11 @@ export function useHomeScreen(
       return;
     }
 
-    // If user has paid and completed profile, navigate to dashboard
-    if (canStartProcess) {
-      navigateToDashboard();
-      return;
-    }
-
-    // Otherwise, show complete profile dialog
-    setShowCompleteProfileDialog(true);
+    navigateToDashboard();
   };
 
   const onSecondaryPress = () => {
     navigation.navigate('Steps');
-  };
-
-  const onCloseCompleteProfileDialog = () => {
-    setShowCompleteProfileDialog(false);
-  };
-
-  const onCompleteProfilePress = () => {
-    setShowCompleteProfileDialog(false);
-    navigateToProfile();
   };
 
   return {
@@ -101,8 +79,5 @@ export function useHomeScreen(
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
-    showCompleteProfileDialog,
-    onCloseCompleteProfileDialog,
-    onCompleteProfilePress,
   };
 }

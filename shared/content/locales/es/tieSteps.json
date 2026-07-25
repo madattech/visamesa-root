@@ -20,7 +20,7 @@
     {
       "id": 4,
       "title": "Paga la tasa del TIE",
-      "description": "Completa el Modelo 790 código 012, imprímelo y paga en un banco español."
+      "description": "Completa el Modelo 790 (VisaMesa lo hace por ti), imprímelo y paga en un banco español."
     },
     {
       "id": 5,
@@ -75,7 +75,7 @@
     "empadronamiento": {
       "title": "Empadrona tu domicilio",
       "short": "Obtén el empadronamiento en el Ayuntamiento.",
-      "description": "Reúne tus documentos, reserva cita en el Ayuntamiento si es necesario y acude en persona para recibir tu certificado de empadronamiento. VisaMesa puede ayudarte a reservar la cita; debes acudir tú mismo a la oficina para empadronarte.",
+      "description": "Reúne tus documentos, reserva cita en el Ayuntamiento si es necesario y acude en persona para empadronarte y recibir tu certificado de empadronamiento.",
       "whyItExists": "El empadronamiento registra tu domicilio en el padrón municipal de Barcelona. Inmigración y muchos otros trámites exigen acreditar que vives en una dirección concreta.",
       "completionPrompt": "¿Recibiste tu certificado de empadronamiento en el Ayuntamiento?",
       "cta": {
@@ -135,7 +135,7 @@
         "attend-ayuntamiento": {
           "label": "Acude y recoge tu certificado",
           "description": "Acude en persona con todos los documentos anteriores.",
-          "detail": "Sal con tu volante o certificado de empadronamiento en mano. Sin el certificado, este paso no está completado."
+          "detail": "El día de tu cita, llega unos minutos antes, lleva todos tus documentos originales y acude a la oficina del Ayuntamiento indicada en la confirmación de tu cita.\n\nImportante: debes acudir tú mismo a la cita. VisaMesa puede ayudarte a obtener la cita, pero no puede acudir al empadronamiento en tu nombre porque el ayuntamiento debe verificar tu identidad en persona.\n\nEn la cita, un empleado del ayuntamiento revisará tus documentos, verificará tu identidad y registrará tu domicilio en el padrón municipal. Si todo está en orden, tu empadronamiento quedará completado.\n\nUna vez procesado el registro, recibirás tu certificado de empadronamiento. Este certificado acredita oficialmente tu domicilio registrado en Barcelona y puede ser necesario para futuros trámites de inmigración y administrativos. Si la oficina no puede emitir el certificado de inmediato, te explicarán cuándo y cómo obtenerlo.\n\nGuarda tu certificado de empadronamiento en un lugar seguro. Más adelante lo necesitarás en el Paso 5, cuando acudas a tu cita para toma de huellas. El certificado es uno de los documentos obligatorios para esa cita."
         }
       }
     },
@@ -226,8 +226,8 @@
     },
     "pay-fee": {
       "title": "Paga la tasa de expedición del TIE",
-      "short": "Rellena el Modelo 790, imprímelo y paga en un banco.",
-      "description": "VisaMesa rellena el Modelo 790 código 012 con los datos de tu perfil. Imprime todas las copias, paga en un banco español y conserva el recibo sellado — debes llevarlo a tu cita de huellas.",
+      "short": "Rellena el Modelo 790 (VisaMesa lo hace por ti), imprímelo y paga en un banco.",
+      "description": "Antes de tu cita de toma de huellas, debes pagar la tasa oficial con el Modelo 790, código 012.",
       "whyItExists": "Pagar la tasa oficial es obligatorio antes de tramitar tu TIE. El formulario sellado por el banco acredita el pago.",
       "completionPrompt": "¿Pagaste la tasa y recibiste tu justificante sellado?",
       "cta": {
@@ -263,22 +263,22 @@
         "modelo-790-form": {
           "label": "Formulario Modelo 790 Código 012",
           "description": "Revisa el formulario que VisaMesa ha rellenado por ti.",
-          "detail": "Confirma tus datos y el tipo de trámite antes de imprimir."
+          "detail": "VisaMesa completa automáticamente el formulario Modelo 790, código 012, con la información de tu perfil, así que no tienes que rellenarlo tú mismo."
         },
         "print-modelo-790": {
           "label": "Imprime el formulario",
           "description": "Imprime todas las copias — los códigos de barras deben ser legibles.",
-          "detail": "El PDF tiene tres copias. Firma donde se requiera. Usa una copistería si lo necesitas."
+          "detail": "Cuando el formulario esté listo, descárgalo e imprime todas las copias del Modelo 790. El banco se quedará una copia y te devolverá las restantes selladas como justificante de pago."
         },
         "pay-at-bank": {
           "label": "Paga en un banco español",
-          "description": "CaixaBank, Santander, BBVA y otros aceptan esta tasa.",
-          "detail": "No necesitas cuenta. Paga en ventanilla o en algunos cajeros escaneando el código de barras."
+          "description": "Lleva los formularios impresos a un banco español.",
+          "detail": "Lleva los formularios impresos a un banco en España que acepte el pago de tasas oficiales.\n\nBancos habituales donde suele pagarse esta tasa:\n• CaixaBank\n• BBVA\n• Banco Santander\n• Banco Sabadell\n• Bankinter\n\nEn el banco, entrega los formularios Modelo 790 impresos al cajero, paga la tasa con uno de los métodos de pago que acepte el banco y el banco sellará tus formularios para confirmar que se ha recibido el pago."
         },
         "fee-payment-receipt": {
           "label": "Justificante de pago sellado",
           "description": "Conserva la copia que sella el banco para tu cita.",
-          "detail": "Sin esto, la policía puede rechazar tu solicitud en el acto."
+          "detail": "Después de pagar, el banco te devolverá tu copia sellada del Modelo 790.\n\nImportante: guarda este justificante sellado en un lugar seguro. Es la prueba oficial de que pagaste la tasa.\n\nCuando acudas a tu cita de toma de huellas en el Paso 5, debes llevar el justificante sellado del Modelo 790. Sin prueba de pago, tu cita puede no completarse."
         }
       }
     },

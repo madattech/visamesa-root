@@ -8,12 +8,6 @@
   "settingsTitle": "App Settings",
   "settingsDescription": "Language and app preferences",
   "signOut": "Sign Out",
-  "completeProfileDialog": {
-    "title": "Complete your profile",
-    "message": "Complete your profile before we can start.",
-    "notNow": "Not now",
-    "action": "Complete profile"
-  },
   "consentDialog": {
     "title": "Privacy & Data Protection",
     "message": "Before saving your personal information, please review and accept our data protection policies.",

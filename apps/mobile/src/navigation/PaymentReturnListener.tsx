@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { Linking } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 import { useToast } from '@/components/Toast/ToastProvider';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEntitlements } from '@/contexts/EntitlementsContext';
 import { useProfileCompletion } from '@/contexts/ProfileCompletionContext';
-import { navigateToDashboard } from '@/navigation/navigationRef';
-import { navigationRef } from '@/navigation/navigationRef';
+import {
+  navigateToDashboard,
+  navigateToLogin,
+  navigateToProfile,
+} from '@/navigation/navigationRef';
 
 function isCheckoutSuccessUrl(url: string): boolean {
   const normalized = url.toLowerCase();
@@ -22,6 +26,7 @@ export function PaymentReturnListener() {
   const { waitForPaidService } = useEntitlements();
   const { refreshCompletion } = useProfileCompletion();
   const { showToast } = useToast();
+  const { t } = useTranslation('checkout');
 
   useEffect(() => {
     async function handlePaymentReturn(url: string | null) {
@@ -30,31 +35,27 @@ export function PaymentReturnListener() {
       }
 
       if (!isAuthenticated) {
-        showToast('Sign in with the same Google account to unlock your service');
-        navigationRef.navigate('Login');
+        showToast(t('paymentReturn.signInRequired'));
+        navigateToLogin();
         return;
       }
 
       const isReady = await waitForPaidService();
 
       if (!isReady) {
-        showToast('Payment received — syncing your service');
+        showToast(t('paymentReturn.syncing'));
         navigateToDashboard();
         return;
       }
 
-      // Payment is ready, check profile completion
       const freshIsComplete = await refreshCompletion();
 
       if (freshIsComplete) {
-        showToast('Your VisaMesa service is ready');
+        showToast(t('paymentReturn.serviceReady'));
         navigateToDashboard();
       } else {
-        showToast('Payment received — please complete your profile to start');
-        navigationRef.navigate('MainTabs', {
-          screen: 'ProfileTab',
-          params: { screen: 'Profile' },
-        } as never);
+        showToast(t('paymentReturn.completeProfile'));
+        navigateToProfile();
       }
     }
 
@@ -67,7 +68,7 @@ export function PaymentReturnListener() {
     return () => {
       subscription.remove();
     };
-  }, [isAuthenticated, waitForPaidService, refreshCompletion, showToast]);
+  }, [isAuthenticated, waitForPaidService, refreshCompletion, showToast, t]);
 
   return null;
 }

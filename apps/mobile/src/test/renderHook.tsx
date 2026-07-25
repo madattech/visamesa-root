@@ -30,6 +30,12 @@ export function renderHook<T>(useHook: () => T): () => T {
   return () => hookResult as T;
 }
 
+export async function flushAsyncEffects(): Promise<void> {
+  await act(async () => {
+    await Promise.resolve();
+  });
+}
+
 export async function renderHookAsync<T>(
   useHook: () => T,
   waitFor: (result: T) => boolean,

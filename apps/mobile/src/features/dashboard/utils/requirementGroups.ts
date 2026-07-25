@@ -1,18 +1,18 @@
 import type { Requirement, TieStepDetail } from '@/features/home/types/TieStepDetail'
 import type { RequirementLocation } from '@visamesa/content/tieSteps/detail'
 
-export type RequirementGroup = {
+export type RequirementGroup<T extends Requirement = Requirement> = {
   location?: RequirementLocation
-  requirements: Requirement[]
+  requirements: T[]
 }
 
-export function groupRequirementsByLocation(
-  requirements: Requirement[],
-): RequirementGroup[] {
+export function groupRequirementsByLocation<T extends Requirement>(
+  requirements: T[],
+): RequirementGroup<T>[] {
   const inApp = requirements.filter(requirement => requirement.location === 'in_app')
   const inPerson = requirements.filter(requirement => requirement.location === 'in_person')
 
-  const groups: RequirementGroup[] = []
+  const groups: RequirementGroup<T>[] = []
 
   if (inApp.length > 0) {
     groups.push({requirements: inApp})
