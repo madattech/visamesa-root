@@ -52,14 +52,6 @@ jest.mock('@/hooks/useProcessReadiness', () => ({
   useProcessReadiness: () => mockUseProcessReadiness(),
 }));
 
-jest.mock('@/contexts/ProfileCompletionContext', () => ({
-  useProfileCompletion: () => ({
-    isProfileComplete: true,
-    isLoading: false,
-    refreshCompletion: jest.fn(),
-  }),
-}));
-
 jest.mock('@/features/profile/services/profileService', () => ({
   getProfile: jest.fn(() => Promise.resolve({personal: null})),
 }));
@@ -125,6 +117,7 @@ describe('useDashboardScreen', () => {
 
     mockUseProcessReadiness.mockReturnValue({
       canStartProcess: true,
+      isProfileComplete: true,
       missing: [],
       isLoading: false,
       refreshReadiness: mockRefreshReadiness,
@@ -221,6 +214,7 @@ describe('useDashboardScreen', () => {
     // Set mock before rendering hook
     mockUseProcessReadiness.mockReturnValue({
       canStartProcess: false,
+      isProfileComplete: false,
       missing: ['personalInformation', 'legalPrivacy', 'payment'],
       isLoading: false,
       refreshReadiness: mockRefreshReadiness,
@@ -258,6 +252,7 @@ describe('useDashboardScreen', () => {
     // Restore default mock for other tests
     mockUseProcessReadiness.mockReturnValue({
       canStartProcess: true,
+      isProfileComplete: true,
       missing: [],
       isLoading: false,
       refreshReadiness: mockRefreshReadiness,

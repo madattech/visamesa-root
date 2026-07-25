@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
 import HomeScreen from '@/screens/HomeScreen';
-import StepsScreen from '@/screens/StepsScreen';
+import ProcessOverviewScreen from '@/screens/ProcessOverviewScreen';
 
 import {HomeStackParamList} from './types';
 
@@ -20,7 +20,7 @@ const HomeStackNavigator = () => {
         contentStyle: internalStackScreenOptions.contentStyle,
       }}>
       <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Steps" component={StepsScreen} />
+      <Stack.Screen name="ProcessOverview" component={ProcessOverviewScreen} />
     </Stack.Navigator>
   );
 };

@@ -436,7 +436,5 @@
   "stepDetailHeading": "Step {{stepId}}: {{title}}",
   "stepNotFound": "Step not found",
   "stepperLabel": "Step {{stepId}}: {{title}}",
-  "stepperCompleted": ", completed",
-  "screenTitle": "TIE Steps",
-  "screenDescription": "Detailed guides for each stage of your Barcelona TIE process will appear here."
+  "stepperCompleted": ", completed"
 }

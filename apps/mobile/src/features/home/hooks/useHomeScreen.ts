@@ -67,7 +67,7 @@ export function useHomeScreen(
   };
 
   const onSecondaryPress = () => {
-    navigation.navigate('Steps');
+    navigation.navigate('ProcessOverview');
   };
 
   return {

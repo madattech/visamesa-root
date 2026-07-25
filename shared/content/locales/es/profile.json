@@ -8,6 +8,7 @@
   "settingsTitle": "Ajustes de la app",
   "settingsDescription": "Idioma y preferencias de la app",
   "signOut": "Cerrar sesión",
+  "personalSaved": "Información personal guardada correctamente.",
   "consentDialog": {
     "title": "Privacidad y protección de datos",
     "message": "Antes de guardar tu información personal, revisa y acepta nuestras políticas de protección de datos.",

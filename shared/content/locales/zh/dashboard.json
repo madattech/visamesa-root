@@ -58,6 +58,8 @@
   "readinessPersonalInformation": "完善个人信息",
   "readinessPayment": "完成付款",
   "readinessLegalPrivacy": "阅读法律与隐私条款",
+  "readinessItemComplete": "已完成",
+  "readinessItemIncomplete": "未完成",
   "prerequisitesDialog": {
     "notNow": "暂不",
     "action": "完善资料"

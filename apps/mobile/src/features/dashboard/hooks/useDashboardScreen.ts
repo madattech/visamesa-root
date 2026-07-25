@@ -8,7 +8,6 @@ import {useToast} from '@/components/Toast/ToastProvider';
 import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useAuth} from '@/contexts/AuthContext';
 import {useEntitlements} from '@/contexts/EntitlementsContext';
-import {useProfileCompletion} from '@/contexts/ProfileCompletionContext';
 import {usePricingLink} from '@/hooks/usePricingLink';
 import {RequirementWithProgress} from '@/features/dashboard/components/RequirementsChecklist';
 import {formatAppointmentDetailsMessage} from '@/features/dashboard/data/dashboardContent';
@@ -154,6 +153,7 @@ export function useDashboardScreen(
   const {
     canStartProcess,
     missing: readinessMissing,
+    isProfileComplete,
     refreshReadiness,
   } = useProcessReadiness();
   const {
@@ -162,7 +162,6 @@ export function useDashboardScreen(
     closeDialog: onClosePrerequisitesDialog,
     onGoToProfilePress,
   } = usePrerequisitesDialog(refreshReadiness);
-  const {isProfileComplete} = useProfileCompletion();
 
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
   const [hasSyncedEmpadronamiento, setHasSyncedEmpadronamiento] = useState(false);

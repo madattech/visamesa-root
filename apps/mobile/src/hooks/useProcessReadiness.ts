@@ -2,7 +2,7 @@ import {useCallback, useMemo} from 'react';
 
 import {useConsent} from '@/contexts/ConsentContext';
 import {useEntitlements} from '@/contexts/EntitlementsContext';
-import {useProfileCompletion} from '@/contexts/ProfileCompletionContext';
+import {useProfileCompletion} from '@/hooks/useProfileCompletion';
 import {
   PROCESS_READINESS_ITEM_ORDER,
   type ProcessReadinessMissing,
@@ -13,6 +13,7 @@ export {PROCESS_READINESS_ITEM_ORDER} from '@/hooks/processReadinessTypes';
 
 export type UseProcessReadinessResult = {
   canStartProcess: boolean;
+  isProfileComplete: boolean;
   missing: ProcessReadinessMissing[];
   isLoading: boolean;
   refreshReadiness: () => Promise<void>;
@@ -58,6 +59,7 @@ export function useProcessReadiness(): UseProcessReadinessResult {
 
     return {
       canStartProcess: missing.length === 0,
+      isProfileComplete,
       missing,
       isLoading,
       refreshReadiness,

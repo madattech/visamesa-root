@@ -1,0 +1,85 @@
+{
+  "screenTitle": "VisaMesa 如何运作",
+  "intro": "巴塞罗那 TIE 居留卡完整办理指南。",
+  "tabHint": "请在「{{tab}}」标签页完成以下步骤。",
+  "stepLabel": "第 {{number}} 步：{{title}}",
+  "badges": {
+    "inPerson": "需到场",
+    "helpBook": "VisaMesa 帮你预约",
+    "helpFill": "VisaMesa 帮你填写"
+  },
+  "phases": [
+    {
+      "id": "before-start",
+      "title": "开始之前",
+      "tab": "profile",
+      "steps": [
+        {
+          "title": "创建账户",
+          "description": "使用 Google 账号注册即可开始。"
+        },
+        {
+          "title": "完善个人信息",
+          "description": "填写护照、签证和地址信息。"
+        },
+        {
+          "title": "接受法律与隐私条款",
+          "description": "阅读并接受我们的服务条款与隐私政策。"
+        },
+        {
+          "title": "购买 VisaMesa 服务",
+          "description": "一次性付款，解锁全部功能。"
+        }
+      ]
+    },
+    {
+      "id": "tie-steps",
+      "title": "TIE 六个步骤",
+      "tab": "dashboard",
+      "steps": [
+        {
+          "title": "登记住址",
+          "description": "在所在 Ayuntamiento 办理 empadronamiento。",
+          "visamesa": "book",
+          "inPerson": true
+        },
+        {
+          "title": "预约按指纹",
+          "description": "在警方官网预约 cita previa。",
+          "visamesa": "book"
+        },
+        {
+          "title": "填写 EX-17 表格",
+          "description": "打印前核对 TIE 申请表。",
+          "visamesa": "fill"
+        },
+        {
+          "title": "缴纳 TIE 费用",
+          "description": "打印 Modelo 790 并到西班牙银行缴费。",
+          "visamesa": "fill",
+          "inPerson": true
+        },
+        {
+          "title": "参加按指纹预约",
+          "description": "携带全部材料前往警察局。",
+          "inPerson": true
+        },
+        {
+          "title": "领取 TIE",
+          "description": "凭 resguardo 和护照返回领取居留卡。",
+          "inPerson": true
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "完成",
+      "steps": [
+        {
+          "title": "TIE 办理完成",
+          "description": "妥善保管居留卡并记录到期日期。"
+        }
+      ]
+    }
+  ]
+}

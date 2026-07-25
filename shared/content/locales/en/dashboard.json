@@ -57,6 +57,8 @@
   "readinessPersonalInformation": "Complete your Personal Information",
   "readinessPayment": "Complete your Payment",
   "readinessLegalPrivacy": "Read Legal & Privacy",
+  "readinessItemComplete": "Complete",
+  "readinessItemIncomplete": "Incomplete",
   "prerequisitesDialog": {
     "notNow": "Not now",
     "action": "Complete profile"

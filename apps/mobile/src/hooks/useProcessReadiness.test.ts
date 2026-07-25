@@ -11,7 +11,7 @@ jest.mock('@/contexts/EntitlementsContext', () => ({
   useEntitlements: jest.fn(),
 }));
 
-jest.mock('@/contexts/ProfileCompletionContext', () => ({
+jest.mock('@/hooks/useProfileCompletion', () => ({
   useProfileCompletion: jest.fn(),
 }));
 
@@ -22,7 +22,7 @@ jest.mock('@/contexts/ConsentContext', () => ({
 import {useAuth} from '@/contexts/AuthContext';
 import {useConsent} from '@/contexts/ConsentContext';
 import {useEntitlements} from '@/contexts/EntitlementsContext';
-import {useProfileCompletion} from '@/contexts/ProfileCompletionContext';
+import {useProfileCompletion} from '@/hooks/useProfileCompletion';
 
 const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 const mockUseEntitlements = useEntitlements as jest.MockedFunction<
@@ -154,12 +154,14 @@ describe('useProcessReadiness', () => {
 
     mockUseProfileCompletion.mockReturnValue({
       isProfileComplete: true,
+      isLoading: false,
       refreshCompletion: jest.fn(),
     } as never);
 
     const getHookState = await renderProcessReadiness();
 
     expect(getHookState().canStartProcess).toBe(true);
+    expect(getHookState().isProfileComplete).toBe(true);
     expect(getHookState().missing).toHaveLength(0);
     expect(getHookState().refreshReadiness).toEqual(expect.any(Function));
   });

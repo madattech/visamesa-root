@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useMemo, useState} from 'react';
+import {i18n} from '@visamesa/content/i18n';
 
 import {useToast} from '@/components/Toast/ToastProvider';
 import {phoneToString, stringToPhone} from '@/features/forms/utils/phoneUtils';
@@ -184,7 +185,7 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
       submitSection(
         'personal',
         data,
-        'Personal information saved successfully!',
+        i18n.t('personalSaved', {ns: 'profile'}),
       ),
     refreshProfile,
   };
