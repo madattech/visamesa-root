@@ -35,7 +35,7 @@ describe('useContentBottomInset', () => {
   });
 
   it('returns safe area bottom when tab bar is hidden', () => {
-    (useRoute as jest.Mock).mockReturnValue({name: 'Steps'});
+    (useRoute as jest.Mock).mockReturnValue({name: 'ProcessOverview'});
 
     const getHookState = renderHook(() => useContentBottomInset());
 

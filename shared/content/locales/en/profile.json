@@ -8,6 +8,7 @@
   "settingsTitle": "App Settings",
   "settingsDescription": "Language and app preferences",
   "signOut": "Sign Out",
+  "personalSaved": "Personal information saved successfully!",
   "consentDialog": {
     "title": "Privacy & Data Protection",
     "message": "Before saving your personal information, please review and accept our data protection policies.",

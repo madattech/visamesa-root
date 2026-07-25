@@ -1,0 +1,85 @@
+{
+  "screenTitle": "How VisaMesa works",
+  "intro": "The complete guide to getting your TIE residency card in Barcelona.",
+  "tabHint": "Complete these in the {{tab}} tab.",
+  "stepLabel": "Step {{number}}: {{title}}",
+  "badges": {
+    "inPerson": "Go in person",
+    "helpBook": "VisaMesa helps you book",
+    "helpFill": "VisaMesa helps you fill"
+  },
+  "phases": [
+    {
+      "id": "before-start",
+      "title": "Before you start",
+      "tab": "profile",
+      "steps": [
+        {
+          "title": "Create your account",
+          "description": "Sign up with your Google account to get started."
+        },
+        {
+          "title": "Complete your personal information",
+          "description": "Enter your passport details, visa information, and address."
+        },
+        {
+          "title": "Accept Legal and Privacy",
+          "description": "Review and accept our terms and privacy policy."
+        },
+        {
+          "title": "Pay for VisaMesa",
+          "description": "One-time payment to unlock all features."
+        }
+      ]
+    },
+    {
+      "id": "tie-steps",
+      "title": "The 6 TIE steps",
+      "tab": "dashboard",
+      "steps": [
+        {
+          "title": "Register your address",
+          "description": "Get empadronamiento at your local Ayuntamiento.",
+          "visamesa": "book",
+          "inPerson": true
+        },
+        {
+          "title": "Book fingerprint appointment",
+          "description": "Secure a cita previa slot on the official police website.",
+          "visamesa": "book"
+        },
+        {
+          "title": "Fill your EX-17 form",
+          "description": "Review your TIE application form before printing.",
+          "visamesa": "fill"
+        },
+        {
+          "title": "Pay the TIE fee",
+          "description": "Print Modelo 790 and pay at a Spanish bank.",
+          "visamesa": "fill",
+          "inPerson": true
+        },
+        {
+          "title": "Attend fingerprint appointment",
+          "description": "Go to the police station with all your documents.",
+          "inPerson": true
+        },
+        {
+          "title": "Collect your TIE",
+          "description": "Return with your resguardo and passport to pick up your card.",
+          "inPerson": true
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Done",
+      "steps": [
+        {
+          "title": "Your TIE is complete",
+          "description": "Keep your card safe and note the expiry date."
+        }
+      ]
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import {Case, CitaPreviaDetails} from '@/types';
 
 export type HomeStackParamList = {
   Home: undefined;
-  Steps: undefined;
+  ProcessOverview: undefined;
 };
 
 export type DashboardStackParamList = {

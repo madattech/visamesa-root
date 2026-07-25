@@ -116,7 +116,7 @@ describe('useHomeScreen', () => {
     expect(navigateToDashboard).not.toHaveBeenCalled();
   });
 
-  it('navigates to the steps screen from the secondary action', () => {
+  it('navigates to the process overview screen from the secondary action', () => {
     const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
@@ -124,6 +124,6 @@ describe('useHomeScreen', () => {
       getHookState().onSecondaryPress();
     });
 
-    expect(navigation.navigate).toHaveBeenCalledWith('Steps');
+    expect(navigation.navigate).toHaveBeenCalledWith('ProcessOverview');
   });
 });

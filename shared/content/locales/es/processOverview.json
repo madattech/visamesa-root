@@ -1,0 +1,85 @@
+{
+  "screenTitle": "Cómo funciona VisaMesa",
+  "intro": "La guía completa para obtener tu tarjeta TIE en Barcelona.",
+  "tabHint": "Completa estos pasos en la pestaña {{tab}}.",
+  "stepLabel": "Paso {{number}}: {{title}}",
+  "badges": {
+    "inPerson": "Presencial",
+    "helpBook": "VisaMesa te ayuda a reservar",
+    "helpFill": "VisaMesa te ayuda a rellenar"
+  },
+  "phases": [
+    {
+      "id": "before-start",
+      "title": "Antes de empezar",
+      "tab": "profile",
+      "steps": [
+        {
+          "title": "Crea tu cuenta",
+          "description": "Regístrate con tu cuenta de Google para empezar."
+        },
+        {
+          "title": "Completa tu información personal",
+          "description": "Introduce los datos de tu pasaporte, visado y domicilio."
+        },
+        {
+          "title": "Acepta Legal y privacidad",
+          "description": "Revisa y acepta nuestros términos y la política de privacidad."
+        },
+        {
+          "title": "Paga VisaMesa",
+          "description": "Pago único para desbloquear todas las funciones."
+        }
+      ]
+    },
+    {
+      "id": "tie-steps",
+      "title": "Los 6 pasos del TIE",
+      "tab": "dashboard",
+      "steps": [
+        {
+          "title": "Empadronarte",
+          "description": "Obtén el empadronamiento en tu Ayuntamiento.",
+          "visamesa": "book",
+          "inPerson": true
+        },
+        {
+          "title": "Reservar cita de huellas",
+          "description": "Consigue una cita previa en la web oficial de la policía.",
+          "visamesa": "book"
+        },
+        {
+          "title": "Rellenar el EX-17",
+          "description": "Revisa tu solicitud TIE antes de imprimirla.",
+          "visamesa": "fill"
+        },
+        {
+          "title": "Pagar la tasa TIE",
+          "description": "Imprime el Modelo 790 y paga en un banco español.",
+          "visamesa": "fill",
+          "inPerson": true
+        },
+        {
+          "title": "Ir a la cita de huellas",
+          "description": "Acude a la comisaría con toda tu documentación.",
+          "inPerson": true
+        },
+        {
+          "title": "Recoger tu TIE",
+          "description": "Vuelve con el resguardo y el pasaporte para recoger la tarjeta.",
+          "inPerson": true
+        }
+      ]
+    },
+    {
+      "id": "done",
+      "title": "Listo",
+      "steps": [
+        {
+          "title": "Tu TIE está completo",
+          "description": "Guarda la tarjeta en un lugar seguro y anota la fecha de caducidad."
+        }
+      ]
+    }
+  ]
+}

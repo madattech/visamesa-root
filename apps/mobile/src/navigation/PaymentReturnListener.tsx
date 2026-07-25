@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useToast } from '@/components/Toast/ToastProvider';
 import { useAuth } from '@/contexts/AuthContext';
 import { useEntitlements } from '@/contexts/EntitlementsContext';
-import { useProfileCompletion } from '@/contexts/ProfileCompletionContext';
+import {useProfileCompletion} from '@/hooks/useProfileCompletion';
 import {
   navigateToDashboard,
   navigateToLogin,

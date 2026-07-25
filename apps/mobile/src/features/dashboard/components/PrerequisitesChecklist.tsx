@@ -10,23 +10,36 @@ import {ProcessReadinessMissing, PROCESS_READINESS_ITEM_ORDER} from '@/hooks/pro
 type PrerequisitesChecklistItemProps = {
   label: string;
   isComplete: boolean;
+  completeLabel: string;
+  incompleteLabel: string;
 };
 
 function PrerequisitesChecklistItem({
   label,
   isComplete,
+  completeLabel,
+  incompleteLabel,
 }: PrerequisitesChecklistItemProps) {
   const {styles} = useStyles(stylesheet);
+  const statusLabel = isComplete ? completeLabel : incompleteLabel;
 
   return (
-    <View style={styles.item}>
-      <StatusIndicator
-        status={isComplete ? 'done' : 'notDone'}
-        size="md"
-      />
+    <View
+      style={styles.item}
+      accessible
+      accessibilityLabel={`${label}. ${statusLabel}`}>
+      <View
+        importantForAccessibility="no-hide-descendants"
+        accessibilityElementsHidden>
+        <StatusIndicator
+          status={isComplete ? 'done' : 'notDone'}
+          size="md"
+        />
+      </View>
       <Text
         variant="bodyMedium"
-        color={isComplete ? 'onSurface' : 'onSurfaceVariant'}>
+        color={isComplete ? 'onSurface' : 'onSurfaceVariant'}
+        importantForAccessibility="no">
         {label}
       </Text>
     </View>
@@ -48,6 +61,8 @@ export function PrerequisitesChecklist({missing}: PrerequisitesChecklistProps) {
     payment: t('readinessPayment'),
     legalPrivacy: t('readinessLegalPrivacy'),
   };
+  const completeLabel = t('readinessItemComplete');
+  const incompleteLabel = t('readinessItemIncomplete');
 
   return (
     <View style={styles.container}>
@@ -56,6 +71,8 @@ export function PrerequisitesChecklist({missing}: PrerequisitesChecklistProps) {
           key={item}
           label={labels[item]}
           isComplete={!missing.includes(item)}
+          completeLabel={completeLabel}
+          incompleteLabel={incompleteLabel}
         />
       ))}
     </View>

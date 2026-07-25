@@ -9,6 +9,7 @@ import legalEn from '../locales/en/legal.json'
 import marketingEn from '../locales/en/marketing.json'
 import profileEn from '../locales/en/profile.json'
 import settingsEn from '../locales/en/settings.json'
+import processOverviewEn from '../locales/en/processOverview.json'
 import tieStepsEn from '../locales/en/tieSteps.json'
 import authEs from '../locales/es/auth.json'
 import checkoutEs from '../locales/es/checkout.json'
@@ -19,6 +20,7 @@ import legalEs from '../locales/es/legal.json'
 import marketingEs from '../locales/es/marketing.json'
 import profileEs from '../locales/es/profile.json'
 import settingsEs from '../locales/es/settings.json'
+import processOverviewEs from '../locales/es/processOverview.json'
 import tieStepsEs from '../locales/es/tieSteps.json'
 import authZh from '../locales/zh/auth.json'
 import checkoutZh from '../locales/zh/checkout.json'
@@ -29,6 +31,7 @@ import legalZh from '../locales/zh/legal.json'
 import marketingZh from '../locales/zh/marketing.json'
 import profileZh from '../locales/zh/profile.json'
 import settingsZh from '../locales/zh/settings.json'
+import processOverviewZh from '../locales/zh/processOverview.json'
 import tieStepsZh from '../locales/zh/tieSteps.json'
 
 import { DEFAULT_LANGUAGE, type SupportedLanguage } from './types'
@@ -45,6 +48,7 @@ export const translationResources = {
     settings: settingsEn,
     auth: authEn,
     home: homeEn,
+    processOverview: processOverviewEn,
   },
   es: {
     common: commonEs,
@@ -57,6 +61,7 @@ export const translationResources = {
     settings: settingsEs,
     auth: authEs,
     home: homeEs,
+    processOverview: processOverviewEs,
   },
   zh: {
     common: commonZh,
@@ -69,10 +74,20 @@ export const translationResources = {
     settings: settingsZh,
     auth: authZh,
     home: homeZh,
+    processOverview: processOverviewZh,
   },
 } satisfies Record<SupportedLanguage, Record<string, unknown>>
 
 export type TranslationResources = typeof translationResources
+
+/** i18next key autocomplete — large JSON namespaces are widened to avoid tsc OOM. */
+export type I18nResources = Omit<
+  TranslationResources[typeof DEFAULT_LANGUAGE],
+  'tieSteps' | 'legal'
+> & {
+  tieSteps: Record<string, unknown>;
+  legal: Record<string, unknown>;
+};
 
 export function createI18nResources(): Resource {
   return translationResources as Resource

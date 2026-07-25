@@ -436,7 +436,5 @@
   "stepDetailHeading": "第 {{stepId}} 步：{{title}}",
   "stepNotFound": "未找到该步骤",
   "stepperLabel": "第 {{stepId}} 步：{{title}}",
-  "stepperCompleted": "，已完成",
-  "screenTitle": "TIE 步骤",
-  "screenDescription": "巴塞罗那 TIE 办理各阶段的详细指南将在此显示。"
+  "stepperCompleted": "，已完成"
 }

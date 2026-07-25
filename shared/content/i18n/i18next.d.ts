@@ -1,18 +1,18 @@
 import 'i18next'
 
-import type { TranslationResources } from './resources'
+import type { I18nResources } from './resources'
 
 declare module 'i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common'
-    resources: TranslationResources['en']
+    resources: I18nResources
   }
 }
 
 declare module 'react-i18next' {
   interface CustomTypeOptions {
     defaultNS: 'common'
-    resources: TranslationResources['en']
+    resources: I18nResources
   }
 }
 

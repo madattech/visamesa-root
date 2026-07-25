@@ -17,7 +17,8 @@ export const linking: LinkingOptions<RootStackParamList> = {
           HomeTab: {
             screens: {
               Home: '',
-              Steps: 'steps',
+              // Route name is ProcessOverview; path stays "steps" for website/deep-link parity.
+              ProcessOverview: 'steps',
             },
           },
           DashboardTab: {

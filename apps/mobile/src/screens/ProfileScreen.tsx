@@ -20,7 +20,7 @@ import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnaut
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
 import {selectProfileCompleteness} from '@/features/profile/selectors/selectProfileCompleteness';
-import {useConsentStatus} from '@/hooks/useConsentStatus';
+import {useConsent} from '@/contexts/ConsentContext';
 import {ProfileStackParamList} from '@/navigation/types';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
 
@@ -52,7 +52,7 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     onDismissAlreadyPaidDialog,
     onSeePaymentStatus,
   } = useProfileScreen(navigation);
-  const {hasConsent} = useConsentStatus({enabled: Boolean(userEmail)});
+  const {hasConsent} = useConsent();
 
   const completeness = selectProfileCompleteness(
     profileData,
