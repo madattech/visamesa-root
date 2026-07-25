@@ -14,10 +14,12 @@ describe('selectProfileCompleteness', () => {
       documentNumber: 'X1234567Y',
       documentType: 'passport',
       nationality: 'US',
+      dateOfBirth: '1995-05-01',
       address: '123 Main St',
       city: 'Barcelona',
       postalCode: '08001',
-      phoneNumber: '+34612345678',
+      phoneNumber: {countryCode: '+34', number: '612345678'},
+      hasEmpadronamiento: 'no',
     },
   };
 
@@ -52,6 +54,18 @@ describe('selectProfileCompleteness', () => {
         personal: {
           ...completeProfileData.personal!,
           lastName: null as any,
+        },
+      };
+
+      expect(isPersonalInformationComplete(incomplete)).toBe(false);
+    });
+
+    it('returns false when phone number object is incomplete', () => {
+      const incomplete = {
+        ...completeProfileData,
+        personal: {
+          ...completeProfileData.personal!,
+          phoneNumber: {countryCode: '+34', number: ''},
         },
       };
 

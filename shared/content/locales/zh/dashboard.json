@@ -54,7 +54,12 @@
   "devConfirmFormAccessibilityLabel": "将 {{label}} 标记为已确认（开发用）",
   "requirementsInfoAccessibilityLabel": "关于清单",
   "readinessTitle": "开始之前",
-  "readinessPayment": "VisaMesa 服务付款",
-  "readinessProfile": "完善个人资料",
-  "completeProfile": "完善资料"
+  "readinessDescription": "请先完善个人资料，再开始办理流程",
+  "readinessPersonalInformation": "完善个人信息",
+  "readinessPayment": "完成付款",
+  "readinessLegalPrivacy": "阅读法律与隐私条款",
+  "prerequisitesDialog": {
+    "notNow": "暂不",
+    "action": "完善资料"
+  }
 }

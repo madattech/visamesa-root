@@ -62,5 +62,11 @@
   "profileAlreadyPaid": {
     "dialogTitle": "已付款",
     "dialogMessage": "此账户已拥有有效的 VisaMesa 服务。"
+  },
+  "paymentReturn": {
+    "signInRequired": "请使用同一 Google 账户登录以解锁您的服务",
+    "syncing": "已收到付款——正在同步您的服务",
+    "serviceReady": "您的 VisaMesa 服务已就绪",
+    "completeProfile": "已收到付款——请完善个人资料以开始"
   }
 }

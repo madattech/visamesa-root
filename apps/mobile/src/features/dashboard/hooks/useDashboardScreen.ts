@@ -1,4 +1,5 @@
 import {useEffect, useMemo, useState} from 'react';
+import {TFunction} from 'i18next';
 import {useTranslation} from 'react-i18next';
 import {CompositeNavigationProp} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
@@ -32,9 +33,12 @@ import {
 import {getProfile} from '@/features/profile/services/profileService';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {AutomationId, TieStepDetail} from '@/features/home/types/TieStepDetail';
-import {useProcessReadiness} from '@/hooks/useProcessReadiness';
+import {
+  ProcessReadinessMissing,
+  useProcessReadiness,
+} from '@/hooks/useProcessReadiness';
+import {usePrerequisitesDialog} from '@/hooks/usePrerequisitesDialog';
 import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
-import { navigateToProfile } from '@/navigation/navigationRef';
 import {
   DashboardStackParamList,
   RootStackParamList,
@@ -68,7 +72,8 @@ export type UseDashboardScreenResult = {
   stepActionLabel: string;
   currentStepRequirements: RequirementWithProgress[];
   canStartProcess: boolean;
-  showCompleteProfileDialog: boolean;
+  readinessMissing: ProcessReadinessMissing[];
+  showPrerequisitesDialog: boolean;
   onSignInPress: () => void;
   onStepPress: (stepId: number) => void;
   onStepDetailPress: () => void;
@@ -80,8 +85,8 @@ export type UseDashboardScreenResult = {
   onDevMarkAutomationBookedPress?: (automationId: AutomationId, label: string) => void;
   onDevConfirmFormPress?: (formId: string, label: string) => void;
   onFormPress: (formId: string, label: string) => void;
-  onCloseCompleteProfileDialog: () => void;
-  onCompleteProfilePress: () => void;
+  onClosePrerequisitesDialog: () => void;
+  onGoToProfilePress: () => void;
 };
 
 function buildRequirementsWithProgress(
@@ -89,7 +94,7 @@ function buildRequirementsWithProgress(
   step: TieStepDetail,
   context: ProgressContext,
   steps: TieStepDetail[],
-  tDashboard: (key: string, options?: Record<string, unknown>) => string,
+  tDashboard: TFunction<'dashboard'>,
 ): RequirementWithProgress[] {
   return step.requirements.map(requirement => {
     const effectiveProgress = getEffectiveRequirementProgress(
@@ -146,11 +151,20 @@ export function useDashboardScreen(
     completeFormRequirement,
     completeAutomationRequirement,
   } = useUserProgress();
-  const {canStartProcess} = useProcessReadiness();
+  const {
+    canStartProcess,
+    missing: readinessMissing,
+    refreshReadiness,
+  } = useProcessReadiness();
+  const {
+    visible: showPrerequisitesDialog,
+    openDialog: openPrerequisitesDialog,
+    closeDialog: onClosePrerequisitesDialog,
+    onGoToProfilePress,
+  } = usePrerequisitesDialog(refreshReadiness);
   const {isProfileComplete} = useProfileCompletion();
 
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
-  const [showCompleteProfileDialog, setShowCompleteProfileDialog] = useState(false);
   const [hasSyncedEmpadronamiento, setHasSyncedEmpadronamiento] = useState(false);
 
   const progressContext = useMemo<ProgressContext>(
@@ -233,7 +247,7 @@ export function useDashboardScreen(
       currentStep,
       progressContext,
       steps,
-      (key, options) => tDashboard(key, options),
+      tDashboard,
     );
   }, [currentStep, progress, progressContext, steps, tDashboard]);
 
@@ -305,7 +319,7 @@ export function useDashboardScreen(
   const onCompleteStep = () => {
     // If prerequisites not met, show dialog instead
     if (!canStartProcess) {
-      setShowCompleteProfileDialog(true);
+      openPrerequisitesDialog();
       return;
     }
 
@@ -503,15 +517,6 @@ export function useDashboardScreen(
     );
   };
 
-  const onCloseCompleteProfileDialog = () => {
-    setShowCompleteProfileDialog(false);
-  };
-
-  const onCompleteProfilePress = () => {
-    setShowCompleteProfileDialog(false);
-    navigateToProfile();
-  };
-
   const isLoading = isStepsLoading || isProgressLoading;
   const error = stepsError ?? progressError;
 
@@ -532,7 +537,8 @@ export function useDashboardScreen(
     stepActionLabel,
     currentStepRequirements,
     canStartProcess,
-    showCompleteProfileDialog,
+    readinessMissing,
+    showPrerequisitesDialog,
     onSignInPress,
     onStepPress,
     onStepDetailPress,
@@ -546,7 +552,7 @@ export function useDashboardScreen(
       : undefined,
     onDevConfirmFormPress: __DEV__ ? onDevConfirmFormPress : undefined,
     onFormPress,
-    onCloseCompleteProfileDialog,
-    onCompleteProfilePress,
+    onClosePrerequisitesDialog,
+    onGoToProfilePress,
   };
 }

@@ -1,5 +1,7 @@
 import { NavigationProp, ParamListBase } from '@react-navigation/native';
 
+import { profileLoginTabRoute } from '@/navigation/loginRoute';
+
 /**
  * Opens Login in the Profile tab. Use from tabs/stacks where Login is not mounted locally.
  */
@@ -9,9 +11,15 @@ export function navigateToLoginFromTab(
   const tabNavigation = navigation.getParent();
 
   if (tabNavigation) {
-    tabNavigation.navigate('ProfileTab', { screen: 'Login' });
+    tabNavigation.navigate(
+      profileLoginTabRoute.screen,
+      profileLoginTabRoute.params,
+    );
     return;
   }
 
-  navigation.navigate('ProfileTab', { screen: 'Login' });
+  navigation.navigate(
+    profileLoginTabRoute.screen,
+    profileLoginTabRoute.params,
+  );
 }

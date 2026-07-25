@@ -105,7 +105,7 @@ export function Dialog({
             <Animated.View
               style={[
                 styles.scrim,
-                StyleSheet.absoluteFillObject,
+                StyleSheet.absoluteFill,
                 {
                   opacity: scrimOpacity,
                   backgroundColor: theme.colors.scrim,

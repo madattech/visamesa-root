@@ -1,4 +1,4 @@
-import {buildTieSteps} from '@visamesa/content/tieSteps/detail';
+import {buildTieSteps, createTieStepsTranslator} from '@visamesa/content/tieSteps/detail';
 import {i18n} from '@visamesa/content/i18n';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
 
@@ -20,7 +20,8 @@ describe('requirementDependencies', () => {
   let step5: TieStepDetail;
 
   beforeAll(() => {
-    steps = buildTieSteps((key, options) => i18n.t(key, options));
+    const translateTieSteps = createTieStepsTranslator(i18n);
+    steps = buildTieSteps(translateTieSteps);
     step1 = steps.find(step => step.id === 1)!;
     step3 = steps.find(step => step.id === 3)!;
     step5 = steps.find(step => step.id === 5)!;
@@ -57,7 +58,11 @@ describe('requirementDependencies', () => {
             'proof-of-residence': {completed: true, source: {type: 'self_declared'}},
             'appointment-confirmation': {
               completed: true,
-              source: {type: 'automation', automationId: 'empadronamiento'},
+              source: {
+                type: 'automation',
+                automationId: 'empadronamiento',
+                completedAt: '2026-01-01',
+              },
             },
             'attend-ayuntamiento': {completed: false},
           },
@@ -81,7 +86,11 @@ describe('requirementDependencies', () => {
             'proof-of-residence': {completed: true, source: {type: 'self_declared'}},
             'appointment-confirmation': {
               completed: true,
-              source: {type: 'automation', automationId: 'empadronamiento'},
+              source: {
+                type: 'automation',
+                automationId: 'empadronamiento',
+                completedAt: '2026-01-01',
+              },
             },
             'attend-ayuntamiento': {completed: true, source: {type: 'self_declared'}},
           },
@@ -114,7 +123,11 @@ describe('requirementDependencies', () => {
             'proof-of-residence': {completed: true, source: {type: 'self_declared'}},
             'appointment-confirmation': {
               completed: true,
-              source: {type: 'automation', automationId: 'empadronamiento'},
+              source: {
+                type: 'automation',
+                automationId: 'empadronamiento',
+                completedAt: '2026-01-01',
+              },
             },
             'attend-ayuntamiento': {completed: true, source: {type: 'self_declared'}},
           },

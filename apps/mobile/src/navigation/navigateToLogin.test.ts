@@ -1,5 +1,7 @@
 import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
 
+import { profileLoginTabRoute } from '@/navigation/loginRoute';
+
 describe('navigateToLoginFromTab', () => {
   it('navigates to Login through the Profile tab', () => {
     const tabNavigation = {
@@ -12,8 +14,9 @@ describe('navigateToLoginFromTab', () => {
 
     navigateToLoginFromTab(navigation as never);
 
-    expect(tabNavigation.navigate).toHaveBeenCalledWith('ProfileTab', {
-      screen: 'Login',
-    });
+    expect(tabNavigation.navigate).toHaveBeenCalledWith(
+      profileLoginTabRoute.screen,
+      profileLoginTabRoute.params,
+    );
   });
 });

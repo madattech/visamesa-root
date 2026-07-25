@@ -1,6 +1,6 @@
 import React from 'react'
-import { Pressable, Share, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
+import { Pressable, Share, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Button } from '@/components/ui/Button'
@@ -68,16 +68,10 @@ export function RequirementItem({
     completed &&
     !hasConfirmedAppointment &&
     canUncheck;
-  const hasBookAction =
-    interactive &&
-    !completed &&
-    requirement.type === 'automation';
-  const hasFormAction =
-    interactive &&
-    !completed &&
-    requirement.type === 'form';
-  const hasAppointmentAction =
-    requirement.type === 'automation' && completed;
+  const showBookAction = !completed && requirement.type === 'automation';
+  const showFormAction = !completed && requirement.type === 'form';
+  const actionsEnabled = interactive;
+  const hasAppointmentAction = requirement.type === 'automation' && completed;
 
   const handleShareDocument = async () => {
     const {message, url} = getRequirementShareMessage(requirement);
@@ -102,7 +96,10 @@ export function RequirementItem({
           label: requirement.label,
         })}
         onPress={handleShareDocument}
-        android_ripple={{color: theme.colors.primaryContainer, borderless: true}}
+        android_ripple={{
+          color: theme.colors.primaryContainer,
+          borderless: true,
+        }}
         style={styles.iconButton}>
         <Icon name="share" size="md" color="primary" />
       </Pressable>
@@ -154,11 +151,12 @@ export function RequirementItem({
   return (
     <View style={styles.item}>
       {titleRow}
-      {hasBookAction ? (
+      {showBookAction ? (
         <View style={styles.actionGroup}>
           <Button
             label={t('bookViaVisaMesa')}
-            variant="tonal"
+            variant="primary"
+            disabled={!actionsEnabled}
             onPress={onAutomationPress}
             accessibilityLabel={t('bookAccessibilityLabel', {
               label: requirement.label,
@@ -169,6 +167,7 @@ export function RequirementItem({
             <Button
               label={t('devMarkAsBooked')}
               variant="outline"
+              disabled={!actionsEnabled}
               onPress={onDevMarkAutomationBookedPress}
               accessibilityLabel={t('devMarkAsBookedAccessibilityLabel', {
                 label: requirement.label,
@@ -178,11 +177,12 @@ export function RequirementItem({
           ) : null}
         </View>
       ) : null}
-      {hasFormAction ? (
+      {showFormAction ? (
         <View style={styles.actionGroup}>
           <Button
             label={t('reviewForm')}
-            variant="tonal"
+            variant="primary"
+            disabled={!actionsEnabled}
             onPress={onFormPress}
             accessibilityLabel={t('reviewAccessibilityLabel', {
               label: requirement.label,
@@ -193,6 +193,7 @@ export function RequirementItem({
             <Button
               label={t('devConfirmForm')}
               variant="outline"
+              disabled={!actionsEnabled}
               onPress={onDevConfirmFormPress}
               accessibilityLabel={t('devConfirmFormAccessibilityLabel', {
                 label: requirement.label,

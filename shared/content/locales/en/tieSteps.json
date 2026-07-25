@@ -20,7 +20,7 @@
     {
       "id": 4,
       "title": "Pay the TIE fee",
-      "description": "Complete Modelo 790 code 012, print it, and pay at a Spanish bank."
+      "description": "Complete Modelo 790 (VisaMesa does this for you), print it, and pay at a Spanish bank."
     },
     {
       "id": 5,
@@ -75,7 +75,7 @@
     "empadronamiento": {
       "title": "Register Your Address",
       "short": "Get empadronamiento at the Ayuntamiento.",
-      "description": "Gather your documents, book an Ayuntamiento appointment if needed, and attend in person to receive your empadronamiento certificate. VisaMesa can help book the appointment; you must go to the office yourself to register.",
+      "description": "Gather your documents, book an Ayuntamiento appointment if needed, and attend in person to register your address and receive your empadronamiento certificate.",
       "whyItExists": "Empadronamiento registers your address in Barcelona's municipal census. Immigration and many other procedures require proof that you live at a specific address.",
       "completionPrompt": "Did you receive your empadronamiento certificate at the Ayuntamiento?",
       "cta": {
@@ -135,7 +135,7 @@
         "attend-ayuntamiento": {
           "label": "Attend and collect your certificate",
           "description": "Go in person with all documents above.",
-          "detail": "Leave with your volante or certificado de empadronamiento in hand. Without the certificate, this step is not done."
+          "detail": "On the day of your appointment, arrive a few minutes early, bring all of your original documents, and go to the Ayuntamiento office listed in your appointment confirmation.\n\nImportant: You must attend the appointment yourself. VisaMesa can help you obtain the appointment, but we cannot attend the registration on your behalf because the city council must verify your identity in person.\n\nAt the appointment, a city council employee will review your documents, verify your identity, and register your address in the municipal register (the padrón). If everything is in order, your registration will be completed.\n\nOnce your registration is processed, you will receive your empadronamiento certificate (also called a certificado de empadronamiento). This certificate serves as official proof of your registered address in Barcelona and may be required for future immigration and administrative procedures. If the office cannot issue the certificate immediately, they will explain when and how you can obtain it.\n\nKeep your empadronamiento certificate in a safe place. You will need to bring it with you later during Step 5, when you attend your fingerprint appointment. The certificate is one of the documents required for that appointment."
         }
       }
     },
@@ -226,8 +226,8 @@
     },
     "pay-fee": {
       "title": "Pay the TIE Issuance Fee",
-      "short": "Fill Modelo 790, print it, and pay at a bank.",
-      "description": "VisaMesa fills Modelo 790 code 012 from your profile. Print all copies, pay at a Spanish bank, and keep the stamped receipt — you must bring it to your fingerprint appointment.",
+      "short": "Fill Modelo 790 (VisaMesa does this for you), print it, and pay at a bank.",
+      "description": "Before your fingerprint appointment, you must pay the government fee using Modelo 790, Code 012.",
       "whyItExists": "Paying the official fee is mandatory before your TIE can be processed. The bank-stamped form is proof of payment.",
       "completionPrompt": "Did you pay the fee and get your stamped receipt?",
       "cta": {
@@ -263,22 +263,22 @@
         "modelo-790-form": {
           "label": "Modelo 790 Code 012 form",
           "description": "Review the form VisaMesa filled for you.",
-          "detail": "Confirm your details and procedure type before printing."
+          "detail": "VisaMesa automatically completes the Modelo 790, Code 012 form using the information from your profile, so you do not need to fill it out yourself."
         },
         "print-modelo-790": {
           "label": "Print the form",
           "description": "Print all copies — barcodes must be clear.",
-          "detail": "The PDF has three copies. Sign where required. Use a copy shop if needed."
+          "detail": "Once the form is ready, download and print all copies of the Modelo 790 form. The bank will keep one copy and return the remaining stamped copies to you as proof of payment."
         },
         "pay-at-bank": {
           "label": "Pay at a Spanish bank",
-          "description": "CaixaBank, Santander, BBVA, and others accept this fee.",
-          "detail": "No account needed. Pay at the counter or at some ATMs by scanning the barcode."
+          "description": "Take your printed forms to a Spanish bank.",
+          "detail": "Take the printed forms to a bank in Spain that accepts government fee payments.\n\nCommon banks where people usually pay this fee include:\n• CaixaBank\n• BBVA\n• Banco Santander\n• Banco Sabadell\n• Bankinter\n\nAt the bank, give the printed Modelo 790 forms to the cashier, pay the fee using one of the payment methods accepted by the bank, and the bank will stamp your forms to confirm that the payment has been received."
         },
         "fee-payment-receipt": {
           "label": "Stamped payment receipt",
           "description": "Keep the copy the bank stamps for your appointment.",
-          "detail": "Without this, police can reject your application on the spot."
+          "detail": "After paying, the bank will return your stamped copy of the Modelo 790 form.\n\nImportant: Keep this stamped receipt in a safe place. It is your official proof that you paid the government fee.\n\nWhen you attend your fingerprint appointment in Step 5, you must bring the stamped Modelo 790 receipt with you. Without proof of payment, your appointment may not be completed."
         }
       }
     },

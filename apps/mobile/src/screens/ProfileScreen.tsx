@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -9,6 +9,7 @@ import {
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {useTranslation} from 'react-i18next';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
@@ -19,10 +20,9 @@ import {ProfileUnauthenticated} from '@/features/profile/components/ProfileUnaut
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {useProfileScreen} from '@/features/profile/hooks/useProfileScreen';
 import {selectProfileCompleteness} from '@/features/profile/selectors/selectProfileCompleteness';
+import {useConsentStatus} from '@/hooks/useConsentStatus';
 import {ProfileStackParamList} from '@/navigation/types';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
-import {consentService} from '@/services/consentService';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type ProfileScreenNavigation = NativeStackNavigationProp<
   ProfileStackParamList,
@@ -38,7 +38,6 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
   const {t} = useTranslation('profile');
   const tabBarInset = useTabBarInset();
   const {profileData} = useProfileData();
-  const [hasConsent, setHasConsent] = useState(false);
   const {
     isAuthLoading,
     userEmail,
@@ -53,15 +52,7 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     onDismissAlreadyPaidDialog,
     onSeePaymentStatus,
   } = useProfileScreen(navigation);
-
-  useEffect(() => {
-    if (userEmail) {
-      consentService
-        .hasAcceptedConsent()
-        .then(setHasConsent)
-        .catch(() => {});
-    }
-  }, [userEmail]);
+  const {hasConsent} = useConsentStatus({enabled: Boolean(userEmail)});
 
   const completeness = selectProfileCompleteness(
     profileData,

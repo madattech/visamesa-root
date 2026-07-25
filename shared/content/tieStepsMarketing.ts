@@ -22,7 +22,7 @@ export const tieSteps = [
   {
     id: 4,
     title: 'Pay the TIE fee',
-    description: 'Complete Modelo 790 code 012, print it, and pay at a Spanish bank.',
+    description: 'Complete Modelo 790 (VisaMesa does this for you), print it, and pay at a Spanish bank.',
   },
   {
     id: 5,

@@ -8,12 +8,6 @@
   "settingsTitle": "应用设置",
   "settingsDescription": "语言与应用偏好",
   "signOut": "退出登录",
-  "completeProfileDialog": {
-    "title": "完善个人资料",
-    "message": "请先完善个人资料，我们才能开始办理。",
-    "notNow": "暂不",
-    "action": "完善资料"
-  },
   "consentDialog": {
     "title": "隐私与数据保护",
     "message": "保存个人信息前，请阅读并接受我们的数据保护政策。",

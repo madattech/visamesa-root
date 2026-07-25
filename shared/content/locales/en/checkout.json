@@ -62,5 +62,11 @@
   "profileAlreadyPaid": {
     "dialogTitle": "Already paid",
     "dialogMessage": "You already have an active VisaMesa service on this account."
+  },
+  "paymentReturn": {
+    "signInRequired": "Sign in with the same Google account to unlock your service",
+    "syncing": "Payment received — syncing your service",
+    "serviceReady": "Your VisaMesa service is ready",
+    "completeProfile": "Payment received — please complete your profile to start"
   }
 }

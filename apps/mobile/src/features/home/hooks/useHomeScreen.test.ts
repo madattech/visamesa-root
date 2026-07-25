@@ -39,13 +39,8 @@ jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),
 }));
 
-jest.mock('@/hooks/useProcessReadiness', () => ({
-  useProcessReadiness: jest.fn(),
-}));
-
 jest.mock('@/navigation/navigationRef', () => ({
   navigateToDashboard: jest.fn(),
-  navigateToProfile: jest.fn(),
 }));
 
 const {useTieSteps} = jest.requireMock('@/features/home/hooks/useTieSteps') as {
@@ -56,19 +51,15 @@ const {useAuth} = jest.requireMock('@/contexts/AuthContext') as {
   useAuth: jest.Mock;
 };
 
-const {useProcessReadiness} = jest.requireMock('@/hooks/useProcessReadiness') as {
-  useProcessReadiness: jest.Mock;
-};
-
 const {navigateToDashboard} = jest.requireMock('@/navigation/navigationRef') as {
   navigateToDashboard: jest.Mock;
-  navigateToProfile: jest.Mock;
 };
 
 describe('useHomeScreen', () => {
   beforeEach(() => {
     mockShowToast.mockReset();
     mockShowAlert.mockReset();
+    navigateToDashboard.mockReset();
     jest.spyOn(Linking, 'canOpenURL').mockResolvedValue(true);
     jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
     useTieSteps.mockReturnValue({
@@ -78,11 +69,6 @@ describe('useHomeScreen', () => {
     });
     useAuth.mockReturnValue({
       user: {id: 'user-1', email: 'test@example.com'},
-    });
-    useProcessReadiness.mockReturnValue({
-      canStartProcess: false,
-      isLoading: false,
-      missing: ['payment'],
     });
   });
 
@@ -105,7 +91,7 @@ describe('useHomeScreen', () => {
     expect(getHookState().activeStep?.id).toBe(2);
   });
 
-  it('shows complete profile dialog for signed-in users who cannot start process', async () => {
+  it('navigates to dashboard for signed-in users', async () => {
     const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
@@ -113,7 +99,7 @@ describe('useHomeScreen', () => {
       getHookState().onPrimaryPress();
     });
 
-    expect(getHookState().showCompleteProfileDialog).toBe(true);
+    expect(navigateToDashboard).toHaveBeenCalled();
     expect(Linking.openURL).not.toHaveBeenCalled();
   });
 
@@ -127,6 +113,7 @@ describe('useHomeScreen', () => {
     });
 
     expect(mockShowAlert).toHaveBeenCalled();
+    expect(navigateToDashboard).not.toHaveBeenCalled();
   });
 
   it('navigates to the steps screen from the secondary action', () => {
@@ -138,25 +125,5 @@ describe('useHomeScreen', () => {
     });
 
     expect(navigation.navigate).toHaveBeenCalledWith('Steps');
-  });
-
-  it('navigates to dashboard when user can start process', () => {
-    useProcessReadiness.mockReturnValue({
-      canStartProcess: true,
-      isLoading: false,
-      missing: [],
-    });
-    jest.clearAllMocks();
-    jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
-    
-    const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
-    const getHookState = renderHook(() => useHomeScreen(navigation));
-
-    act(() => {
-      getHookState().onPrimaryPress();
-    });
-
-    expect(navigateToDashboard).toHaveBeenCalled();
-    expect(Linking.openURL).not.toHaveBeenCalled();
   });
 });

@@ -8,12 +8,6 @@
   "settingsTitle": "Ajustes de la app",
   "settingsDescription": "Idioma y preferencias de la app",
   "signOut": "Cerrar sesión",
-  "completeProfileDialog": {
-    "title": "Completa tu perfil",
-    "message": "Completa tu perfil antes de que podamos empezar.",
-    "notNow": "Ahora no",
-    "action": "Completar perfil"
-  },
   "consentDialog": {
     "title": "Privacidad y protección de datos",
     "message": "Antes de guardar tu información personal, revisa y acepta nuestras políticas de protección de datos.",
