@@ -2,7 +2,7 @@ export const HERO_TITLE_PREFIX = 'Paperwork,'
 export const HERO_TITLE_ACCENT = 'all in one'
 export const HERO_SUBTITLE = 'Manage your TIE, forms, and appointments'
 export const HERO_LEAD =
-  'VisaMesa guides you through the real-world residency process with clear steps and optional automation when appointments are hard to find.'
+  'The complete guide to getting your TIE residency card in Barcelona.'
 export const PROCESS_SECTION_LEAD =
   'The government process is free, but confusing. VisaMesa keeps you on track and can automate the hardest parts.'
 

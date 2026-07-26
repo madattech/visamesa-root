@@ -3,11 +3,13 @@
     "titlePrefix": "Trámites,",
     "titleAccent": "todo en uno",
     "subtitle": "Gestiona tu TIE, formularios y citas",
-    "lead": "VisaMesa te guía por el proceso real de residencia con pasos claros y automatización opcional cuando las citas son difíciles de conseguir."
+    "lead": "La guía completa para obtener tu tarjeta de residencia TIE en Barcelona.",
+    "scrollHint": "Desplázate para explorar"
   },
   "process": {
     "sectionTitle": "Tu proceso de TIE, paso a paso",
-    "sectionLead": "El trámite oficial es gratuito, pero confuso. VisaMesa te mantiene al día y puede automatizar las partes más difíciles."
+    "sectionLead": "El trámite oficial es gratuito, pero confuso. VisaMesa te mantiene al día y puede automatizar las partes más difíciles.",
+    "stepLabel": "Paso {{stepNumber}}"
   },
   "features": {
     "sectionTitle": "Qué incluye",
@@ -53,8 +55,8 @@
   "seo": {
     "homeTitle": "VisaMesa — Asistencia con el TIE en Barcelona",
     "homeDescription": "VisaMesa ayuda a estudiantes en Barcelona a gestionar el proceso del TIE con pasos guiados, preparación de documentos y automatización opcional de citas. No es asesoramiento legal.",
-    "pricingTitle": "Precios — Servicio TIE VisaMesa",
-    "pricingDescription": "Elige tu servicio VisaMesa para el proceso del TIE de estudiante en Barcelona. Pago único y luego usa la app móvil con la misma cuenta de Google.",
+    "pricingTitle": "Paga tu tarifa de servicio — VisaMesa",
+    "pricingDescription": "Paga tu tarifa de servicio VisaMesa para el proceso del TIE de estudiante en Barcelona. Pago único y luego usa la app móvil con la misma cuenta de Google.",
     "privacyTitle": "Política de privacidad — VisaMesa",
     "privacyDescription": "Cómo VisaMesa recopila, cifra y protege tu información personal para el proceso de solicitud del TIE en Barcelona.",
     "termsTitle": "Términos del servicio — VisaMesa",
@@ -62,6 +64,7 @@
     "checkoutSuccessTitle": "Pago completado — VisaMesa",
     "checkoutSuccessDescription": "Tu pago en VisaMesa se ha completado correctamente.",
     "checkoutCancelTitle": "Pago cancelado — VisaMesa",
-    "checkoutCancelDescription": "Tu proceso de pago en VisaMesa se ha cancelado."
+    "checkoutCancelDescription": "Tu proceso de pago en VisaMesa se ha cancelado.",
+    "stepTitle": "{{stepTitle}} — VisaMesa"
   }
 }

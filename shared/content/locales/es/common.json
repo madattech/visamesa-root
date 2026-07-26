@@ -16,12 +16,23 @@
     "decline": "Rechazar",
     "seeStatus": "Ver estado",
     "learnMore": "Más información",
+    "opensInNewTab": "se abre en una pestaña nueva",
     "skipToContent": "Saltar al contenido"
   },
   "tabs": {
     "home": "Inicio",
     "dashboard": "Panel",
     "profile": "Perfil"
+  },
+  "navigation": {
+    "breadcrumb": "Ruta de navegación"
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "description": "La página que buscas no existe o puede haberse movido.",
+    "backHome": "Volver al inicio",
+    "seoTitle": "Página no encontrada — VisaMesa",
+    "seoDescription": "No se ha encontrado la página de VisaMesa solicitada."
   },
   "status": {
     "loading": "Cargando…",

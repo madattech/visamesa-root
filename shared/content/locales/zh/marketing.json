@@ -3,11 +3,13 @@
     "titlePrefix": "各类文书，",
     "titleAccent": "一站搞定",
     "subtitle": "管理您的 TIE、表格与预约",
-    "lead": "VisaMesa 以清晰的步骤指引您完成真实的居留办理流程；当预约名额难以获取时，还可选择自动化辅助。"
+    "lead": "巴塞罗那 TIE 居留卡完整办理指南。",
+    "scrollHint": "向下滚动了解更多"
   },
   "process": {
     "sectionTitle": "TIE 办理流程，步步清晰",
-    "sectionLead": "政府流程本身免费，但步骤繁琐。VisaMesa 帮您保持进度，并可在最棘手的环节提供自动化支持。"
+    "sectionLead": "政府流程本身免费，但步骤繁琐。VisaMesa 帮您保持进度，并可在最棘手的环节提供自动化支持。",
+    "stepLabel": "第 {{stepNumber}} 步"
   },
   "features": {
     "sectionTitle": "您将获得",
@@ -53,8 +55,8 @@
   "seo": {
     "homeTitle": "VisaMesa — 巴塞罗那 TIE 办理协助",
     "homeDescription": "VisaMesa 帮助巴塞罗那的学生完成 TIE 办理，提供分步指引、文件准备及可选的预约自动化。非法律建议。",
-    "pricingTitle": "价格 — VisaMesa TIE 服务",
-    "pricingDescription": "选择 VisaMesa 巴塞罗那学生 TIE 办理服务。一次性付款后，使用同一 Google 账户登录移动应用。",
+    "pricingTitle": "支付服务费 — VisaMesa",
+    "pricingDescription": "支付 VisaMesa 巴塞罗那学生 TIE 办理服务费。一次性付款后，使用同一 Google 账户登录移动应用。",
     "privacyTitle": "隐私政策 — VisaMesa",
     "privacyDescription": "VisaMesa 如何收集、加密并保护您在巴塞罗那 TIE 申请流程中的个人信息。",
     "termsTitle": "服务条款 — VisaMesa",
@@ -62,6 +64,7 @@
     "checkoutSuccessTitle": "付款成功 — VisaMesa",
     "checkoutSuccessDescription": "您的 VisaMesa 付款已成功。",
     "checkoutCancelTitle": "结账已取消 — VisaMesa",
-    "checkoutCancelDescription": "您的 VisaMesa 结账已取消。"
+    "checkoutCancelDescription": "您的 VisaMesa 结账已取消。",
+    "stepTitle": "{{stepTitle}} — VisaMesa"
   }
 }

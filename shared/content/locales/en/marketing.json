@@ -3,11 +3,13 @@
     "titlePrefix": "Paperwork,",
     "titleAccent": "all in one",
     "subtitle": "Manage your TIE, forms, and appointments",
-    "lead": "VisaMesa guides you through the real-world residency process with clear steps and optional automation when appointments are hard to find."
+    "lead": "The complete guide to getting your TIE residency card in Barcelona.",
+    "scrollHint": "Scroll to explore"
   },
   "process": {
     "sectionTitle": "Your TIE process, step by step",
-    "sectionLead": "The government process is free, but confusing. VisaMesa keeps you on track and can automate the hardest parts."
+    "sectionLead": "The government process is free, but confusing. VisaMesa keeps you on track and can automate the hardest parts.",
+    "stepLabel": "Step {{stepNumber}}"
   },
   "features": {
     "sectionTitle": "What you get",
@@ -53,8 +55,8 @@
   "seo": {
     "homeTitle": "VisaMesa — TIE assistance in Barcelona",
     "homeDescription": "VisaMesa helps students in Barcelona navigate the TIE process with guided steps, document prep, and optional appointment automation. Not legal advice.",
-    "pricingTitle": "Pricing — VisaMesa TIE service",
-    "pricingDescription": "Choose your VisaMesa service for the Barcelona student TIE process. One-time payment, then use the mobile app with the same Google account.",
+    "pricingTitle": "Pay your service fee — VisaMesa",
+    "pricingDescription": "Pay your VisaMesa service fee for the Barcelona student TIE process. One-time payment, then use the mobile app with the same Google account.",
     "privacyTitle": "Privacy Policy — VisaMesa",
     "privacyDescription": "How VisaMesa collects, encrypts, and protects your personal information for the TIE application process in Barcelona.",
     "termsTitle": "Terms of Service — VisaMesa",
@@ -62,6 +64,7 @@
     "checkoutSuccessTitle": "Payment successful — VisaMesa",
     "checkoutSuccessDescription": "Your VisaMesa payment was successful.",
     "checkoutCancelTitle": "Checkout cancelled — VisaMesa",
-    "checkoutCancelDescription": "Your VisaMesa checkout was cancelled."
+    "checkoutCancelDescription": "Your VisaMesa checkout was cancelled.",
+    "stepTitle": "{{stepTitle}} — VisaMesa"
   }
 }

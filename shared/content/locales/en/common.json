@@ -16,12 +16,23 @@
     "decline": "Decline",
     "seeStatus": "See status",
     "learnMore": "Learn more",
+    "opensInNewTab": "opens in new tab",
     "skipToContent": "Skip to content"
   },
   "tabs": {
     "home": "Home",
     "dashboard": "Dashboard",
     "profile": "Profile"
+  },
+  "navigation": {
+    "breadcrumb": "Breadcrumb"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you are looking for does not exist or may have moved.",
+    "backHome": "Back to home",
+    "seoTitle": "Page not found — VisaMesa",
+    "seoDescription": "The requested VisaMesa page could not be found."
   },
   "status": {
     "loading": "Loading…",

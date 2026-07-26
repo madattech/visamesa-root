@@ -9,6 +9,10 @@ export const TIE_STEP_ORDER = [
 
 export type TieStepSlug = (typeof TIE_STEP_ORDER)[number]
 
+export function isTieStepSlug(value: string): value is TieStepSlug {
+  return (TIE_STEP_ORDER as readonly string[]).includes(value)
+}
+
 export type AutomationId = 'empadronamiento' | 'cita-previa'
 
 export type RequirementType = 'automation' | 'form' | 'self_declared'
