@@ -16,12 +16,23 @@
     "decline": "拒绝",
     "seeStatus": "查看状态",
     "learnMore": "了解更多",
+    "opensInNewTab": "在新标签页中打开",
     "skipToContent": "跳至正文"
   },
   "tabs": {
     "home": "首页",
     "dashboard": "仪表盘",
     "profile": "个人资料"
+  },
+  "navigation": {
+    "breadcrumb": "面包屑导航"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "description": "您访问的页面不存在或可能已移动。",
+    "backHome": "返回首页",
+    "seoTitle": "页面未找到 — VisaMesa",
+    "seoDescription": "找不到所请求的 VisaMesa 页面。"
   },
   "status": {
     "loading": "加载中…",

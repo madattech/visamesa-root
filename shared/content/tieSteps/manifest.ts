@@ -1,4 +1,4 @@
-import type { RequirementManifest, TieStepManifestEntry, TieStepSlug } from './types'
+import { TIE_STEP_ORDER, type RequirementManifest, type TieStepManifestEntry, type TieStepSlug } from './types'
 
 const empadronamientoRequirements: RequirementManifest[] = [
   { key: 'passport-nie', type: 'self_declared', location: 'in_app' },
@@ -196,4 +196,8 @@ export const tieStepManifest: Record<TieStepSlug, TieStepManifestEntry> = {
 
 export function getStepIdBySlug(slug: TieStepSlug): number {
   return tieStepManifest[slug].id
+}
+
+export function getStepSlugById(id: number): TieStepSlug | undefined {
+  return TIE_STEP_ORDER.find((slug) => tieStepManifest[slug].id === id)
 }
