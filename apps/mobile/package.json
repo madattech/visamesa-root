@@ -23,6 +23,7 @@
     "@react-navigation/native-stack": "^6.9.17",
     "@visamesa/content": "file:../../shared/content",
     "@visamesa/design-tokens": "file:../../shared/design-tokens",
+    "@visamesa/types": "file:../../shared/types",
     "async": "3.2.6",
     "axios": "^1.6.5",
     "i18next": "26.3.6",

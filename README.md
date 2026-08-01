@@ -174,14 +174,7 @@ Common types used across all automations:
 - `STORAGE_KEYS`
 - `ApiConfig`
 
-### `shared/utils/` (Future)
-
-Reusable utilities:
-
-- Date formatting
-- API error handling
-- Retry logic
-- Validation helpers
+Import via the `@visamesa/types` package in mobile apps.
 
 ## How WebView Automation Works
 

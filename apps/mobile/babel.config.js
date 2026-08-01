@@ -1,6 +1,7 @@
 const path = require('path');
 
 const contentRoot = path.resolve(__dirname, '../../shared/content');
+const typesRoot = path.resolve(__dirname, '../../shared/types');
 
 module.exports = {
   presets: ['module:@react-native/babel-preset'],
@@ -21,6 +22,7 @@ module.exports = {
           '@visamesa/content/tieSteps/detail': path.join(contentRoot, 'tieSteps/index.ts'),
           '@visamesa/content/tieSteps': path.join(contentRoot, 'tieStepsMarketing.ts'),
           '@visamesa/content/processOverview': path.join(contentRoot, 'processOverview/index.ts'),
+          '@visamesa/types': path.join(typesRoot, 'common.ts'),
         },
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
       },

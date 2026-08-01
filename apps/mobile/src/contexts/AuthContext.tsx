@@ -7,7 +7,7 @@ import React, {
 } from 'react';
 
 import { authService } from '@/services/authService';
-import { User } from '@/types';
+import { User } from '@visamesa/types';
 
 interface AuthContextType {
   user: User | null;

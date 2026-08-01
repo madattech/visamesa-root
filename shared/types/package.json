@@ -1,0 +1,10 @@
+{
+  "name": "@visamesa/types",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./common.ts",
+    "./common": "./common.ts"
+  }
+}
