@@ -7,8 +7,8 @@ import {
   GOOGLE_WEB_CLIENT_ID,
 } from '@/config/google';
 import { getGoogleSignInErrorMessage } from '@/services/authGoogleErrors';
-import apiClient, { STORAGE_KEYS } from '@/services/api';
-import { AuthResponse, User } from '@visamesa/types';
+import apiClient from '@/services/api';
+import { AuthResponse, STORAGE_KEYS, User } from '@visamesa/types';
 
 let isGoogleConfigured = false;
 

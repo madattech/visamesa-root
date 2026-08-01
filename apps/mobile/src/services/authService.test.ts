@@ -3,7 +3,8 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import { API_ENDPOINTS } from '@/config/api';
 import { authService } from '@/services/authService';
-import apiClient, { STORAGE_KEYS } from '@/services/api';
+import apiClient from '@/services/api';
+import { STORAGE_KEYS } from '@visamesa/types';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -32,10 +33,6 @@ jest.mock('@/services/api', () => ({
   default: {
     post: jest.fn(),
     get: jest.fn(),
-  },
-  STORAGE_KEYS: {
-    AUTH_TOKEN: '@visamesa_auth_token',
-    USER_DATA: '@visamesa_user_data',
   },
 }));
 

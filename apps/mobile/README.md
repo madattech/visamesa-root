@@ -1,35 +1,32 @@
 # VisaMesa Mobile App
 
-React Native automation app for Spanish visa appointment booking.
+React Native app that guides users through the Spanish TIE process and automates government website steps on-device.
 
 ## What This App Does
 
-Automates appointment booking on Spain's immigration website (`sede.administracionespublicas.gob.es`):
+1. User logs in with VisaMesa credentials (Google sign-in)
+2. Completes profile information and TIE step checklist
+3. Launches on-device WebView automations for supported procedures (e.g. cita previa, empadronamiento)
+4. Syncs progress, entitlements, and encrypted profile data with the VisaMesa backend
 
-1. User logs in with VisaMesa credentials
-2. Selects a visa case that needs an appointment
-3. App uses WebView + JavaScript injection to automate the government website
-4. Books the first available appointment slot
-5. Reports results back to VisaMesa backend
-
-**Target Users**: Immigration lawyers, visa agencies, individuals needing Spanish visa appointments
+**Target Users**: Individuals navigating the Spanish TIE immigration process
 
 ## Architecture
 
 ```
 ┌─────────────────────────┐
-│   VisaMesa Web App      │  User creates visa cases
+│   VisaMesa Web App      │  Marketing, checkout, account
 │   (React)               │
 └──────────┬──────────────┘
            │
 ┌──────────▼──────────────┐
-│   VisaMesa Backend      │  Stores cases & appointments
+│   VisaMesa Backend      │  Auth, profile, payments, entitlements
 │   (Fastify + PostgreSQL)│
 └──────────┬──────────────┘
            │
 ┌──────────▼──────────────┐
 │   VisaMesa Mobile       │  ← This app
-│   (React Native)        │  Automates government website
+│   (React Native)        │  TIE guidance + WebView automation
 └─────────────────────────┘
 ```
 

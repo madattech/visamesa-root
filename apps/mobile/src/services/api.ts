@@ -1,12 +1,10 @@
 import axios, {AxiosInstance} from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {STORAGE_KEYS} from '@visamesa/types';
+
 import {API_BASE_URL} from '../config/api';
 
-// Storage keys
-export const STORAGE_KEYS = {
-  AUTH_TOKEN: '@visamesa_auth_token',
-  USER_DATA: '@visamesa_user_data',
-};
+export {STORAGE_KEYS};
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({

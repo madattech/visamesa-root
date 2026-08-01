@@ -5,13 +5,14 @@ const projectRoot = __dirname;
 const monorepoRoot = path.resolve(projectRoot, '../..');
 const designTokensRoot = path.resolve(monorepoRoot, 'shared/design-tokens');
 const contentRoot = path.resolve(monorepoRoot, 'shared/content');
+const typesRoot = path.resolve(monorepoRoot, 'shared/types');
 
 /**
  * Metro must watch shared packages linked via file: dependencies.
  * Subpath exports (@visamesa/content/legal) are mapped in babel.config.js.
  */
 const config = {
-  watchFolders: [designTokensRoot, contentRoot],
+  watchFolders: [designTokensRoot, contentRoot, typesRoot],
   resolver: {
     nodeModulesPaths: [
       path.resolve(projectRoot, 'node_modules'),
