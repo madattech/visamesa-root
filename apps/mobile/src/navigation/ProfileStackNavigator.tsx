@@ -2,11 +2,11 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
-import LegalScreen from '@/screens/LegalScreen';
-import LoginScreen from '@/screens/LoginScreen';
-import ProfileScreen from '@/screens/ProfileScreen';
-import ProfileSectionScreen from '@/screens/ProfileSectionScreen';
-import SettingsScreen from '@/screens/SettingsScreen';
+import LegalScreen from '@/features/legal/screens/LegalScreen';
+import LoginScreen from '@/features/auth/screens/LoginScreen';
+import ProfileScreen from '@/features/profile/screens/ProfileScreen';
+import ProfileSectionScreen from '@/features/profile/screens/ProfileSectionScreen';
+import SettingsScreen from '@/features/settings/screens/SettingsScreen';
 
 import {ProfileStackParamList} from './types';
 

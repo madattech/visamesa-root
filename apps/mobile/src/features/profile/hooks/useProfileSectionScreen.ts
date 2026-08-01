@@ -10,7 +10,7 @@ import {
   ProfileSectionId,
 } from '@/features/profile/data/profileSections';
 import {ProfileStackParamList} from '@/navigation/types';
-import {consentService} from '@/services/consentService';
+import {consentService} from '@/features/profile/services/consentService';
 
 type ProfileSectionRoute = RouteProp<ProfileStackParamList, 'ProfileSection'>;
 

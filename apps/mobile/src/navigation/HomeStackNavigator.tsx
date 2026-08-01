@@ -2,8 +2,8 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
-import HomeScreen from '@/screens/HomeScreen';
-import ProcessOverviewScreen from '@/screens/ProcessOverviewScreen';
+import HomeScreen from '@/features/home/screens/HomeScreen';
+import ProcessOverviewScreen from '@/features/home/screens/ProcessOverviewScreen';
 
 import {HomeStackParamList} from './types';
 

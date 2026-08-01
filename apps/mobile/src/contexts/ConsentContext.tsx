@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 
 import {useAuth} from '@/contexts/AuthContext';
-import {consentService} from '@/services/consentService';
+import {consentService} from '@/features/profile/services/consentService';
 
 type ConsentContextValue = {
   hasConsent: boolean;

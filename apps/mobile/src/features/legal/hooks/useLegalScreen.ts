@@ -7,7 +7,7 @@ import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useAuth} from '@/contexts/AuthContext';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {useWebsiteLink} from '@/hooks/useWebsiteLink';
-import {accountService} from '@/services/accountService';
+import {accountService} from '@/features/legal/services/accountService';
 import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
 
 type OfficialSourceItem = {

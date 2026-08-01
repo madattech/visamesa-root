@@ -214,16 +214,23 @@ npm run android
 apps/mobile/
 ├── src/
 │   ├── App.tsx                    # Main app component
-│   ├── screens/                   # Screen components
-│   │   ├── LoginScreen.tsx
-│   │   ├── CasesScreen.tsx
-│   │   └── AutomationScreen.tsx
-│   ├── components/                # Reusable UI components
+│   ├── features/                  # Feature modules (screens, hooks, services, components)
+│   │   ├── home/
+│   │   ├── dashboard/
+│   │   ├── profile/
+│   │   ├── auth/
+│   │   ├── legal/
+│   │   └── settings/
+│   ├── navigation/                # React Navigation stacks and tabs
+│   ├── components/                # Shared UI components
+│   ├── contexts/                  # App-wide React context
+│   ├── services/                  # Infrastructure (api, auth, crypto, payment)
+│   ├── webViewInjection/          # WebView automation + WebsiteWebView screen
+│   ├── scripts/                   # Government site injection scripts
+│   │   ├── cita-previa/
+│   │   └── empadronamiento/
 │   ├── theme/                     # Unistyles theme configuration
-│   ├── scripts/                   # Automation scripts
-│   │   └── cita-previa/          # Government site automation
-│   ├── services/                  # API clients
-│   └── types/                     # TypeScript types
+│   └── types/                     # Shared TypeScript types
 ├── android/                       # Android native code
 ├── ios/                          # iOS native code
 ├── index.js                      # App entry point

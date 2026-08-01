@@ -5,7 +5,7 @@ import {useProfileSectionScreen} from '@/features/profile/hooks/useProfileSectio
 import {createMockNavigation} from '@/test/navigation';
 import {renderHook} from '@/test/renderHook';
 import {ProfileStackParamList} from '@/navigation/types';
-import {consentService} from '@/services/consentService';
+import {consentService} from '@/features/profile/services/consentService';
 
 const mockRefreshConsent = jest.fn();
 
@@ -23,7 +23,7 @@ jest.mock('@/features/profile/context/ProfileDataContext', () => ({
   }),
 }));
 
-jest.mock('@/services/consentService', () => ({
+jest.mock('@/features/profile/services/consentService', () => ({
   consentService: {
     hasAcceptedConsent: jest.fn(),
     recordConsent: jest.fn(),

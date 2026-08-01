@@ -2,8 +2,8 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
-import DashboardScreen from '@/screens/DashboardScreen';
-import DashboardStepDetailScreen from '@/screens/DashboardStepDetailScreen';
+import DashboardScreen from '@/features/dashboard/screens/DashboardScreen';
+import DashboardStepDetailScreen from '@/features/dashboard/screens/DashboardStepDetailScreen';
 
 import {DashboardStackParamList} from './types';
 

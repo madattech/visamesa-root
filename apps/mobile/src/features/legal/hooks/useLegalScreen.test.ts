@@ -2,7 +2,7 @@ import {act} from 'react';
 
 import {AppAlertButton} from '@/contexts/AppDialogContext';
 import {useLegalScreen} from '@/features/legal/hooks/useLegalScreen';
-import {accountService} from '@/services/accountService';
+import {accountService} from '@/features/legal/services/accountService';
 import {flushAsyncEffects, renderHook} from '@/test/renderHook';
 
 const mockShowAlert = jest.fn();
@@ -43,7 +43,7 @@ jest.mock('@/hooks/useWebsiteLink', () => ({
   }),
 }));
 
-jest.mock('@/services/accountService', () => ({
+jest.mock('@/features/legal/services/accountService', () => ({
   accountService: {
     exportData: jest.fn(),
     deleteAccount: jest.fn(),
