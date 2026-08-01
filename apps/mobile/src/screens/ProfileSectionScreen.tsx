@@ -1,8 +1,7 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
-import {useTranslation} from 'react-i18next';
-import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {RouteProp, useNavigation} from '@react-navigation/native';
+import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {CollapsingHeaderScreen} from '@/components/layout/CollapsingHeaderScreen';
 import {DynamicForm} from '@/features/forms/components/DynamicForm';
@@ -11,71 +10,31 @@ import {useFormSchema} from '@/features/forms/hooks/useFormSchema';
 import {useProfileSectionScreen} from '@/features/profile/hooks/useProfileSectionScreen';
 import {Text} from '@/components/ui/Text';
 import {ProfileStackParamList} from '@/navigation/types';
-import {useConsent} from '@/contexts/ConsentContext';
-import {consentService} from '@/services/consentService';
-
-const PROFILE_SECTION_TITLE_KEYS = {
-  personal: 'personalTitle',
-} as const;
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
 type ProfileSectionScreenProps = {
   route: RouteProp<ProfileStackParamList, 'ProfileSection'>;
 };
 
+type ProfileSectionNavigation = NativeStackNavigationProp<
+  ProfileStackParamList,
+  'ProfileSection'
+>;
+
 const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
-  const {t} = useTranslation('profile');
-  const navigation = useNavigation();
-  const {formId, initialValues, isSubmitting, onSubmit} =
-    useProfileSectionScreen(route);
+  const navigation = useNavigation<ProfileSectionNavigation>();
+  const {
+    title,
+    formId,
+    initialValues,
+    isSubmitting,
+    showConsentDialog,
+    onSubmit,
+    onConsentAccept,
+    onConsentDecline,
+  } = useProfileSectionScreen(route, navigation);
   const {schema, isLoading, error} = useFormSchema(formId);
-  const {refreshConsent} = useConsent();
-  const [showConsentDialog, setShowConsentDialog] = useState(false);
-  const [pendingData, setPendingData] = useState<Record<string, unknown> | null>(
-    null,
-  );
-
-  const title = t(
-    PROFILE_SECTION_TITLE_KEYS[route.params.sectionId],
-  );
-
-  const handleSubmit = async (data: Record<string, unknown>) => {
-    // Check if consent has been given
-    const hasConsent = await consentService.hasAcceptedConsent();
-
-    if (!hasConsent) {
-      // Show consent dialog
-      setPendingData(data);
-      setShowConsentDialog(true);
-      return;
-    }
-
-    // Consent already given, proceed with save
-    await onSubmit(data);
-  };
-
-  const handleConsentAccept = async () => {
-    try {
-      await consentService.recordConsent();
-      await refreshConsent();
-      setShowConsentDialog(false);
-
-      // Now save the pending data
-      if (pendingData) {
-        await onSubmit(pendingData);
-        setPendingData(null);
-      }
-    } catch (consentError) {
-      // Error handling is done in ConsentDialog
-      throw consentError;
-    }
-  };
-
-  const handleConsentDecline = () => {
-    setShowConsentDialog(false);
-    setPendingData(null);
-    navigation.goBack();
-  };
 
   return (
     <CollapsingHeaderScreen title={title} keyboardAvoiding>
@@ -91,15 +50,15 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
         <>
           <DynamicForm
             schema={schema}
-            onSubmit={handleSubmit}
+            onSubmit={onSubmit}
             isSubmitting={isSubmitting}
             initialValues={initialValues}
             submitButtonText="Save"
           />
           {showConsentDialog ? (
             <ConsentDialog
-              onAccept={handleConsentAccept}
-              onDecline={handleConsentDecline}
+              onAccept={onConsentAccept}
+              onDecline={onConsentDecline}
             />
           ) : null}
         </>

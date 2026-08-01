@@ -2,82 +2,25 @@ import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import WebView, {WebViewMessageEvent} from 'react-native-webview';
+import WebView from 'react-native-webview';
 
 import {RootStackParamList} from '@/navigation/types';
-import {
-  buildCitaPreviaInjectionRules,
-  CITA_PREVIA_START_URL,
-  citaPreviaPiiConfig,
-} from '@/scripts/cita-previa';
-import {
-  buildEmpadronamientoInjectionRules,
-  empadronamientoPiiConfig,
-  EMPADRONAMIENTO_HOME_URL,
-} from '@/scripts/empadronamiento';
-import {useWebViewInjection} from '@/webViewInjection/useWebViewInjection';
-import {
-  buildCitaPreviaWebViewSource,
-  buildEmpadronamientoWebViewSource,
-  getWebViewUserAgent,
-} from '@/webViewInjection/webViewDefaults';
+import {getWebViewUserAgent} from '@/webViewInjection/webViewDefaults';
+import {useWebsiteWebViewScreen} from '@/webViewInjection/useWebsiteWebViewScreen';
 
 type WebsiteWebViewRouteProp = RouteProp<RootStackParamList, 'WebsiteWebView'>;
 
 const WebsiteWebViewScreen = () => {
   const route = useRoute<WebsiteWebViewRouteProp>();
-  const automation = route.params?.automation ?? 'cita-previa';
-  const webViewRef = React.useRef<React.ElementRef<typeof WebView>>(null);
-
-  const startUrl =
-    route.params?.url ??
-    (automation === 'empadronamiento'
-      ? EMPADRONAMIENTO_HOME_URL
-      : CITA_PREVIA_START_URL);
-
-  const webViewSource = React.useMemo(
-    () =>
-      automation === 'empadronamiento'
-        ? buildEmpadronamientoWebViewSource(startUrl)
-        : buildCitaPreviaWebViewSource(startUrl),
-    [automation, startUrl],
-  );
-
-  const injectionRules = React.useMemo(
-    () =>
-      automation === 'empadronamiento'
-        ? buildEmpadronamientoInjectionRules(empadronamientoPiiConfig)
-        : buildCitaPreviaInjectionRules(citaPreviaPiiConfig),
-    [automation],
-  );
-
   const {
-    handleMessage: handleInjectionMessage,
+    webViewRef,
+    webViewSource,
     onLoadEnd,
     onNavigationStateChange,
-  } = useWebViewInjection(webViewRef, {
-    initialUrl: startUrl,
-    rules: injectionRules,
-  });
-
-  const handleMessage = React.useCallback(
-    (event: WebViewMessageEvent) => {
-      if (handleInjectionMessage(event.nativeEvent.data)) {
-        return;
-      }
-
-      try {
-        const message = JSON.parse(event.nativeEvent.data);
-
-        if (message.type === 'debug') {
-          console.debug('[WebView debug]', message.data);
-        }
-      } catch {
-        // Ignore non-JSON messages from the page.
-      }
-    },
-    [handleInjectionMessage],
-  );
+    onMessage,
+    onError,
+    onHttpError,
+  } = useWebsiteWebViewScreen(route);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -95,21 +38,9 @@ const WebsiteWebViewScreen = () => {
         setSupportMultipleWindows={false}
         onNavigationStateChange={onNavigationStateChange}
         onLoadEnd={onLoadEnd}
-        onMessage={handleMessage}
-        onError={syntheticEvent => {
-          console.warn('[WebView] Load error', {
-            automation,
-            requestedUrl: startUrl,
-            ...syntheticEvent.nativeEvent,
-          });
-        }}
-        onHttpError={syntheticEvent => {
-          console.warn('[WebView] HTTP error', {
-            automation,
-            requestedUrl: startUrl,
-            ...syntheticEvent.nativeEvent,
-          });
-        }}
+        onMessage={onMessage}
+        onError={onError}
+        onHttpError={onHttpError}
         renderLoading={() => (
           <View style={styles.loading}>
             <ActivityIndicator size="large" color="#1A73E8" />

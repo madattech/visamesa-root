@@ -1,7 +1,7 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 
 import {ProfileSectionId} from '@/features/profile/data/profileSections';
-import {Case, CitaPreviaDetails} from '@/types';
+import {CitaPreviaDetails} from '@/types';
 
 export type HomeStackParamList = {
   Home: undefined;
@@ -41,7 +41,4 @@ export type RootStackParamList = {
     title?: string;
     details?: CitaPreviaDetails;
   };
-  // Legacy automation routes — not mounted in RootNavigator yet
-  CaseList: undefined;
-  Automation: {case: Case};
 };

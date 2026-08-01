@@ -19,7 +19,6 @@ export const CITA_PREVIA_SEDE_ENTRY_URL =
 export const CITA_PREVIA_START_URL = ICP_PLUS_URL;
 
 export {
-  buildCitaPreviaAutomationProfileFromCase,
   citaPreviaPiiConfig,
   type CitaPreviaAutomationProfile,
 } from './config';

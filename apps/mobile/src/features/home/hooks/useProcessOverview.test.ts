@@ -24,6 +24,24 @@ describe('useProcessOverview', () => {
     );
   });
 
+  it('loads full overview content used by the screen', async () => {
+    const getHookState = renderHook(() => useProcessOverview());
+    await flushAsyncEffects();
+
+    const state = getHookState();
+    const phaseTitles = state.phases.map(phase => phase.title);
+    const stepTitles = state.phases.flatMap(phase =>
+      phase.steps.map(step => step.title),
+    );
+
+    expect(state.intro.length).toBeGreaterThan(0);
+    expect(phaseTitles).toContain('Before you start');
+    expect(phaseTitles).toContain('The 6 TIE steps');
+    expect(stepTitles).toContain('Create your account');
+    expect(state.badgeLabels.helpBook).toBe('VisaMesa helps you book');
+    expect(state.phases[0]?.tabHint).toContain('Profile tab');
+  });
+
   it('updates content when language changes', async () => {
     const getHookState = renderHook(() => useProcessOverview());
     await flushAsyncEffects();
