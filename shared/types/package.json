@@ -5,6 +5,7 @@
   "type": "module",
   "exports": {
     ".": "./common.ts",
-    "./common": "./common.ts"
+    "./common": "./common.ts",
+    "./clientErrorCodes": "./clientErrorCodes.ts"
   }
 }
