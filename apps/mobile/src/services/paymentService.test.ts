@@ -6,11 +6,13 @@ jest.mock('@/services/api', () => ({
   __esModule: true,
   default: {
     get: jest.fn(),
+    post: jest.fn(),
   },
 }));
 
 const apiClient = jest.requireMock('@/services/api').default as {
   get: jest.Mock;
+  post: jest.Mock;
 };
 
 describe('paymentService', () => {
@@ -59,6 +61,21 @@ describe('paymentService', () => {
       const result = await paymentService.getEntitlements();
 
       expect(result.entitlements).toEqual([]);
+    });
+  });
+
+  describe('syncCheckoutSession', () => {
+    it('posts session id to checkout sync endpoint', async () => {
+      const mockEntitlements = {entitlements: []};
+      apiClient.post.mockResolvedValue({data: mockEntitlements});
+
+      const result = await paymentService.syncCheckoutSession('cs_test_123');
+
+      expect(result).toEqual(mockEntitlements);
+      expect(apiClient.post).toHaveBeenCalledWith(
+        API_ENDPOINTS.paymentCheckoutSync,
+        {sessionId: 'cs_test_123'},
+      );
     });
   });
 });

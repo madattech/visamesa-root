@@ -9,4 +9,12 @@ export const paymentService = {
     );
     return response.data;
   },
+
+  async syncCheckoutSession(sessionId: string): Promise<EntitlementsResponse> {
+    const response = await apiClient.post<EntitlementsResponse>(
+      API_ENDPOINTS.paymentCheckoutSync,
+      {sessionId},
+    );
+    return response.data;
+  },
 };
