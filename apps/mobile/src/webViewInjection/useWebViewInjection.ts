@@ -13,9 +13,17 @@ export interface WebViewInjectionHandle {
   injectJavaScript: (script: string) => void;
 }
 
+export interface WebViewReadinessTimeoutPayload {
+  ruleId: string;
+  url: string;
+  selector: string;
+  timeoutMs: number;
+}
+
 interface UseWebViewInjectionOptions {
   initialUrl?: string | null;
   rules?: WebViewInjectionRule[];
+  onReadinessTimeout?: (payload: WebViewReadinessTimeoutPayload) => void;
 }
 
 interface WebViewInjectionInternalMessage {
@@ -133,7 +141,7 @@ export const useWebViewInjection = (
   webViewRef: React.RefObject<WebViewInjectionHandle | null>,
   options: UseWebViewInjectionOptions = {},
 ): UseWebViewInjectionResult => {
-  const {initialUrl = null, rules} = options;
+  const {initialUrl = null, rules, onReadinessTimeout} = options;
   const [currentUrl, setCurrentUrl] = React.useState<string | null>(initialUrl);
   const currentUrlRef = React.useRef<string | null>(initialUrl);
   const lastInjectedRuleKeyRef = React.useRef<string | null>(null);
@@ -209,6 +217,12 @@ export const useWebViewInjection = (
               timeoutMs,
             },
           );
+          onReadinessTimeout?.({
+            ruleId: rule.id,
+            url,
+            selector: ready.selector,
+            timeoutMs,
+          });
           pendingReadyRuleKeyRef.current = null;
           clearReadinessTimer();
           return;
@@ -226,7 +240,7 @@ export const useWebViewInjection = (
         injectRuleScript(rule, url);
       }, timeoutMs);
     },
-    [clearReadinessTimer, injectRuleScript, webViewRef],
+    [clearReadinessTimer, injectRuleScript, onReadinessTimeout, webViewRef],
   );
 
   const onNavigationStateChange = React.useCallback(

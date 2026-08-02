@@ -36,7 +36,7 @@ describe('AppDialogContext', () => {
       dialogApi?.showAlert('Title', 'Message', [
         {text: 'Cancel', style: 'cancel'},
         {text: 'Delete', style: 'destructive', onPress},
-      ], {dismissable: false});
+      ]);
     });
 
     act(() => {

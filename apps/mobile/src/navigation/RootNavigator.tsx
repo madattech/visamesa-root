@@ -3,7 +3,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import MainTabNavigator from '@/navigation/MainTabNavigator';
 import {RootStackParamList} from '@/navigation/types';
-import WebsiteWebViewScreen from '@/screens/WebsiteWebViewScreen';
+import WebsiteWebViewScreen from '@/webViewInjection/screens/WebsiteWebViewScreen';
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

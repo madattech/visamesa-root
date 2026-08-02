@@ -1,4 +1,5 @@
 import {useCallback, useEffect, useState} from 'react';
+import {i18n} from '@visamesa/content/i18n';
 
 import {
   fetchUserProgress,
@@ -56,7 +57,9 @@ export function useUserProgress(): UseUserProgressResult {
       setError(null);
     } catch (err) {
       setError(
-        err instanceof Error ? err : new Error('Failed to load progress'),
+        err instanceof Error
+          ? err
+          : new Error(i18n.t('loadProgressFailed', {ns: 'dashboard'})),
       );
     } finally {
       setIsLoading(false);

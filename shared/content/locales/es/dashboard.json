@@ -14,7 +14,6 @@
   "completedInHint": "Completaste esto en {{place}}",
   "completedInProfile": "Perfil",
   "completedInStep": "Paso {{stepId}}",
-  "locationInApp": "En la app",
   "locationInPerson": "En persona",
   "documentShareAccessibilityLabel": "Compartir {{label}}",
   "requirementDependencyHint": "Completa primero los elementos anteriores.",
@@ -63,5 +62,6 @@
   "prerequisitesDialog": {
     "notNow": "Ahora no",
     "action": "Completar perfil"
-  }
+  },
+  "loadProgressFailed": "No se ha podido cargar el progreso"
 }

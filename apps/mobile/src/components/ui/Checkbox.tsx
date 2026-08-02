@@ -26,7 +26,7 @@ export function Checkbox({
   style,
   accessibilityLabel,
 }: CheckboxProps) {
-  const {theme} = useStyles(stylesheet);
+  const {theme, styles} = useStyles(stylesheet);
 
   return (
     <Pressable
@@ -40,10 +40,7 @@ export function Checkbox({
         borderless: true,
         radius: 20,
       }}
-      style={[
-        style,
-        disabled && {opacity: 0.45},
-      ]}>
+      style={[style, disabled && styles.disabled]}>
       <Icon
         name={checked ? 'check-circle' : 'radio-button-unchecked'}
         size={size}
@@ -53,4 +50,8 @@ export function Checkbox({
   );
 }
 
-const stylesheet = createStyleSheet(() => ({}));
+const stylesheet = createStyleSheet(() => ({
+  disabled: {
+    opacity: 0.45,
+  },
+}));

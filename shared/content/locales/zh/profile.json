@@ -9,6 +9,11 @@
   "settingsDescription": "语言与应用偏好",
   "signOut": "退出登录",
   "personalSaved": "个人信息已成功保存！",
+  "otherDeviceMessage": "此个人资料保存在另一台设备上。请在下方输入您的信息以在此设备上设置。保存后将替换您账户中存储的加密副本。",
+  "loadFailed": "无法加载个人资料",
+  "saveFailed": "无法保存个人资料",
+  "signOutFailed": "无法退出登录",
+  "signedOut": "已退出登录",
   "consentDialog": {
     "title": "隐私与数据保护",
     "message": "保存个人信息前，请阅读并接受我们的数据保护政策。",
@@ -19,6 +24,18 @@
     "accept": "接受并继续",
     "accepting": "保存中…",
     "recordFailed": "无法记录您的同意，请重试。"
+  },
+  "legalDocument": {
+    "hubIntro": "请在应用内阅读并接受以下文件。服务免责声明和官方政府信息来源已包含在服务条款中。",
+    "acceptPrivacy": "我接受隐私政策",
+    "acceptTerms": "我接受服务条款",
+    "accepted": "已接受",
+    "acceptedOn": "已于 {{date}} 接受",
+    "acceptFailed": "无法记录您的接受，请重试。",
+    "privacyAcceptedDescription": "已接受 — 点击查看",
+    "privacyPendingDescription": "在应用内阅读并接受",
+    "termsAcceptedDescription": "已接受 — 点击查看",
+    "termsPendingDescription": "在应用内阅读并接受"
   },
   "account": {
     "exportShareTitle": "VisaMesa 数据导出",

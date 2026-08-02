@@ -22,17 +22,13 @@ export const API_ENDPOINTS = {
   userExport: '/users/me/export',
   encryptedDetails: '/users/me/encrypted-details',
   userConsent: '/users/me/consent',
-
-  // Appointments
-  pendingAppointments: (userId: string) => `/appointments/pending/${userId}`,
-  allCases: (userId: string) => `/appointments/cases/${userId}`,
-  appointmentStatus: (caseId: string) => `/appointments/status/${caseId}`,
-  checkAvailability: '/appointments/check-availability',
-  bookResult: '/appointments/book-result',
+  userProgress: '/users/me/progress',
+  clientErrors: '/users/me/client-errors',
 
   // Forms (future BE)
   formSchema: (formId: string) => `/forms/schema/${formId}`,
 
   // Payments
   paymentEntitlements: '/payments/entitlements',
+  paymentCheckoutSync: '/payments/checkout/sync',
 };

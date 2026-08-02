@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Platform, Pressable, View} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {Controller, useFormContext} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
@@ -36,6 +37,7 @@ const toIsoDate = (date: Date) => {
 export function DateInputField({field}: Props) {
   const {styles, theme} = useStyles(stylesheet);
   const {control} = useFormContext();
+  const {t} = useTranslation(['forms', 'common']);
   const [showPicker, setShowPicker] = useState(false);
   const [tempDate, setTempDate] = useState<Date | null>(null);
 
@@ -93,7 +95,7 @@ export function DateInputField({field}: Props) {
                 color={currentValue ? 'onSurface' : 'onSurfaceVariant'}>
                 {currentValue
                   ? formatDate(currentValue)
-                  : field.placeholder ?? 'Select a date'}
+                  : field.placeholder ?? t('forms:datePicker.selectPlaceholder')}
               </Text>
             </Pressable>
             {fieldState.error?.message ? (
@@ -117,8 +119,16 @@ export function DateInputField({field}: Props) {
                 title={field.label}
                 footer={
                   <View style={styles.footerButtons}>
-                    <Button label="Cancel" variant="outline" onPress={handleDismiss} />
-                    <Button label="Done" variant="primary" onPress={handleDone} />
+                    <Button
+                      label={t('common:actions.cancel')}
+                      variant="outline"
+                      onPress={handleDismiss}
+                    />
+                    <Button
+                      label={t('forms:datePicker.done')}
+                      variant="primary"
+                      onPress={handleDone}
+                    />
                   </View>
                 }>
                 <DateTimePicker

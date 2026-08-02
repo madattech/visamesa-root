@@ -1,16 +1,9 @@
 import {ProfileData} from '@/features/profile/types/ProfileData';
 import profilePersonalSchema from '@/features/forms/data/profile-personal.json';
-import {FormField, FormSchema} from '@/features/forms/types/formTypes';
+import {FormSchema} from '@/features/forms/types/formTypes';
+import {isFieldVisible} from '@/features/forms/utils/formFieldVisibility';
 
 const PERSONAL_SCHEMA = profilePersonalSchema as FormSchema;
-
-function isFieldVisible(field: FormField, personal: Record<string, unknown>): boolean {
-  if (!field.dependsOn) {
-    return true;
-  }
-
-  return personal[field.dependsOn.fieldId] === field.dependsOn.value;
-}
 
 function isFieldValuePresent(fieldId: string, value: unknown): boolean {
   if (value === undefined || value === null || value === '') {

@@ -45,7 +45,7 @@
   },
   "closingCta": {
     "title": "准备好开始了吗？",
-    "lead": "选择服务、完成结账，然后在移动应用中继续办理。"
+    "lead": "在本网站完成结账，然后在移动应用中继续办理。"
   },
   "cta": {
     "getService": "获取 VisaMesa 服务",
@@ -56,7 +56,7 @@
     "homeTitle": "VisaMesa — 巴塞罗那 TIE 办理协助",
     "homeDescription": "VisaMesa 帮助巴塞罗那的学生完成 TIE 办理，提供分步指引、文件准备及可选的预约自动化。非法律建议。",
     "pricingTitle": "支付服务费 — VisaMesa",
-    "pricingDescription": "支付 VisaMesa 巴塞罗那学生 TIE 办理服务费。一次性付款后，使用同一 Google 账户登录移动应用。",
+    "pricingDescription": "支付 VisaMesa 巴塞罗那学生 TIE 办理服务费（€{{price}}）。一次性付款后，使用同一 Google 账户登录移动应用。",
     "privacyTitle": "隐私政策 — VisaMesa",
     "privacyDescription": "VisaMesa 如何收集、加密并保护您在巴塞罗那 TIE 申请流程中的个人信息。",
     "termsTitle": "服务条款 — VisaMesa",

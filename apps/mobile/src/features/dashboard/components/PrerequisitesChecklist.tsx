@@ -5,7 +5,7 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {StatusIndicator} from '@/components/ui/StatusIndicator';
 import {Text} from '@/components/ui/Text';
-import {ProcessReadinessMissing, PROCESS_READINESS_ITEM_ORDER} from '@/hooks/processReadinessTypes';
+import {ProcessReadinessMissing, PROCESS_READINESS_ITEM_ORDER} from '@/types/processReadiness';
 
 type PrerequisitesChecklistItemProps = {
   label: string;

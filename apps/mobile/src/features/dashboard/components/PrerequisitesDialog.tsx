@@ -28,7 +28,6 @@ export function PrerequisitesDialog({
     <Dialog
       visible={visible}
       onClose={onClose}
-      dismissable={false}
       title={t('readinessTitle')}
       actions={[
         {

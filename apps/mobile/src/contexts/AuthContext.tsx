@@ -7,7 +7,8 @@ import React, {
 } from 'react';
 
 import { authService } from '@/services/authService';
-import { User } from '@/types';
+import { onUnauthorized } from '@/services/authSession';
+import { User } from '@visamesa/types';
 
 interface AuthContextType {
   user: User | null;
@@ -28,6 +29,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkAuth();
   }, []);
 
+  useEffect(() => {
+    return onUnauthorized(() => {
+      authService.logout().catch(() => {});
+      setUser(null);
+    });
+  }, []);
+
   const checkAuth = async () => {
     try {
       const storedUser = await authService.getStoredUser();
@@ -37,7 +45,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       }
 
       const currentUser = await authService.getCurrentUser();
-      setUser(currentUser ?? storedUser);
+      if (!currentUser) {
+        await authService.logout();
+        setUser(null);
+        return;
+      }
+
+      setUser(currentUser);
     } catch (error) {
       console.error('Auth check failed:', error);
       setUser(null);

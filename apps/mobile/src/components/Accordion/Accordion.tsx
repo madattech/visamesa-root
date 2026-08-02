@@ -1,18 +1,11 @@
 import React from 'react';
-import {LayoutAnimation, Platform, Pressable, UIManager, View} from 'react-native';
+import {Pressable, View} from 'react-native';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Surface} from '@/components/ui/Surface';
 import {Text} from '@/components/ui/Text';
 import {Icon} from '@/components/ui/Icon';
-import {motion} from '@/theme';
-
-if (
-  Platform.OS === 'android' &&
-  UIManager.setLayoutAnimationEnabledExperimental
-) {
-  UIManager.setLayoutAnimationEnabledExperimental(true);
-}
+import {configureLayoutAnimation} from '@/utils/layoutAnimation';
 
 type AccordionProps = {
   expandedId: string | null;
@@ -61,14 +54,7 @@ export function Accordion({
         return React.cloneElement(child, {
           expanded: expandedId === itemId,
           onToggle: () => {
-            LayoutAnimation.configureNext({
-              duration: motion.duration.normal,
-              create: {
-                type: LayoutAnimation.Types.easeInEaseOut,
-                property: LayoutAnimation.Properties.opacity,
-              },
-              update: {type: LayoutAnimation.Types.easeInEaseOut},
-            });
+            configureLayoutAnimation();
             const wasExpanded = expandedId === itemId;
             onExpandedChange(wasExpanded ? null : itemId);
           },

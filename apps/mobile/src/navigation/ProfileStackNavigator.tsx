@@ -2,11 +2,12 @@ import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
-import LegalScreen from '@/screens/LegalScreen';
-import LoginScreen from '@/screens/LoginScreen';
-import ProfileScreen from '@/screens/ProfileScreen';
-import ProfileSectionScreen from '@/screens/ProfileSectionScreen';
-import SettingsScreen from '@/screens/SettingsScreen';
+import LegalDocumentScreen from '@/features/legal/screens/LegalDocumentScreen';
+import LegalScreen from '@/features/legal/screens/LegalScreen';
+import LoginScreen from '@/features/auth/screens/LoginScreen';
+import ProfileScreen from '@/features/profile/screens/ProfileScreen';
+import ProfileSectionScreen from '@/features/profile/screens/ProfileSectionScreen';
+import SettingsScreen from '@/features/settings/screens/SettingsScreen';
 
 import {ProfileStackParamList} from './types';
 
@@ -25,6 +26,7 @@ const ProfileStackNavigator = () => {
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="ProfileSection" component={ProfileSectionScreen} />
       <Stack.Screen name="Legal" component={LegalScreen} />
+      <Stack.Screen name="LegalDocument" component={LegalDocumentScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
       <Stack.Screen
         name="Login"

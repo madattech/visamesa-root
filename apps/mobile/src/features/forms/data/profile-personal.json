@@ -1,117 +1,117 @@
 {
   "formId": "profile-personal",
-  "title": "Personal Information",
-  "description": "This information will be used to pre-fill forms and process your TIE application.",
+  "title": "schemas.profilePersonal.title",
+  "description": "schemas.profilePersonal.description",
   "fields": [
     {
       "id": "firstName",
-      "label": "First Name",
+      "label": "schemas.profilePersonal.fields.firstName.label",
       "type": "text",
       "required": true,
-      "placeholder": "Enter your first name"
+      "placeholder": "schemas.profilePersonal.fields.firstName.placeholder"
     },
     {
       "id": "lastName",
-      "label": "Last Name",
+      "label": "schemas.profilePersonal.fields.lastName.label",
       "type": "text",
       "required": true,
-      "placeholder": "Enter your last name"
+      "placeholder": "schemas.profilePersonal.fields.lastName.placeholder"
     },
     {
       "id": "secondLastName",
-      "label": "Second Last Name",
+      "label": "schemas.profilePersonal.fields.secondLastName.label",
       "type": "text",
       "required": false,
-      "placeholder": "Enter your second last name (optional)"
+      "placeholder": "schemas.profilePersonal.fields.secondLastName.placeholder"
     },
     {
       "id": "dateOfBirth",
-      "label": "Date of Birth",
+      "label": "schemas.profilePersonal.fields.dateOfBirth.label",
       "type": "date",
       "required": true,
-      "placeholder": "Your date of birth"
+      "placeholder": "schemas.profilePersonal.fields.dateOfBirth.placeholder"
     },
     {
       "id": "nationality",
-      "label": "Nationality",
+      "label": "schemas.profilePersonal.fields.nationality.label",
       "type": "text",
       "required": true,
-      "placeholder": "Your country of citizenship"
+      "placeholder": "schemas.profilePersonal.fields.nationality.placeholder"
     },
     {
       "id": "documentType",
-      "label": "Document Type",
+      "label": "schemas.profilePersonal.fields.documentType.label",
       "type": "select",
       "required": true,
       "options": [
         {
-          "label": "NIE",
+          "label": "schemas.profilePersonal.options.documentType.nie",
           "value": "nie"
         },
         {
-          "label": "Passport",
+          "label": "schemas.profilePersonal.options.documentType.passport",
           "value": "passport"
         }
       ]
     },
     {
       "id": "documentNumber",
-      "label": "Document Number",
+      "label": "schemas.profilePersonal.fields.documentNumber.label",
       "type": "text",
       "required": true,
-      "placeholder": "e.g., X1234567A or AB123456"
+      "placeholder": "schemas.profilePersonal.fields.documentNumber.placeholder"
     },
     {
       "id": "phoneNumber",
-      "label": "Phone Number",
+      "label": "schemas.profilePersonal.fields.phoneNumber.label",
       "type": "phone",
       "required": true
     },
     {
       "id": "address",
-      "label": "Registered Address",
+      "label": "schemas.profilePersonal.fields.address.label",
       "type": "text",
       "required": true,
-      "placeholder": "Street, building, floor, apartment",
-      "helperText": "This is where you are officially registered (empadronado). We use this address for appointments and tax forms, even if you live somewhere else."
+      "placeholder": "schemas.profilePersonal.fields.address.placeholder",
+      "helperText": "schemas.profilePersonal.fields.address.helperText"
     },
     {
       "id": "city",
-      "label": "City",
+      "label": "schemas.profilePersonal.fields.city.label",
       "type": "text",
       "required": true,
-      "placeholder": "e.g., Barcelona"
+      "placeholder": "schemas.profilePersonal.fields.city.placeholder"
     },
     {
       "id": "postalCode",
-      "label": "Postal Code",
+      "label": "schemas.profilePersonal.fields.postalCode.label",
       "type": "text",
       "required": true,
-      "placeholder": "e.g., 08001"
+      "placeholder": "schemas.profilePersonal.fields.postalCode.placeholder"
     },
     {
       "id": "hasEmpadronamiento",
-      "label": "Do you already have empadronamiento?",
+      "label": "schemas.profilePersonal.fields.hasEmpadronamiento.label",
       "type": "select",
       "required": true,
       "options": [
         {
-          "label": "No",
+          "label": "schemas.profilePersonal.options.hasEmpadronamiento.no",
           "value": "no"
         },
         {
-          "label": "Yes",
+          "label": "schemas.profilePersonal.options.hasEmpadronamiento.yes",
           "value": "yes"
         }
       ]
     },
     {
       "id": "empadronamientoIssuedAt",
-      "label": "Empadronamiento certificate date",
+      "label": "schemas.profilePersonal.fields.empadronamientoIssuedAt.label",
       "type": "date",
       "required": true,
-      "placeholder": "When the certificate was issued",
-      "helperText": "For TIE, the certificate must usually be issued within the last 90 days.",
+      "placeholder": "schemas.profilePersonal.fields.empadronamientoIssuedAt.placeholder",
+      "helperText": "schemas.profilePersonal.fields.empadronamientoIssuedAt.helperText",
       "dependsOn": {
         "fieldId": "hasEmpadronamiento",
         "value": "yes"

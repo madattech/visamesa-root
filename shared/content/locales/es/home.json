@@ -5,5 +5,6 @@
   "getServiceDialog": {
     "title": "Obtener el servicio VisaMesa",
     "message": "Completarás el pago en nuestra web. Después, vuelve a la app e inicia sesión con la misma cuenta de Google para desbloquear tu servicio."
-  }
+  },
+  "loadStepsFailed": "No se han podido cargar los pasos"
 }

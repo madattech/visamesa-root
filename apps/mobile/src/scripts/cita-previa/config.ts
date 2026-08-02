@@ -1,4 +1,4 @@
-import type {Case, CitaPreviaDetails} from '../../types';
+import type {CitaPreviaDetails} from '../../types';
 
 export interface CitaPreviaAutomationProfile {
   details: CitaPreviaDetails;
@@ -16,25 +16,3 @@ export const citaPreviaPiiConfig: CitaPreviaAutomationProfile = {
   provinceOptionIndex: 9,
   tramitesOptionIndex: 17,
 };
-
-export const buildCitaPreviaAutomationProfileFromCase = (
-  caseData: Case,
-  defaults: CitaPreviaAutomationProfile = citaPreviaPiiConfig,
-): CitaPreviaAutomationProfile => ({
-  details: {
-    nie:
-      caseData.profile.details?.nie ??
-      caseData.profile.passportNumber ??
-      defaults.details.nie,
-    Name:
-      caseData.profile.details?.Name ??
-      caseData.profile.fullName ??
-      defaults.details.Name,
-    nationality:
-      caseData.profile.details?.nationality ?? defaults.details.nationality,
-    documentType:
-      caseData.profile.details?.documentType ?? defaults.details.documentType,
-  },
-  provinceOptionIndex: defaults.provinceOptionIndex,
-  tramitesOptionIndex: defaults.tramitesOptionIndex,
-});

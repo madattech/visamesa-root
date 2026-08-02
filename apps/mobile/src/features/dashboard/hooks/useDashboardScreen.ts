@@ -94,6 +94,7 @@ function buildRequirementsWithProgress(
   context: ProgressContext,
   steps: TieStepDetail[],
   tDashboard: TFunction<'dashboard'>,
+  canStartProcess: boolean,
 ): RequirementWithProgress[] {
   return step.requirements.map(requirement => {
     const effectiveProgress = getEffectiveRequirementProgress(
@@ -103,7 +104,12 @@ function buildRequirementsWithProgress(
       context,
     );
 
-    const isReferenced = isRequirementExternallyCompleted(effectiveProgress);
+    const displayProgress = canStartProcess
+      ? effectiveProgress
+      : {completed: false};
+
+    const isReferenced =
+      canStartProcess && isRequirementExternallyCompleted(effectiveProgress);
     const hint = isReferenced
       ? formatCompletedInHint(tDashboard, effectiveProgress.source)
       : undefined;
@@ -117,7 +123,7 @@ function buildRequirementsWithProgress(
 
     return {
       ...requirement,
-      progress: effectiveProgress,
+      progress: displayProgress,
       hint,
       isReferenced,
       canCheck: isReferenced ? false : toggleState.canCheck,
@@ -247,8 +253,9 @@ export function useDashboardScreen(
       progressContext,
       steps,
       tDashboard,
+      canStartProcess,
     );
-  }, [currentStep, progress, progressContext, steps, tDashboard]);
+  }, [canStartProcess, currentStep, progress, progressContext, steps, tDashboard]);
 
   const canCompleteStep = Boolean(
     progress &&
@@ -347,7 +354,7 @@ export function useDashboardScreen(
           showToast(tDashboard('stepCompleted'));
         },
       },
-    ], {dismissable: false});
+    ]);
   };
 
   const onRequirementCheckboxToggle = async (requirementKey: string) => {
@@ -413,7 +420,6 @@ export function useDashboardScreen(
             },
           },
         ],
-        {dismissable: false},
       );
       return;
     }
@@ -512,7 +518,6 @@ export function useDashboardScreen(
           },
         },
       ],
-      {dismissable: false},
     );
   };
 

@@ -1,8 +1,8 @@
+import {i18n} from '@visamesa/content/i18n';
+
 export class ProfileDecryptionError extends Error {
   constructor() {
-    super(
-      'This profile was saved on another device. Enter your details below to set up this device. Saving will replace the encrypted copy stored for your account.',
-    );
+    super(i18n.t('otherDeviceMessage', {ns: 'profile'}));
     this.name = 'ProfileDecryptionError';
   }
 }

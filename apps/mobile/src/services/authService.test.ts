@@ -3,7 +3,9 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
 import { API_ENDPOINTS } from '@/config/api';
 import { authService } from '@/services/authService';
-import apiClient, { STORAGE_KEYS } from '@/services/api';
+import apiClient from '@/services/api';
+import { consentService } from '@/features/profile/services/consentService';
+import { STORAGE_KEYS } from '@visamesa/types';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -33,9 +35,11 @@ jest.mock('@/services/api', () => ({
     post: jest.fn(),
     get: jest.fn(),
   },
-  STORAGE_KEYS: {
-    AUTH_TOKEN: '@visamesa_auth_token',
-    USER_DATA: '@visamesa_user_data',
+}));
+
+jest.mock('@/features/profile/services/consentService', () => ({
+  consentService: {
+    clearConsent: jest.fn().mockResolvedValue(undefined),
   },
 }));
 
@@ -103,5 +107,19 @@ describe('authService', () => {
 
     await expect(authService.getCurrentUser()).resolves.toEqual(user);
     expect(mockedApiClient.get).toHaveBeenCalledWith(API_ENDPOINTS.usersMe);
+  });
+
+  it('clears consent on logout', async () => {
+    mockedGoogleSignin.signOut.mockResolvedValue(null);
+
+    await authService.logout();
+
+    expect(consentService.clearConsent).toHaveBeenCalled();
+    expect(mockedAsyncStorage.removeItem).toHaveBeenCalledWith(
+      STORAGE_KEYS.AUTH_TOKEN,
+    );
+    expect(mockedAsyncStorage.removeItem).toHaveBeenCalledWith(
+      STORAGE_KEYS.USER_DATA,
+    );
   });
 });

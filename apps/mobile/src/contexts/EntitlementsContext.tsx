@@ -8,8 +8,9 @@ import React, {
   type ReactNode,
 } from 'react';
 
-import { useAuth } from '@/contexts/AuthContext';
-import { paymentService } from '@/services/paymentService';
+import {useAuth} from '@/contexts/AuthContext';
+import {paymentService} from '@/services/paymentService';
+import {reportClientErrorFromException} from '@/services/clientErrorService';
 import {
   EntitlementType,
   UserEntitlement,
@@ -63,6 +64,7 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
       return response.entitlements;
     } catch (error) {
       console.error('Failed to load entitlements:', error);
+      reportClientErrorFromException('PAYMENT_ENTITLEMENTS_FAILED', error);
       setEntitlements([]);
       return [];
     } finally {

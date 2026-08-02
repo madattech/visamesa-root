@@ -2,6 +2,13 @@ import {useCallback, useEffect, useMemo, useState} from 'react';
 import {i18n} from '@visamesa/content/i18n';
 
 import {useToast} from '@/components/Toast/ToastProvider';
+import {syncEmpadronamientoStepFromProfile} from '@/features/dashboard/services/empadronamientoProgressService';
+import {reconcileStepStatuses} from '@/features/dashboard/services/progressReconciliationService';
+import {
+  fetchUserProgress,
+  saveUserProgress,
+} from '@/features/dashboard/services/progressService';
+import {fetchTieSteps} from '@/features/home/services/tieStepsService';
 import {phoneToString, stringToPhone} from '@/features/forms/utils/phoneUtils';
 import {
   EMPTY_PROFILE,
@@ -61,7 +68,9 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
         setError(err);
       } else {
         setError(
-          err instanceof Error ? err : new Error('Failed to load profile'),
+          err instanceof Error
+            ? err
+            : new Error(i18n.t('loadFailed', {ns: 'profile'})),
         );
       }
 
@@ -134,19 +143,6 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
 
       if (section === 'personal') {
         try {
-          const {fetchUserProgress, saveUserProgress} = await import(
-            '@/features/dashboard/services/progressService'
-          );
-          const {syncEmpadronamientoStepFromProfile} = await import(
-            '@/features/dashboard/services/empadronamientoProgressService'
-          );
-          const {reconcileStepStatuses} = await import(
-            '@/features/dashboard/services/progressReconciliationService'
-          );
-          const {fetchTieSteps} = await import(
-            '@/features/home/services/tieStepsService'
-          );
-
           const progress = await fetchUserProgress();
           const tieSteps = await fetchTieSteps();
           let synced = await syncEmpadronamientoStepFromProfile(progress, result);
@@ -166,7 +162,9 @@ export function useProfile(isEnabled: boolean): UseProfileResult {
       showToast(successMessage);
     } catch (err) {
       const message =
-        err instanceof Error ? err.message : 'Failed to save profile section';
+        err instanceof Error
+          ? err.message
+          : i18n.t('saveFailed', {ns: 'profile'});
       showToast(message);
       throw err;
     } finally {

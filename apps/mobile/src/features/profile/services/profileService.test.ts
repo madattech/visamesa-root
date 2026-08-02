@@ -23,6 +23,11 @@ jest.mock('@/services/cryptoService', () => ({
   },
 }));
 
+jest.mock('@/services/clientErrorService', () => ({
+  reportClientError: jest.fn(),
+  reportClientErrorFromException: jest.fn(),
+}));
+
 const mockedApiClient = apiClient as jest.Mocked<typeof apiClient>;
 const mockedCryptoService = cryptoService as jest.Mocked<typeof cryptoService>;
 

@@ -1,11 +1,13 @@
 import React from 'react';
 import {useFormContext, useWatch} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 
 import {DateInputField} from '@/features/forms/components/fields/DateInputField';
 import {PhoneInputField} from '@/features/forms/components/fields/PhoneInputField';
 import {SelectInputField} from '@/features/forms/components/fields/SelectInputField';
 import {TextInputField} from '@/features/forms/components/fields/TextInputField';
 import {FormField} from '@/features/forms/types/formTypes';
+import {isFieldVisible} from '@/features/forms/utils/formFieldVisibility';
 import {Text} from '@/components/ui/Text';
 
 type Props = {
@@ -25,13 +27,10 @@ const fieldComponentMap: Record<
 
 export function FormFieldRenderer({field}: Props) {
   const {control} = useFormContext();
+  const {t} = useTranslation('forms');
+  const values = useWatch({control}) ?? {};
 
-  const dependentValue = useWatch({
-    control,
-    name: field.dependsOn?.fieldId || '__nonexistent__',
-  });
-
-  if (field.dependsOn && dependentValue !== field.dependsOn.value) {
+  if (!isFieldVisible(field, values)) {
     return null;
   }
 
@@ -40,7 +39,7 @@ export function FormFieldRenderer({field}: Props) {
   if (!FieldComponent) {
     return (
       <Text variant="bodySmall" color="error">
-        Error: Unknown field type '{field.type}'
+        {t('errors.unknownFieldType', {type: field.type})}
       </Text>
     );
   }

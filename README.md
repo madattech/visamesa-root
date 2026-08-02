@@ -123,15 +123,14 @@ npx @react-native-community/cli@latest init YourAutomationName
 Structure your app like `apps/mobile`:
 
 - Login screen (reuse auth from shared)
-- Case/task list screen
-- Automation control screen
-- WebView component with injection script
+- Feature screens with thin UI + `use*Screen` hooks
+- WebView injection scripts under `src/scripts/`
+- Shared packages via `@visamesa/content`, `@visamesa/design-tokens`, `@visamesa/types`
 
 ### 4. Use Shared Code
 
 ```typescript
-// Import shared types
-import { User, AuthResponse } from "../../shared/types/common";
+import { User, AuthResponse } from '@visamesa/types';
 
 // Add your automation-specific types
 export interface YourCustomType {
@@ -174,14 +173,7 @@ Common types used across all automations:
 - `STORAGE_KEYS`
 - `ApiConfig`
 
-### `shared/utils/` (Future)
-
-Reusable utilities:
-
-- Date formatting
-- API error handling
-- Retry logic
-- Validation helpers
+Import via the `@visamesa/types` package in mobile and web apps.
 
 ## How WebView Automation Works
 
@@ -210,8 +202,8 @@ const automationScript = `
       }));
     }
     
-    // Access case data injected by React Native
-    const caseData = ${JSON.stringify(userData)};
+    // Access profile data injected by React Native
+    const profileData = ${JSON.stringify(userData)};
     
     // Automate the website
     // ... your automation logic ...
@@ -254,7 +246,7 @@ Each automation should include:
 
 **Data Fetching Test**:
 
-- [ ] Cases/tasks are fetched from backend
+- [ ] Profile and dashboard data load from backend or local storage
 - [ ] Data displays correctly
 - [ ] Pull-to-refresh works
 

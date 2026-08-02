@@ -30,7 +30,7 @@ export function useSettingsScreen(): UseSettingsScreenResult {
           showToast(t('devResetProgressSuccess'));
         },
       },
-    ], {dismissable: false});
+    ]);
   }, [showAlert, showToast, t, tCommon]);
 
   return {onResetProgressPress};

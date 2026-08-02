@@ -1,12 +1,7 @@
 import React from 'react';
+import {useTranslation} from 'react-i18next';
 
 import {Dialog} from '@/components/ui/Dialog';
-import {
-  PROFILE_ALREADY_PAID_DIALOG_MESSAGE,
-  PROFILE_ALREADY_PAID_DIALOG_TITLE,
-  PROFILE_ALREADY_PAID_OK,
-  PROFILE_ALREADY_PAID_SEE_STATUS,
-} from '@visamesa/content/checkout';
 
 type PaymentAlreadyPaidDialogProps = {
   visible: boolean;
@@ -19,24 +14,26 @@ export function PaymentAlreadyPaidDialog({
   onClose,
   onSeeStatus,
 }: PaymentAlreadyPaidDialogProps) {
+  const {t} = useTranslation(['checkout', 'common']);
+
   return (
     <Dialog
       visible={visible}
       onClose={onClose}
-      title={PROFILE_ALREADY_PAID_DIALOG_TITLE}
+      title={t('checkout:profileAlreadyPaid.dialogTitle')}
       actions={[
         {
-          label: PROFILE_ALREADY_PAID_OK,
+          label: t('common:actions.ok'),
           onPress: onClose,
           variant: 'outline',
         },
         {
-          label: PROFILE_ALREADY_PAID_SEE_STATUS,
+          label: t('common:actions.seeStatus'),
           onPress: onSeeStatus,
           variant: 'primary',
         },
       ]}>
-      {PROFILE_ALREADY_PAID_DIALOG_MESSAGE}
+      {t('checkout:profileAlreadyPaid.dialogMessage')}
     </Dialog>
   );
 }

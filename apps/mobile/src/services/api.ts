@@ -1,12 +1,11 @@
 import axios, {AxiosInstance} from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {API_BASE_URL} from '../config/api';
+import {STORAGE_KEYS} from '@visamesa/types';
 
-// Storage keys
-export const STORAGE_KEYS = {
-  AUTH_TOKEN: '@visamesa_auth_token',
-  USER_DATA: '@visamesa_user_data',
-};
+import {API_BASE_URL} from '../config/api';
+import {notifyUnauthorized} from './authSession';
+
+export {STORAGE_KEYS};
 
 // Create axios instance
 const apiClient: AxiosInstance = axios.create({
@@ -36,11 +35,11 @@ apiClient.interceptors.response.use(
   response => response,
   async error => {
     if (error.response?.status === 401) {
-      // Token expired or invalid, clear storage
       await Promise.all([
         AsyncStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN),
         AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA),
       ]);
+      notifyUnauthorized();
     }
     return Promise.reject(error);
   },

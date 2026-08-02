@@ -8,4 +8,5 @@ export const TAB_BAR_HIDDEN_ROUTES = new Set([
   'Login',
   'ProfileSection',
   'Settings',
+  'LegalDocument',
 ]);

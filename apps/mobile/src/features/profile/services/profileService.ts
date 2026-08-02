@@ -5,6 +5,10 @@ import {
   ProfileDecryptionError,
   isProfileDecryptionFailure,
 } from '@/services/profileCryptoErrors';
+import {
+  reportClientError,
+  reportClientErrorFromException,
+} from '@/services/clientErrorService';
 import { EncryptedPayload } from '@/types/encrypted';
 
 import { ProfileData, ProfileSection } from '../types/ProfileData';
@@ -62,11 +66,16 @@ function migrateLegacyProfile(data: unknown): ProfileData {
 }
 
 async function fetchEncryptedPayload(): Promise<EncryptedPayload | null> {
-  const response = await apiClient.get<EncryptedPayload | null>(
-    API_ENDPOINTS.encryptedDetails,
-  );
+  try {
+    const response = await apiClient.get<EncryptedPayload | null>(
+      API_ENDPOINTS.encryptedDetails,
+    );
 
-  return response.data;
+    return response.data;
+  } catch (error) {
+    reportClientErrorFromException('PROFILE_FETCH_FAILED', error);
+    throw error;
+  }
 }
 
 async function decryptProfilePayload(
@@ -77,6 +86,7 @@ async function decryptProfilePayload(
     return migrateLegacyProfile(decrypted);
   } catch (error) {
     if (isProfileDecryptionFailure(error)) {
+      reportClientError('PROFILE_DECRYPTION_FAILED');
       throw new ProfileDecryptionError();
     }
 
@@ -139,7 +149,14 @@ export async function updateProfile(
   const updated: ProfileData = { ...current, [section]: data };
   const encrypted = await cryptoService.encrypt(updated);
 
-  await apiClient.put(API_ENDPOINTS.encryptedDetails, encrypted);
+  try {
+    await apiClient.put(API_ENDPOINTS.encryptedDetails, encrypted);
+  } catch (error) {
+    reportClientErrorFromException('PROFILE_ENCRYPTED_SYNC_FAILED', error, {
+      section,
+    });
+    throw error;
+  }
 
   return updated;
 }

@@ -1,0 +1,92 @@
+{
+  "actions": {
+    "save": "Guardar",
+    "saving": "Guardando…"
+  },
+  "validation": {
+    "required": "{{label}} es obligatorio.",
+    "invalidFormat": "Formato no válido. Revisa los requisitos del campo.",
+    "reviewForm": "Hay campos que corregir. Revisa el formulario de arriba."
+  },
+  "phone": {
+    "countryCode": "Código",
+    "number": "Número"
+  },
+  "datePicker": {
+    "selectPlaceholder": "Selecciona una fecha",
+    "done": "Listo"
+  },
+  "errors": {
+    "loadSchema": "No se ha podido cargar el formulario",
+    "unknownFieldType": "Tipo de campo desconocido \"{{type}}\""
+  },
+  "schemas": {
+    "profilePersonal": {
+      "title": "Información personal",
+      "description": "Esta información se usará para rellenar formularios y tramitar tu solicitud de TIE.",
+      "fields": {
+        "firstName": {
+          "label": "Nombre",
+          "placeholder": "Introduce tu nombre"
+        },
+        "lastName": {
+          "label": "Apellido",
+          "placeholder": "Introduce tu apellido"
+        },
+        "secondLastName": {
+          "label": "Segundo apellido",
+          "placeholder": "Introduce tu segundo apellido (opcional)"
+        },
+        "dateOfBirth": {
+          "label": "Fecha de nacimiento",
+          "placeholder": "Tu fecha de nacimiento"
+        },
+        "nationality": {
+          "label": "Nacionalidad",
+          "placeholder": "Tu país de ciudadanía"
+        },
+        "documentType": {
+          "label": "Tipo de documento"
+        },
+        "documentNumber": {
+          "label": "Número de documento",
+          "placeholder": "p. ej., X1234567A o AB123456"
+        },
+        "phoneNumber": {
+          "label": "Teléfono"
+        },
+        "address": {
+          "label": "Dirección registrada",
+          "placeholder": "Calle, edificio, piso, apartamento",
+          "helperText": "Es la dirección donde estás empadronado. La usamos para citas y trámites fiscales, aunque vivas en otro sitio."
+        },
+        "city": {
+          "label": "Ciudad",
+          "placeholder": "p. ej., Barcelona"
+        },
+        "postalCode": {
+          "label": "Código postal",
+          "placeholder": "p. ej., 08001"
+        },
+        "hasEmpadronamiento": {
+          "label": "¿Ya tienes empadronamiento?"
+        },
+        "empadronamientoIssuedAt": {
+          "label": "Fecha del certificado de empadronamiento",
+          "placeholder": "Cuándo se emitió el certificado",
+          "helperText": "Para la TIE, el certificado suele emitirse en los últimos 90 días."
+        }
+      },
+      "options": {
+        "documentType": {
+          "nie": "NIE",
+          "passport": "Pasaporte"
+        },
+        "hasEmpadronamiento": {
+          "no": "No",
+          "yes": "Sí"
+        }
+      }
+    }
+  }
+}

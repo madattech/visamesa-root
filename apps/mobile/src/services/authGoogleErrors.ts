@@ -1,7 +1,14 @@
 import { isAxiosError } from 'axios';
 import { statusCodes } from '@react-native-google-signin/google-signin';
+import { i18n } from '@visamesa/content/i18n';
+
+import { getAxiosApiErrorMessage } from '@/services/apiErrors';
 
 type GoogleSignInError = Error & { code?: string };
+
+function t(key: string): string {
+  return i18n.t(key as never, {ns: 'auth'});
+}
 
 export function getGoogleSignInErrorMessage(error: unknown): string {
   if (isAxiosError(error)) {
@@ -17,44 +24,34 @@ export function getGoogleSignInErrorMessage(error: unknown): string {
         backendMessage.includes('requiredAudience') ||
         backendMessage.includes('Wrong recipient')
       ) {
-        return (
-          'Backend OAuth misconfiguration: add GOOGLE_ANDROID_CLIENT_ID to visamesa_be/.env with your Android OAuth client ID from Google Cloud Console, then restart the server.'
-        );
+        return t('googleBackendOAuthMisconfig');
       }
-
-      return backendMessage;
     }
 
-    if (error.message === 'Network Error') {
-      return 'Cannot reach the server. Check that visamesa_be is running and API_BASE_URL is correct for your emulator.';
-    }
-
-    return error.message;
+    return getAxiosApiErrorMessage(error, 'auth:signInFailedFallback');
   }
 
   const googleError = error as GoogleSignInError;
 
   if (googleError.code === statusCodes.SIGN_IN_CANCELLED) {
-    return 'Google sign-in was cancelled';
+    return t('googleSignInCancelledShort');
   }
 
   if (googleError.code === statusCodes.IN_PROGRESS) {
-    return 'Google sign-in is already in progress';
+    return t('googleSignInInProgress');
   }
 
   if (googleError.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-    return 'Google Play Services is not available on this device';
+    return t('googlePlayServicesUnavailable');
   }
 
-  const message = googleError.message ?? 'Google sign-in failed';
+  const message = googleError.message ?? t('signInFailedFallback');
 
   if (
     message.includes('DEVELOPER_ERROR') ||
     message.toLowerCase().includes("couldn't sign in")
   ) {
-    return (
-      'Google Sign-In is misconfigured for Android. In Google Cloud Console, create an Android OAuth client for package com.visamesa with SHA-1 from ./gradlew :app:signingReport (Variant: debug). The Web client ID must stay in google.ts as webClientId.'
-    );
+    return t('googleAndroidMisconfig');
   }
 
   return message;

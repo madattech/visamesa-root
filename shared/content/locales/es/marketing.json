@@ -45,7 +45,7 @@
   },
   "closingCta": {
     "title": "¿Listo para empezar?",
-    "lead": "Elige tu servicio, completa el pago y continúa en la app móvil."
+    "lead": "Completa el pago en nuestra web y continúa en la app móvil."
   },
   "cta": {
     "getService": "Contratar servicio VisaMesa",
@@ -56,7 +56,7 @@
     "homeTitle": "VisaMesa — Asistencia con el TIE en Barcelona",
     "homeDescription": "VisaMesa ayuda a estudiantes en Barcelona a gestionar el proceso del TIE con pasos guiados, preparación de documentos y automatización opcional de citas. No es asesoramiento legal.",
     "pricingTitle": "Paga tu tarifa de servicio — VisaMesa",
-    "pricingDescription": "Paga tu tarifa de servicio VisaMesa para el proceso del TIE de estudiante en Barcelona. Pago único y luego usa la app móvil con la misma cuenta de Google.",
+    "pricingDescription": "Paga tu tarifa de servicio VisaMesa (€{{price}}) para el proceso del TIE de estudiante en Barcelona. Pago único y luego usa la app móvil con la misma cuenta de Google.",
     "privacyTitle": "Política de privacidad — VisaMesa",
     "privacyDescription": "Cómo VisaMesa recopila, cifra y protege tu información personal para el proceso de solicitud del TIE en Barcelona.",
     "termsTitle": "Términos del servicio — VisaMesa",

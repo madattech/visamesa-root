@@ -5,7 +5,6 @@ import {
   getEffectiveRequirementProgress,
   getFirstIncompleteStepId,
   getStepStatus,
-  isRequirementExternallyCompleted,
   isStepAccessible,
   isStepCompleted,
 } from '@/features/dashboard/utils/progressUtils';
@@ -40,7 +39,7 @@ describe('progressUtils', () => {
         {key: 'passport', label: 'Passport', type: 'self_declared', location: 'in_app'},
       ],
     });
-    const step = createTieStep({
+    const step2 = createTieStep({
       id: 2,
       requirements: [
         {key: 'passport', label: 'Passport', type: 'self_declared', location: 'in_app'},
@@ -69,11 +68,11 @@ describe('progressUtils', () => {
         },
       ],
     });
-    const context = {allSteps: [step1, step]};
+    const context = {allSteps: [step1, step2]};
 
     const effective = getEffectiveRequirementProgress(
       progress,
-      step,
+      step2,
       'certificate',
       context,
     );
@@ -232,7 +231,7 @@ describe('progressUtils', () => {
         {key: 'passport', label: 'Passport', type: 'self_declared', location: 'in_app'},
       ],
     });
-    const step = createTieStep({
+    const step2 = createTieStep({
       id: 2,
       requirements: [
         {
@@ -258,8 +257,8 @@ describe('progressUtils', () => {
     });
 
     expect(
-      getEffectiveRequirementProgress(progress, step, 'certificate', {
-        allSteps: [step1, step],
+      getEffectiveRequirementProgress(progress, step2, 'certificate', {
+        allSteps: [step1, step2],
       }).completed,
     ).toBe(false);
   });

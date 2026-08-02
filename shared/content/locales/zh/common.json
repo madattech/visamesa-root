@@ -37,13 +37,22 @@
   "status": {
     "loading": "加载中…",
     "checkingAccount": "正在验证您的账户…",
-    "loadingServices": "正在加载服务…"
+    "loadingServices": "正在加载价格…"
   },
   "errors": {
     "generic": "出了点问题，请重试。",
     "title": "错误",
     "openLink": "无法打开链接",
-    "loadServices": "无法加载服务，请刷新页面。"
+    "loadServices": "无法加载价格，请刷新页面。",
+    "openWebsite": "无法打开 VisaMesa 网站",
+    "api": {
+      "notFound": "未找到请求的资源。",
+      "unauthorized": "请先登录后再继续。",
+      "badRequest": "无法处理该请求。",
+      "conflict": "此操作与现有数据冲突。",
+      "internal": "服务器出现问题，请重试。",
+      "unavailable": "服务暂时不可用，请稍后再试。"
+    }
   },
   "dialog": {
     "closeAccessibilityLabel": "关闭对话框"

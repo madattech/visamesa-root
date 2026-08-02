@@ -1,6 +1,6 @@
 import {act} from 'react';
 
-import {renderHook} from '@/test/renderHook';
+import {renderHookAsync, unmountRenderedHook} from '@/test/renderHook';
 import {createUserProgress} from '@/test/fixtures/userProgress';
 
 import {useUserProgress} from './useUserProgress';
@@ -24,9 +24,17 @@ const progressService = jest.requireMock(
   updateStepStatus: jest.Mock;
 };
 
+async function mountUserProgress() {
+  return renderHookAsync(useUserProgress, state => !state.isLoading);
+}
+
 describe('useUserProgress', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    unmountRenderedHook();
   });
 
   it('loads progress on mount', async () => {
@@ -43,11 +51,7 @@ describe('useUserProgress', () => {
 
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     expect(progressService.fetchUserProgress).toHaveBeenCalled();
     expect(getHookState().progress).toEqual(mockProgress);
@@ -58,11 +62,7 @@ describe('useUserProgress', () => {
     const error = new Error('Fetch failed');
     progressService.fetchUserProgress.mockRejectedValue(error);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     expect(getHookState().error).toEqual(error);
     expect(getHookState().isLoading).toBe(false);
@@ -76,11 +76,7 @@ describe('useUserProgress', () => {
       .mockResolvedValueOnce(initialProgress)
       .mockResolvedValueOnce(updatedProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     expect(getHookState().progress?.currentStepId).toBe(1);
 
@@ -97,11 +93,7 @@ describe('useUserProgress', () => {
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
     progressService.updateStepStatus.mockResolvedValue(mockProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     await act(async () => {
       await getHookState().startStep(1);
@@ -120,11 +112,7 @@ describe('useUserProgress', () => {
     progressService.updateStepStatus.mockResolvedValue(mockProgress);
     progressService.setCurrentStepId.mockResolvedValue(mockProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     await act(async () => {
       await getHookState().completeStep(1, 2);
@@ -146,11 +134,7 @@ describe('useUserProgress', () => {
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
     progressService.updateRequirementProgress.mockResolvedValue(mockProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     await act(async () => {
       await getHookState().toggleSelfDeclaredRequirement(
@@ -173,11 +157,7 @@ describe('useUserProgress', () => {
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
     progressService.updateRequirementProgress.mockResolvedValue(mockProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     const appointment = {
       office: 'Barcelona Office',
@@ -216,11 +196,7 @@ describe('useUserProgress', () => {
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
     progressService.updateRequirementProgress.mockResolvedValue(mockProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
-
-    await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
+    const getHookState = await mountUserProgress();
 
     await act(async () => {
       await getHookState().clearAutomationRequirement(
@@ -242,14 +218,14 @@ describe('useUserProgress', () => {
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
     progressService.updateRequirementProgress.mockResolvedValue(mockProgress);
 
-    const getHookState = renderHook(() => useUserProgress());
+    const getHookState = await mountUserProgress();
 
     await act(async () => {
-      await new Promise(resolve => setTimeout(resolve, 10));
-    });
-
-    await act(async () => {
-      await getHookState().completeFormRequirement(1, 'Application Form', 'test-form-id');
+      await getHookState().completeFormRequirement(
+        1,
+        'Application Form',
+        'test-form-id',
+      );
     });
 
     expect(progressService.updateRequirementProgress).toHaveBeenCalledWith(

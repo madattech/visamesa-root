@@ -6,10 +6,10 @@ import {useProfileCompletion} from '@/hooks/useProfileCompletion';
 import {
   PROCESS_READINESS_ITEM_ORDER,
   type ProcessReadinessMissing,
-} from '@/hooks/processReadinessTypes';
+} from '@/types/processReadiness';
 
-export type {ProcessReadinessMissing} from '@/hooks/processReadinessTypes';
-export {PROCESS_READINESS_ITEM_ORDER} from '@/hooks/processReadinessTypes';
+export type {ProcessReadinessMissing} from '@/types/processReadiness';
+export {PROCESS_READINESS_ITEM_ORDER} from '@/types/processReadiness';
 
 export type UseProcessReadinessResult = {
   canStartProcess: boolean;

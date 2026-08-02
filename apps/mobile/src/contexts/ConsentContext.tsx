@@ -7,12 +7,22 @@ import React, {
   useState,
   type ReactNode,
 } from 'react';
+import {AppState} from 'react-native';
 
 import {useAuth} from '@/contexts/AuthContext';
-import {consentService} from '@/services/consentService';
+import {
+  consentService,
+} from '@/features/profile/services/consentService';
+import {
+  EMPTY_CONSENT_STATUS,
+  type ConsentAcceptanceStatus,
+} from '@visamesa/content/checkout';
 
 type ConsentContextValue = {
   hasConsent: boolean;
+  hasPrivacyConsent: boolean;
+  hasTermsConsent: boolean;
+  consentStatus: ConsentAcceptanceStatus;
   isLoading: boolean;
   refreshConsent: () => Promise<boolean>;
 };
@@ -21,23 +31,24 @@ const ConsentContext = createContext<ConsentContextValue | undefined>(undefined)
 
 export function ConsentProvider({children}: {children: ReactNode}) {
   const {user} = useAuth();
-  const [hasConsent, setHasConsent] = useState(false);
+  const [consentStatus, setConsentStatus] =
+    useState<ConsentAcceptanceStatus>(EMPTY_CONSENT_STATUS);
   const [isLoading, setIsLoading] = useState(false);
 
   const refreshConsent = useCallback(async (): Promise<boolean> => {
     if (!user) {
-      setHasConsent(false);
+      setConsentStatus(EMPTY_CONSENT_STATUS);
       return false;
     }
 
     setIsLoading(true);
 
     try {
-      const accepted = await consentService.hasAcceptedConsent();
-      setHasConsent(accepted);
-      return accepted;
+      const status = await consentService.getConsentStatus();
+      setConsentStatus(status);
+      return status.privacyPolicy && status.termsOfService;
     } catch {
-      setHasConsent(false);
+      setConsentStatus(EMPTY_CONSENT_STATUS);
       return false;
     } finally {
       setIsLoading(false);
@@ -46,7 +57,7 @@ export function ConsentProvider({children}: {children: ReactNode}) {
 
   useEffect(() => {
     if (!user) {
-      setHasConsent(false);
+      setConsentStatus(EMPTY_CONSENT_STATUS);
       setIsLoading(false);
       return;
     }
@@ -54,13 +65,30 @@ export function ConsentProvider({children}: {children: ReactNode}) {
     refreshConsent().catch(() => {});
   }, [user, refreshConsent]);
 
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    const subscription = AppState.addEventListener('change', nextState => {
+      if (nextState === 'active') {
+        refreshConsent().catch(() => {});
+      }
+    });
+
+    return () => subscription.remove();
+  }, [user, refreshConsent]);
+
   const value = useMemo<ConsentContextValue>(
     () => ({
-      hasConsent,
+      hasConsent: consentStatus.privacyPolicy && consentStatus.termsOfService,
+      hasPrivacyConsent: consentStatus.privacyPolicy,
+      hasTermsConsent: consentStatus.termsOfService,
+      consentStatus,
       isLoading,
       refreshConsent,
     }),
-    [hasConsent, isLoading, refreshConsent],
+    [consentStatus, isLoading, refreshConsent],
   );
 
   return (

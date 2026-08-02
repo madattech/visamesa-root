@@ -1,0 +1,92 @@
+{
+  "actions": {
+    "save": "保存",
+    "saving": "保存中…"
+  },
+  "validation": {
+    "required": "必须填写{{label}}。",
+    "invalidFormat": "格式无效。请检查输入要求。",
+    "reviewForm": "部分字段需要修正。请检查上方表单。"
+  },
+  "phone": {
+    "countryCode": "区号",
+    "number": "号码"
+  },
+  "datePicker": {
+    "selectPlaceholder": "选择日期",
+    "done": "完成"
+  },
+  "errors": {
+    "loadSchema": "无法加载表单",
+    "unknownFieldType": "未知字段类型「{{type}}」"
+  },
+  "schemas": {
+    "profilePersonal": {
+      "title": "个人信息",
+      "description": "此信息将用于预填表格并处理您的 TIE 申请。",
+      "fields": {
+        "firstName": {
+          "label": "名",
+          "placeholder": "请输入您的名"
+        },
+        "lastName": {
+          "label": "姓",
+          "placeholder": "请输入您的姓"
+        },
+        "secondLastName": {
+          "label": "第二姓氏",
+          "placeholder": "请输入第二姓氏（可选）"
+        },
+        "dateOfBirth": {
+          "label": "出生日期",
+          "placeholder": "您的出生日期"
+        },
+        "nationality": {
+          "label": "国籍",
+          "placeholder": "您的国籍"
+        },
+        "documentType": {
+          "label": "证件类型"
+        },
+        "documentNumber": {
+          "label": "证件号码",
+          "placeholder": "例如 X1234567A 或 AB123456"
+        },
+        "phoneNumber": {
+          "label": "电话号码"
+        },
+        "address": {
+          "label": "登记地址",
+          "placeholder": "街道、楼号、楼层、门牌",
+          "helperText": "这是您正式登记（empadronado）的地址。我们将其用于预约和税务表格，即使您住在别处。"
+        },
+        "city": {
+          "label": "城市",
+          "placeholder": "例如 Barcelona"
+        },
+        "postalCode": {
+          "label": "邮政编码",
+          "placeholder": "例如 08001"
+        },
+        "hasEmpadronamiento": {
+          "label": "您是否已有 empadronamiento？"
+        },
+        "empadronamientoIssuedAt": {
+          "label": "Empadronamiento 证明日期",
+          "placeholder": "证明签发日期",
+          "helperText": "TIE 申请通常要求证明在最近 90 天内签发。"
+        }
+      },
+      "options": {
+        "documentType": {
+          "nie": "NIE",
+          "passport": "护照"
+        },
+        "hasEmpadronamiento": {
+          "no": "否",
+          "yes": "是"
+        }
+      }
+    }
+  }
+}
