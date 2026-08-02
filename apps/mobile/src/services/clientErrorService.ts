@@ -62,7 +62,7 @@ export function reportClientError(
   code: ClientErrorCode,
   context?: ClientErrorContext,
 ): void {
-  void (async () => {
+  (async () => {
     const token = await AsyncStorage.getItem(STORAGE_KEYS.AUTH_TOKEN);
 
     if (!token) {

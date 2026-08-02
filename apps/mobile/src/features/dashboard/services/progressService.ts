@@ -172,7 +172,7 @@ async function persistProgress(progress: UserProgress): Promise<UserProgress> {
   inMemoryProgress = progress;
   await AsyncStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
 
-  void import('@/features/dashboard/services/progressSyncService')
+  import('@/features/dashboard/services/progressSyncService')
     .then(({syncProgressSnapshot}) => syncProgressSnapshot(progress))
     .catch(() => {});
 

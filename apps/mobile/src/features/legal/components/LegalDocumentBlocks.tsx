@@ -13,6 +13,7 @@ type LegalDocumentBlocksProps = {
 };
 
 function RichText({text}: {text: string}) {
+  const {styles} = useStyles(richTextStylesheet);
   const parts = text.split(/(\*\*[^*]+\*\*)/g);
 
   return (
@@ -22,9 +23,9 @@ function RichText({text}: {text: string}) {
           return (
             <Text
               key={index}
-              variant="bodyMedium"
+              variant="labelLarge"
               color="onSurfaceVariant"
-              style={{fontWeight: '700'}}>
+              style={styles.bold}>
               {part.slice(2, -2)}
             </Text>
           );
@@ -130,6 +131,12 @@ export function LegalDocumentBlocks({
     </View>
   );
 }
+
+const richTextStylesheet = createStyleSheet(() => ({
+  bold: {
+    fontWeight: '700',
+  },
+}));
 
 const stylesheet = createStyleSheet(theme => ({
   container: {
