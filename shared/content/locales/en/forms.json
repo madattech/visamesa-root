@@ -1,0 +1,92 @@
+{
+  "actions": {
+    "save": "Save",
+    "saving": "Saving…"
+  },
+  "validation": {
+    "required": "{{label}} is required.",
+    "invalidFormat": "Invalid format. Check the input requirements.",
+    "reviewForm": "Some fields need correction. Please review the form above."
+  },
+  "phone": {
+    "countryCode": "Code",
+    "number": "Number"
+  },
+  "datePicker": {
+    "selectPlaceholder": "Select a date",
+    "done": "Done"
+  },
+  "errors": {
+    "loadSchema": "Failed to load form",
+    "unknownFieldType": "Unknown field type \"{{type}}\""
+  },
+  "schemas": {
+    "profilePersonal": {
+      "title": "Personal Information",
+      "description": "This information will be used to pre-fill forms and process your TIE application.",
+      "fields": {
+        "firstName": {
+          "label": "First Name",
+          "placeholder": "Enter your first name"
+        },
+        "lastName": {
+          "label": "Last Name",
+          "placeholder": "Enter your last name"
+        },
+        "secondLastName": {
+          "label": "Second Last Name",
+          "placeholder": "Enter your second last name (optional)"
+        },
+        "dateOfBirth": {
+          "label": "Date of Birth",
+          "placeholder": "Your date of birth"
+        },
+        "nationality": {
+          "label": "Nationality",
+          "placeholder": "Your country of citizenship"
+        },
+        "documentType": {
+          "label": "Document Type"
+        },
+        "documentNumber": {
+          "label": "Document Number",
+          "placeholder": "e.g., X1234567A or AB123456"
+        },
+        "phoneNumber": {
+          "label": "Phone Number"
+        },
+        "address": {
+          "label": "Registered Address",
+          "placeholder": "Street, building, floor, apartment",
+          "helperText": "This is where you are officially registered (empadronado). We use this address for appointments and tax forms, even if you live somewhere else."
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "e.g., Barcelona"
+        },
+        "postalCode": {
+          "label": "Postal Code",
+          "placeholder": "e.g., 08001"
+        },
+        "hasEmpadronamiento": {
+          "label": "Do you already have empadronamiento?"
+        },
+        "empadronamientoIssuedAt": {
+          "label": "Empadronamiento certificate date",
+          "placeholder": "When the certificate was issued",
+          "helperText": "For TIE, the certificate must usually be issued within the last 90 days."
+        }
+      },
+      "options": {
+        "documentType": {
+          "nie": "NIE",
+          "passport": "Passport"
+        },
+        "hasEmpadronamiento": {
+          "no": "No",
+          "yes": "Yes"
+        }
+      }
+    }
+  }
+}

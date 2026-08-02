@@ -19,11 +19,11 @@
     "signInTitle": "登录以继续",
     "consentTitle": "隐私政策与服务条款",
     "consentLabel": "我接受<privacyLink>隐私政策</privacyLink>和<termsLink>服务条款</termsLink>",
-    "consentRequired": "选择方案前，您必须接受隐私政策和服务条款。",
+    "consentRequired": "继续结账前，您必须接受隐私政策和服务条款。",
     "acceptTermsToContinue": "接受条款以继续",
-    "chooseService": "选择此服务",
     "doItAllForMe": "全程代办",
-    "bestValue": "最超值"
+    "discountBadge": "限时优惠 — 原价 {{originalPrice}}",
+    "originalPriceAria": "原价 {{originalPrice}}"
   },
   "products": {
     "full_service": {
@@ -48,6 +48,7 @@
     "type1Lead": "您的 VisaMesa 服务现已绑定到您的 Google 账户。请按以下步骤在应用中开始办理。",
     "type2Lead": "您的 VisaMesa 服务现已绑定到您的账户。返回应用以继续 TIE 办理之旅。",
     "openApp": "打开 VisaMesa 应用",
+    "syncing": "正在确认您的付款…",
     "downloadFallback": "从 App Store 或 Google Play 下载 VisaMesa，然后使用同一 Google 账户登录。",
     "postPaymentSteps": [
       "从 App Store 或 Google Play 下载 VisaMesa 应用",
@@ -68,5 +69,10 @@
     "syncing": "已收到付款——正在同步您的服务",
     "serviceReady": "您的 VisaMesa 服务已就绪",
     "completeProfile": "已收到付款——请完善个人资料以开始"
+  },
+  "errors": {
+    "alreadyEntitled": "此账户已拥有有效服务。",
+    "stripeNoCheckoutUrl": "Stripe 未返回结账 URL",
+    "syncFailed": "无法与服务器确认付款"
   }
 }

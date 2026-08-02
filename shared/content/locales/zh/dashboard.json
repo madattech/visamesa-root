@@ -14,7 +14,6 @@
   "completedInHint": "您已在{{place}}完成此项",
   "completedInProfile": "个人资料",
   "completedInStep": "第 {{stepId}} 步",
-  "locationInApp": "在应用中",
   "locationInPerson": "现场办理",
   "documentShareAccessibilityLabel": "分享 {{label}}",
   "requirementDependencyHint": "请先完成上方项目。",
@@ -63,5 +62,6 @@
   "prerequisitesDialog": {
     "notNow": "暂不",
     "action": "完善资料"
-  }
+  },
+  "loadProgressFailed": "无法加载进度"
 }

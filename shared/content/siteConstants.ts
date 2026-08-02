@@ -2,8 +2,14 @@ import { TIE_STEP_ORDER } from './tieSteps/types'
 
 export const SITE_URL = 'https://visa-mesa.web.app'
 
-/** Lowest published service price in EUR (matches visamesa_be payment.config.ts). */
-export const SERVICE_STARTING_PRICE_EUR = 10
+/** Published service price in EUR (matches visamesa_be payment.config.ts full_service). */
+export const SERVICE_PRICE_EUR = 100
+
+/** Pre-discount list price shown on the website pricing card. */
+export const SERVICE_ORIGINAL_PRICE_EUR = 160
+
+/** @deprecated Use {@link SERVICE_PRICE_EUR}. */
+export const SERVICE_STARTING_PRICE_EUR = SERVICE_PRICE_EUR
 export const SITE_NAME = 'VisaMesa'
 export const SITE_TAGLINE = 'TIE assistance in Barcelona'
 export const SUPPORT_EMAIL = 'support@visamesa.com'

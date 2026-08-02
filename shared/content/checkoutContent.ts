@@ -1,43 +1,70 @@
-/** Shared with mobile consentService — keep in sync */
+/** Shared consent logic for web + mobile */
 export const CONSENT_POLICY_VERSION = 'v1.0'
 
+export type ConsentType = 'privacy_policy' | 'terms_of_service'
+
+export type ConsentEntry = {
+  type: ConsentType
+  policyVersion: string
+  acceptedAt?: string
+}
+
+export type ConsentAcceptanceStatus = {
+  privacyPolicy: boolean
+  termsOfService: boolean
+  privacyAcceptedAt: string | null
+  termsAcceptedAt: string | null
+}
+
+export const EMPTY_CONSENT_STATUS: ConsentAcceptanceStatus = {
+  privacyPolicy: false,
+  termsOfService: false,
+  privacyAcceptedAt: null,
+  termsAcceptedAt: null,
+}
+
+export function buildConsentStatus(
+  consents: ConsentEntry[],
+): ConsentAcceptanceStatus {
+  const current = consents.filter(
+    (consent) => consent.policyVersion === CONSENT_POLICY_VERSION,
+  )
+
+  const privacy = current.find((consent) => consent.type === 'privacy_policy')
+  const terms = current.find((consent) => consent.type === 'terms_of_service')
+
+  return {
+    privacyPolicy: Boolean(privacy),
+    termsOfService: Boolean(terms),
+    privacyAcceptedAt: privacy?.acceptedAt ?? null,
+    termsAcceptedAt: terms?.acceptedAt ?? null,
+  }
+}
+
+export function isConsentStatusComplete(status: ConsentAcceptanceStatus): boolean {
+  return status.privacyPolicy && status.termsOfService
+}
+
+export function isConsentComplete(consents: ConsentEntry[]): boolean {
+  return isConsentStatusComplete(buildConsentStatus(consents))
+}
+
+export function getMissingConsentTypes(consents: ConsentEntry[]): ConsentType[] {
+  const current = consents.filter(
+    (consent) => consent.policyVersion === CONSENT_POLICY_VERSION,
+  )
+  const recorded = new Set(current.map((consent) => consent.type))
+  const missing: ConsentType[] = []
+
+  if (!recorded.has('privacy_policy')) {
+    missing.push('privacy_policy')
+  }
+
+  if (!recorded.has('terms_of_service')) {
+    missing.push('terms_of_service')
+  }
+
+  return missing
+}
+
 export const CHECKOUT_SOURCE_STORAGE_KEY = 'visamesa_checkout_source'
-
-export const PRICING_INTRO_TYPE1 =
-  'One-time payment on our website. After checkout, download the VisaMesa app and sign in with the same Google account to start your TIE journey.'
-
-export const PRICING_INTRO_TYPE2 =
-  'Complete payment here, then return to the VisaMesa app with the same Google account to unlock your service.'
-
-export const PRICING_ALREADY_PAID_TITLE = 'You already have an active service'
-export const PRICING_ALREADY_PAID_BODY =
-  'Your payment is linked to this Google account. Open the VisaMesa app and sign in with the same account to continue.'
-
-export const PRICING_TYPE2_RETURN_NOTE =
-  'After payment, use the button on the success page to return to the VisaMesa app.'
-
-export const PRICING_RETURN_TO_APP = 'Return to VisaMesa app'
-
-export const CHECKOUT_SUCCESS_TITLE = 'Payment successful'
-export const CHECKOUT_SUCCESS_TYPE1_LEAD =
-  'Your VisaMesa service is now linked to your Google account. Follow these steps to get started in the app.'
-
-export const CHECKOUT_SUCCESS_TYPE2_LEAD =
-  'Your VisaMesa service is now linked to your account. Return to the app to continue your TIE journey.'
-
-export const CHECKOUT_SUCCESS_OPEN_APP = 'Open VisaMesa app'
-
-export const CHECKOUT_POST_PAYMENT_STEPS = [
-  'Download the VisaMesa app from the App Store or Google Play',
-  'Sign in with the same Google account you used on this website',
-  'Complete your profile in the app to unlock the features',
-] as const
-
-export const CHECKOUT_SUCCESS_DOWNLOAD_FALLBACK =
-  'Download VisaMesa from the App Store or Google Play, then sign in with the same Google account.'
-
-export const PROFILE_ALREADY_PAID_DIALOG_TITLE = 'Already paid'
-export const PROFILE_ALREADY_PAID_DIALOG_MESSAGE =
-  'You already have an active VisaMesa service on this account.'
-export const PROFILE_ALREADY_PAID_OK = 'OK'
-export const PROFILE_ALREADY_PAID_SEE_STATUS = 'See status'

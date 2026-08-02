@@ -62,5 +62,6 @@
   "prerequisitesDialog": {
     "notNow": "Not now",
     "action": "Complete profile"
-  }
+  },
+  "loadProgressFailed": "Failed to load progress"
 }

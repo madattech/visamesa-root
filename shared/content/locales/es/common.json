@@ -37,13 +37,22 @@
   "status": {
     "loading": "Cargando…",
     "checkingAccount": "Comprobando tu cuenta…",
-    "loadingServices": "Cargando servicios…"
+    "loadingServices": "Cargando precios…"
   },
   "errors": {
     "generic": "Algo ha salido mal. Inténtalo de nuevo.",
     "title": "Error",
     "openLink": "No se ha podido abrir el enlace",
-    "loadServices": "No se han podido cargar los servicios. Actualiza la página."
+    "loadServices": "No se han podido cargar los precios. Actualiza la página.",
+    "openWebsite": "No se ha podido abrir el sitio web de VisaMesa",
+    "api": {
+      "notFound": "No se ha encontrado el recurso solicitado.",
+      "unauthorized": "Debes iniciar sesión para continuar.",
+      "badRequest": "No se ha podido procesar la solicitud.",
+      "conflict": "Esta acción entra en conflicto con datos existentes.",
+      "internal": "Ha ocurrido un error en nuestros servidores. Inténtalo de nuevo.",
+      "unavailable": "El servicio no está disponible temporalmente. Inténtalo de nuevo."
+    }
   },
   "dialog": {
     "closeAccessibilityLabel": "Cerrar diálogo"

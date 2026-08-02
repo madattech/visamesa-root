@@ -5,5 +5,6 @@
   "getServiceDialog": {
     "title": "Get VisaMesa service",
     "message": "You will complete payment on our website. After paying, return to the app and sign in with the same Google account to unlock your service."
-  }
+  },
+  "loadStepsFailed": "Failed to load steps"
 }

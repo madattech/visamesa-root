@@ -9,6 +9,11 @@
   "settingsDescription": "Idioma y preferencias de la app",
   "signOut": "Cerrar sesión",
   "personalSaved": "Información personal guardada correctamente.",
+  "otherDeviceMessage": "Este perfil se guardó en otro dispositivo. Introduce tus datos abajo para configurar este dispositivo. Al guardar, se reemplazará la copia cifrada de tu cuenta.",
+  "loadFailed": "No se ha podido cargar el perfil",
+  "saveFailed": "No se ha podido guardar el perfil",
+  "signOutFailed": "No se ha podido cerrar sesión",
+  "signedOut": "Sesión cerrada",
   "consentDialog": {
     "title": "Privacidad y protección de datos",
     "message": "Antes de guardar tu información personal, revisa y acepta nuestras políticas de protección de datos.",
@@ -19,6 +24,18 @@
     "accept": "Aceptar y continuar",
     "accepting": "Guardando…",
     "recordFailed": "No se ha podido registrar tu consentimiento. Inténtalo de nuevo."
+  },
+  "legalDocument": {
+    "hubIntro": "Revisa cada documento y acéptalo en la app. El aviso legal y las fuentes oficiales del gobierno están incluidos en los Términos del servicio.",
+    "acceptPrivacy": "Acepto la Política de privacidad",
+    "acceptTerms": "Acepto los Términos del servicio",
+    "accepted": "Aceptado",
+    "acceptedOn": "Aceptado el {{date}}",
+    "acceptFailed": "No se ha podido registrar tu aceptación. Inténtalo de nuevo.",
+    "privacyAcceptedDescription": "Aceptada — toca para revisar",
+    "privacyPendingDescription": "Lee y acepta en la app",
+    "termsAcceptedDescription": "Aceptados — toca para revisar",
+    "termsPendingDescription": "Lee y acepta en la app"
   },
   "account": {
     "exportShareTitle": "Exportación de datos VisaMesa",

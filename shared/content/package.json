@@ -5,10 +5,11 @@
   "type": "module",
   "exports": {
     "./legal": "./legalDisclaimerContent.ts",
-    "./marketing": "./marketingContent.ts",
+    "./legalBlocks": "./legalBlocks.ts",
     "./site": "./siteConstants.ts",
     "./tieSteps": "./tieStepsMarketing.ts",
     "./checkout": "./checkoutContent.ts",
+    "./apiErrors": "./apiErrors.ts",
     "./entitlements": "./entitlements.ts",
     "./i18n": "./i18n/index.ts",
     "./i18n/useTranslation": "./i18n/useTranslation.ts",
@@ -23,5 +24,8 @@
     "i18next": "^25.5.2",
     "react-i18next": "^15.7.3",
     "vitest": "^3.2.4"
+  },
+  "scripts": {
+    "test": "vitest run"
   }
 }

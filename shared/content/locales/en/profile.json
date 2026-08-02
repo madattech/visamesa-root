@@ -9,6 +9,11 @@
   "settingsDescription": "Language and app preferences",
   "signOut": "Sign Out",
   "personalSaved": "Personal information saved successfully!",
+  "otherDeviceMessage": "This profile was saved on another device. Enter your details below to set up this device. Saving will replace the encrypted copy stored for your account.",
+  "loadFailed": "Failed to load profile",
+  "saveFailed": "Failed to save profile",
+  "signOutFailed": "Failed to sign out",
+  "signedOut": "Signed out",
   "consentDialog": {
     "title": "Privacy & Data Protection",
     "message": "Before saving your personal information, please review and accept our data protection policies.",
@@ -19,6 +24,18 @@
     "accept": "Accept & Continue",
     "accepting": "Saving…",
     "recordFailed": "Failed to record your consent. Please try again."
+  },
+  "legalDocument": {
+    "hubIntro": "Review each document below and accept them in the app. The service disclaimer and official government sources are included in the Terms of Service.",
+    "acceptPrivacy": "I accept the Privacy Policy",
+    "acceptTerms": "I accept the Terms of Service",
+    "accepted": "Accepted",
+    "acceptedOn": "Accepted on {{date}}",
+    "acceptFailed": "Could not record your acceptance. Please try again.",
+    "privacyAcceptedDescription": "Accepted — tap to review",
+    "privacyPendingDescription": "Read and accept in the app",
+    "termsAcceptedDescription": "Accepted — tap to review",
+    "termsPendingDescription": "Read and accept in the app"
   },
   "account": {
     "exportShareTitle": "VisaMesa Data Export",

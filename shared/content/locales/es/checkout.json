@@ -19,11 +19,11 @@
     "signInTitle": "Inicia sesión para continuar",
     "consentTitle": "Privacidad y términos del servicio",
     "consentLabel": "Acepto la <privacyLink>Política de privacidad</privacyLink> y los <termsLink>Términos del servicio</termsLink>",
-    "consentRequired": "Debes aceptar la Política de privacidad y los Términos del servicio antes de elegir un plan.",
+    "consentRequired": "Debes aceptar la Política de privacidad y los Términos del servicio antes de continuar con el pago.",
     "acceptTermsToContinue": "Acepta los términos para continuar",
-    "chooseService": "Elegir este servicio",
     "doItAllForMe": "Hazlo todo por mí",
-    "bestValue": "Mejor relación calidad-precio"
+    "discountBadge": "Oferta limitada — antes {{originalPrice}}",
+    "originalPriceAria": "Precio original {{originalPrice}}"
   },
   "products": {
     "full_service": {
@@ -48,6 +48,7 @@
     "type1Lead": "Tu servicio VisaMesa ya está vinculado a tu cuenta de Google. Sigue estos pasos para empezar en la app.",
     "type2Lead": "Tu servicio VisaMesa ya está vinculado a tu cuenta. Vuelve a la app para continuar tu proceso del TIE.",
     "openApp": "Abrir app VisaMesa",
+    "syncing": "Confirmando tu pago…",
     "downloadFallback": "Descarga VisaMesa desde App Store o Google Play e inicia sesión con la misma cuenta de Google.",
     "postPaymentSteps": [
       "Descarga la app VisaMesa desde App Store o Google Play",
@@ -68,5 +69,10 @@
     "syncing": "Pago recibido — sincronizando tu servicio",
     "serviceReady": "Tu servicio VisaMesa está listo",
     "completeProfile": "Pago recibido — completa tu perfil para empezar"
+  },
+  "errors": {
+    "alreadyEntitled": "Ya tienes un servicio activo en esta cuenta.",
+    "stripeNoCheckoutUrl": "Stripe no ha devuelto una URL de pago",
+    "syncFailed": "No se ha podido confirmar el pago con el servidor"
   }
 }

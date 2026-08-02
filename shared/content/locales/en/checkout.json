@@ -19,11 +19,11 @@
     "signInTitle": "Sign in to continue",
     "consentTitle": "Privacy and terms of service",
     "consentLabel": "I accept the <privacyLink>Privacy Policy</privacyLink> and <termsLink>Terms of Service</termsLink>",
-    "consentRequired": "You must accept the Privacy Policy and Terms of Service before selecting a plan.",
+    "consentRequired": "You must accept the Privacy Policy and Terms of Service before continuing to checkout.",
     "acceptTermsToContinue": "Accept terms to continue",
-    "chooseService": "Choose this service",
     "doItAllForMe": "Do it all for me",
-    "bestValue": "Best value"
+    "discountBadge": "Limited-time offer — was {{originalPrice}}",
+    "originalPriceAria": "Original price {{originalPrice}}"
   },
   "products": {
     "full_service": {
@@ -48,6 +48,7 @@
     "type1Lead": "Your VisaMesa service is now linked to your Google account. Follow these steps to get started in the app.",
     "type2Lead": "Your VisaMesa service is now linked to your account. Return to the app to continue your TIE journey.",
     "openApp": "Open VisaMesa app",
+    "syncing": "Confirming your payment…",
     "downloadFallback": "Download VisaMesa from the App Store or Google Play, then sign in with the same Google account.",
     "postPaymentSteps": [
       "Download the VisaMesa app from the App Store or Google Play",
@@ -68,5 +69,10 @@
     "syncing": "Payment received — syncing your service",
     "serviceReady": "Your VisaMesa service is ready",
     "completeProfile": "Payment received — please complete your profile to start"
+  },
+  "errors": {
+    "alreadyEntitled": "You already have an active service on this account.",
+    "stripeNoCheckoutUrl": "Stripe did not return a checkout URL",
+    "syncFailed": "Failed to confirm payment with the server"
   }
 }

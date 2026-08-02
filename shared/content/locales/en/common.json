@@ -37,13 +37,22 @@
   "status": {
     "loading": "Loading…",
     "checkingAccount": "Checking your account…",
-    "loadingServices": "Loading services…"
+    "loadingServices": "Loading pricing…"
   },
   "errors": {
     "generic": "Something went wrong. Please try again.",
     "title": "Error",
     "openLink": "Could not open the link",
-    "loadServices": "Could not load services. Please refresh the page."
+    "loadServices": "Could not load pricing. Please refresh the page.",
+    "openWebsite": "Unable to open the VisaMesa website",
+    "api": {
+      "notFound": "The requested resource was not found.",
+      "unauthorized": "You need to sign in to continue.",
+      "badRequest": "The request could not be processed.",
+      "conflict": "This action conflicts with existing data.",
+      "internal": "Something went wrong on our servers. Please try again.",
+      "unavailable": "The service is temporarily unavailable. Please try again."
+    }
   },
   "dialog": {
     "closeAccessibilityLabel": "Close dialog"
