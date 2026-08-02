@@ -11,51 +11,21 @@ import {useLegalScreen} from '@/features/legal/hooks/useLegalScreen';
 const LegalScreen = () => {
   const {styles} = useStyles(stylesheet);
   const {t} = useTranslation('profile');
-  const {t: tLegal} = useTranslation('legal');
   const {
-    disclaimerParagraphs,
-    officialSources,
+    hasPrivacyConsent,
+    hasTermsConsent,
     isExporting,
     isDeleting,
     onExportDataPress,
     onDeleteAccountPress,
-    onOfficialSourcePress,
-    openWebsitePath,
+    onOpenDocument,
   } = useLegalScreen();
 
   return (
     <CollapsingHeaderScreen title={t('legalTitle')}>
-      <View style={styles.section}>
-        <Text variant="labelLarge" color="onSurfaceVariant">
-          {tLegal('disclaimer.sectionTitle')}
-        </Text>
-        {disclaimerParagraphs.map(paragraph => (
-          <Text
-            key={paragraph}
-            variant="bodyMedium"
-            color="onSurfaceVariant"
-            style={styles.paragraph}>
-            {paragraph}
-          </Text>
-        ))}
-      </View>
-
-      <View style={styles.section}>
-        <Text variant="labelLarge" color="onSurfaceVariant">
-          {tLegal('officialSources.sectionTitle')}
-        </Text>
-        <Text variant="bodyMedium" color="onSurfaceVariant">
-          {tLegal('officialSources.intro')}
-        </Text>
-        {officialSources.map(source => (
-          <DetailLinkRow
-            key={source.url}
-            title={source.label}
-            description={source.url}
-            onPress={() => onOfficialSourcePress(source.url)}
-          />
-        ))}
-      </View>
+      <Text variant="bodyMedium" color="onSurfaceVariant">
+        {t('legalDocument.hubIntro')}
+      </Text>
 
       <View style={styles.section}>
         <Text variant="labelLarge" color="onSurfaceVariant">
@@ -63,13 +33,23 @@ const LegalScreen = () => {
         </Text>
         <DetailLinkRow
           title={t('account.privacyPolicyTitle')}
-          description={t('account.privacyPolicyDescription')}
-          onPress={() => openWebsitePath('/privacy')}
+          description={
+            hasPrivacyConsent
+              ? t('legalDocument.privacyAcceptedDescription')
+              : t('legalDocument.privacyPendingDescription')
+          }
+          status={hasPrivacyConsent ? 'done' : 'notDone'}
+          onPress={() => onOpenDocument('privacy')}
         />
         <DetailLinkRow
           title={t('account.termsTitle')}
-          description={t('account.termsDescription')}
-          onPress={() => openWebsitePath('/terms')}
+          description={
+            hasTermsConsent
+              ? t('legalDocument.termsAcceptedDescription')
+              : t('legalDocument.termsPendingDescription')
+          }
+          status={hasTermsConsent ? 'done' : 'notDone'}
+          onPress={() => onOpenDocument('terms')}
         />
       </View>
 
@@ -109,9 +89,6 @@ const LegalScreen = () => {
 const stylesheet = createStyleSheet(theme => ({
   section: {
     gap: theme.spacing.sm,
-  },
-  paragraph: {
-    lineHeight: 22,
   },
 }));
 

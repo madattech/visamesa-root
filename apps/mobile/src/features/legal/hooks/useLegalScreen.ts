@@ -1,54 +1,47 @@
-import {useCallback, useMemo, useState} from 'react';
+import {useCallback, useState} from 'react';
 import {Platform, Share} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
+import type {LegalDocumentId} from '@visamesa/content/legalBlocks';
 
 import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useAuth} from '@/contexts/AuthContext';
+import {useConsent} from '@/contexts/ConsentContext';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
-import {useWebsiteLink} from '@/hooks/useWebsiteLink';
 import {accountService} from '@/features/legal/services/accountService';
-import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
+import {ProfileStackParamList} from '@/navigation/types';
+import {getAxiosApiErrorMessage} from '@/services/apiErrors';
 
-type OfficialSourceItem = {
-  label: string;
-  url: string;
-};
+type LegalNavigation = NativeStackNavigationProp<ProfileStackParamList, 'Legal'>;
 
 export type UseLegalScreenResult = {
-  disclaimerParagraphs: string[];
-  officialSources: OfficialSourceItem[];
+  hasPrivacyConsent: boolean;
+  hasTermsConsent: boolean;
   isExporting: boolean;
   isDeleting: boolean;
   onExportDataPress: () => Promise<void>;
   onDeleteAccountPress: () => void;
-  onOfficialSourcePress: (url: string) => void;
-  openWebsitePath: (path: string) => void;
+  onOpenDocument: (documentId: LegalDocumentId) => void;
 };
 
 export function useLegalScreen(): UseLegalScreenResult {
-  const navigation = useNavigation();
+  const navigation = useNavigation<LegalNavigation>();
   const {logout} = useAuth();
   const {profileData} = useProfileData();
-  const {openWebsitePath} = useWebsiteLink();
+  const {hasPrivacyConsent, hasTermsConsent} = useConsent();
   const {showAlert} = useAppDialog();
   const {t} = useTranslation('profile');
-  const {t: tLegal} = useTranslation('legal');
   const {t: tCommon} = useTranslation('common');
   const [isExporting, setIsExporting] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const disclaimerParagraphs = useMemo(() => {
-    const paragraphs = tLegal('disclaimer.masterParagraphs', {returnObjects: true});
-
-    return Array.isArray(paragraphs) ? paragraphs : [];
-  }, [tLegal]);
-
-  const officialSources = useMemo(() => {
-    const items = tLegal('officialSources.items', {returnObjects: true});
-
-    return Array.isArray(items) ? (items as OfficialSourceItem[]) : [];
-  }, [tLegal]);
+  const onOpenDocument = useCallback(
+    (documentId: LegalDocumentId) => {
+      navigation.navigate('LegalDocument', {documentId});
+    },
+    [navigation],
+  );
 
   const onExportDataPress = useCallback(async () => {
     setIsExporting(true);
@@ -85,7 +78,7 @@ export function useLegalScreen(): UseLegalScreenResult {
     } catch (error) {
       showAlert(
         t('account.exportFailedTitle'),
-        error instanceof Error ? error.message : t('account.exportFailedMessage'),
+        getAxiosApiErrorMessage(error, 'profile:account.exportFailedMessage'),
       );
     } finally {
       setIsExporting(false);
@@ -106,7 +99,7 @@ export function useLegalScreen(): UseLegalScreenResult {
             text: tCommon('actions.ok'),
             onPress: async () => {
               await logout();
-              navigation.navigate('Profile' as never);
+              navigation.navigate('Profile');
             },
           },
         ],
@@ -114,9 +107,7 @@ export function useLegalScreen(): UseLegalScreenResult {
     } catch (error) {
       showAlert(
         t('account.deletionFailedTitle'),
-        error instanceof Error
-          ? error.message
-          : t('account.deletionFailedMessage'),
+        getAxiosApiErrorMessage(error, 'profile:account.deletionFailedMessage'),
       );
     } finally {
       setIsDeleting(false);
@@ -139,25 +130,13 @@ export function useLegalScreen(): UseLegalScreenResult {
     );
   }, [confirmDeleteAccount, showAlert, t, tCommon]);
 
-  const onOfficialSourcePress = useCallback(
-    (url: string) => {
-      openWebsiteUrl(url).then(opened => {
-        if (!opened) {
-          showAlert(tCommon('errors.title'), tCommon('errors.openLink'));
-        }
-      });
-    },
-    [showAlert, tCommon],
-  );
-
   return {
-    disclaimerParagraphs,
-    officialSources,
+    hasPrivacyConsent,
+    hasTermsConsent,
     isExporting,
     isDeleting,
     onExportDataPress,
     onDeleteAccountPress,
-    onOfficialSourcePress,
-    openWebsitePath,
+    onOpenDocument,
   };
 }

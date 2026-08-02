@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {API_ENDPOINTS} from '@/config/api';
 import apiClient from '@/services/api';
+import {reportClientErrorFromException} from '@/services/clientErrorService';
 
 const KEYCHAIN_SERVICE = 'visamesa_encryption_key';
 
@@ -16,13 +17,14 @@ export const accountService = {
    */
   async deleteAccount(): Promise<void> {
     try {
-      // Delete on backend (cascades to encrypted details, payments, entitlements, cases)
+      // Delete on backend (cascades to encrypted details, payments, entitlements, progress, error reports)
       await apiClient.delete(API_ENDPOINTS.userDelete);
 
       // Clear all local data
       await this.clearAllLocalData();
     } catch (error) {
       console.error('Failed to delete account:', error);
+      reportClientErrorFromException('ACCOUNT_DELETE_FAILED', error);
       throw error;
     }
   },
@@ -39,6 +41,7 @@ export const accountService = {
       return response.data;
     } catch (error) {
       console.error('Failed to export data:', error);
+      reportClientErrorFromException('ACCOUNT_EXPORT_FAILED', error);
       throw error;
     }
   },

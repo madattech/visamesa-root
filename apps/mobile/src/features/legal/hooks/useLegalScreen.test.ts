@@ -31,15 +31,16 @@ jest.mock('@/contexts/AuthContext', () => ({
   }),
 }));
 
-jest.mock('@/features/profile/context/ProfileDataContext', () => ({
-  useProfileData: () => ({
-    profileData: null,
+jest.mock('@/contexts/ConsentContext', () => ({
+  useConsent: () => ({
+    hasPrivacyConsent: false,
+    hasTermsConsent: true,
   }),
 }));
 
-jest.mock('@/hooks/useWebsiteLink', () => ({
-  useWebsiteLink: () => ({
-    openWebsitePath: jest.fn(),
+jest.mock('@/features/profile/context/ProfileDataContext', () => ({
+  useProfileData: () => ({
+    profileData: null,
   }),
 }));
 
@@ -48,10 +49,6 @@ jest.mock('@/features/legal/services/accountService', () => ({
     exportData: jest.fn(),
     deleteAccount: jest.fn(),
   },
-}));
-
-jest.mock('@/utils/openWebsiteUrl', () => ({
-  openWebsiteUrl: jest.fn(() => Promise.resolve(true)),
 }));
 
 describe('useLegalScreen', () => {
@@ -65,12 +62,17 @@ describe('useLegalScreen', () => {
     (accountService.deleteAccount as jest.Mock).mockResolvedValue(undefined);
   });
 
-  it('loads disclaimer paragraphs from i18n', async () => {
+  it('opens legal documents in the app', async () => {
     const getHookState = renderHook(() => useLegalScreen());
     await flushAsyncEffects();
 
-    expect(getHookState().disclaimerParagraphs.length).toBeGreaterThan(0);
-    expect(getHookState().officialSources.length).toBeGreaterThan(0);
+    act(() => {
+      getHookState().onOpenDocument('privacy');
+    });
+
+    expect(mockNavigate).toHaveBeenCalledWith('LegalDocument', {
+      documentId: 'privacy',
+    });
   });
 
   it('deletes the account after confirmation', async () => {
