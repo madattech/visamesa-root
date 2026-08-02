@@ -1,8 +1,9 @@
-import axios, {AxiosInstance} from 'axios';
+import axios, {AxiosInstance, isAxiosError} from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {STORAGE_KEYS} from '@visamesa/types';
 
 import {API_BASE_URL} from '../config/api';
+import {notifyUnauthorized} from './authSession';
 
 export {STORAGE_KEYS};
 
@@ -34,11 +35,11 @@ apiClient.interceptors.response.use(
   response => response,
   async error => {
     if (error.response?.status === 401) {
-      // Token expired or invalid, clear storage
       await Promise.all([
         AsyncStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN),
         AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA),
       ]);
+      notifyUnauthorized();
     }
     return Promise.reject(error);
   },

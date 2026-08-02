@@ -1,14 +1,15 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { isAxiosError } from 'axios'
 
-import { API_ENDPOINTS } from '@/config/api';
-import {
-  GOOGLE_IOS_CLIENT_ID,
-  GOOGLE_WEB_CLIENT_ID,
-} from '@/config/google';
-import { getGoogleSignInErrorMessage } from '@/services/authGoogleErrors';
-import apiClient from '@/services/api';
-import { AuthResponse, STORAGE_KEYS, User } from '@visamesa/types';
+import {API_ENDPOINTS} from '@/config/api'
+import {GOOGLE_IOS_CLIENT_ID, GOOGLE_WEB_CLIENT_ID} from '@/config/google'
+import apiClient from '@/services/api'
+import {getGoogleSignInErrorMessage} from '@/services/authGoogleErrors'
+import {reportClientErrorFromException} from '@/services/clientErrorService'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin'
+import { consentService } from '@/features/profile/services/consentService'
+import { i18n } from '@visamesa/content/i18n'
+import { AuthResponse, STORAGE_KEYS, User } from '@visamesa/types'
 
 let isGoogleConfigured = false;
 
@@ -35,15 +36,13 @@ export const authService = {
       const signInResult = await GoogleSignin.signIn();
 
       if (signInResult.type !== 'success') {
-        throw new Error('Google sign-in was cancelled');
+        throw new Error(i18n.t('googleSignInCancelledShort', { ns: 'auth' }));
       }
 
       const idToken = signInResult.data.idToken;
 
       if (!idToken) {
-        throw new Error(
-          'Google did not return an ID token. Confirm webClientId is the Web OAuth client ID (not Android/iOS client ID).',
-        );
+        throw new Error(i18n.t('googleNoIdToken', { ns: 'auth' }));
       }
 
       const response = await apiClient.post<AuthResponse>(
@@ -58,6 +57,15 @@ export const authService = {
 
       return response.data;
     } catch (error) {
+      const googleError = error as Error & { code?: string };
+      const isUserCancelled =
+        googleError.code === statusCodes.SIGN_IN_CANCELLED ||
+        googleError.code === statusCodes.IN_PROGRESS;
+
+      if (!isUserCancelled) {
+        reportClientErrorFromException('AUTH_GOOGLE_SIGN_IN_FAILED', error);
+      }
+
       throw new Error(getGoogleSignInErrorMessage(error));
     }
   },
@@ -74,6 +82,7 @@ export const authService = {
     await Promise.all([
       AsyncStorage.removeItem(STORAGE_KEYS.AUTH_TOKEN),
       AsyncStorage.removeItem(STORAGE_KEYS.USER_DATA),
+      consentService.clearConsent(),
     ]);
   },
 
@@ -87,6 +96,12 @@ export const authService = {
       const response = await apiClient.get<User>(API_ENDPOINTS.usersMe);
       return response.data;
     } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 401) {
+        await this.logout();
+      } else {
+        reportClientErrorFromException('AUTH_SESSION_REFRESH_FAILED', error);
+      }
+
       console.error('Failed to get current user:', error);
       return null;
     }
