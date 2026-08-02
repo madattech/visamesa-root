@@ -1,5 +1,6 @@
 import {useCallback, useMemo} from 'react';
 
+import {DEV_UNLOCK_ENABLED} from '@/config/devUnlock';
 import {useConsent} from '@/contexts/ConsentContext';
 import {useEntitlements} from '@/contexts/EntitlementsContext';
 import {useProfileCompletion} from '@/hooks/useProfileCompletion';
@@ -30,10 +31,16 @@ export function useProcessReadiness(): UseProcessReadinessResult {
     isLoading: isLoadingEntitlements,
     refreshEntitlements,
   } = useEntitlements();
-  const {isProfileComplete, isLoading: isLoadingProfile, refreshCompletion} =
-    useProfileCompletion();
-  const {hasConsent, isLoading: isLoadingConsent, refreshConsent} =
-    useConsent();
+  const {
+    isProfileComplete,
+    isLoading: isLoadingProfile,
+    refreshCompletion,
+  } = useProfileCompletion();
+  const {
+    hasConsent,
+    isLoading: isLoadingConsent,
+    refreshConsent,
+  } = useConsent();
 
   const refreshReadiness = useCallback(async () => {
     await Promise.all([
@@ -47,6 +54,16 @@ export function useProcessReadiness(): UseProcessReadinessResult {
     isLoadingEntitlements || isLoadingProfile || isLoadingConsent;
 
   return useMemo<UseProcessReadinessResult>(() => {
+    if (DEV_UNLOCK_ENABLED) {
+      return {
+        canStartProcess: true,
+        isProfileComplete: true,
+        missing: [],
+        isLoading: false,
+        refreshReadiness,
+      };
+    }
+
     const missingByItem: Record<ProcessReadinessMissing, boolean> = {
       personalInformation: !isProfileComplete,
       legalPrivacy: !hasConsent,
