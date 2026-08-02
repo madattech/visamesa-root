@@ -39,8 +39,8 @@ This document provides the information needed for App Store Privacy "nutrition l
 **Used for Tracking:** No
 
 **Data Types:**
-- Product interactions (features used, screens viewed)
-- Crash data (error logs, stack traces)
+- Product interactions (features used, journey step progress)
+- Diagnostic/error codes (failure type, HTTP status — no stack traces)
 - Performance data (app launch time, response times)
 
 ### Financial Information
@@ -67,9 +67,9 @@ This document provides the information needed for App Store Privacy "nutrition l
 
 ### Analytics
 - Improve user experience
-- Identify and fix bugs
+- Identify and fix bugs (diagnostic error codes from the app)
 - Monitor app performance
-- Understand feature usage
+- Understand feature usage (journey progress snapshots)
 
 ### Identity
 - Authenticate users via Google Sign-In
