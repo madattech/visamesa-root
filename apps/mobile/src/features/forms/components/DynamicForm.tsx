@@ -61,13 +61,13 @@ function DynamicFormContent({
   submitButtonText,
 }: Props) {
   const {styles} = useStyles(stylesheet);
-  const {t, i18n} = useTranslation('forms');
+  const {t} = useTranslation('forms');
   const validationSchema = useMemo(
     () =>
       generateZodSchema(schema, (key, options) =>
         t(key, options as Record<string, string>),
       ),
-    [schema, t, i18n.language],
+    [schema, t],
   );
   const defaultValues = useMemo(() => {
     const defaults = generateDefaultValues(schema);

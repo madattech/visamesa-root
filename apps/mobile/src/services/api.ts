@@ -1,4 +1,4 @@
-import axios, {AxiosInstance, isAxiosError} from 'axios';
+import axios, {AxiosInstance} from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {STORAGE_KEYS} from '@visamesa/types';
 

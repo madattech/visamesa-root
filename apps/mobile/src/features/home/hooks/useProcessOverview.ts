@@ -1,4 +1,4 @@
-import {useEffect, useMemo, useState} from 'react';
+import {useEffect, useReducer} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   buildProcessOverview,
@@ -39,11 +39,14 @@ function resolvePhases(
 
 export function useProcessOverview(): UseProcessOverviewResult {
   const {t: tCommon} = useTranslation('common');
-  const [language, setLanguage] = useState(i18n.language);
+  const [, bumpLanguageVersion] = useReducer(
+    (version: number) => version + 1,
+    0,
+  );
 
   useEffect(() => {
-    const handleLanguageChanged = (nextLanguage: string) => {
-      setLanguage(nextLanguage);
+    const handleLanguageChanged = () => {
+      bumpLanguageVersion();
     };
 
     i18n.on('languageChanged', handleLanguageChanged);
@@ -53,16 +56,13 @@ export function useProcessOverview(): UseProcessOverviewResult {
     };
   }, []);
 
-  return useMemo(() => {
-    const content = buildProcessOverview(createProcessOverviewTranslator(i18n));
-    const getTabLabel = (tab: ProcessOverviewTabKey) =>
-      tCommon(`tabs.${tab}`);
+  const content = buildProcessOverview(createProcessOverviewTranslator(i18n));
+  const getTabLabel = (tab: ProcessOverviewTabKey) => tCommon(`tabs.${tab}`);
 
-    return {
-      screenTitle: content.screenTitle,
-      intro: content.intro,
-      badgeLabels: content.badges,
-      phases: resolvePhases(content, getTabLabel),
-    };
-  }, [language, tCommon]);
+  return {
+    screenTitle: content.screenTitle,
+    intro: content.intro,
+    badgeLabels: content.badges,
+    phases: resolvePhases(content, getTabLabel),
+  };
 }

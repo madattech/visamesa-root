@@ -6,6 +6,7 @@ export default {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^@babel/runtime/(.*)$': '<rootDir>/node_modules/@babel/runtime/$1',
   },
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',

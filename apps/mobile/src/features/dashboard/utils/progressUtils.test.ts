@@ -5,7 +5,6 @@ import {
   getEffectiveRequirementProgress,
   getFirstIncompleteStepId,
   getStepStatus,
-  isRequirementExternallyCompleted,
   isStepAccessible,
   isStepCompleted,
 } from '@/features/dashboard/utils/progressUtils';
