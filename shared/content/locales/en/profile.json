@@ -25,6 +25,11 @@
     "accepting": "Saving…",
     "recordFailed": "Failed to record your consent. Please try again."
   },
+  "empadronamientoValidityDialog": {
+    "title": "Certificate too old",
+    "message": "For TIE, your empadronamiento certificate must have been issued within the last 90 days.",
+    "changeDate": "Change the date"
+  },
   "legalDocument": {
     "hubIntro": "Review each document below and accept them in the app. The service disclaimer and official government sources are included in the Terms of Service.",
     "acceptPrivacy": "I accept the Privacy Policy",

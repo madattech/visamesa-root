@@ -92,9 +92,5 @@ export async function syncEmpadronamientoStepFromProfile(
     return next;
   }
 
-  if (isStoredCompleted) {
-    return updateStepStatus(progress, EMPADRONAMIENTO_STEP_ID, 'in_progress');
-  }
-
   return progress;
 }

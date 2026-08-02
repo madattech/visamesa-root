@@ -6,8 +6,10 @@ import {createStyleSheet, useStyles} from 'react-native-unistyles';
 import {CollapsingHeaderScreen} from '@/components/layout/CollapsingHeaderScreen';
 import {DynamicForm} from '@/features/forms/components/DynamicForm';
 import {ConsentDialog} from '@/features/profile/components/ConsentDialog';
+import {EmpadronamientoValidityWatcher} from '@/features/profile/components/EmpadronamientoValidityWatcher';
 import {useProfileData} from '@/features/profile/context/ProfileDataContext';
 import {useFormSchema} from '@/features/forms/hooks/useFormSchema';
+import {PROFILE_PERSONAL_FORM_ID} from '@/features/profile/data/profileSections';
 import {useProfileSectionScreen} from '@/features/profile/hooks/useProfileSectionScreen';
 import {Text} from '@/components/ui/Text';
 import {ProfileStackParamList} from '@/navigation/types';
@@ -62,7 +64,11 @@ const ProfileSectionScreen = ({route}: ProfileSectionScreenProps) => {
             onSubmit={onSubmit}
             isSubmitting={isSubmitting}
             initialValues={initialValues}
-          />
+          >
+            {formId === PROFILE_PERSONAL_FORM_ID ? (
+              <EmpadronamientoValidityWatcher />
+            ) : null}
+          </DynamicForm>
           {showConsentDialog ? (
             <ConsentDialog
               onAccept={onConsentAccept}

@@ -25,6 +25,11 @@
     "accepting": "Guardando…",
     "recordFailed": "No se ha podido registrar tu consentimiento. Inténtalo de nuevo."
   },
+  "empadronamientoValidityDialog": {
+    "title": "Certificado demasiado antiguo",
+    "message": "Para la TIE, tu certificado de empadronamiento debe haberse emitido en los últimos 90 días.",
+    "changeDate": "Cambiar la fecha"
+  },
   "legalDocument": {
     "hubIntro": "Revisa cada documento y acéptalo en la app. El aviso legal y las fuentes oficiales del gobierno están incluidos en los Términos del servicio.",
     "acceptPrivacy": "Acepto la Política de privacidad",

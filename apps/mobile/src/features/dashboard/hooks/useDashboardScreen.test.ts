@@ -1,4 +1,6 @@
 import {act} from 'react';
+import {buildTieSteps, createTieStepsTranslator} from '@visamesa/content/tieSteps/detail';
+import {i18n} from '@visamesa/content/i18n';
 
 import {useDashboardScreen} from '@/features/dashboard/hooks/useDashboardScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
@@ -260,6 +262,41 @@ describe('useDashboardScreen', () => {
   });
 
   it('navigates to step detail and automation webview', async () => {
+    const translateTieSteps = createTieStepsTranslator(i18n);
+    const realSteps = buildTieSteps(translateTieSteps);
+
+    useTieSteps.mockReturnValue({
+      steps: realSteps,
+      isLoading: false,
+      error: null,
+    });
+
+    useUserProgress.mockReturnValue({
+      progress: createUserProgress({
+        currentStepId: 1,
+        steps: [
+          {
+            stepId: 1,
+            status: 'in_progress',
+            requirements: {
+              'passport-nie': {completed: true, source: {type: 'self_declared'}},
+              'proof-of-residence': {completed: true, source: {type: 'self_declared'}},
+              'appointment-confirmation': {completed: false},
+              'attend-ayuntamiento': {completed: false},
+            },
+          },
+        ],
+      }),
+      isLoading: false,
+      error: null,
+      completeStep,
+      toggleSelfDeclaredRequirement,
+      completeAutomationRequirement,
+      clearAutomationRequirement,
+      completeFormRequirement,
+      refreshProgress: jest.fn(),
+    });
+
     const navigation = createMockNavigation() as Parameters<
       typeof useDashboardScreen
     >[0];
@@ -274,12 +311,64 @@ describe('useDashboardScreen', () => {
     });
 
     act(() => {
-      getHookState().onAutomationPress('empadronamiento', 'Appointment confirmation');
+      getHookState().onAutomationPress('empadronamiento', 'appointment-confirmation');
     });
 
     expect(navigation.navigate).toHaveBeenCalledWith('WebsiteWebView', {
       automation: 'empadronamiento',
     });
+  });
+
+  it('shows a dependency hint when automation prerequisites are incomplete', async () => {
+    const translateTieSteps = createTieStepsTranslator(i18n);
+    const realSteps = buildTieSteps(translateTieSteps);
+
+    useTieSteps.mockReturnValue({
+      steps: realSteps,
+      isLoading: false,
+      error: null,
+    });
+
+    useUserProgress.mockReturnValue({
+      progress: createUserProgress({
+        currentStepId: 1,
+        steps: [
+          {
+            stepId: 1,
+            status: 'in_progress',
+            requirements: {
+              'passport-nie': {completed: false},
+              'proof-of-residence': {completed: false},
+              'appointment-confirmation': {completed: false},
+              'attend-ayuntamiento': {completed: false},
+            },
+          },
+        ],
+      }),
+      isLoading: false,
+      error: null,
+      completeStep,
+      toggleSelfDeclaredRequirement,
+      completeAutomationRequirement,
+      clearAutomationRequirement,
+      completeFormRequirement,
+      refreshProgress: jest.fn(),
+    });
+
+    const navigation = createMockNavigation() as Parameters<
+      typeof useDashboardScreen
+    >[0];
+    const getHookState = await renderDashboardScreen(navigation);
+
+    act(() => {
+      getHookState().onAutomationPress('empadronamiento', 'appointment-confirmation');
+    });
+
+    expect(mockShowToast).toHaveBeenCalledWith('Complete the items above first.');
+    expect(navigation.navigate).not.toHaveBeenCalledWith(
+      'WebsiteWebView',
+      expect.anything(),
+    );
   });
 
   it('does not expose dev-only checklist shortcuts when __DEV__ is false', async () => {

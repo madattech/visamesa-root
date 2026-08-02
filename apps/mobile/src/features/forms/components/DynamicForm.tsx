@@ -25,6 +25,7 @@ type Props = {
   isSubmitting: boolean;
   initialValues?: Record<string, unknown>;
   submitButtonText?: string;
+  children?: React.ReactNode;
 };
 
 function FormSubmitErrorHint({schema}: {schema: FormSchema}) {
@@ -53,12 +54,37 @@ function FormSubmitErrorHint({schema}: {schema: FormSchema}) {
   );
 }
 
+function FormSubmitButton({
+  isSubmitting,
+  saveLabel,
+  savingLabel,
+  onSubmit,
+}: {
+  isSubmitting: boolean;
+  saveLabel: string;
+  savingLabel: string;
+  onSubmit: (data: Record<string, unknown>) => void;
+}) {
+  const {handleSubmit} = useFormContext();
+  const {isDirty} = useFormState();
+
+  return (
+    <Button
+      label={isSubmitting ? savingLabel : saveLabel}
+      onPress={handleSubmit(onSubmit)}
+      disabled={isSubmitting || !isDirty}
+      fullWidth
+    />
+  );
+}
+
 function DynamicFormContent({
   schema,
   onSubmit,
   isSubmitting,
   initialValues = {},
   submitButtonText,
+  children,
 }: Props) {
   const {styles} = useStyles(stylesheet);
   const {t} = useTranslation('forms');
@@ -102,23 +128,29 @@ function DynamicFormContent({
           ))}
         </View>
 
+        {children}
+
         <FormSubmitErrorHint schema={schema} />
 
-        <Button
-          label={isSubmitting ? t('actions.saving') : saveLabel}
-          onPress={methods.handleSubmit(onSubmit)}
-          disabled={isSubmitting}
-          fullWidth
+        <FormSubmitButton
+          isSubmitting={isSubmitting}
+          saveLabel={saveLabel}
+          savingLabel={t('actions.saving')}
+          onSubmit={onSubmit}
         />
       </View>
     </FormProvider>
   );
 }
 
-export function DynamicForm(props: Props) {
+export function DynamicForm({children, ...props}: Props) {
   const {i18n} = useTranslation('forms');
 
-  return <DynamicFormContent key={i18n.language} {...props} />;
+  return (
+    <DynamicFormContent key={i18n.language} {...props}>
+      {children}
+    </DynamicFormContent>
+  );
 }
 
 const stylesheet = createStyleSheet(theme => ({

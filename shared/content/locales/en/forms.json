@@ -6,7 +6,8 @@
   "validation": {
     "required": "{{label}} is required.",
     "invalidFormat": "Invalid format. Check the input requirements.",
-    "reviewForm": "Some fields need correction. Please review the form above."
+    "reviewForm": "Some fields need correction. Please review the form above.",
+    "empadronamientoCertificateExpired": "The empadronamiento certificate must have been issued within the last 90 days."
   },
   "phone": {
     "countryCode": "Code",

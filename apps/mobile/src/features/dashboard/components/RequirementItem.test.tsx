@@ -44,4 +44,27 @@ describe('RequirementItem', () => {
 
     expect(JSON.stringify(tree.toJSON())).toContain('Book via VisaMesa');
   });
+
+  it('shows disabled automation actions when dependencies are not met', () => {
+    const tree = renderComponent(
+      <RequirementItem
+        requirement={{
+          key: 'appointment-confirmation',
+          label: 'Appointment confirmation',
+          description: 'Book your visit — VisaMesa can help.',
+          type: 'automation',
+          location: 'in_app',
+          automationId: 'empadronamiento',
+        }}
+        progress={{completed: false}}
+        interactive
+        canUseActions={false}
+      />,
+    );
+
+    const output = JSON.stringify(tree.toJSON());
+    expect(output).toContain('Book via VisaMesa');
+    expect(output).toContain('Complete the items above first.');
+    expect(output).toContain('"accessibilityState":{"disabled":true}');
+  });
 });

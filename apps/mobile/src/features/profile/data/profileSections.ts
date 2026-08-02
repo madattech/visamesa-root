@@ -1,5 +1,7 @@
 export type ProfileSectionId = 'personal';
 
+export const PROFILE_PERSONAL_FORM_ID = 'profile-personal' as const;
+
 export type ProfileSectionConfig = {
   id: ProfileSectionId;
   formId: string;
@@ -8,7 +10,7 @@ export type ProfileSectionConfig = {
 export const PROFILE_SECTIONS: ProfileSectionConfig[] = [
   {
     id: 'personal',
-    formId: 'profile-personal',
+    formId: PROFILE_PERSONAL_FORM_ID,
   },
 ];
 

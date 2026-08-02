@@ -123,6 +123,7 @@ export type RequirementToggleState = {
   canCheck: boolean;
   canUncheck: boolean;
   showDocumentActions: boolean;
+  canUseActions: boolean;
 };
 
 export function getRequirementToggleState(
@@ -135,7 +136,12 @@ export function getRequirementToggleState(
   const requirement = step.requirements.find(item => item.key === requirementKey);
 
   if (!requirement) {
-    return {canCheck: false, canUncheck: false, showDocumentActions: false};
+    return {
+      canCheck: false,
+      canUncheck: false,
+      showDocumentActions: false,
+      canUseActions: false,
+    };
   }
 
   const stored =
@@ -143,6 +149,12 @@ export function getRequirementToggleState(
       requirementKey
     ] ?? {completed: false};
   const isStoredDone = stored.completed;
+  const dependenciesMet = areDependenciesMet(
+    progress,
+    step,
+    requirementKey,
+    context,
+  );
 
   const canUncheckStored =
     isStoredDone &&
@@ -165,5 +177,6 @@ export function getRequirementToggleState(
       steps,
       step,
     ),
+    canUseActions: dependenciesMet,
   };
 }

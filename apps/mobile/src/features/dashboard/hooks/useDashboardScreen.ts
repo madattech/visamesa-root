@@ -129,6 +129,7 @@ function buildRequirementsWithProgress(
       canCheck: isReferenced ? false : toggleState.canCheck,
       canUncheck: isReferenced ? false : toggleState.canUncheck,
       showDocumentActions: toggleState.showDocumentActions,
+      canUseActions: isReferenced ? false : toggleState.canUseActions,
     };
   });
 }
@@ -402,8 +403,21 @@ export function useDashboardScreen(
     );
   };
 
-  const onAutomationPress = (automationId: AutomationId, _label: string) => {
-    if (!currentStep || !canInteractWithRequirements) {
+  const onAutomationPress = (automationId: AutomationId, requirementKey: string) => {
+    if (!progress || !currentStep || !canInteractWithRequirements) {
+      return;
+    }
+
+    const toggleState = getRequirementToggleState(
+      progress,
+      currentStep,
+      requirementKey,
+      progressContext,
+      steps,
+    );
+
+    if (!toggleState.canUseActions) {
+      showToast(tDashboard('requirementDependencyHint'));
       return;
     }
 
@@ -483,6 +497,19 @@ export function useDashboardScreen(
       return;
     }
 
+    const toggleState = getRequirementToggleState(
+      progress,
+      currentStep,
+      requirementKey,
+      progressContext,
+      steps,
+    );
+
+    if (!toggleState.canUseActions) {
+      showToast(tDashboard('requirementDependencyHint'));
+      return;
+    }
+
     await completeAutomationRequirement(
       currentStep.id,
       requirementKey,
@@ -496,12 +523,38 @@ export function useDashboardScreen(
       return;
     }
 
+    const toggleState = getRequirementToggleState(
+      progress,
+      currentStep,
+      requirementKey,
+      progressContext,
+      steps,
+    );
+
+    if (!toggleState.canUseActions) {
+      showToast(tDashboard('requirementDependencyHint'));
+      return;
+    }
+
     await completeFormRequirement(currentStep.id, requirementKey, formId);
     showToast(tDashboard('devFormConfirmedSuccess'));
   };
 
   const onFormPress = (formId: string, requirementKey: string) => {
     if (!currentStep || !progress || !canInteractWithRequirements) {
+      return;
+    }
+
+    const toggleState = getRequirementToggleState(
+      progress,
+      currentStep,
+      requirementKey,
+      progressContext,
+      steps,
+    );
+
+    if (!toggleState.canUseActions) {
+      showToast(tDashboard('requirementDependencyHint'));
       return;
     }
 
