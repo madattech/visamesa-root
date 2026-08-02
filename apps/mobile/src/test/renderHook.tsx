@@ -99,17 +99,18 @@ export async function renderHookAsync<T>(
     throw new Error('Hook did not run');
   }
 
-  await act(async () => {
-    const startedAt = Date.now();
+  const startedAt = Date.now();
 
-    while (!waitFor(hookResult as T)) {
-      if (Date.now() - startedAt > 5000) {
-        throw new Error('Timed out waiting for hook state');
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 0));
+  while (!waitFor(hookResult as T)) {
+    if (Date.now() - startedAt > 5000) {
+      throw new Error('Timed out waiting for hook state');
     }
-  });
+
+    await act(async () => {
+      rerenderRenderedHook();
+      await flushAsyncEffects();
+    });
+  }
 
   return () => hookResult as T;
 }
