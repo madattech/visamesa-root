@@ -25,21 +25,6 @@ jest.mock('react-native-safe-area-context', () => ({
 
 import {initSharedI18n} from '@visamesa/content/i18n';
 
-let restoreConsoleInfo: (() => void) | undefined;
-
 beforeAll(async () => {
-  const originalInfo = console.info;
-  const infoSpy = jest.spyOn(console, 'info').mockImplementation((...args) => {
-    if (typeof args[0] === 'string' && args[0].includes('i18next is made possible')) {
-      return;
-    }
-    originalInfo(...args);
-  });
-  restoreConsoleInfo = () => infoSpy.mockRestore();
-
   await initSharedI18n({language: 'en'});
-});
-
-afterAll(() => {
-  restoreConsoleInfo?.();
 });

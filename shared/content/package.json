@@ -17,12 +17,12 @@
     "./processOverview": "./processOverview/index.ts"
   },
   "peerDependencies": {
-    "i18next": "^25.5.2",
-    "react-i18next": "^15.7.3"
+    "i18next": "^26.3.0",
+    "react-i18next": "^17.0.0"
   },
   "devDependencies": {
-    "i18next": "^25.5.2",
-    "react-i18next": "^15.7.3",
+    "i18next": "^26.3.6",
+    "react-i18next": "^17.0.9",
     "vitest": "^3.2.4"
   },
   "scripts": {
