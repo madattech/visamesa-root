@@ -1,4 +1,5 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
+import type {LegalDocumentId} from '@visamesa/content/legalBlocks';
 
 import {ProfileSectionId} from '@/features/profile/data/profileSections';
 import {CitaPreviaDetails} from '@/types';
@@ -21,6 +22,9 @@ export type ProfileStackParamList = {
     sectionId: ProfileSectionId;
   };
   Legal: undefined;
+  LegalDocument: {
+    documentId: LegalDocumentId;
+  };
   Login: undefined;
   Settings: undefined;
 };
