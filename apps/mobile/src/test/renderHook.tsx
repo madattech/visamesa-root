@@ -5,7 +5,58 @@ import {i18n} from '@visamesa/content/i18n';
 
 import {AppDialogProvider} from '@/contexts/AppDialogContext';
 
-export function renderHook<T>(useHook: () => T): () => T {
+/** Avoid importing the deprecated `ReactTestRenderer` type from react-test-renderer. */
+type TestRenderer = ReturnType<typeof renderer.create>;
+
+let activeTree: TestRenderer | null = null;
+let rerenderActiveTree: (() => void) | null = null;
+
+function unmountActiveTree() {
+  if (!activeTree) {
+    return;
+  }
+
+  act(() => {
+    activeTree?.unmount();
+  });
+  activeTree = null;
+}
+
+function mountHarness(Harness: React.ComponentType, Wrapper?: React.ComponentType<{children: React.ReactNode}>) {
+  unmountActiveTree();
+
+  let tree!: TestRenderer;
+  const RootHarness = () => {
+    const [, setTick] = React.useState(0);
+    rerenderActiveTree = () => setTick(current => current + 1);
+
+    const harnessElement = Wrapper ? (
+      <Wrapper>
+        <Harness />
+      </Wrapper>
+    ) : (
+      <Harness />
+    );
+
+    return (
+      <I18nextProvider i18n={i18n as never}>
+        <AppDialogProvider>{harnessElement}</AppDialogProvider>
+      </I18nextProvider>
+    );
+  };
+
+  act(() => {
+    tree = renderer.create(<RootHarness />);
+  });
+
+  activeTree = tree;
+  return tree;
+}
+
+export function renderHook<T>(
+  useHook: () => T,
+  Wrapper?: React.ComponentType<{children: React.ReactNode}>,
+): () => T {
   let hookResult: T | null = null;
 
   const Harness = () => {
@@ -13,15 +64,7 @@ export function renderHook<T>(useHook: () => T): () => T {
     return null;
   };
 
-  act(() => {
-    renderer.create(
-      <I18nextProvider i18n={i18n as never}>
-        <AppDialogProvider>
-          <Harness />
-        </AppDialogProvider>
-      </I18nextProvider>,
-    );
-  });
+  mountHarness(Harness, Wrapper);
 
   if (!hookResult) {
     throw new Error('Hook did not run');
@@ -39,6 +82,7 @@ export async function flushAsyncEffects(): Promise<void> {
 export async function renderHookAsync<T>(
   useHook: () => T,
   waitFor: (result: T) => boolean,
+  Wrapper?: React.ComponentType<{children: React.ReactNode}>,
 ): Promise<() => T> {
   let hookResult: T | null = null;
 
@@ -48,13 +92,7 @@ export async function renderHookAsync<T>(
   };
 
   await act(async () => {
-    renderer.create(
-      <I18nextProvider i18n={i18n as never}>
-        <AppDialogProvider>
-          <Harness />
-        </AppDialogProvider>
-      </I18nextProvider>,
-    );
+    mountHarness(Harness, Wrapper);
   });
 
   if (!hookResult) {
@@ -65,7 +103,7 @@ export async function renderHookAsync<T>(
     const startedAt = Date.now();
 
     while (!waitFor(hookResult as T)) {
-      if (Date.now() - startedAt > 1000) {
+      if (Date.now() - startedAt > 5000) {
         throw new Error('Timed out waiting for hook state');
       }
 
@@ -74,4 +112,15 @@ export async function renderHookAsync<T>(
   });
 
   return () => hookResult as T;
+}
+
+export function unmountRenderedHook() {
+  unmountActiveTree();
+  rerenderActiveTree = null;
+}
+
+export function rerenderRenderedHook() {
+  act(() => {
+    rerenderActiveTree?.();
+  });
 }

@@ -92,6 +92,7 @@ export function Dialog({
               accessibilityRole="button"
               accessibilityLabel={t('dialog.closeAccessibilityLabel')}>
               <Animated.View
+                pointerEvents="none"
                 style={[
                   styles.scrim,
                   {
@@ -103,6 +104,7 @@ export function Dialog({
             </Pressable>
           ) : (
             <Animated.View
+              pointerEvents="none"
               style={[
                 styles.scrim,
                 StyleSheet.absoluteFill,
@@ -114,40 +116,40 @@ export function Dialog({
             />
           )}
         </View>
-        <Animated.View
-          style={[
-            styles.dialogContainer,
-            {
+
+        <Pressable onPress={() => {}} style={styles.dialogContainer}>
+          <Animated.View
+            style={{
               transform: [{scale: dialogScale}],
-            },
-          ]}>
-          <Surface variant="elevated" elevation={3} style={styles.dialog}>
-            <Text variant="titleMedium" style={styles.title}>
-              {title}
-            </Text>
-            <View style={styles.content}>
-              {typeof children === 'string' ? (
-                <Text variant="bodyMedium" color="onSurfaceVariant">
-                  {children}
-                </Text>
-              ) : (
-                children
-              )}
-            </View>
-            {actions && actions.length > 0 ? (
-              <View style={styles.actions}>
-                {actions.map((action, index) => (
-                  <Button
-                    key={index}
-                    label={action.label}
-                    onPress={action.onPress}
-                    variant={action.variant ?? 'tonal'}
-                  />
-                ))}
+            }}>
+            <Surface variant="elevated" elevation={3} style={styles.dialog}>
+              <Text variant="titleMedium" style={styles.title}>
+                {title}
+              </Text>
+              <View style={styles.content}>
+                {typeof children === 'string' ? (
+                  <Text variant="bodyMedium" color="onSurfaceVariant">
+                    {children}
+                  </Text>
+                ) : (
+                  children
+                )}
               </View>
-            ) : null}
-          </Surface>
-        </Animated.View>
+              {actions && actions.length > 0 ? (
+                <View style={styles.actions}>
+                  {actions.map((action, index) => (
+                    <Button
+                      key={index}
+                      label={action.label}
+                      onPress={action.onPress}
+                      variant={action.variant ?? 'tonal'}
+                    />
+                  ))}
+                </View>
+              ) : null}
+            </Surface>
+          </Animated.View>
+        </Pressable>
       </View>
     </Modal>
   );

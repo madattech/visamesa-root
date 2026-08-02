@@ -19,6 +19,7 @@ import { ProfileDataProvider } from './features/profile/context/ProfileDataConte
 import { linking } from './navigation/linking'
 import { navigationRef } from './navigation/navigationRef'
 import { PaymentReturnListener } from './navigation/PaymentReturnListener'
+import { ProgressSyncListener } from './navigation/ProgressSyncListener'
 import RootNavigator from './navigation/RootNavigator'
 
 function AppStatusBar() {
@@ -49,6 +50,7 @@ const App = () => {
                       <AppStatusBar />
                       <NavigationContainer ref={navigationRef} linking={linking}>
                         <PaymentReturnListener />
+                        <ProgressSyncListener />
                         <RootNavigator />
                       </NavigationContainer>
                     </AppDialogProvider>
