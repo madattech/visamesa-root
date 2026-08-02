@@ -157,11 +157,7 @@ const MainTabNavigator = () => {
                 tabBarAccessibilityLabel: label,
                 tabBarIcon: TAB_BAR_ICONS[tab.icon],
                 tabBarStyle: hideTabBar
-                  ? {
-                      ...baseTabBarStyle,
-                      opacity: 0,
-                      pointerEvents: 'none' as const,
-                    }
+                  ? {display: 'none'}
                   : baseTabBarStyle,
               };
             }}
