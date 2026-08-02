@@ -4,6 +4,11 @@ import WebView, {WebViewMessageEvent} from 'react-native-webview';
 
 import {RootStackParamList} from '@/navigation/types';
 import {
+  reportClientError,
+  sanitizeUrlForReport,
+  toNumericContextValue,
+} from '@/services/clientErrorService';
+import {
   buildCitaPreviaInjectionRules,
   CITA_PREVIA_START_URL,
   citaPreviaPiiConfig,
@@ -13,7 +18,7 @@ import {
   empadronamientoPiiConfig,
   EMPADRONAMIENTO_HOME_URL,
 } from '@/scripts/empadronamiento';
-import {useWebViewInjection} from '@/webViewInjection/useWebViewInjection';
+import {useWebViewInjection, type WebViewReadinessTimeoutPayload} from '@/webViewInjection/useWebViewInjection';
 import {
   buildCitaPreviaWebViewSource,
   buildEmpadronamientoWebViewSource,
@@ -66,6 +71,19 @@ export function useWebsiteWebViewScreen(
     [automation],
   );
 
+  const onReadinessTimeout = useCallback(
+    (payload: WebViewReadinessTimeoutPayload) => {
+      reportClientError('WEBVIEW_INJECTION_TIMEOUT', {
+        automation,
+        ruleId: payload.ruleId,
+        url: sanitizeUrlForReport(payload.url),
+        selector: payload.selector,
+        timeoutMs: payload.timeoutMs,
+      });
+    },
+    [automation],
+  );
+
   const {
     handleMessage: handleInjectionMessage,
     onLoadEnd,
@@ -73,6 +91,7 @@ export function useWebsiteWebViewScreen(
   } = useWebViewInjection(webViewRef, {
     initialUrl: startUrl,
     rules: injectionRules,
+    onReadinessTimeout,
   });
 
   const onMessage = useCallback(
@@ -101,6 +120,15 @@ export function useWebsiteWebViewScreen(
         requestedUrl: startUrl,
         ...syntheticEvent.nativeEvent,
       });
+
+      reportClientError('WEBVIEW_LOAD_FAILED', {
+        automation,
+        url: sanitizeUrlForReport(
+          syntheticEvent.nativeEvent.url ?? startUrl,
+        ),
+        code: toNumericContextValue(syntheticEvent.nativeEvent.code),
+        description: syntheticEvent.nativeEvent.description?.slice(0, 200) ?? null,
+      });
     },
     [automation, startUrl],
   );
@@ -111,6 +139,16 @@ export function useWebsiteWebViewScreen(
         automation,
         requestedUrl: startUrl,
         ...syntheticEvent.nativeEvent,
+      });
+
+      reportClientError('WEBVIEW_HTTP_ERROR', {
+        automation,
+        url: sanitizeUrlForReport(
+          syntheticEvent.nativeEvent.url ?? startUrl,
+        ),
+        statusCode: toNumericContextValue(
+          syntheticEvent.nativeEvent.statusCode,
+        ),
       });
     },
     [automation, startUrl],
