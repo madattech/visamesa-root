@@ -8,19 +8,17 @@ import React, {
   type ReactNode,
 } from 'react';
 
+import {DEV_UNLOCK_ENABLED} from '@/config/devUnlock';
 import {useAuth} from '@/contexts/AuthContext';
 import {paymentService} from '@/services/paymentService';
 import {reportClientErrorFromException} from '@/services/clientErrorService';
-import {
-  EntitlementType,
-  UserEntitlement,
-} from '@/types/entitlements';
+import {EntitlementType, UserEntitlement} from '@/types/entitlements';
 import {
   canUseAutomation as checkAutomationAccess,
   hasEntitlement as checkEntitlement,
   hasPaidService as checkHasPaidService,
 } from '@/utils/entitlementAccess';
-import { AutomationId } from '@/features/home/types/TieStepDetail';
+import {AutomationId} from '@/features/home/types/TieStepDetail';
 
 const ENTITLEMENT_POLL_ATTEMPTS = 5;
 const ENTITLEMENT_POLL_DELAY_MS = 2000;
@@ -45,12 +43,19 @@ const EntitlementsContext = createContext<EntitlementsContextValue | undefined>(
   undefined,
 );
 
-export function EntitlementsProvider({ children }: { children: ReactNode }) {
-  const { user, isAuthenticated } = useAuth();
+export function EntitlementsProvider({children}: {children: ReactNode}) {
+  const {user, isAuthenticated} = useAuth();
   const [entitlements, setEntitlements] = useState<UserEntitlement[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const refreshEntitlements = useCallback(async (): Promise<UserEntitlement[]> => {
+  const refreshEntitlements = useCallback(async (): Promise<
+    UserEntitlement[]
+  > => {
+    if (DEV_UNLOCK_ENABLED) {
+      setEntitlements([]);
+      return [];
+    }
+
     if (!isAuthenticated) {
       setEntitlements([]);
       return [];
@@ -73,6 +78,10 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
   }, [isAuthenticated]);
 
   const waitForPaidService = useCallback(async (): Promise<boolean> => {
+    if (DEV_UNLOCK_ENABLED) {
+      return true;
+    }
+
     for (let attempt = 0; attempt < ENTITLEMENT_POLL_ATTEMPTS; attempt += 1) {
       const nextEntitlements = await refreshEntitlements();
 
@@ -98,10 +107,14 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
       isLoading,
       refreshEntitlements,
       waitForPaidService,
-      hasEntitlement: type => checkEntitlement(entitlements, type),
-      hasPaidService: () => checkHasPaidService(entitlements),
+      hasEntitlement: type =>
+        DEV_UNLOCK_ENABLED ? true : checkEntitlement(entitlements, type),
+      hasPaidService: () =>
+        DEV_UNLOCK_ENABLED ? true : checkHasPaidService(entitlements),
       canUseAutomation: automationId =>
-        checkAutomationAccess(entitlements, automationId),
+        DEV_UNLOCK_ENABLED
+          ? true
+          : checkAutomationAccess(entitlements, automationId),
     }),
     [entitlements, isLoading, refreshEntitlements, waitForPaidService],
   );

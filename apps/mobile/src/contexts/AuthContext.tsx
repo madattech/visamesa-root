@@ -6,9 +6,10 @@ import React, {
   useState,
 } from 'react';
 
-import { authService } from '@/services/authService';
-import { onUnauthorized } from '@/services/authSession';
-import { User } from '@visamesa/types';
+import {DEV_UNLOCK_ENABLED, DEV_UNLOCK_USER} from '@/config/devUnlock';
+import {authService} from '@/services/authService';
+import {onUnauthorized} from '@/services/authSession';
+import {User} from '@visamesa/types';
 
 interface AuthContextType {
   user: User | null;
@@ -21,7 +22,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
+export const AuthProvider = ({children}: {children: ReactNode}) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,6 +31,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   useEffect(() => {
+    if (DEV_UNLOCK_ENABLED) {
+      return;
+    }
+
     return onUnauthorized(() => {
       authService.logout().catch(() => {});
       setUser(null);
@@ -37,6 +42,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const checkAuth = async () => {
+    if (DEV_UNLOCK_ENABLED) {
+      setUser(DEV_UNLOCK_USER);
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const storedUser = await authService.getStoredUser();
       if (!storedUser) {
@@ -61,16 +72,31 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const signInWithGoogle = async () => {
-    const { user: authUser } = await authService.signInWithGoogle();
+    if (DEV_UNLOCK_ENABLED) {
+      setUser(DEV_UNLOCK_USER);
+      return;
+    }
+
+    const {user: authUser} = await authService.signInWithGoogle();
     setUser(authUser);
   };
 
   const logout = async () => {
+    if (DEV_UNLOCK_ENABLED) {
+      setUser(DEV_UNLOCK_USER);
+      return;
+    }
+
     await authService.logout();
     setUser(null);
   };
 
   const refreshUser = async () => {
+    if (DEV_UNLOCK_ENABLED) {
+      setUser(DEV_UNLOCK_USER);
+      return;
+    }
+
     const currentUser = await authService.getCurrentUser();
     setUser(currentUser);
   };
