@@ -1,9 +1,5 @@
 import { Platform } from 'react-native';
 
-// For development on physical device, use your computer's local IP.
-// iOS simulator: http://localhost:3000
-// Android emulator: http://10.0.2.2:3000
-
 export const API_BASE_URL = __DEV__
   ? Platform.select({
       ios: 'http://localhost:3000',
