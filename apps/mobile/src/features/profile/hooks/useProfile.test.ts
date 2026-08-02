@@ -1,0 +1,119 @@
+import {act} from 'react';
+
+import {useProfile} from '@/features/profile/hooks/useProfile';
+import {
+  getProfile,
+  updateProfile,
+} from '@/features/profile/services/profileService';
+import {renderHookAsync, unmountRenderedHook} from '@/test/renderHook';
+
+const mockShowToast = jest.fn();
+const mockFetchUserProgress = jest.fn();
+const mockSaveUserProgress = jest.fn();
+const mockSyncEmpadronamiento = jest.fn();
+const mockReconcileStepStatuses = jest.fn();
+const mockFetchTieSteps = jest.fn();
+
+jest.mock('@/components/Toast/ToastProvider', () => ({
+  useToast: () => ({
+    showToast: mockShowToast,
+  }),
+}));
+
+jest.mock('@/features/profile/services/profileService', () => ({
+  getProfile: jest.fn(),
+  updateProfile: jest.fn(),
+  EMPTY_PROFILE: {personal: {}},
+}));
+
+jest.mock('@/features/dashboard/services/progressService', () => ({
+  fetchUserProgress: (...args: unknown[]) => mockFetchUserProgress(...args),
+  saveUserProgress: (...args: unknown[]) => mockSaveUserProgress(...args),
+}));
+
+jest.mock('@/features/dashboard/services/empadronamientoProgressService', () => ({
+  syncEmpadronamientoStepFromProfile: (...args: unknown[]) =>
+    mockSyncEmpadronamiento(...args),
+}));
+
+jest.mock('@/features/dashboard/services/progressReconciliationService', () => ({
+  reconcileStepStatuses: (...args: unknown[]) => mockReconcileStepStatuses(...args),
+}));
+
+jest.mock('@/features/home/services/tieStepsService', () => ({
+  fetchTieSteps: (...args: unknown[]) => mockFetchTieSteps(...args),
+}));
+
+describe('useProfile', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (getProfile as jest.Mock).mockResolvedValue({
+      personal: {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        hasEmpadronamiento: 'no',
+      },
+    });
+    mockFetchUserProgress.mockResolvedValue({steps: []});
+    mockFetchTieSteps.mockResolvedValue([]);
+    mockSyncEmpadronamiento.mockImplementation(progress => progress);
+    mockReconcileStepStatuses.mockImplementation(progress => ({
+      ...progress,
+      synced: true,
+    }));
+  });
+
+  afterEach(() => {
+    unmountRenderedHook();
+  });
+
+  it('loads profile data when enabled', async () => {
+    const getHookState = await renderHookAsync(
+      () => useProfile(true),
+      state => !state.isLoading,
+    );
+
+    expect(getProfile).toHaveBeenCalled();
+    expect(getHookState().profileData?.personal?.firstName).toBe('Jane');
+  });
+
+  it('syncs dashboard progress after saving personal information', async () => {
+    (updateProfile as jest.Mock).mockResolvedValue({
+      personal: {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        hasEmpadronamiento: 'yes',
+        empadronamientoIssuedAt: '2026-01-01',
+      },
+    });
+
+    const getHookState = await renderHookAsync(
+      () => useProfile(true),
+      state => !state.isLoading,
+    );
+
+    await act(async () => {
+      await getHookState().submitPersonal({
+        firstName: 'Jane',
+        lastName: 'Doe',
+        hasEmpadronamiento: 'yes',
+        empadronamientoIssuedAt: '2026-01-01',
+      });
+    });
+
+    expect(updateProfile).toHaveBeenCalledWith(
+      'personal',
+      expect.objectContaining({
+        firstName: 'Jane',
+        hasEmpadronamiento: 'yes',
+      }),
+    );
+    expect(mockFetchUserProgress).toHaveBeenCalled();
+    expect(mockSyncEmpadronamiento).toHaveBeenCalled();
+    expect(mockReconcileStepStatuses).toHaveBeenCalled();
+    expect(mockSaveUserProgress).toHaveBeenCalledWith(
+      expect.objectContaining({synced: true}),
+    );
+    expect(mockShowToast).toHaveBeenCalled();
+  });
+});

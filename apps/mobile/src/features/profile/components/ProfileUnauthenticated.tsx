@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Button} from '@/components/ui/Button';
@@ -15,6 +16,7 @@ export function ProfileUnauthenticated({
   onSignInPress,
 }: ProfileUnauthenticatedProps) {
   const {styles} = useStyles(stylesheet);
+  const {t} = useTranslation(['auth', 'common']);
 
   return (
     <View style={styles.container}>
@@ -23,12 +25,16 @@ export function ProfileUnauthenticated({
           <Icon name="person-outline" size="hero" color="primary" />
         </View>
         <Text variant="headlineSmall" style={styles.title}>
-          Welcome to VisaMesa
+          {t('auth:welcomeTitle')}
         </Text>
         <Text variant="bodyMedium" color="onSurfaceVariant" style={styles.subtitle}>
-          Sign in with your email to view your profile and continue.
+          {t('auth:welcomeSubtitle')}
         </Text>
-        <Button label="Sign In" onPress={onSignInPress} fullWidth />
+        <Button
+          label={t('common:actions.signIn')}
+          onPress={onSignInPress}
+          fullWidth
+        />
       </Surface>
     </View>
   );

@@ -1,6 +1,7 @@
 import {useCallback, useState} from 'react';
 import {useFocusEffect} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {i18n} from '@visamesa/content/i18n';
 
 import {useToast} from '@/components/Toast/ToastProvider';
 import {useAuth} from '@/contexts/AuthContext';
@@ -59,9 +60,9 @@ export function useProfileScreen(
   const onSignOutPress = async () => {
     try {
       await logout();
-      showToast('Signed out');
+      showToast(i18n.t('signedOut', {ns: 'profile'}));
     } catch {
-      showToast('Failed to sign out');
+      showToast(i18n.t('signOutFailed', {ns: 'profile'}));
     }
   };
 
