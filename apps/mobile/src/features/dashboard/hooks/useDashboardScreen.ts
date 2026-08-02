@@ -13,11 +13,20 @@ import {RequirementWithProgress} from '@/features/dashboard/components/Requireme
 import {formatAppointmentDetailsMessage} from '@/features/dashboard/data/dashboardContent';
 import {syncEmpadronamientoStepFromProfile} from '@/features/dashboard/services/empadronamientoProgressService';
 import {
-  reconcileStepStatuses,
-} from '@/features/dashboard/services/progressReconciliationService';
-import {saveUserProgress, subscribeToProgressReset} from '@/features/dashboard/services/progressService';
+  saveEx17Pdf,
+  shareGeneratedPdf,
+} from '@/features/pdfGeneration/services/ex17PdfService';
+import {mapProfileToEx17Data} from '@/features/pdfGeneration/utils/mapProfileToEx17Data';
+import {reconcileStepStatuses} from '@/features/dashboard/services/progressReconciliationService';
+import {
+  saveUserProgress,
+  subscribeToProgressReset,
+} from '@/features/dashboard/services/progressService';
 import {useUserProgress} from '@/features/dashboard/hooks/useUserProgress';
-import {ProgressContext, UserProgress} from '@/features/dashboard/types/UserProgress';
+import {
+  ProgressContext,
+  UserProgress,
+} from '@/features/dashboard/types/UserProgress';
 import {formatCompletedInHint} from '@/features/dashboard/utils/completionHints';
 import {getRequirementToggleState} from '@/features/dashboard/utils/requirementDependencies';
 import {
@@ -37,7 +46,7 @@ import {
   useProcessReadiness,
 } from '@/hooks/useProcessReadiness';
 import {usePrerequisitesDialog} from '@/hooks/usePrerequisitesDialog';
-import { navigateToLoginFromTab } from '@/navigation/navigateToLogin';
+import {navigateToLoginFromTab} from '@/navigation/navigateToLogin';
 import {
   DashboardStackParamList,
   RootStackParamList,
@@ -81,7 +90,10 @@ export type UseDashboardScreenResult = {
   onAutomationPress: (automationId: AutomationId, label: string) => void;
   onViewAppointmentPress: (label: string) => void;
   onClearAutomationPress: (label: string) => void;
-  onDevMarkAutomationBookedPress?: (automationId: AutomationId, label: string) => void;
+  onDevMarkAutomationBookedPress?: (
+    automationId: AutomationId,
+    label: string,
+  ) => void;
   onDevConfirmFormPress?: (formId: string, label: string) => void;
   onFormPress: (formId: string, label: string) => void;
   onClosePrerequisitesDialog: () => void;
@@ -171,7 +183,8 @@ export function useDashboardScreen(
   } = usePrerequisitesDialog(refreshReadiness);
 
   const [selectedStepId, setSelectedStepId] = useState<number | null>(null);
-  const [hasSyncedEmpadronamiento, setHasSyncedEmpadronamiento] = useState(false);
+  const [hasSyncedEmpadronamiento, setHasSyncedEmpadronamiento] =
+    useState(false);
 
   const progressContext = useMemo<ProgressContext>(
     () => ({
@@ -200,7 +213,10 @@ export function useDashboardScreen(
           return;
         }
 
-        let next = await syncEmpadronamientoStepFromProfile(progress, profileData);
+        let next = await syncEmpadronamientoStepFromProfile(
+          progress,
+          profileData,
+        );
         next = reconcileStepStatuses(next, steps, progressContext);
 
         if (JSON.stringify(next) !== JSON.stringify(progress)) {
@@ -217,7 +233,13 @@ export function useDashboardScreen(
     return () => {
       cancelled = true;
     };
-  }, [hasSyncedEmpadronamiento, progress, progressContext, refreshProgress, steps]);
+  }, [
+    hasSyncedEmpadronamiento,
+    progress,
+    progressContext,
+    refreshProgress,
+    steps,
+  ]);
 
   const activeStepId = progress ? getFirstIncompleteStepId(progress, steps) : 1;
 
@@ -256,7 +278,14 @@ export function useDashboardScreen(
       tDashboard,
       canStartProcess,
     );
-  }, [canStartProcess, currentStep, progress, progressContext, steps, tDashboard]);
+  }, [
+    canStartProcess,
+    currentStep,
+    progress,
+    progressContext,
+    steps,
+    tDashboard,
+  ]);
 
   const canCompleteStep = Boolean(
     progress &&
@@ -334,28 +363,32 @@ export function useDashboardScreen(
       return;
     }
 
-    showAlert(tDashboard('confirmCompletionTitle'), currentStep.completionPrompt, [
-      {text: tDashboard('notYet'), style: 'cancel'},
-      {
-        text: tDashboard('yesDone'),
-        onPress: async () => {
-          const nextStepId = getFirstIncompleteStepId(
-            {
-              ...progress,
-              steps: progress.steps.map(step =>
-                step.stepId === currentStep.id
-                  ? {...step, status: 'completed' as const}
-                  : step,
-              ),
-            },
-            steps,
-          );
-          await completeStep(currentStep.id, nextStepId);
-          setSelectedStepId(nextStepId);
-          showToast(tDashboard('stepCompleted'));
+    showAlert(
+      tDashboard('confirmCompletionTitle'),
+      currentStep.completionPrompt,
+      [
+        {text: tDashboard('notYet'), style: 'cancel'},
+        {
+          text: tDashboard('yesDone'),
+          onPress: async () => {
+            const nextStepId = getFirstIncompleteStepId(
+              {
+                ...progress,
+                steps: progress.steps.map(step =>
+                  step.stepId === currentStep.id
+                    ? {...step, status: 'completed' as const}
+                    : step,
+                ),
+              },
+              steps,
+            );
+            await completeStep(currentStep.id, nextStepId);
+            setSelectedStepId(nextStepId);
+            showToast(tDashboard('stepCompleted'));
+          },
         },
-      },
-    ]);
+      ],
+    );
   };
 
   const onRequirementCheckboxToggle = async (requirementKey: string) => {
@@ -370,10 +403,8 @@ export function useDashboardScreen(
       progressContext,
       steps,
     );
-    const stored =
-      progress.steps.find(step => step.stepId === currentStep.id)?.requirements[
-        requirementKey
-      ] ?? {completed: false};
+    const stored = progress.steps.find(step => step.stepId === currentStep.id)
+      ?.requirements[requirementKey] ?? {completed: false};
 
     if (stored.completed) {
       if (!toggleState.canUncheck) {
@@ -385,14 +416,16 @@ export function useDashboardScreen(
       return;
     }
 
-    if (isRequirementExternallyCompleted(
-      getEffectiveRequirementProgress(
-        progress,
-        currentStep,
-        requirementKey,
-        progressContext,
-      ),
-    )) {
+    if (
+      isRequirementExternallyCompleted(
+        getEffectiveRequirementProgress(
+          progress,
+          currentStep,
+          requirementKey,
+          progressContext,
+        ),
+      )
+    ) {
       return;
     }
 
@@ -403,7 +436,10 @@ export function useDashboardScreen(
     );
   };
 
-  const onAutomationPress = (automationId: AutomationId, requirementKey: string) => {
+  const onAutomationPress = (
+    automationId: AutomationId,
+    requirementKey: string,
+  ) => {
     if (!progress || !currentStep || !canInteractWithRequirements) {
       return;
     }
@@ -448,9 +484,9 @@ export function useDashboardScreen(
       return;
     }
 
-    const requirementProgress = progress.steps
-      .find(step => step.stepId === currentStep.id)
-      ?.requirements[label];
+    const requirementProgress = progress.steps.find(
+      step => step.stepId === currentStep.id,
+    )?.requirements[label];
 
     const appointment =
       requirementProgress?.source?.type === 'automation'
@@ -518,7 +554,10 @@ export function useDashboardScreen(
     showToast(tDashboard('devMarkAsBookedSuccess'));
   };
 
-  const onDevConfirmFormPress = async (formId: string, requirementKey: string) => {
+  const onDevConfirmFormPress = async (
+    formId: string,
+    requirementKey: string,
+  ) => {
     if (!__DEV__ || !currentStep || !progress || !canInteractWithRequirements) {
       return;
     }
@@ -540,8 +579,8 @@ export function useDashboardScreen(
     showToast(tDashboard('devFormConfirmedSuccess'));
   };
 
-  const onFormPress = (formId: string, requirementKey: string) => {
-    if (!currentStep || !progress || !canInteractWithRequirements) {
+  const confirmFormRequirement = (formId: string, requirementKey: string) => {
+    if (!currentStep || !progress) {
       return;
     }
 
@@ -566,12 +605,52 @@ export function useDashboardScreen(
         {
           text: tCommon('actions.confirm'),
           onPress: async () => {
-            await completeFormRequirement(currentStep.id, requirementKey, formId);
-            showToast(tDashboard('formConfirmed'));
+            try {
+              await completeFormRequirement(
+                currentStep.id,
+                requirementKey,
+                formId,
+              );
+              showToast(tDashboard('formConfirmed'));
+            } catch (formError) {
+              showAlert(
+                tCommon('errors.title'),
+                formError instanceof Error
+                  ? formError.message
+                  : tCommon('errors.generic'),
+              );
+            }
           },
         },
       ],
     );
+  };
+
+  const onFormPress = async (formId: string, requirementKey: string) => {
+    if (!currentStep || !progress || !canInteractWithRequirements) {
+      return;
+    }
+
+    if (formId !== 'ex-17') {
+      confirmFormRequirement(formId, requirementKey);
+      return;
+    }
+
+    try {
+      const profileData = await getProfile();
+      const generatedFile = await saveEx17Pdf(
+        mapProfileToEx17Data(profileData),
+      );
+      await shareGeneratedPdf(generatedFile);
+      confirmFormRequirement(formId, requirementKey);
+    } catch (formError) {
+      showAlert(
+        tCommon('errors.title'),
+        formError instanceof Error
+          ? formError.message
+          : tCommon('errors.generic'),
+      );
+    }
   };
 
   const isLoading = isStepsLoading || isProgressLoading;
