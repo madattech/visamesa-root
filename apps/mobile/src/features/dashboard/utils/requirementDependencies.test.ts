@@ -47,6 +47,60 @@ describe('requirementDependencies', () => {
     ).toBe(false);
   });
 
+  it('blocks appointment booking until passport and proof are done', () => {
+    const progress = createUserProgress({
+      steps: [
+        {
+          stepId: 1,
+          status: 'in_progress',
+          requirements: {
+            'passport-nie': {completed: true, source: {type: 'self_declared'}},
+            'proof-of-residence': {completed: false},
+            'appointment-confirmation': {completed: false},
+            'attend-ayuntamiento': {completed: false},
+          },
+        },
+      ],
+    });
+
+    expect(
+      getRequirementToggleState(
+        progress,
+        step1,
+        'appointment-confirmation',
+        emptyContext,
+        steps,
+      ).canUseActions,
+    ).toBe(false);
+  });
+
+  it('allows appointment booking when passport and proof are done', () => {
+    const progress = createUserProgress({
+      steps: [
+        {
+          stepId: 1,
+          status: 'in_progress',
+          requirements: {
+            'passport-nie': {completed: true, source: {type: 'self_declared'}},
+            'proof-of-residence': {completed: true, source: {type: 'self_declared'}},
+            'appointment-confirmation': {completed: false},
+            'attend-ayuntamiento': {completed: false},
+          },
+        },
+      ],
+    });
+
+    expect(
+      getRequirementToggleState(
+        progress,
+        step1,
+        'appointment-confirmation',
+        emptyContext,
+        steps,
+      ).canUseActions,
+    ).toBe(true);
+  });
+
   it('allows attend when dependencies are complete', () => {
     const progress = createUserProgress({
       steps: [

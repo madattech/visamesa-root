@@ -1,3 +1,4 @@
+import {isEmpadronamientoCertificateValid} from '@visamesa/content/tieSteps/detail';
 import {z} from 'zod';
 
 import type {FormField, FormSchema} from '../types/formTypes';
@@ -89,6 +90,32 @@ function validateRequiredFieldValue(
   }
 }
 
+function validateEmpadronamientoIssuedAt(
+  field: FormField,
+  data: Record<string, unknown>,
+  ctx: z.RefinementCtx,
+  translate?: FormTranslateFn,
+) {
+  if (field.id !== 'empadronamientoIssuedAt' || !isFieldVisible(field, data)) {
+    return;
+  }
+
+  const issuedAt = data[field.id];
+
+  const isExpiredCertificate =
+    typeof issuedAt === 'string' &&
+    issuedAt.length > 0 &&
+    !isEmpadronamientoCertificateValid(issuedAt);
+
+  if (isExpiredCertificate) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: [field.id],
+      message: translate?.('validation.empadronamientoCertificateExpired'),
+    });
+  }
+}
+
 export const generateZodSchema = (
   schema: FormSchema,
   translate?: FormTranslateFn,
@@ -106,15 +133,11 @@ export const generateZodSchema = (
 
   return z.object(schemaFields).superRefine((data, ctx) => {
     schema.fields.forEach(field => {
-      if (!field.required || !field.dependsOn) {
-        return;
+      if (field.required && field.dependsOn && isFieldVisible(field, data)) {
+        validateRequiredFieldValue(field, data[field.id], ctx, translate);
       }
 
-      if (!isFieldVisible(field, data)) {
-        return;
-      }
-
-      validateRequiredFieldValue(field, data[field.id], ctx, translate);
+      validateEmpadronamientoIssuedAt(field, data, ctx, translate);
     });
   });
 };

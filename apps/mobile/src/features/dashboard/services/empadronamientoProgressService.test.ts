@@ -72,4 +72,33 @@ describe('empadronamientoProgressService', () => {
         ?.completed,
     ).toBe(true);
   });
+
+  it('preserves user-completed step when profile has no empadronamiento', async () => {
+    const progress = createUserProgress({
+      steps: [
+        {
+          stepId: 1,
+          status: 'completed',
+          completedAt: new Date().toISOString(),
+          requirements: {
+            'passport-nie': {completed: true, source: {type: 'self_declared'}},
+            'attend-ayuntamiento': {completed: true, source: {type: 'self_declared'}},
+          },
+        },
+      ],
+    });
+    const profile: ProfileData = {
+      personal: {
+        hasEmpadronamiento: 'no',
+      },
+    };
+
+    const synced = await syncEmpadronamientoStepFromProfile(progress, profile);
+
+    expect(synced.steps.find(step => step.stepId === 1)?.status).toBe('completed');
+    expect(
+      synced.steps.find(step => step.stepId === 1)?.requirements['passport-nie']
+        ?.completed,
+    ).toBe(true);
+  });
 });

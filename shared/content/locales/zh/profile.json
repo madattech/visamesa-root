@@ -25,6 +25,11 @@
     "accepting": "保存中…",
     "recordFailed": "无法记录您的同意，请重试。"
   },
+  "empadronamientoValidityDialog": {
+    "title": "证书日期过旧",
+    "message": "办理 TIE 时，empadronamiento 证书必须在最近 90 天内签发。",
+    "changeDate": "更改日期"
+  },
   "legalDocument": {
     "hubIntro": "请在应用内阅读并接受以下文件。服务免责声明和官方政府信息来源已包含在服务条款中。",
     "acceptPrivacy": "我接受隐私政策",

@@ -6,7 +6,8 @@
   "validation": {
     "required": "{{label}} es obligatorio.",
     "invalidFormat": "Formato no válido. Revisa los requisitos del campo.",
-    "reviewForm": "Hay campos que corregir. Revisa el formulario de arriba."
+    "reviewForm": "Hay campos que corregir. Revisa el formulario de arriba.",
+    "empadronamientoCertificateExpired": "El certificado de empadronamiento debe haberse emitido en los últimos 90 días."
   },
   "phone": {
     "countryCode": "Código",

@@ -6,7 +6,8 @@
   "validation": {
     "required": "必须填写{{label}}。",
     "invalidFormat": "格式无效。请检查输入要求。",
-    "reviewForm": "部分字段需要修正。请检查上方表单。"
+    "reviewForm": "部分字段需要修正。请检查上方表单。",
+    "empadronamientoCertificateExpired": "empadronamiento 证书必须在最近 90 天内签发。"
   },
   "phone": {
     "countryCode": "区号",

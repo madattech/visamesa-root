@@ -8,6 +8,7 @@ const empadronamientoRequirements: RequirementManifest[] = [
     type: 'automation',
     location: 'in_app',
     automationId: 'empadronamiento',
+    dependsOnKeys: ['passport-nie', 'proof-of-residence'],
   },
   {
     key: 'attend-ayuntamiento',

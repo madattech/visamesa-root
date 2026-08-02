@@ -20,6 +20,7 @@ type RequirementItemProps = {
   canCheck?: boolean;
   canUncheck?: boolean;
   showDocumentActions?: boolean;
+  canUseActions?: boolean;
   onRequirementCheckboxToggle?: () => void;
   onAutomationPress?: () => void;
   onViewAppointmentPress?: () => void;
@@ -38,6 +39,7 @@ export function RequirementItem({
   canCheck = true,
   canUncheck = true,
   showDocumentActions = false,
+  canUseActions,
   onRequirementCheckboxToggle,
   onAutomationPress,
   onViewAppointmentPress,
@@ -70,7 +72,18 @@ export function RequirementItem({
     canUncheck;
   const showBookAction = !completed && requirement.type === 'automation';
   const showFormAction = !completed && requirement.type === 'form';
-  const actionsEnabled = interactive;
+  const canPerformActions =
+    requirement.type === 'automation' || requirement.type === 'form'
+      ? (canUseActions ?? false)
+      : true;
+  const actionsEnabled = interactive && canPerformActions;
+  const dependencyHint =
+    canPerformActions || !interactive ? undefined : t('requirementDependencyHint');
+  const showDisabledHint =
+    Boolean(dependencyHint) &&
+    !actionsEnabled &&
+    interactive &&
+    (showBookAction || showFormAction);
   const hasAppointmentAction = requirement.type === 'automation' && completed;
 
   const handleShareDocument = async () => {
@@ -153,6 +166,11 @@ export function RequirementItem({
       {titleRow}
       {showBookAction ? (
         <View style={styles.actionGroup}>
+          {showDisabledHint ? (
+            <Text variant="bodySmall" color="onSurfaceVariant" style={styles.actionHint}>
+              {dependencyHint}
+            </Text>
+          ) : null}
           <Button
             label={t('bookViaVisaMesa')}
             variant="primary"
@@ -161,6 +179,7 @@ export function RequirementItem({
             accessibilityLabel={t('bookAccessibilityLabel', {
               label: requirement.label,
             })}
+            accessibilityHint={dependencyHint}
             style={styles.actionButtonNested}
           />
           {__DEV__ && onDevMarkAutomationBookedPress ? (
@@ -179,6 +198,11 @@ export function RequirementItem({
       ) : null}
       {showFormAction ? (
         <View style={styles.actionGroup}>
+          {showDisabledHint ? (
+            <Text variant="bodySmall" color="onSurfaceVariant" style={styles.actionHint}>
+              {dependencyHint}
+            </Text>
+          ) : null}
           <Button
             label={t('reviewForm')}
             variant="primary"
@@ -187,6 +211,7 @@ export function RequirementItem({
             accessibilityLabel={t('reviewAccessibilityLabel', {
               label: requirement.label,
             })}
+            accessibilityHint={dependencyHint}
             style={styles.actionButtonNested}
           />
           {__DEV__ && onDevConfirmFormPress ? (
@@ -275,6 +300,9 @@ const stylesheet = createStyleSheet(theme => ({
     gap: theme.spacing.sm,
     marginLeft: theme.sizes.icon.lg + theme.spacing.sm,
     marginTop: theme.spacing.sm,
+  },
+  actionHint: {
+    lineHeight: 18,
   },
   completedActions: {
     alignSelf: 'stretch',

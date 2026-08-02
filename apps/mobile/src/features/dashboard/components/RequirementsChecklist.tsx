@@ -19,6 +19,7 @@ export type RequirementWithProgress = Requirement & {
   canCheck?: boolean;
   canUncheck?: boolean;
   showDocumentActions?: boolean;
+  canUseActions?: boolean;
 };
 
 type RequirementsChecklistProps = {
@@ -99,6 +100,7 @@ export function RequirementsChecklist({
                 canCheck={requirement.canCheck}
                 canUncheck={requirement.canUncheck}
                 showDocumentActions={requirement.showDocumentActions}
+                canUseActions={requirement.canUseActions}
                 onRequirementCheckboxToggle={() =>
                   onRequirementCheckboxToggle(requirement.key)
                 }
