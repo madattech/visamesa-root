@@ -11,7 +11,6 @@ import {DetailLinkRow} from '@/components/ui/DetailLinkRow';
 import {Text} from '@/components/ui/Text';
 import {DashboardHeader} from '@/features/dashboard/components/DashboardHeader';
 import {PrerequisitesDialog} from '@/features/dashboard/components/PrerequisitesDialog';
-import {DashboardUnauthenticated} from '@/features/dashboard/components/DashboardUnauthenticated';
 import {RequirementsChecklist} from '@/features/dashboard/components/RequirementsChecklist';
 import {StepActionFooter} from '@/features/dashboard/components/StepActionFooter';
 import {useDashboardScreen} from '@/features/dashboard/hooks/useDashboardScreen';
@@ -33,7 +32,6 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
   const tabBarInset = useTabBarInset();
   const {
     isAuthLoading,
-    isAuthenticated,
     isLoading,
     error,
     steps,
@@ -49,7 +47,6 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     canStartProcess,
     readinessMissing,
     showPrerequisitesDialog,
-    onSignInPress,
     onStepPress,
     onStepDetailPress,
     onCompleteStep,
@@ -64,20 +61,12 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onGoToProfilePress,
   } = useDashboardScreen(navigation);
 
-  if (isAuthLoading || (isAuthenticated && isLoading)) {
+  if (isAuthLoading || isLoading) {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
         <View style={styles.centered}>
           <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
-      </SafeAreaView>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return (
-      <SafeAreaView style={styles.container} edges={['top']}>
-        <DashboardUnauthenticated onSignInPress={onSignInPress} />
       </SafeAreaView>
     );
   }

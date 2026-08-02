@@ -1,15 +1,13 @@
 import {useMemo, useState} from 'react';
-import {useTranslation} from 'react-i18next';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 
-import {useAppDialog} from '@/contexts/AppDialogContext';
-import {useAuth} from '@/contexts/AuthContext';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {TieStepDetail} from '@/features/home/types/TieStepDetail';
+import {useProcessReadiness} from '@/hooks/useProcessReadiness';
+import {usePrerequisitesDialog} from '@/hooks/usePrerequisitesDialog';
 import {HomeStackParamList} from '@/navigation/types';
 import {configureLayoutAnimation} from '@/utils/layoutAnimation';
 import {navigateToDashboard} from '@/navigation/navigationRef';
-import {usePricingLink} from '@/hooks/usePricingLink';
 
 const DEFAULT_STEP_ID = 1;
 
@@ -27,18 +25,25 @@ export type UseHomeScreenResult = {
   onStepPress: (stepId: number) => void;
   onPrimaryPress: () => void;
   onSecondaryPress: () => void;
+  showPrerequisitesDialog: boolean;
+  readinessMissing: ReturnType<typeof useProcessReadiness>['missing'];
+  onClosePrerequisitesDialog: () => void;
+  onGoToProfilePress: () => void;
 };
 
 export function useHomeScreen(
   navigation: HomeScreenNavigation,
 ): UseHomeScreenResult {
   const {steps, isLoading, error} = useTieSteps();
-  const {user} = useAuth();
-  const {openPricing} = usePricingLink();
-  const {showAlert} = useAppDialog();
-  const {t} = useTranslation('home');
-  const {t: tCommon} = useTranslation('common');
   const [activeStepId, setActiveStepId] = useState(DEFAULT_STEP_ID);
+  const {canStartProcess, missing: readinessMissing, refreshReadiness} =
+    useProcessReadiness();
+  const {
+    visible: showPrerequisitesDialog,
+    openDialog: openPrerequisitesDialog,
+    closeDialog: onClosePrerequisitesDialog,
+    onGoToProfilePress,
+  } = usePrerequisitesDialog(refreshReadiness);
 
   const activeStep = useMemo(
     () => steps.find(step => step.id === activeStepId),
@@ -51,15 +56,8 @@ export function useHomeScreen(
   };
 
   const onPrimaryPress = () => {
-    if (!user) {
-      showAlert(
-        t('getServiceDialog.title'),
-        t('getServiceDialog.message'),
-        [
-          {text: tCommon('actions.cancel'), style: 'cancel'},
-          {text: tCommon('actions.continue'), onPress: () => { openPricing().catch(() => {}); }},
-        ],
-      );
+    if (!canStartProcess) {
+      openPrerequisitesDialog();
       return;
     }
 
@@ -79,5 +77,9 @@ export function useHomeScreen(
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
+    showPrerequisitesDialog,
+    readinessMissing,
+    onClosePrerequisitesDialog,
+    onGoToProfilePress,
   };
 }

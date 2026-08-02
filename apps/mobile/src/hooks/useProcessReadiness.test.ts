@@ -34,6 +34,25 @@ const mockUseProfileCompletion = useProfileCompletion as jest.MockedFunction<
 const mockUseConsent = useConsent as jest.MockedFunction<typeof useConsent>;
 const mockRefreshConsent = jest.fn().mockResolvedValue(true);
 
+function mockConsent(
+  overrides: Partial<ReturnType<typeof useConsent>> = {},
+): ReturnType<typeof useConsent> {
+  return {
+    hasConsent: true,
+    hasPrivacyConsent: true,
+    hasTermsConsent: true,
+    consentStatus: {
+      privacyPolicy: true,
+      termsOfService: true,
+      privacyAcceptedAt: null,
+      termsAcceptedAt: null,
+    },
+    isLoading: false,
+    refreshConsent: mockRefreshConsent,
+    ...overrides,
+  };
+}
+
 async function renderProcessReadiness() {
   const getHookState = renderHook(() => useProcessReadiness());
   await flushAsyncEffects();
@@ -48,11 +67,7 @@ describe('useProcessReadiness', () => {
       user: {id: 'test-user'},
     } as never);
 
-    mockUseConsent.mockReturnValue({
-      hasConsent: true,
-      isLoading: false,
-      refreshConsent: mockRefreshConsent,
-    });
+    mockUseConsent.mockReturnValue(mockConsent());
   });
 
   it('returns canStartProcess false when payment is missing', async () => {
@@ -105,11 +120,7 @@ describe('useProcessReadiness', () => {
       refreshCompletion: jest.fn(),
     } as never);
 
-    mockUseConsent.mockReturnValue({
-      hasConsent: false,
-      isLoading: false,
-      refreshConsent: mockRefreshConsent,
-    });
+    mockUseConsent.mockReturnValue(mockConsent({hasConsent: false}));
 
     const getHookState = await renderProcessReadiness();
 
@@ -129,11 +140,7 @@ describe('useProcessReadiness', () => {
       refreshCompletion: jest.fn(),
     } as never);
 
-    mockUseConsent.mockReturnValue({
-      hasConsent: false,
-      isLoading: false,
-      refreshConsent: mockRefreshConsent,
-    });
+    mockUseConsent.mockReturnValue(mockConsent({hasConsent: false}));
 
     const getHookState = await renderProcessReadiness();
 
@@ -181,11 +188,7 @@ describe('useProcessReadiness', () => {
       refreshCompletion,
     } as never);
 
-    mockUseConsent.mockReturnValue({
-      hasConsent: true,
-      isLoading: false,
-      refreshConsent: mockRefreshConsent,
-    });
+    mockUseConsent.mockReturnValue(mockConsent());
 
     const getHookState = await renderProcessReadiness();
 

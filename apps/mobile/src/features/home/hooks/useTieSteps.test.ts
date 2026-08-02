@@ -1,6 +1,6 @@
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
-import {renderHookAsync} from '@/test/renderHook';
+import {renderHookAsync, unmountRenderedHook} from '@/test/renderHook';
 
 jest.mock('@/features/home/services/tieStepsService', () => ({
   fetchTieSteps: jest.fn(),
@@ -15,6 +15,7 @@ const {fetchTieSteps} = jest.requireMock(
 describe('useTieSteps', () => {
   afterEach(() => {
     jest.resetAllMocks();
+    unmountRenderedHook();
   });
 
   it('loads steps from the service', async () => {

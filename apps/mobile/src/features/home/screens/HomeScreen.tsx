@@ -11,6 +11,7 @@ import {Text} from '@/components/ui/Text';
 import {HeroSection} from '@/features/home/components/HeroSection';
 import {StepOverview} from '@/features/home/components/StepOverview';
 import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
+import {PrerequisitesDialog} from '@/features/dashboard/components/PrerequisitesDialog';
 import {ServiceDisclaimerShort} from '@/features/legal/components/ServiceDisclaimerShort';
 import {HomeStackParamList} from '@/navigation/types';
 import {useTabBarInset} from '@/navigation/useTabBarInset';
@@ -33,6 +34,10 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
     onStepPress,
     onPrimaryPress,
     onSecondaryPress,
+    showPrerequisitesDialog,
+    readinessMissing,
+    onClosePrerequisitesDialog,
+    onGoToProfilePress,
   } = useHomeScreen(navigation);
 
   return (
@@ -82,6 +87,12 @@ const HomeScreen = ({navigation}: HomeScreenProps) => {
           </View>
         </View>
       )}
+      <PrerequisitesDialog
+        visible={showPrerequisitesDialog}
+        missing={readinessMissing}
+        onClose={onClosePrerequisitesDialog}
+        onGoToProfile={onGoToProfilePress}
+      />
     </SafeAreaView>
   );
 };

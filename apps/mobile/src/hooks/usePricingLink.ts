@@ -1,6 +1,7 @@
 import {WEBSITE_PRICING_URL} from '@/config/website';
 import {useToast} from '@/components/Toast/ToastProvider';
 import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
+import {i18n} from '@visamesa/content/i18n';
 
 const APP_CHECKOUT_SOURCE = 'source=app';
 
@@ -18,7 +19,7 @@ export function usePricingLink(): UsePricingLinkResult {
   const openWebsitePricing = async (pricingUrl: string) => {
     const opened = await openWebsiteUrl(pricingUrl);
     if (!opened) {
-      showToast('Unable to open the VisaMesa website');
+      showToast(i18n.t('errors.openWebsite', {ns: 'common'}));
     }
   };
 

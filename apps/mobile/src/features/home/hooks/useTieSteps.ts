@@ -47,7 +47,11 @@ export function useTieSteps(): UseTieStepsResult {
       })
       .catch(err => {
         if (!cancelled) {
-          setError(err instanceof Error ? err : new Error('Failed to load steps'));
+          setError(
+            err instanceof Error
+              ? err
+              : new Error(i18n.t('loadStepsFailed', {ns: 'home'})),
+          );
           setIsLoading(false);
         }
       });

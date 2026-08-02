@@ -1,42 +1,19 @@
 import {act} from 'react';
-import {Linking} from 'react-native';
 
 import {useHomeScreen} from '@/features/home/hooks/useHomeScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
 import {HomeStackParamList} from '@/navigation/types';
 import {createMockNavigation} from '@/test/navigation';
-import {renderHook} from '@/test/renderHook';
+import {flushAsyncEffects, renderHook} from '@/test/renderHook';
 
-const mockShowToast = jest.fn();
-const mockShowAlert = jest.fn();
-
-jest.mock('@/contexts/AppDialogContext', () => ({
-  useAppDialog: () => ({
-    showAlert: mockShowAlert,
-    showDialog: jest.fn(),
-    closeDialog: jest.fn(),
-  }),
-  AppDialogProvider: ({children}: {children: React.ReactNode}) => children,
-}));
+const mockRefreshReadiness = jest.fn(() => Promise.resolve());
 
 jest.mock('@/features/home/hooks/useTieSteps', () => ({
   useTieSteps: jest.fn(),
 }));
 
-jest.mock('@/components/Toast/ToastProvider', () => ({
-  useToast: () => ({
-    showToast: mockShowToast,
-  }),
-}));
-
-jest.mock('@/hooks/usePricingLink', () => ({
-  usePricingLink: () => ({
-    openPricing: jest.fn(),
-  }),
-}));
-
-jest.mock('@/contexts/AuthContext', () => ({
-  useAuth: jest.fn(),
+jest.mock('@/hooks/useProcessReadiness', () => ({
+  useProcessReadiness: jest.fn(),
 }));
 
 jest.mock('@/navigation/navigationRef', () => ({
@@ -47,8 +24,10 @@ const {useTieSteps} = jest.requireMock('@/features/home/hooks/useTieSteps') as {
   useTieSteps: jest.Mock;
 };
 
-const {useAuth} = jest.requireMock('@/contexts/AuthContext') as {
-  useAuth: jest.Mock;
+const {useProcessReadiness} = jest.requireMock(
+  '@/hooks/useProcessReadiness',
+) as {
+  useProcessReadiness: jest.Mock;
 };
 
 const {navigateToDashboard} = jest.requireMock('@/navigation/navigationRef') as {
@@ -57,23 +36,19 @@ const {navigateToDashboard} = jest.requireMock('@/navigation/navigationRef') as 
 
 describe('useHomeScreen', () => {
   beforeEach(() => {
-    mockShowToast.mockReset();
-    mockShowAlert.mockReset();
     navigateToDashboard.mockReset();
-    jest.spyOn(Linking, 'canOpenURL').mockResolvedValue(true);
-    jest.spyOn(Linking, 'openURL').mockResolvedValue(undefined);
+    mockRefreshReadiness.mockReset();
+    mockRefreshReadiness.mockResolvedValue(undefined);
     useTieSteps.mockReturnValue({
       steps: createTieSteps(6),
       isLoading: false,
       error: null,
     });
-    useAuth.mockReturnValue({
-      user: {id: 'user-1', email: 'test@example.com'},
+    useProcessReadiness.mockReturnValue({
+      canStartProcess: true,
+      missing: [],
+      refreshReadiness: mockRefreshReadiness,
     });
-  });
-
-  afterEach(() => {
-    jest.restoreAllMocks();
   });
 
   it('defaults to step 1 and updates the active step', () => {
@@ -91,7 +66,7 @@ describe('useHomeScreen', () => {
     expect(getHookState().activeStep?.id).toBe(2);
   });
 
-  it('navigates to dashboard for signed-in users', async () => {
+  it('navigates to dashboard when prerequisites are complete', async () => {
     const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
 
@@ -100,20 +75,27 @@ describe('useHomeScreen', () => {
     });
 
     expect(navigateToDashboard).toHaveBeenCalled();
-    expect(Linking.openURL).not.toHaveBeenCalled();
+    expect(getHookState().showPrerequisitesDialog).toBe(false);
   });
 
-  it('prompts unsigned users before opening the pricing website', () => {
-    useAuth.mockReturnValue({user: null});
+  it('shows prerequisites dialog when prerequisites are incomplete', async () => {
+    useProcessReadiness.mockReturnValue({
+      canStartProcess: false,
+      missing: ['personalInformation', 'legalPrivacy', 'payment'],
+      refreshReadiness: mockRefreshReadiness,
+    });
+
     const navigation = createMockNavigation<HomeStackParamList, 'Home'>();
     const getHookState = renderHook(() => useHomeScreen(navigation));
+    await flushAsyncEffects();
 
     act(() => {
       getHookState().onPrimaryPress();
     });
 
-    expect(mockShowAlert).toHaveBeenCalled();
     expect(navigateToDashboard).not.toHaveBeenCalled();
+    expect(getHookState().showPrerequisitesDialog).toBe(true);
+    expect(mockRefreshReadiness).toHaveBeenCalledTimes(1);
   });
 
   it('navigates to the process overview screen from the secondary action', () => {

@@ -3,7 +3,7 @@ import {RouteProp} from '@react-navigation/native';
 import {useDashboardStepDetailScreen} from '@/features/dashboard/hooks/useDashboardStepDetailScreen';
 import {createTieSteps} from '@/test/fixtures/tieSteps';
 import {DashboardStackParamList} from '@/navigation/types';
-import {renderHookAsync} from '@/test/renderHook';
+import {renderHookAsync, unmountRenderedHook} from '@/test/renderHook';
 
 jest.mock('@/features/home/hooks/useTieSteps', () => ({
   useTieSteps: jest.fn(),
@@ -23,6 +23,7 @@ const createRoute = (stepId: number): RouteProp<DashboardStackParamList, 'StepDe
 describe('useDashboardStepDetailScreen', () => {
   afterEach(() => {
     jest.resetAllMocks();
+    unmountRenderedHook();
   });
 
   it('returns the requested step when loaded', async () => {
