@@ -1,6 +1,7 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Controller, useFormContext} from 'react-hook-form';
+import {useTranslation} from 'react-i18next';
 import {createStyleSheet, useStyles} from 'react-native-unistyles';
 
 import {Text} from '@/components/ui/Text';
@@ -14,6 +15,7 @@ type Props = {
 export function PhoneInputField({field}: Props) {
   const {styles} = useStyles(stylesheet);
   const {control, formState} = useFormContext();
+  const {t} = useTranslation('forms');
   const rootError = formState.errors[field.id]?.message as string | undefined;
 
   return (
@@ -27,7 +29,7 @@ export function PhoneInputField({field}: Props) {
           name={`${field.id}.countryCode`}
           render={({field: countryField}) => (
             <TextField
-              label="Code"
+              label={t('phone.countryCode')}
               value={String(countryField.value ?? '')}
               onChangeText={countryField.onChange}
               onBlur={countryField.onBlur}
@@ -42,7 +44,7 @@ export function PhoneInputField({field}: Props) {
           name={`${field.id}.number`}
           render={({field: numberField}) => (
             <TextField
-              label="Number"
+              label={t('phone.number')}
               value={String(numberField.value ?? '')}
               onChangeText={numberField.onChange}
               onBlur={numberField.onBlur}
