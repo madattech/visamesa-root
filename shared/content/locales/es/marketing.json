@@ -41,20 +41,29 @@
     "appStoreEyebrow": "Descargar en",
     "appStoreName": "App Store",
     "googlePlayEyebrow": "Disponible en",
-    "googlePlayName": "Google Play"
+    "googlePlayName": "Google Play",
+    "preLaunch": {
+      "title": "App próximamente",
+      "lead": "Únete a la lista de espera para recibir aviso cuando lancemos las apps de iOS y Android."
+    }
   },
   "closingCta": {
     "title": "¿Listo para empezar?",
-    "lead": "Completa el pago en nuestra web y continúa en la app móvil."
+    "lead": "Completa el pago en nuestra web y continúa en la app móvil.",
+    "preLaunch": {
+      "title": "¿Listo para empezar?",
+      "lead": "Únete a nuestra lista de espera para acceder antes cuando VisaMesa se lance."
+    }
   },
   "cta": {
     "getService": "Contratar servicio VisaMesa",
-    "getServiceShort": "Contratar servicio"
+    "getServiceShort": "Contratar servicio",
+    "joinWaitlist": "Unirme a la lista de espera"
   },
   "signInHint": "Usa la misma cuenta de Google que usarás en la app móvil.",
   "seo": {
     "homeTitle": "VisaMesa — Asistencia con el TIE en Barcelona",
-    "homeDescription": "VisaMesa ayuda a estudiantes en Barcelona a gestionar el proceso del TIE con pasos guiados, preparación de documentos y automatización opcional de citas. No es asesoramiento legal.",
+    "homeDescription": "Únete a la lista de espera de VisaMesa para acceso anticipado. Ayudamos a estudiantes en Barcelona con el proceso del TIE: pasos guiados, preparación de documentos y automatización opcional de citas. No es asesoramiento legal.",
     "pricingTitle": "Paga tu tarifa de servicio — VisaMesa",
     "pricingDescription": "Paga tu tarifa de servicio VisaMesa (€{{price}}) para el proceso del TIE de estudiante en Barcelona. Pago único y luego usa la app móvil con la misma cuenta de Google.",
     "privacyTitle": "Política de privacidad — VisaMesa",

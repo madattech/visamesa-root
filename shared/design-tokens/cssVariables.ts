@@ -97,6 +97,15 @@ function layoutVariables() {
   ].join('\n  ')
 }
 
+/** Form field tokens aligned with mobile TextField (label → control → error). */
+function formVariables() {
+  return [
+    `--form-field-gap: ${spacing.xs}px;`,
+    `--form-error-min-height: ${typography.bodySmall.lineHeight}px;`,
+    `--form-control-min-height: 48px;`,
+  ].join('\n  ')
+}
+
 export function createThemeCssVariables() {
   return `:root {
   ${colorVariables('vm', lightColors)}
@@ -107,6 +116,7 @@ export function createThemeCssVariables() {
   ${elevationVariables()}
   ${breakpointVariables()}
   ${layoutVariables()}
+  ${formVariables()}
   --gutter: ${spacing.xl}px;
   --font-family: 'Plus Jakarta Sans', 'Noto Sans SC', system-ui, -apple-system, sans-serif;
 }`

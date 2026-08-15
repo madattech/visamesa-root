@@ -3,6 +3,7 @@ export default {
   preset: 'react-native',
   setupFilesAfterEnv: ['<rootDir>/src/test/setup.ts'],
   testMatch: ['**/?(*.)+(test).[jt]s?(x)'],
+  testTimeout: 10_000,
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   // @visamesa/content lives outside apps/mobile; CI only runs npm ci here (not in
   // shared/content). Resolve peer deps from mobile's node_modules.

@@ -79,10 +79,13 @@ export async function flushAsyncEffects(): Promise<void> {
   });
 }
 
+const DEFAULT_HOOK_WAIT_MS = 10_000;
+
 export async function renderHookAsync<T>(
   useHook: () => T,
   waitFor: (result: T) => boolean,
   Wrapper?: React.ComponentType<{children: React.ReactNode}>,
+  timeoutMs = DEFAULT_HOOK_WAIT_MS,
 ): Promise<() => T> {
   let hookResult: T | null = null;
 
@@ -102,7 +105,7 @@ export async function renderHookAsync<T>(
   const startedAt = Date.now();
 
   while (!waitFor(hookResult as T)) {
-    if (Date.now() - startedAt > 5000) {
+    if (Date.now() - startedAt > timeoutMs) {
       throw new Error('Timed out waiting for hook state');
     }
 

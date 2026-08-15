@@ -31,6 +31,7 @@ async function mountUserProgress() {
 describe('useUserProgress', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    progressService.fetchUserProgress.mockResolvedValue(createUserProgress());
   });
 
   afterEach(() => {

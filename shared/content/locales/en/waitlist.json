@@ -1,0 +1,55 @@
+{
+  "hero": {
+    "label": "Email address",
+    "placeholder": "Enter your email",
+    "cta": "Join the waitlist",
+    "submitting": "Joining...",
+    "orDivider": "or"
+  },
+  "section": {
+    "title": "Be the first to know",
+    "subtitle": "Join our waitlist for early access when VisaMesa launches. We will guide you through every step of the Barcelona TIE process.",
+    "privacy": "We respect your privacy. Unsubscribe anytime. See our <privacyLink>Privacy Policy</privacyLink>."
+  },
+  "thankYou": {
+    "title": "You're on the list!",
+    "subtitle": "Check your inbox and confirm your email to secure your spot.",
+    "seoTitle": "Waitlist confirmation — VisaMesa",
+    "seoDescription": "Thanks for joining the VisaMesa waitlist. Confirm your email to get launch updates.",
+    "feedback": {
+      "title": "One quick question",
+      "question": "What is your biggest frustration with applying for your visa or TIE?",
+      "placeholder": "Tell us about your experience...",
+      "submit": "Submit feedback",
+      "submitting": "Submitting...",
+      "skip": "Skip for now",
+      "thanks": "Thanks for sharing — this helps us build what you need."
+    }
+  },
+  "confirm": {
+    "title": "Email confirmed",
+    "success": "Your email is confirmed. We'll notify you when VisaMesa launches.",
+    "alreadyConfirmed": "Your email was already confirmed. You're all set.",
+    "error": "This confirmation link is invalid or has expired.",
+    "seoTitle": "Confirm waitlist email — VisaMesa",
+    "seoDescription": "Confirm your VisaMesa waitlist signup.",
+    "backHome": "Back to home"
+  },
+  "form": {
+    "label": "Email address"
+  },
+  "errors": {
+    "invalid": "Please enter a valid email address",
+    "exists": "This email is already on our waitlist",
+    "failed": "Something went wrong. Please try again.",
+    "feedbackFailed": "Could not save your feedback. You can try again later."
+  },
+  "email": {
+    "subject": "Confirm your VisaMesa waitlist signup",
+    "preview": "Confirm your email to join the VisaMesa waitlist",
+    "greeting": "Thanks for joining the VisaMesa waitlist!",
+    "body": "Tap the button below to confirm your email and secure your spot for early access.",
+    "cta": "Confirm my email",
+    "footer": "If you did not sign up, you can ignore this email."
+  }
+}

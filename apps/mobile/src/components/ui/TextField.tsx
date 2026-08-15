@@ -59,11 +59,13 @@ export function TextField({
           !editable && styles.inputDisabled,
         ]}
       />
-      {error ? (
-        <Text variant="bodySmall" color="error" style={styles.error}>
-          {error}
-        </Text>
-      ) : null}
+      <View style={styles.errorSlot}>
+        {error ? (
+          <Text variant="bodySmall" color="error" style={styles.error}>
+            {error}
+          </Text>
+        ) : null}
+      </View>
     </View>
   );
 }
@@ -103,6 +105,9 @@ const stylesheet = createStyleSheet(theme => ({
     opacity: 0.6,
   },
   error: {
-    marginTop: theme.spacing.xs / 2,
+    marginTop: 0,
+  },
+  errorSlot: {
+    minHeight: theme.typography.bodySmall.lineHeight,
   },
 }));
