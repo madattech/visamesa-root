@@ -16,19 +16,23 @@
     "items": {
       "checklist": {
         "title": "Structured checklist",
-        "description": "Every bureaucratic step mapped out so you always know what comes next."
+        "description": "The official TIE process has six steps — empadronamiento, cita previa, forms, fees, and more — and it's easy to miss one. VisaMesa turns each step into a clear checklist with document lists and plain-language guidance, so you always know what to do next and what you've already finished.",
+        "videoLabel": "App demo: progressing through TIE steps with animated checkmarks"
       },
       "calendar": {
         "title": "Appointment monitoring",
-        "description": "Optional automation watches for high-demand cita previa slots."
+        "description": "Empadronamiento and cita previa slots in Barcelona can vanish in minutes, especially in peak season. With our service, VisaMesa watches the official booking sites from your phone and books when a slot opens — so you're not stuck refreshing pages all day.",
+        "videoLabel": "App demo: appointment monitoring finding available slots"
       },
       "form": {
         "title": "Form pre-fill",
-        "description": "Your profile data is ready in the app when official forms need filling."
+        "description": "Enter your passport, visa, and address once in your encrypted profile. VisaMesa uses those details to pre-fill the EX-17, Modelo 790, and government booking forms — you review, print, and sign knowing nothing was copied wrong.",
+        "videoLabel": "App demo: form fields automatically filled from profile"
       },
       "payment": {
         "title": "One-time service",
-        "description": "Pay once on the website — no App Store subscription fees."
+        "description": "One payment on our website unlocks the full service — step-by-step guidance, form pre-fill, and appointment automation. No App Store subscription or hidden renewals: pay once, sign in with the same Google account in the app, and start your TIE journey.",
+        "videoLabel": "App demo: checkout success and entitlements granted"
       }
     }
   },

@@ -16,19 +16,23 @@
     "items": {
       "checklist": {
         "title": "Lista de tareas estructurada",
-        "description": "Cada paso burocrático está mapeado para que siempre sepas qué toca hacer a continuación."
+        "description": "El trámite oficial del TIE tiene seis pasos — empadronamiento, cita previa, formularios, tasas y más — y es fácil saltarse alguno. VisaMesa convierte cada paso en una lista clara con documentos y explicaciones sencillas, para que siempre sepas qué toca hacer y qué ya has completado.",
+        "videoLabel": "Demo de la app: avance por los pasos del TIE con marcas de completado"
       },
       "calendar": {
         "title": "Monitorización de citas",
-        "description": "La automatización opcional vigila las citas previa de alta demanda."
+        "description": "Las citas de empadronamiento y cita previa en Barcelona se agotan en minutos, sobre todo en temporada alta. Con nuestro servicio, VisaMesa vigila las webs oficiales desde tu móvil y reserva cuando se libera un hueco — sin pasarte el día actualizando páginas.",
+        "videoLabel": "Demo de la app: monitorización de citas encontrando huecos disponibles"
       },
       "form": {
         "title": "Prellenado de formularios",
-        "description": "Los datos de tu perfil están listos en la app cuando toque rellenar formularios oficiales."
+        "description": "Introduce tu pasaporte, visado y dirección una sola vez en tu perfil cifrado. VisaMesa usa esos datos para rellenar el EX-17, el Modelo 790 y los formularios de reserva oficiales — tú revisas, imprimes y firmas con la tranquilidad de que no hay errores de copia.",
+        "videoLabel": "Demo de la app: campos del formulario rellenados automáticamente desde el perfil"
       },
       "payment": {
         "title": "Servicio de pago único",
-        "description": "Paga una sola vez en la web — sin suscripciones de App Store."
+        "description": "Un solo pago en nuestra web desbloquea el servicio completo: guía paso a paso, prellenado de formularios y automatización de citas. Sin suscripción en la App Store ni renovaciones ocultas: pagas una vez, entras con la misma cuenta de Google en la app y empiezas tu trámite del TIE.",
+        "videoLabel": "Demo de la app: pago completado y acceso concedido"
       }
     }
   },

@@ -16,19 +16,23 @@
     "items": {
       "checklist": {
         "title": "结构化清单",
-        "description": "每个行政步骤都有清晰指引，让您始终知道下一步该做什么。"
+        "description": "官方 TIE 流程共有六步——empadronamiento、cita previa、表格、费用等——很容易漏掉某一环。VisaMesa 将每一步拆分为清晰的清单，附文件列表和通俗说明，让您始终知道下一步做什么、哪些已经完成。",
+        "videoLabel": "应用演示：TIE 步骤进度与完成标记动画"
       },
       "calendar": {
         "title": "预约监控",
-        "description": "可选自动化功能会监控紧俏的 cita previa 名额。"
+        "description": "巴塞罗那的 empadronamiento 和 cita previa 名额往往在几分钟内就被抢光，旺季尤其如此。购买服务后，VisaMesa 可在您的手机上监控官方预约网站，有空位时自动预订——无需整天反复刷新页面。",
+        "videoLabel": "应用演示：预约监控查找可用名额"
       },
       "form": {
         "title": "表格预填",
-        "description": "填写官方表格时，您的个人资料已在应用中准备就绪。"
+        "description": "在加密个人资料中一次性填写护照、签证和地址信息。VisaMesa 用这些数据预填 EX-17、Modelo 790 及政府预约表格——您只需核对、打印并签字，不必担心抄错信息。",
+        "videoLabel": "应用演示：根据个人资料自动填写表格字段"
       },
       "payment": {
         "title": "一次性服务",
-        "description": "在网站上一笔付清——无需 App Store 订阅费用。"
+        "description": "在网站上一笔付清即可解锁完整服务：分步指引、表格预填和预约自动化。无需 App Store 订阅，也没有隐藏续费：支付一次，用同一 Google 账户登录应用，即可开始 TIE 办理。",
+        "videoLabel": "应用演示：支付成功并授予访问权限"
       }
     }
   },
