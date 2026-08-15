@@ -41,20 +41,29 @@
     "appStoreEyebrow": "Download on the",
     "appStoreName": "App Store",
     "googlePlayEyebrow": "Get it on",
-    "googlePlayName": "Google Play"
+    "googlePlayName": "Google Play",
+    "preLaunch": {
+      "title": "App coming soon",
+      "lead": "Join the waitlist to be notified when the iOS and Android apps launch."
+    }
   },
   "closingCta": {
     "title": "Ready to get started?",
-    "lead": "Complete checkout on our website and continue in the mobile app."
+    "lead": "Complete checkout on our website and continue in the mobile app.",
+    "preLaunch": {
+      "title": "Ready to get started?",
+      "lead": "Join our waitlist for early access when VisaMesa launches."
+    }
   },
   "cta": {
     "getService": "Get VisaMesa service",
-    "getServiceShort": "Get service"
+    "getServiceShort": "Get service",
+    "joinWaitlist": "Join waitlist"
   },
   "signInHint": "Use the same Google account you will use in the mobile app.",
   "seo": {
     "homeTitle": "VisaMesa — TIE assistance in Barcelona",
-    "homeDescription": "VisaMesa helps students in Barcelona navigate the TIE process with guided steps, document prep, and optional appointment automation. Not legal advice.",
+    "homeDescription": "Join the VisaMesa waitlist for early access. We help students in Barcelona navigate the TIE process with guided steps, document prep, and optional appointment automation. Not legal advice.",
     "pricingTitle": "Pay your service fee — VisaMesa",
     "pricingDescription": "Pay your VisaMesa service fee (€{{price}}) for the Barcelona student TIE process. One-time payment, then use the mobile app with the same Google account.",
     "privacyTitle": "Privacy Policy — VisaMesa",

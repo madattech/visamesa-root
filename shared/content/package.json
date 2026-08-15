@@ -12,9 +12,11 @@
     "./apiErrors": "./apiErrors.ts",
     "./entitlements": "./entitlements.ts",
     "./i18n": "./i18n/index.ts",
+    "./i18n/types": "./i18n/types.ts",
     "./i18n/useTranslation": "./i18n/useTranslation.ts",
     "./tieSteps/detail": "./tieSteps/index.ts",
-    "./processOverview": "./processOverview/index.ts"
+    "./processOverview": "./processOverview/index.ts",
+    "./waitlistEmail": "./waitlistEmailContent.ts"
   },
   "peerDependencies": {
     "i18next": "^26.3.0",

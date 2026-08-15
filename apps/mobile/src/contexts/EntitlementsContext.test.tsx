@@ -2,7 +2,7 @@ import React, {act} from 'react';
 
 import {EntitlementsProvider, useEntitlements} from '@/contexts/EntitlementsContext';
 import {EntitlementType} from '@/types/entitlements';
-import {renderHookAsync, unmountRenderedHook} from '@/test/renderHook';
+import {renderHook, renderHookAsync, unmountRenderedHook} from '@/test/renderHook';
 
 jest.mock('@/contexts/AuthContext', () => ({
   useAuth: jest.fn(),
@@ -81,11 +81,14 @@ describe('EntitlementsContext', () => {
         ],
       });
 
-    const getHookState = await renderHookAsync(
+    const getHookState = renderHook(
       () => useEntitlements(),
-      state => !state.isLoading,
       EntitlementsWrapper,
     );
+
+    await act(async () => {
+      await jest.runAllTimersAsync();
+    });
 
     let resolved = false;
 
@@ -106,11 +109,14 @@ describe('EntitlementsContext', () => {
     jest.useFakeTimers();
     getEntitlements.mockResolvedValue({entitlements: []});
 
-    const getHookState = await renderHookAsync(
+    const getHookState = renderHook(
       () => useEntitlements(),
-      state => !state.isLoading,
       EntitlementsWrapper,
     );
+
+    await act(async () => {
+      await jest.runAllTimersAsync();
+    });
 
     let resolved = true;
 

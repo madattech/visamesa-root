@@ -2,6 +2,22 @@ import { TIE_STEP_ORDER } from './tieSteps/types'
 
 export const SITE_URL = 'https://visa-mesa.web.app'
 
+/**
+ * PRE_LAUNCH MODE
+ * ================
+ * When true, hides features that require a published app:
+ * - Header sign-in button and Google OAuth panel
+ * - Header "Get VisaMesa service" CTA (replaced with waitlist link)
+ * - /pricing page (redirects to home #waitlist)
+ * - App store badges in AppDownload section (shows "coming soon" instead)
+ * - Hero pricing CTA (shows only waitlist)
+ * - Closing CTA (shows waitlist instead of pricing)
+ *
+ * TO LAUNCH: Set to false and remove waitlist code.
+ * See visamesa_fe/docs/PRE_LAUNCH.md for the full checklist.
+ */
+export const PRE_LAUNCH = true
+
 /** Published service price in EUR (matches visamesa_be payment.config.ts full_service). */
 export const SERVICE_PRICE_EUR = 100
 
@@ -31,4 +47,4 @@ export const PUBLIC_INDEXABLE_ROUTES = [
   })),
 ] as const
 
-export const PUBLIC_DISALLOW_PREFIXES = ['/checkout/'] as const
+export const PUBLIC_DISALLOW_PREFIXES = ['/checkout/', '/waitlist/'] as const
