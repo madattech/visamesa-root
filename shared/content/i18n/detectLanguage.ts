@@ -43,16 +43,23 @@ export function detectLanguageFromNavigator(
   extraLocales: Array<string | undefined | null> = [],
 ): SupportedLanguage {
   const candidates: string[] = []
+  const deviceLocales = extraLocales.filter(
+    (locale): locale is string => Boolean(locale),
+  )
 
-  if (typeof navigator !== 'undefined') {
+  if (deviceLocales.length > 0) {
+    candidates.push(...deviceLocales)
+  } else if (typeof navigator !== 'undefined') {
     if (navigator.languages?.length) {
-      candidates.push(...navigator.languages)
+      candidates.push(
+        ...navigator.languages.filter(
+          (locale): locale is string => Boolean(locale),
+        ),
+      )
     } else if (navigator.language) {
       candidates.push(navigator.language)
     }
   }
-
-  candidates.push(...extraLocales.filter(Boolean) as string[])
 
   for (const language of candidates) {
     if (!language) {
