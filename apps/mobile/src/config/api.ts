@@ -2,9 +2,9 @@ import { Platform } from 'react-native';
 
 export const API_BASE_URL = __DEV__
   ? Platform.select({
-      ios: 'http://localhost:3000',
-      android: 'http://localhost:3000',
-      default: 'http://localhost:3000',
+      ios: 'http://localhost:8080/api',
+      android: 'http://localhost:8080/api',
+      default: 'http://localhost:8080/api',
     })!
   : 'https://visamesa-be-1052558133908.europe-west1.run.app';
 

@@ -202,6 +202,19 @@ export function useDashboardScreen(
   }, []);
 
   useEffect(() => {
+    const maybeNavigation = navigation as DashboardScreenNavigation & {
+      addListener?: (
+        event: 'focus',
+        listener: () => void,
+      ) => (() => void) | undefined;
+    };
+
+    return maybeNavigation.addListener?.('focus', () => {
+      refreshProgress().catch(() => {});
+    });
+  }, [navigation, refreshProgress]);
+
+  useEffect(() => {
     if (!progress || !steps.length || hasSyncedEmpadronamiento) {
       return;
     }
@@ -629,6 +642,18 @@ export function useDashboardScreen(
 
   const onFormPress = async (formId: string, requirementKey: string) => {
     if (!currentStep || !progress || !canInteractWithRequirements) {
+      return;
+    }
+
+    if (formId === 'modelo-790-012') {
+      navigation.navigate('WebsiteWebView', {
+        automation: 'modelo-790-012',
+        formCompletion: {
+          stepId: currentStep.id,
+          requirementKey,
+          formId,
+        },
+      });
       return;
     }
 
