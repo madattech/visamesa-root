@@ -28,6 +28,7 @@ export interface CitaPreviaScriptMap {
 }
 
 interface CitaPreviaScriptEntry {
+  id: string;
   url: string;
   script: string;
   match?: WebViewInjectionMatch;
@@ -53,6 +54,7 @@ const buildCitaPreviaScriptEntries = (
 
   return [
     {
+      id: 'cita-previa-open-official-site',
       url: ICP_PLUS_URL,
       script: INITIAL_PAGE_SCRIPT,
       ready: {
@@ -60,6 +62,7 @@ const buildCitaPreviaScriptEntries = (
       },
     },
     {
+      id: 'cita-previa-select-province-gateway',
       url: CITA_PREVIA_SEDE_ENTRY_URL,
       script: provinciaScript,
       match: {
@@ -71,6 +74,7 @@ const buildCitaPreviaScriptEntries = (
       },
     },
     {
+      id: 'cita-previa-select-province',
       url: PROVINCIA_URL,
       script: provinciaScript,
       match: {
@@ -82,6 +86,7 @@ const buildCitaPreviaScriptEntries = (
       },
     },
     {
+      id: 'cita-previa-enter-service',
       url: CLAVE_URL,
       script: CLAVE_SCRIPT,
       match: {
@@ -93,6 +98,7 @@ const buildCitaPreviaScriptEntries = (
       },
     },
     {
+      id: 'cita-previa-fill-personal-details',
       url: DETAILS_URL,
       script: detailsScript,
       match: {
@@ -109,6 +115,7 @@ const buildCitaPreviaScriptEntries = (
       },
     },
     {
+      id: 'cita-previa-select-procedure',
       url: OFICINA_URL,
       script: buildOficinaScript(profile.tramitesOptionIndex),
       ready: {
@@ -116,6 +123,7 @@ const buildCitaPreviaScriptEntries = (
       },
     },
     {
+      id: 'cita-previa-request-appointment',
       url: SOLICITAR_CITA_URL,
       script: SOLICITAR_CITA_SCRIPT,
       match: {
@@ -145,7 +153,7 @@ export const buildCitaPreviaInjectionRules = (
   profile: CitaPreviaAutomationProfile,
 ): WebViewInjectionRule[] =>
   buildCitaPreviaScriptEntries(profile).map(entry => ({
-    id: `cita-previa-${entry.url}`,
+    id: entry.id,
     match: entry.match ?? {
       type: 'exact',
       value: entry.url,
