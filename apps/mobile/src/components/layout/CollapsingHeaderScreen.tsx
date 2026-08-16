@@ -1,6 +1,7 @@
-import React, {useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   Animated,
+  Keyboard,
   KeyboardAvoidingView,
   Platform,
   Pressable,
@@ -50,9 +51,28 @@ export function CollapsingHeaderScreen({
   const navigation = useNavigation();
   const contentBottomInset = useContentBottomInset();
   const scrollRef = useRef<any>(null);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
 
   const {scrollY, compactTitleOpacity, borderOpacity, scrollToY: baseScrollToY} =
     useCollapsingHeader();
+
+  useEffect(() => {
+    if (!keyboardAvoiding || Platform.OS !== 'android') {
+      return undefined;
+    }
+
+    const showSubscription = Keyboard.addListener('keyboardDidShow', event => {
+      setKeyboardHeight(event.endCoordinates.height);
+    });
+    const hideSubscription = Keyboard.addListener('keyboardDidHide', () => {
+      setKeyboardHeight(0);
+    });
+
+    return () => {
+      showSubscription.remove();
+      hideSubscription.remove();
+    };
+  }, [keyboardAvoiding]);
 
   const scrollToY = (y: number) => {
     baseScrollToY(scrollRef, y);
@@ -114,6 +134,9 @@ export function CollapsingHeaderScreen({
     </View>
   );
 
+  const keyboardBottomInset =
+    keyboardAvoiding && Platform.OS === 'android' ? keyboardHeight : 0;
+
   const scrollContent = (
     <Animated.ScrollView
       ref={scrollRef}
@@ -121,7 +144,10 @@ export function CollapsingHeaderScreen({
       style={[styles.flex, scrollViewProps?.style]}
       contentContainerStyle={[
         styles.scrollContent,
-        {paddingBottom: theme.spacing.lg + contentBottomInset},
+        {
+          paddingBottom:
+            theme.spacing.lg + contentBottomInset + keyboardBottomInset,
+        },
         contentContainerStyle,
       ]}
       onScroll={handleScroll}
