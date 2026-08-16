@@ -1,4 +1,4 @@
-import {NativeModules, Platform, Share} from 'react-native';
+import {NativeModules, Share} from 'react-native';
 import {fromByteArray, toByteArray} from 'react-native-quick-base64';
 import {
   PDFCheckBox,
@@ -30,21 +30,6 @@ export type GeneratedPdfFile = {
   path: string;
   uri: string;
 };
-
-type ReactNativeFsModule = typeof import('react-native-fs');
-
-function getFileSystemModule(): ReactNativeFsModule {
-  try {
-    // Keep this lazy so iOS builds with stale pods do not crash at module load.
-    // If RNFS is not linked, the user gets a recoverable setup error on action.
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
-    return require('react-native-fs') as ReactNativeFsModule;
-  } catch (error) {
-    throw new Error(
-      'PDF file storage is not available. Rebuild the app after running iOS pod install.',
-    );
-  }
-}
 
 function getPathValue(data: Ex17PdfData, source?: string | null): unknown {
   if (!source) {
@@ -185,41 +170,34 @@ export async function generateEx17PdfBytes(data: Ex17PdfData) {
   return pdfDoc.save();
 }
 
+type PdfViewerNativeModule = {
+  openPdf: (pathOrUri: string) => Promise<void>;
+  savePdfBase64: (
+    base64: string,
+    fileName: string,
+  ) => Promise<GeneratedPdfFile>;
+};
+
 export async function saveEx17Pdf(
   data: Ex17PdfData,
 ): Promise<GeneratedPdfFile> {
   const bytes = await generateEx17PdfBytes(data);
   const base64 = fromByteArray(bytes);
-  const RNFS = getFileSystemModule();
   const fileName = `ex17-tie-${Date.now()}.pdf`;
-  const directory =
-    Platform.OS === 'android'
-      ? RNFS.DownloadDirectoryPath
-      : RNFS.DocumentDirectoryPath;
-  const path = `${directory}/${fileName}`;
+  const pdfViewer = getPdfViewerModule();
 
-  await RNFS.writeFile(path, base64, 'base64');
+  if (!pdfViewer?.savePdfBase64) {
+    throw new Error('PDF viewer module is not available');
+  }
 
-  return {
-    fileName,
-    path,
-    uri: `file://${path}`,
-  };
+  return pdfViewer.savePdfBase64(base64, fileName);
 }
-
-type PdfViewerNativeModule = {
-  openPdf: (pathOrUri: string) => Promise<void>;
-};
 
 function getPdfViewerModule(): PdfViewerNativeModule | undefined {
   return NativeModules.PdfViewer as PdfViewerNativeModule | undefined;
 }
 
 export async function openGeneratedPdf(file: GeneratedPdfFile) {
-  if (Platform.OS === 'android') {
-    await getFileSystemModule().scanFile(file.path).catch(() => undefined);
-  }
-
   const pdfViewer = getPdfViewerModule();
 
   if (!pdfViewer) {

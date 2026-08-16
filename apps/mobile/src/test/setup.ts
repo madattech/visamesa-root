@@ -17,12 +17,6 @@ jest.mock('react-native-unistyles', () => {
 
 jest.mock('@react-native-vector-icons/material-icons', () => 'MaterialIcons');
 
-jest.mock('react-native-fs', () => ({
-  DocumentDirectoryPath: '/documents',
-  DownloadDirectoryPath: '/downloads',
-  writeFile: jest.fn().mockResolvedValue(undefined),
-}));
-
 jest.mock('react-native-quick-base64', () => ({
   toByteArray: (value: string) => Uint8Array.from(Buffer.from(value, 'base64')),
   fromByteArray: (value: Uint8Array) => Buffer.from(value).toString('base64'),

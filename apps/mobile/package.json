@@ -38,7 +38,6 @@
     "react-hook-form": "7.76.1",
     "react-i18next": "17.0.9",
     "react-native": "0.85.3",
-    "react-native-fs": "2.20.0",
     "react-native-keychain": "10.0.0",
     "react-native-nitro-modules": "0.33.2",
     "react-native-quick-base64": "3.0.0",

@@ -3,11 +3,13 @@ package com.visamesa
 import android.content.ActivityNotFoundException
 import android.content.ClipData
 import android.content.Intent
+import android.util.Base64
 import androidx.core.content.FileProvider
 import com.facebook.react.bridge.Promise
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
 import com.facebook.react.bridge.ReactMethod
+import com.facebook.react.bridge.WritableNativeMap
 import java.io.File
 
 class PdfViewerModule(
@@ -15,6 +17,25 @@ class PdfViewerModule(
 ) : ReactContextBaseJavaModule(reactContext) {
 
   override fun getName(): String = "PdfViewer"
+
+  @ReactMethod
+  fun savePdfBase64(base64: String, fileName: String, promise: Promise) {
+    try {
+      val bytes = Base64.decode(base64, Base64.DEFAULT)
+      val file = File(reactContext.filesDir, fileName)
+      file.writeBytes(bytes)
+
+      val result =
+        WritableNativeMap().apply {
+          putString("fileName", fileName)
+          putString("path", file.absolutePath)
+          putString("uri", "file://${file.absolutePath}")
+        }
+      promise.resolve(result)
+    } catch (error: Exception) {
+      promise.reject("PDF_SAVE_FAILED", error.message, error)
+    }
+  }
 
   @ReactMethod
   fun openPdf(pathOrUri: String, promise: Promise) {

@@ -11,6 +11,40 @@ class PdfViewer: NSObject, UIDocumentInteractionControllerDelegate {
     true
   }
 
+  @objc(savePdfBase64:fileName:resolver:rejecter:)
+  func savePdfBase64(
+    _ base64: String,
+    fileName: String,
+    resolver resolve: @escaping RCTPromiseResolveBlock,
+    rejecter reject: @escaping RCTPromiseRejectBlock
+  ) {
+    guard let data = Data(base64Encoded: base64) else {
+      reject("PDF_SAVE_FAILED", "Invalid base64 PDF data", nil)
+      return
+    }
+
+    guard let directory = FileManager.default.urls(
+      for: .documentDirectory,
+      in: .userDomainMask
+    ).first else {
+      reject("PDF_SAVE_FAILED", "Could not resolve documents directory", nil)
+      return
+    }
+
+    let fileUrl = directory.appendingPathComponent(fileName)
+
+    do {
+      try data.write(to: fileUrl)
+      resolve([
+        "fileName": fileName,
+        "path": fileUrl.path,
+        "uri": fileUrl.absoluteString,
+      ])
+    } catch {
+      reject("PDF_SAVE_FAILED", error.localizedDescription, error)
+    }
+  }
+
   @objc(openPdf:resolver:rejecter:)
   func openPdf(
     _ pathOrUri: String,
