@@ -319,6 +319,65 @@ describe('useDashboardScreen', () => {
     });
   });
 
+  it('opens Modelo 790 as a WebView automation from the form action', async () => {
+    const translateTieSteps = createTieStepsTranslator(i18n);
+    const realSteps = buildTieSteps(translateTieSteps);
+
+    useTieSteps.mockReturnValue({
+      steps: realSteps,
+      isLoading: false,
+      error: null,
+    });
+
+    useUserProgress.mockReturnValue({
+      progress: createUserProgress({
+        currentStepId: 4,
+        steps: [
+          {stepId: 1, status: 'completed', requirements: {}},
+          {stepId: 2, status: 'completed', requirements: {}},
+          {stepId: 3, status: 'completed', requirements: {}},
+          {
+            stepId: 4,
+            status: 'in_progress',
+            requirements: {
+              'modelo-790-form': {completed: false},
+              'print-modelo-790': {completed: false},
+              'pay-at-bank': {completed: false},
+              'fee-payment-receipt': {completed: false},
+            },
+          },
+        ],
+      }),
+      isLoading: false,
+      error: null,
+      completeStep,
+      toggleSelfDeclaredRequirement,
+      completeAutomationRequirement,
+      clearAutomationRequirement,
+      completeFormRequirement,
+      refreshProgress: jest.fn(),
+    });
+
+    const navigation = createMockNavigation() as Parameters<
+      typeof useDashboardScreen
+    >[0];
+    const getHookState = await renderDashboardScreen(navigation);
+
+    act(() => {
+      getHookState().onFormPress('modelo-790-012', 'modelo-790-form');
+    });
+
+    expect(navigation.navigate).toHaveBeenCalledWith('WebsiteWebView', {
+      automation: 'modelo-790-012',
+      formCompletion: {
+        stepId: 4,
+        requirementKey: 'modelo-790-form',
+        formId: 'modelo-790-012',
+      },
+    });
+    expect(completeFormRequirement).not.toHaveBeenCalled();
+  });
+
   it('shows a dependency hint when automation prerequisites are incomplete', async () => {
     const translateTieSteps = createTieStepsTranslator(i18n);
     const realSteps = buildTieSteps(translateTieSteps);

@@ -35,7 +35,10 @@ export type MainTabParamList = {
   ProfileTab: NavigatorScreenParams<ProfileStackParamList>;
 };
 
-export type WebViewAutomationKind = 'cita-previa' | 'empadronamiento';
+export type WebViewAutomationKind =
+  | 'cita-previa'
+  | 'empadronamiento'
+  | 'modelo-790-012';
 
 export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList>;
@@ -44,5 +47,10 @@ export type RootStackParamList = {
     url?: string;
     title?: string;
     details?: CitaPreviaDetails;
+    formCompletion?: {
+      stepId: number;
+      requirementKey: string;
+      formId: string;
+    };
   };
 };

@@ -1,4 +1,3 @@
-import {NativeModules, Share} from 'react-native';
 import {fromByteArray, toByteArray} from 'react-native-quick-base64';
 import {
   PDFCheckBox,
@@ -10,6 +9,12 @@ import {
 } from 'pdf-lib';
 
 import {EX17_TIE_BLANK_SEMANTIC_PDF_BASE64} from '@/features/pdfGeneration/forms/ex17/assets/ex17TieBlankSemanticPdfBase64';
+import {
+  openGeneratedPdf,
+  saveGeneratedPdfBase64,
+  shareGeneratedPdf,
+  type GeneratedPdfFile,
+} from '@/features/pdfGeneration/services/pdfFileService';
 
 import curatedSchema from './schemas/ex17-tie.curated.schema.json';
 
@@ -23,12 +28,6 @@ type Ex17SchemaField = {
 
 type Ex17Schema = {
   fields: Ex17SchemaField[];
-};
-
-export type GeneratedPdfFile = {
-  fileName: string;
-  path: string;
-  uri: string;
 };
 
 function getPathValue(data: Ex17PdfData, source?: string | null): unknown {
@@ -170,47 +169,13 @@ export async function generateEx17PdfBytes(data: Ex17PdfData) {
   return pdfDoc.save();
 }
 
-type PdfViewerNativeModule = {
-  openPdf: (pathOrUri: string) => Promise<void>;
-  savePdfBase64: (
-    base64: string,
-    fileName: string,
-  ) => Promise<GeneratedPdfFile>;
-};
-
 export async function saveEx17Pdf(
   data: Ex17PdfData,
 ): Promise<GeneratedPdfFile> {
   const bytes = await generateEx17PdfBytes(data);
   const base64 = fromByteArray(bytes);
   const fileName = `ex17-tie-${Date.now()}.pdf`;
-  const pdfViewer = getPdfViewerModule();
-
-  if (!pdfViewer?.savePdfBase64) {
-    throw new Error('PDF viewer module is not available');
-  }
-
-  return pdfViewer.savePdfBase64(base64, fileName);
+  return saveGeneratedPdfBase64(base64, fileName);
 }
 
-function getPdfViewerModule(): PdfViewerNativeModule | undefined {
-  return NativeModules.PdfViewer as PdfViewerNativeModule | undefined;
-}
-
-export async function openGeneratedPdf(file: GeneratedPdfFile) {
-  const pdfViewer = getPdfViewerModule();
-
-  if (!pdfViewer) {
-    throw new Error('PDF viewer module is not available');
-  }
-
-  await pdfViewer.openPdf(file.path);
-}
-
-export async function shareGeneratedPdf(file: GeneratedPdfFile) {
-  await Share.share({
-    title: file.fileName,
-    message: file.fileName,
-    url: file.uri,
-  });
-}
+export {openGeneratedPdf, shareGeneratedPdf};
