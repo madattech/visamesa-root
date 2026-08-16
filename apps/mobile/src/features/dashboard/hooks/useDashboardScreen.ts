@@ -13,6 +13,7 @@ import {RequirementWithProgress} from '@/features/dashboard/components/Requireme
 import {formatAppointmentDetailsMessage} from '@/features/dashboard/data/dashboardContent';
 import {syncEmpadronamientoStepFromProfile} from '@/features/dashboard/services/empadronamientoProgressService';
 import {
+  openGeneratedPdf,
   saveEx17Pdf,
   shareGeneratedPdf,
 } from '@/features/pdfGeneration/forms/ex17/ex17PdfService';
@@ -641,7 +642,11 @@ export function useDashboardScreen(
       const generatedFile = await saveEx17Pdf(
         mapProfileToEx17Data(profileData),
       );
-      await shareGeneratedPdf(generatedFile);
+      try {
+        await openGeneratedPdf(generatedFile);
+      } catch {
+        await shareGeneratedPdf(generatedFile);
+      }
       confirmFormRequirement(formId, requirementKey);
     } catch (formError) {
       showAlert(
