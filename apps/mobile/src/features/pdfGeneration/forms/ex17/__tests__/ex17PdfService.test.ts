@@ -1,7 +1,7 @@
 import {PDFDocument} from 'pdf-lib';
 
-import {generateEx17PdfBytes} from '@/features/pdfGeneration/services/ex17PdfService';
-import {mapProfileToEx17Data} from '@/features/pdfGeneration/utils/mapProfileToEx17Data';
+import {generateEx17PdfBytes} from '@/features/pdfGeneration/forms/ex17/ex17PdfService';
+import {mapProfileToEx17Data} from '@/features/pdfGeneration/forms/ex17/mapProfileToEx17Data';
 
 import type {ProfileData} from '@/features/profile/types/ProfileData';
 

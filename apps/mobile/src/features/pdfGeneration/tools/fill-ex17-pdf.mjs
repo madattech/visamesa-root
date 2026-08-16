@@ -13,10 +13,10 @@ import {
 const [
   ,
   ,
-  userDataPath = 'pdf-generation/config/ex17-dummy-user.json',
-  outputPath = 'pdf-generation/output/ex17-tie.filled.sample.pdf',
-  templatePath = 'pdf-generation/templates/ex17-tie.blank.semantic.pdf',
-  schemaPath = 'pdf-generation/schemas/ex17-tie.curated.schema.json',
+  userDataPath = 'src/features/pdfGeneration/forms/ex17/config/ex17-dummy-user.json',
+  outputPath = 'src/features/pdfGeneration/forms/ex17/output/ex17-tie.filled.sample.pdf',
+  templatePath = 'src/features/pdfGeneration/forms/ex17/assets/ex17-tie.blank.semantic.pdf',
+  schemaPath = 'src/features/pdfGeneration/forms/ex17/schemas/ex17-tie.curated.schema.json',
 ] = process.argv;
 
 function getPathValue(data, source) {

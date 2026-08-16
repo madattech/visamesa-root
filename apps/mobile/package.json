@@ -12,9 +12,9 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
     "type-check": "tsc --noEmit",
     "test:ci": "npm ci --prefix ../../shared/content && npm run lint && npm test -- --forceExit && npm run type-check",
-    "pdf:schema": "node src/scripts/pdf-generation/generate-pdf-form-schema.mjs",
-    "pdf:blank": "node src/scripts/pdf-generation/generate-renamed-blank-pdf.mjs",
-    "pdf:fill:ex17": "node src/scripts/pdf-generation/fill-ex17-pdf.mjs",
+    "pdf:schema": "node src/features/pdfGeneration/tools/generate-pdf-form-schema.mjs",
+    "pdf:blank": "node src/features/pdfGeneration/tools/generate-renamed-blank-pdf.mjs",
+    "pdf:fill:ex17": "node src/features/pdfGeneration/tools/fill-ex17-pdf.mjs",
     "link-assets": "react-native-asset",
     "postinstall": "react-native-asset"
   },

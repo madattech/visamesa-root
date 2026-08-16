@@ -10,9 +10,9 @@ import {
   PDFTextField,
 } from 'pdf-lib';
 
-import {EX17_TIE_BLANK_SEMANTIC_PDF_BASE64} from '@/features/pdfGeneration/assets/ex17TieBlankSemanticPdfBase64';
+import {EX17_TIE_BLANK_SEMANTIC_PDF_BASE64} from '@/features/pdfGeneration/forms/ex17/assets/ex17TieBlankSemanticPdfBase64';
 
-import curatedSchema from '../../../../pdf-generation/schemas/ex17-tie.curated.schema.json';
+import curatedSchema from './schemas/ex17-tie.curated.schema.json';
 
 export type Ex17PdfData = Record<string, unknown>;
 

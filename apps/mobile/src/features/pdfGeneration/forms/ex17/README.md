@@ -13,7 +13,7 @@ Example used for `ex17-tie.schema.json`:
 ```sh
 npm run pdf:schema -- \
   'https://www.inclusion.gob.es/documents/410169/2156469/17-Formulario_TIE.pdf' \
-  pdf-generation/schemas/ex17-tie.schema.json
+  src/features/pdfGeneration/forms/ex17/schemas/ex17-tie.schema.json
 ```
 
 ## EX-17 note
@@ -43,7 +43,7 @@ npm run pdf:blank
 This creates:
 
 ```txt
-pdf-generation/templates/ex17-tie.blank.semantic.pdf
+src/features/pdfGeneration/forms/ex17/assets/ex17-tie.blank.semantic.pdf
 ```
 
 The generated PDF keeps the original EX-17 visual layout, clears field values, renames each AcroForm field to the curated `semanticId`, sets `/TU` to the human-readable `label`, and sets `/TM` to the semantic mapping name. This makes later filling code use stable names like `applicant.passportNumber` instead of misleading names like `Textfield-1`.
@@ -57,15 +57,15 @@ npm run pdf:fill:ex17
 Default inputs:
 
 ```txt
-pdf-generation/config/ex17-dummy-user.json
-pdf-generation/templates/ex17-tie.blank.semantic.pdf
-pdf-generation/schemas/ex17-tie.curated.schema.json
+src/features/pdfGeneration/forms/ex17/config/ex17-dummy-user.json
+src/features/pdfGeneration/forms/ex17/assets/ex17-tie.blank.semantic.pdf
+src/features/pdfGeneration/forms/ex17/schemas/ex17-tie.curated.schema.json
 ```
 
 Default output:
 
 ```txt
-pdf-generation/output/ex17-tie.filled.sample.pdf
+src/features/pdfGeneration/forms/ex17/output/ex17-tie.filled.sample.pdf
 ```
 
 The fill script keeps the PDF editable for visual verification. It supports ISO dates (`YYYY-MM-DD`) for `applicant.birthDate` and `signature.date`, then splits them into the visible day/month/year fields.

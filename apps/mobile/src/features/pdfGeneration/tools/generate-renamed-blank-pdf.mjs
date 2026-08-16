@@ -15,8 +15,8 @@ import {
 const [
   ,
   ,
-  schemaPath = 'pdf-generation/schemas/ex17-tie.curated.schema.json',
-  outputPath = 'pdf-generation/templates/ex17-tie.blank.semantic.pdf',
+  schemaPath = 'src/features/pdfGeneration/forms/ex17/schemas/ex17-tie.curated.schema.json',
+  outputPath = 'src/features/pdfGeneration/forms/ex17/assets/ex17-tie.blank.semantic.pdf',
   sourceOverride,
 ] = process.argv;
 

@@ -1,4 +1,4 @@
-import {mapProfileToEx17Data} from '@/features/pdfGeneration/utils/mapProfileToEx17Data';
+import {mapProfileToEx17Data} from '@/features/pdfGeneration/forms/ex17/mapProfileToEx17Data';
 
 import type {ProfileData} from '@/features/profile/types/ProfileData';
 

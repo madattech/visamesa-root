@@ -15,8 +15,8 @@ import {syncEmpadronamientoStepFromProfile} from '@/features/dashboard/services/
 import {
   saveEx17Pdf,
   shareGeneratedPdf,
-} from '@/features/pdfGeneration/services/ex17PdfService';
-import {mapProfileToEx17Data} from '@/features/pdfGeneration/utils/mapProfileToEx17Data';
+} from '@/features/pdfGeneration/forms/ex17/ex17PdfService';
+import {mapProfileToEx17Data} from '@/features/pdfGeneration/forms/ex17/mapProfileToEx17Data';
 import {reconcileStepStatuses} from '@/features/dashboard/services/progressReconciliationService';
 import {
   saveUserProgress,

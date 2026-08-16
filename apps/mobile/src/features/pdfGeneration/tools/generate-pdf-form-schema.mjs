@@ -12,10 +12,10 @@ import {
   PDFTextField,
 } from 'pdf-lib';
 
-const [, , input, output = 'pdf-generation/schemas/generated-pdf-form-schema.json'] = process.argv;
+const [, , input, output = 'src/features/pdfGeneration/forms/ex17/schemas/generated-pdf-form-schema.json'] = process.argv;
 
 if (!input) {
-  console.error('Usage: node src/scripts/pdf-generation/generate-pdf-form-schema.mjs <pdf-file-or-url> [output-json]');
+  console.error('Usage: node src/features/pdfGeneration/tools/generate-pdf-form-schema.mjs <pdf-file-or-url> [output-json]');
   process.exit(1);
 }
 
