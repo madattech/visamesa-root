@@ -1,5 +1,4 @@
-import {Platform, Share} from 'react-native';
-import * as RNFS from 'react-native-fs';
+import {NativeModules, Platform, Share} from 'react-native';
 import {fromByteArray, toByteArray} from 'react-native-quick-base64';
 import {
   PDFCheckBox,
@@ -31,6 +30,21 @@ export type GeneratedPdfFile = {
   path: string;
   uri: string;
 };
+
+type ReactNativeFsModule = typeof import('react-native-fs');
+
+function getFileSystemModule(): ReactNativeFsModule {
+  try {
+    // Keep this lazy so iOS builds with stale pods do not crash at module load.
+    // If RNFS is not linked, the user gets a recoverable setup error on action.
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require('react-native-fs') as ReactNativeFsModule;
+  } catch (error) {
+    throw new Error(
+      'PDF file storage is not available. Rebuild the app after running iOS pod install.',
+    );
+  }
+}
 
 function getPathValue(data: Ex17PdfData, source?: string | null): unknown {
   if (!source) {
@@ -176,6 +190,7 @@ export async function saveEx17Pdf(
 ): Promise<GeneratedPdfFile> {
   const bytes = await generateEx17PdfBytes(data);
   const base64 = fromByteArray(bytes);
+  const RNFS = getFileSystemModule();
   const fileName = `ex17-tie-${Date.now()}.pdf`;
   const directory =
     Platform.OS === 'android'
@@ -190,6 +205,28 @@ export async function saveEx17Pdf(
     path,
     uri: `file://${path}`,
   };
+}
+
+type PdfViewerNativeModule = {
+  openPdf: (pathOrUri: string) => Promise<void>;
+};
+
+function getPdfViewerModule(): PdfViewerNativeModule | undefined {
+  return NativeModules.PdfViewer as PdfViewerNativeModule | undefined;
+}
+
+export async function openGeneratedPdf(file: GeneratedPdfFile) {
+  if (Platform.OS === 'android') {
+    await getFileSystemModule().scanFile(file.path).catch(() => undefined);
+  }
+
+  const pdfViewer = getPdfViewerModule();
+
+  if (!pdfViewer) {
+    throw new Error('PDF viewer module is not available');
+  }
+
+  await pdfViewer.openPdf(file.path);
 }
 
 export async function shareGeneratedPdf(file: GeneratedPdfFile) {
