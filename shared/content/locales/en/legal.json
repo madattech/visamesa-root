@@ -49,7 +49,7 @@
   "privacy": {
     "title": "Privacy Policy",
     "lastUpdated": "Last updated: June 27, 2026",
-    "intro": "This Privacy Policy describes how VisaMesa (\"we\", \"our\", or \"us\") collects, uses, and protects your personal information when you use our mobile application and website services.",
+    "intro": "This Privacy Policy describes how VisaMesa, operated by Sargoon Global S.L. (\"we\", \"our\", or \"us\"), collects, uses, and protects your personal information when you use our mobile application and website services.",
     "blocks": [
       { "type": "h2", "text": "1. Information We Collect" },
       { "type": "h3", "text": "1.1 Personal Information You Provide" },
@@ -237,7 +237,7 @@
       { "type": "h2", "text": "5. Intellectual Property" },
       {
         "type": "p",
-        "text": "All content, features, and functionality of the Service (including text, graphics, logos, software) are owned by VisaMesa and protected by copyright, trademark, and other intellectual property laws."
+        "text": "All content, features, and functionality of the Service (including text, graphics, logos, software) are owned by Sargoon Global S.L., operator of VisaMesa, and protected by copyright, trademark, and other intellectual property laws."
       },
       { "type": "h2", "text": "6. Data Privacy" },
       {
@@ -280,6 +280,30 @@
         "text": "For questions about these Terms, contact us at:"
       },
       { "type": "email", "label": "Email:", "email": "support@visamesa.com" }
+    ]
+  },
+  "legalNotice": {
+    "title": "Legal Notice",
+    "lastUpdated": "Last updated: August 29, 2026",
+    "intro": "In compliance with Article 10 of Law 34/2002, of 11 July, on Information Society Services and Electronic Commerce (LSSI-CE), the following identification details of the owner of this website and mobile application are provided:",
+    "blocks": [
+      { "type": "h2", "text": "1. Service provider" },
+      {
+        "type": "p",
+        "text": "VisaMesa is a product operated by {{companyLegalName}}."
+      },
+      { "type": "h2", "text": "2. Identification details" },
+      { "type": "p", "text": "Legal name: {{companyLegalName}}" },
+      { "type": "p", "text": "Tax ID (CIF): {{companyCif}}" },
+      { "type": "p", "text": "Registered address: {{companyAddress}}" },
+      { "type": "email", "label": "Email:", "email": "{{companyEmail}}" },
+      { "type": "p", "text": "Phone: {{companyPhone}}" },
+      { "type": "p", "text": "Commercial registry: {{companyRegistry}}" },
+      { "type": "h2", "text": "3. Purpose" },
+      {
+        "type": "p",
+        "text": "This legal notice identifies the company responsible for the VisaMesa website and mobile application. VisaMesa remains the product and brand name used in our services, marketing, and communications."
+      }
     ]
   }
 }

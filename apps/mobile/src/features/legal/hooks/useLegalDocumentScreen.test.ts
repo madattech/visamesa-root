@@ -64,6 +64,17 @@ describe('useLegalDocumentScreen', () => {
     expect(getHookState().disclaimerParagraphs.length).toBeGreaterThan(0);
   });
 
+  it('loads legal notice without consent requirements', async () => {
+    const getHookState = renderHook(() => useLegalDocumentScreen('legal-notice'));
+    await flushAsyncEffects();
+
+    expect(getHookState().title).toBeTruthy();
+    expect(getHookState().blocks.length).toBeGreaterThan(0);
+    expect(getHookState().requiresConsent).toBe(false);
+    expect(getHookState().acceptLabel).toBe('');
+    expect(getHookState().disclaimerTitle).toBeNull();
+  });
+
   it('records consent when accept is pressed', async () => {
     (consentService.recordConsentType as jest.Mock).mockResolvedValue(undefined);
     const getHookState = renderHook(() => useLegalDocumentScreen('privacy'));

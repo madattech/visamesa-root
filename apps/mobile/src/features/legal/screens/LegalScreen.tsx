@@ -51,6 +51,11 @@ const LegalScreen = () => {
           status={hasTermsConsent ? 'done' : 'notDone'}
           onPress={() => onOpenDocument('terms')}
         />
+        <DetailLinkRow
+          title={t('account.legalNoticeTitle')}
+          description={t('account.legalNoticeDescription')}
+          onPress={() => onOpenDocument('legal-notice')}
+        />
       </View>
 
       <View style={styles.section}>

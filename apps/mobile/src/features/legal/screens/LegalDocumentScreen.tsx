@@ -22,6 +22,7 @@ const LegalDocumentScreen = () => {
     disclaimerTitle,
     disclaimerParagraphs,
     blocks,
+    requiresConsent,
     isAccepted,
     isAccepting,
     acceptLabel,
@@ -59,20 +60,22 @@ const LegalDocumentScreen = () => {
           onPrivacyLinkPress={onPrivacyLinkPress}
         />
 
-        {isAccepted ? (
-          <View style={styles.acceptedBanner}>
-            <Text variant="labelLarge" color="primary">
-              {acceptedLabel}
-            </Text>
-          </View>
-        ) : (
-          <Button
-            label={isAccepting ? `${acceptLabel}…` : acceptLabel}
-            onPress={onAcceptPress}
-            disabled={isAccepting}
-            fullWidth
-          />
-        )}
+        {requiresConsent ? (
+          isAccepted ? (
+            <View style={styles.acceptedBanner}>
+              <Text variant="labelLarge" color="primary">
+                {acceptedLabel}
+              </Text>
+            </View>
+          ) : (
+            <Button
+              label={isAccepting ? `${acceptLabel}…` : acceptLabel}
+              onPress={onAcceptPress}
+              disabled={isAccepting}
+              fullWidth
+            />
+          )
+        ) : null}
       </View>
     </CollapsingHeaderScreen>
   );

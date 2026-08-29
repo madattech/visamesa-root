@@ -4,10 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./legal": "./legalDisclaimerContent.ts",
-    "./legalBlocks": "./legalBlocks.ts",
+    "./legal": "./legal/index.ts",
+    "./legal/types": "./legal/types.ts",
     "./site": "./siteConstants.ts",
-    "./tieSteps": "./tieStepsMarketing.ts",
+    "./tieStepsMarketing": "./tieStepsMarketing.ts",
     "./checkout": "./checkoutContent.ts",
     "./apiErrors": "./apiErrors.ts",
     "./entitlements": "./entitlements.ts",

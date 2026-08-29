@@ -13,4 +13,4 @@ export type LegalBlock =
   | { type: 'privacyLink'; before: string; after: string }
   | { type: 'email'; label: string; email: string };
 
-export type LegalDocumentId = 'privacy' | 'terms';
+export type LegalDocumentId = 'privacy' | 'terms' | 'legal-notice';

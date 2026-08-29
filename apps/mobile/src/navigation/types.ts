@@ -1,5 +1,5 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
-import type {LegalDocumentId} from '@visamesa/content/legalBlocks';
+import type {LegalDocumentId} from '@visamesa/content/legal';
 
 import {ProfileSectionId} from '@/features/profile/data/profileSections';
 import {CitaPreviaDetails} from '@/types';

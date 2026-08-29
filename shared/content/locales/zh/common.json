@@ -58,7 +58,9 @@
     "closeAccessibilityLabel": "关闭对话框"
   },
   "footer": {
+    "legalNav": "法律信息",
     "privacyPolicy": "隐私政策",
+    "legalNotice": "法律声明",
     "termsOfService": "服务条款",
     "copyright": "© {{year}} VisaMesa. 保留所有权利。"
   },
