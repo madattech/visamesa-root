@@ -9,13 +9,13 @@
     },
     {
       "id": 2,
-      "title": "Reserva cita para huellas",
-      "description": "Consigue una cita previa en la web oficial de la policía."
+      "title": "Rellena tu formulario EX-17",
+      "description": "VisaMesa rellena tu solicitud de TIE con los datos de tu perfil."
     },
     {
       "id": 3,
-      "title": "Rellena tu formulario EX-17",
-      "description": "VisaMesa rellena tu solicitud de TIE con los datos de tu perfil."
+      "title": "Reserva cita para huellas",
+      "description": "Consigue una cita previa en la web oficial de la policía."
     },
     {
       "id": 4,
@@ -323,8 +323,8 @@
       "requirements": {
         "ex-17-form": {
           "label": "Formulario EX-17 firmado",
-          "description": "Del Paso 3 — impreso y firmado.",
-          "detail": "Confirmaste el EX-17 en VisaMesa en el Paso 3. Imprímelo, firma donde se indique y lleva la copia firmada — no queda almacenado en la app tras imprimirlo."
+          "description": "Del Paso 2 — impreso y firmado.",
+          "detail": "Confirmaste el EX-17 en VisaMesa en el Paso 2. Imprímelo, firma donde se indique y lleva la copia firmada — no queda almacenado en la app tras imprimirlo."
         },
         "modelo-790-receipt": {
           "label": "Modelo 790 pagado (recibo sellado)",
@@ -358,8 +358,8 @@
         },
         "appointment-confirmation-doc": {
           "label": "Confirmación de Cita Previa",
-          "description": "Confirmación impresa de la reserva del Paso 2.",
-          "detail": "El correo de confirmación de Cita Previa tras reservar en el Paso 2 — indica la comisaría, la fecha y la hora. Imprímelo o muéstralo en el móvil."
+          "description": "Confirmación impresa de la reserva del Paso 3.",
+          "detail": "El correo de confirmación de Cita Previa tras reservar en el Paso 3 — indica la comisaría, la fecha y la hora. Imprímelo o muéstralo en el móvil."
         },
         "print-documents": {
           "label": "Imprime todos los documentos",

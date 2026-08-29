@@ -16,6 +16,7 @@ const emptyContext: ProgressContext = {};
 describe('requirementDependencies', () => {
   let steps: TieStepDetail[];
   let step1: TieStepDetail;
+  let step2: TieStepDetail;
   let step3: TieStepDetail;
   let step5: TieStepDetail;
 
@@ -23,6 +24,7 @@ describe('requirementDependencies', () => {
     const translateTieSteps = createTieStepsTranslator(i18n);
     steps = buildTieSteps(translateTieSteps);
     step1 = steps.find(step => step.id === 1)!;
+    step2 = steps.find(step => step.id === 2)!;
     step3 = steps.find(step => step.id === 3)!;
     step5 = steps.find(step => step.id === 5)!;
   });
@@ -204,7 +206,7 @@ describe('requirementDependencies', () => {
     const unconfirmed = createUserProgress({
       steps: [
         {
-          stepId: 3,
+          stepId: 2,
           status: 'in_progress',
           requirements: {
             'ex-17-form': {completed: false},
@@ -215,7 +217,7 @@ describe('requirementDependencies', () => {
     const confirmed = createUserProgress({
       steps: [
         {
-          stepId: 3,
+          stepId: 2,
           status: 'in_progress',
           requirements: {
             'ex-17-form': {
@@ -226,13 +228,13 @@ describe('requirementDependencies', () => {
         },
       ],
     });
-    const ex17 = step3.requirements.find(item => item.key === 'ex-17-form')!;
+    const ex17 = step2.requirements.find(item => item.key === 'ex-17-form')!;
 
     expect(
-      canShowDocumentActions(ex17, unconfirmed, steps, step3),
+      canShowDocumentActions(ex17, unconfirmed, steps, step2),
     ).toBe(false);
     expect(
-      canShowDocumentActions(ex17, confirmed, steps, step3),
+      canShowDocumentActions(ex17, confirmed, steps, step2),
     ).toBe(true);
   });
 
@@ -262,7 +264,7 @@ describe('requirementDependencies', () => {
     const progress = createUserProgress({
       steps: [
         {
-          stepId: 3,
+          stepId: 2,
           status: 'in_progress',
           requirements: {
             'ex-17-form': {completed: false},
@@ -274,7 +276,7 @@ describe('requirementDependencies', () => {
     expect(
       getRequirementToggleState(
         progress,
-        step3,
+        step2,
         'ex-17-form',
         emptyContext,
         steps,
@@ -286,7 +288,7 @@ describe('requirementDependencies', () => {
     const progress = createUserProgress({
       steps: [
         {
-          stepId: 2,
+          stepId: 3,
           status: 'in_progress',
           requirements: {
             'appointment-confirmation': {completed: false},
@@ -294,12 +296,11 @@ describe('requirementDependencies', () => {
         },
       ],
     });
-    const step2 = steps.find(step => step.id === 2)!;
 
     expect(
       getRequirementToggleState(
         progress,
-        step2,
+        step3,
         'appointment-confirmation',
         emptyContext,
         steps,
@@ -311,7 +312,7 @@ describe('requirementDependencies', () => {
     const progress = createUserProgress({
       steps: [
         {
-          stepId: 3,
+          stepId: 2,
           status: 'in_progress',
           requirements: {
             'ex-17-form': {
@@ -326,7 +327,7 @@ describe('requirementDependencies', () => {
     expect(
       getRequirementToggleState(
         progress,
-        step3,
+        step2,
         'ex-17-form',
         emptyContext,
         steps,

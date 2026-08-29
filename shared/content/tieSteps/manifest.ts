@@ -157,7 +157,7 @@ export const tieStepManifest: Record<TieStepSlug, TieStepManifestEntry> = {
     requirements: empadronamientoRequirements,
   },
   'toma-de-huellas': {
-    id: 2,
+    id: 3,
     slug: 'toma-de-huellas',
     officialLinkUrls: [
       'https://sede.administracionespublicas.gob.es/icpplus/index.html',
@@ -165,7 +165,7 @@ export const tieStepManifest: Record<TieStepSlug, TieStepManifestEntry> = {
     requirements: tomaDeHuellasRequirements,
   },
   'required-documents': {
-    id: 3,
+    id: 2,
     slug: 'required-documents',
     officialLinkUrls: [
       'https://sede.administracionespublicas.gob.es/pagina/index/directorio/ex17',

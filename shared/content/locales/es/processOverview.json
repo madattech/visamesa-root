@@ -44,14 +44,14 @@
           "inPerson": true
         },
         {
-          "title": "Reservar cita de huellas",
-          "description": "Consigue una cita previa en la web oficial de la policía.",
-          "visamesa": "book"
-        },
-        {
           "title": "Rellenar el EX-17",
           "description": "Revisa tu solicitud TIE antes de imprimirla.",
           "visamesa": "fill"
+        },
+        {
+          "title": "Reservar cita de huellas",
+          "description": "Consigue una cita previa en la web oficial de la policía.",
+          "visamesa": "book"
         },
         {
           "title": "Pagar la tasa TIE",

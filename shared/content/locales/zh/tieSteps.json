@@ -9,13 +9,13 @@
     },
     {
       "id": 2,
-      "title": "预约指纹采集",
-      "description": "在警方官方网站预约 cita previa 名额。"
+      "title": "填写 EX-17 表格",
+      "description": "VisaMesa 根据您的个人资料预填 TIE 申请表。"
     },
     {
       "id": 3,
-      "title": "填写 EX-17 表格",
-      "description": "VisaMesa 根据您的个人资料预填 TIE 申请表。"
+      "title": "预约指纹采集",
+      "description": "在警方官方网站预约 cita previa 名额。"
     },
     {
       "id": 4,
@@ -323,8 +323,8 @@
       "requirements": {
         "ex-17-form": {
           "label": "已签名的 EX-17 表格",
-          "description": "来自第 3 步——已打印并签名。",
-          "detail": "您已在第 3 步于 VisaMesa 中确认 EX-17。请打印、在指定位置签名并携带签名副本——打印后应用内不再保存该文件。"
+          "description": "来自第 2 步——已打印并签名。",
+          "detail": "您已在第 2 步于 VisaMesa 中确认 EX-17。请打印、在指定位置签名并携带签名副本——打印后应用内不再保存该文件。"
         },
         "modelo-790-receipt": {
           "label": "已缴费的 Modelo 790（盖章回执）",
@@ -358,8 +358,8 @@
         },
         "appointment-confirmation-doc": {
           "label": "Cita Previa 确认函",
-          "description": "第 2 步预约的打印确认函。",
-          "detail": "第 2 步预约后 Cita Previa 发送的确认邮件——注明警局、日期和时间。请打印或在手机上展示。"
+          "description": "第 3 步预约的打印确认函。",
+          "detail": "第 3 步预约后 Cita Previa 发送的确认邮件——注明警局、日期和时间。请打印或在手机上展示。"
         },
         "print-documents": {
           "label": "打印全部文件",

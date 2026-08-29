@@ -112,7 +112,7 @@ describe('progressUtils', () => {
 
   it('marks requirement-level references complete when source requirement is done', () => {
     const sourceStep = createTieStep({
-      id: 3,
+      id: 2,
       requirements: [
         {
           key: 'ex-17-form',
@@ -130,7 +130,7 @@ describe('progressUtils', () => {
           label: 'EX-17',
           type: 'self_declared',
           location: 'in_app',
-          referencesRequirement: {stepSlug: 'required-documents', requirementKey: 'ex-17-form', stepId: 3},
+          referencesRequirement: {stepSlug: 'required-documents', requirementKey: 'ex-17-form', stepId: 2},
         },
       ],
     });
@@ -138,7 +138,7 @@ describe('progressUtils', () => {
     const progress = createUserProgress({
       steps: [
         {
-          stepId: 3,
+          stepId: 2,
           status: 'in_progress',
           requirements: {
             'ex-17-form': {
