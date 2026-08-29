@@ -44,14 +44,14 @@
           "inPerson": true
         },
         {
-          "title": "Book fingerprint appointment",
-          "description": "Secure a cita previa slot on the official police website.",
-          "visamesa": "book"
-        },
-        {
           "title": "Fill your EX-17 form",
           "description": "Review your TIE application form before printing.",
           "visamesa": "fill"
+        },
+        {
+          "title": "Book fingerprint appointment",
+          "description": "Secure a cita previa slot on the official police website.",
+          "visamesa": "book"
         },
         {
           "title": "Pay the TIE fee",

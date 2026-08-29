@@ -11,13 +11,13 @@ export const tieSteps = [
   },
   {
     id: 2,
-    title: 'Book fingerprint appointment',
-    description: 'Secure a cita previa slot on the official police website.',
+    title: 'Fill your EX-17 form',
+    description: 'VisaMesa pre-fills your TIE application form from your profile.',
   },
   {
     id: 3,
-    title: 'Fill your EX-17 form',
-    description: 'VisaMesa pre-fills your TIE application form from your profile.',
+    title: 'Book fingerprint appointment',
+    description: 'Secure a cita previa slot on the official police website.',
   },
   {
     id: 4,

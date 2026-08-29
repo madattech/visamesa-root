@@ -44,14 +44,14 @@
           "inPerson": true
         },
         {
-          "title": "预约按指纹",
-          "description": "在警方官网预约 cita previa。",
-          "visamesa": "book"
-        },
-        {
           "title": "填写 EX-17 表格",
           "description": "打印前核对 TIE 申请表。",
           "visamesa": "fill"
+        },
+        {
+          "title": "预约按指纹",
+          "description": "在警方官网预约 cita previa。",
+          "visamesa": "book"
         },
         {
           "title": "缴纳 TIE 费用",

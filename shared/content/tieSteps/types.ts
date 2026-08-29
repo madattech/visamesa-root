@@ -1,7 +1,7 @@
 export const TIE_STEP_ORDER = [
   'empadronamiento',
-  'toma-de-huellas',
   'required-documents',
+  'toma-de-huellas',
   'pay-fee',
   'fingerprint-appointment',
   'collect-tie',

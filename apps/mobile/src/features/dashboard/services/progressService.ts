@@ -60,12 +60,11 @@ const mergeProgressWithSteps = async (
   stored: UserProgress,
 ): Promise<UserProgress> => {
   const steps = await fetchTieSteps();
-  const migrated = migrateStoredProgress(stored, steps);
 
   return {
-    currentStepId: migrated.currentStepId,
+    currentStepId: stored.currentStepId,
     steps: steps.map(stepDefinition => {
-      const existing = migrated.steps.find(
+      const existing = stored.steps.find(
         stepProgress => stepProgress.stepId === stepDefinition.id,
       );
 
@@ -92,55 +91,6 @@ const mergeProgressWithSteps = async (
     }),
   };
 };
-
-function migrateStoredProgress(
-  stored: UserProgress,
-  stepDefinitions: Awaited<ReturnType<typeof fetchTieSteps>>,
-): UserProgress {
-  const step2 = stored.steps.find(step => step.stepId === 2);
-
-  if (!step2) {
-    return stored;
-  }
-
-  const legacyAutomation = step2.requirements['cita-previa-access'];
-  const currentAutomation = step2.requirements['appointment-confirmation'];
-
-  if (legacyAutomation?.completed && !currentAutomation?.completed) {
-    return {
-      ...stored,
-      steps: stored.steps.map(step => {
-        if (step.stepId !== 2) {
-          return step;
-        }
-
-        const requirements = {...step.requirements};
-        delete requirements['cita-previa-access'];
-        requirements['appointment-confirmation'] = legacyAutomation;
-
-        return {...step, requirements};
-      }),
-    };
-  }
-
-  if (stepDefinitions.some(step => step.id === 2)) {
-    const step2Def = stepDefinitions.find(step => step.id === 2);
-
-    if (step2Def && step2.requirements['cita-previa-access']) {
-      const requirements = {...step2.requirements};
-      delete requirements['cita-previa-access'];
-
-      return {
-        ...stored,
-        steps: stored.steps.map(step =>
-          step.stepId === 2 ? {...step, requirements} : step,
-        ),
-      };
-    }
-  }
-
-  return stored;
-}
 
 export async function fetchUserProgress(): Promise<UserProgress> {
   if (inMemoryProgress) {

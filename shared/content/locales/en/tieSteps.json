@@ -9,13 +9,13 @@
     },
     {
       "id": 2,
-      "title": "Book fingerprint appointment",
-      "description": "Secure a cita previa slot on the official police website."
+      "title": "Fill your EX-17 form",
+      "description": "VisaMesa pre-fills your TIE application form from your profile."
     },
     {
       "id": 3,
-      "title": "Fill your EX-17 form",
-      "description": "VisaMesa pre-fills your TIE application form from your profile."
+      "title": "Book fingerprint appointment",
+      "description": "Secure a cita previa slot on the official police website."
     },
     {
       "id": 4,
@@ -323,8 +323,8 @@
       "requirements": {
         "ex-17-form": {
           "label": "Signed EX-17 form",
-          "description": "From Step 3 — printed and signed.",
-          "detail": "You confirmed the EX-17 in VisaMesa in Step 3. Print it, sign where indicated, and bring the signed copy — it is not stored in the app after printing."
+          "description": "From Step 2 — printed and signed.",
+          "detail": "You confirmed the EX-17 in VisaMesa in Step 2. Print it, sign where indicated, and bring the signed copy — it is not stored in the app after printing."
         },
         "modelo-790-receipt": {
           "label": "Paid Modelo 790 (stamped receipt)",
@@ -358,8 +358,8 @@
         },
         "appointment-confirmation-doc": {
           "label": "Cita Previa confirmation",
-          "description": "Printed booking confirmation from Step 2.",
-          "detail": "The confirmation email from Cita Previa after you booked in Step 2 — it shows the police office, date, and time. Print it or show it on your phone."
+          "description": "Printed booking confirmation from Step 3.",
+          "detail": "The confirmation email from Cita Previa after you booked in Step 3 — it shows the police office, date, and time. Print it or show it on your phone."
         },
         "print-documents": {
           "label": "Print all documents",
