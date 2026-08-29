@@ -49,7 +49,7 @@
   "privacy": {
     "title": "Política de privacidad",
     "lastUpdated": "Última actualización: 27 de junio de 2026",
-    "intro": "Esta Política de privacidad describe cómo VisaMesa («nosotros», «nuestro» o «nos») recopila, utiliza y protege tu información personal cuando usas nuestra aplicación móvil y los servicios de la web.",
+    "intro": "Esta Política de privacidad describe cómo VisaMesa, operada por Sargoon Global S.L. («nosotros», «nuestro» o «nos»), recopila, utiliza y protege tu información personal cuando usas nuestra aplicación móvil y los servicios de la web.",
     "blocks": [
       { "type": "h2", "text": "1. Información que recopilamos" },
       { "type": "h3", "text": "1.1 Información personal que nos proporcionas" },
@@ -237,7 +237,7 @@
       { "type": "h2", "text": "5. Propiedad intelectual" },
       {
         "type": "p",
-        "text": "Todo el contenido, las funciones y la funcionalidad del Servicio (incluidos textos, gráficos, logotipos y software) son propiedad de VisaMesa y están protegidos por las leyes de derechos de autor, marcas registradas y otras leyes de propiedad intelectual."
+        "text": "Todo el contenido, las funciones y la funcionalidad del Servicio (incluidos textos, gráficos, logotipos y software) son propiedad de Sargoon Global S.L., operadora de VisaMesa, y están protegidos por las leyes de derechos de autor, marcas registradas y otras leyes de propiedad intelectual."
       },
       { "type": "h2", "text": "6. Privacidad de datos" },
       {
@@ -280,6 +280,30 @@
         "text": "Para preguntas sobre estos Términos, contáctanos en:"
       },
       { "type": "email", "label": "Correo electrónico:", "email": "support@visamesa.com" }
+    ]
+  },
+  "legalNotice": {
+    "title": "Aviso Legal",
+    "lastUpdated": "Última actualización: 29 de agosto de 2026",
+    "intro": "En cumplimiento del artículo 10 de la Ley 34/2002, de 11 de julio, de Servicios de la Sociedad de la Información y de Comercio Electrónico (LSSI-CE), se informa de los siguientes datos identificativos del titular de este sitio web y aplicación móvil:",
+    "blocks": [
+      { "type": "h2", "text": "1. Prestador del servicio" },
+      {
+        "type": "p",
+        "text": "VisaMesa es un producto operado por {{companyLegalName}}."
+      },
+      { "type": "h2", "text": "2. Datos identificativos" },
+      { "type": "p", "text": "Razón social: {{companyLegalName}}" },
+      { "type": "p", "text": "CIF: {{companyCif}}" },
+      { "type": "p", "text": "Domicilio social: {{companyAddress}}" },
+      { "type": "email", "label": "Correo electrónico:", "email": "{{companyEmail}}" },
+      { "type": "p", "text": "Teléfono: {{companyPhone}}" },
+      { "type": "p", "text": "Inscripción registral: {{companyRegistry}}" },
+      { "type": "h2", "text": "3. Finalidad" },
+      {
+        "type": "p",
+        "text": "Este aviso legal identifica a la empresa responsable del sitio web y la aplicación móvil de VisaMesa. VisaMesa sigue siendo la marca y el nombre del producto utilizados en nuestros servicios, marketing y comunicaciones."
+      }
     ]
   }
 }

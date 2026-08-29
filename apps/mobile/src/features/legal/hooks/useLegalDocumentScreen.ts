@@ -2,7 +2,12 @@ import {useCallback, useMemo, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {useTranslation} from 'react-i18next';
-import type {LegalBlock, LegalDocumentId} from '@visamesa/content/legalBlocks';
+import type {LegalBlock, LegalDocumentId} from '@visamesa/content/legal';
+import {
+  getLegalDocumentI18nKey,
+  getLegalNoticeBlocks,
+  legalDocumentRequiresConsent,
+} from '@visamesa/content/legal';
 
 import {useAppDialog} from '@/contexts/AppDialogContext';
 import {useConsent} from '@/contexts/ConsentContext';
@@ -17,7 +22,7 @@ type LegalDocumentNavigation = NativeStackNavigationProp<
   'LegalDocument'
 >;
 
-const CONSENT_TYPE_BY_DOCUMENT: Record<LegalDocumentId, ConsentType> = {
+const CONSENT_TYPE_BY_DOCUMENT: Partial<Record<LegalDocumentId, ConsentType>> = {
   privacy: 'privacy_policy',
   terms: 'terms_of_service',
 };
@@ -29,6 +34,7 @@ export type UseLegalDocumentScreenResult = {
   disclaimerTitle: string | null;
   disclaimerParagraphs: string[];
   blocks: LegalBlock[];
+  requiresConsent: boolean;
   isAccepted: boolean;
   acceptedAt: string | null;
   isAccepting: boolean;
@@ -49,24 +55,34 @@ export function useLegalDocumentScreen(
   const {t: tCommon} = useTranslation('common');
   const [isAccepting, setIsAccepting] = useState(false);
 
+  const requiresConsent = legalDocumentRequiresConsent(documentId);
+  const documentI18nKey = getLegalDocumentI18nKey(documentId);
   const consentType = CONSENT_TYPE_BY_DOCUMENT[documentId];
   const isAccepted =
     documentId === 'privacy'
       ? consentStatus.privacyPolicy
-      : consentStatus.termsOfService;
+      : documentId === 'terms'
+        ? consentStatus.termsOfService
+        : false;
   const acceptedAt =
     documentId === 'privacy'
       ? consentStatus.privacyAcceptedAt
-      : consentStatus.termsAcceptedAt;
+      : documentId === 'terms'
+        ? consentStatus.termsAcceptedAt
+        : null;
 
-  const title = tLegal(`${documentId}.title`);
-  const lastUpdated = tLegal(`${documentId}.lastUpdated`);
-  const intro = tLegal(`${documentId}.intro`);
+  const title = tLegal(`${documentI18nKey}.title`);
+  const lastUpdated = tLegal(`${documentI18nKey}.lastUpdated`);
+  const intro = tLegal(`${documentI18nKey}.intro`);
 
   const blocks = useMemo(() => {
-    const value = tLegal(`${documentId}.blocks`, {returnObjects: true});
+    if (documentId === 'legal-notice') {
+      return getLegalNoticeBlocks(tLegal);
+    }
+
+    const value = tLegal(`${documentI18nKey}.blocks`, {returnObjects: true});
     return Array.isArray(value) ? (value as LegalBlock[]) : [];
-  }, [documentId, tLegal]);
+  }, [documentId, documentI18nKey, tLegal]);
 
   const disclaimerTitle =
     documentId === 'terms' ? tLegal('disclaimer.sectionTitle') : null;
@@ -83,8 +99,9 @@ export function useLegalDocumentScreen(
     return Array.isArray(paragraphs) ? paragraphs : [];
   }, [documentId, tLegal]);
 
-  const acceptLabel =
-    documentId === 'privacy'
+  const acceptLabel = !requiresConsent
+    ? ''
+    : documentId === 'privacy'
       ? t('legalDocument.acceptPrivacy')
       : t('legalDocument.acceptTerms');
 
@@ -101,7 +118,7 @@ export function useLegalDocumentScreen(
   }, [acceptedAt, t]);
 
   const onAcceptPress = useCallback(async () => {
-    if (isAccepting || isAccepted) {
+    if (!requiresConsent || !consentType || isAccepting || isAccepted) {
       return;
     }
 
@@ -120,6 +137,7 @@ export function useLegalDocumentScreen(
     isAccepting,
     isAccepted,
     refreshConsent,
+    requiresConsent,
     showAlert,
     t,
     tCommon,
@@ -136,6 +154,7 @@ export function useLegalDocumentScreen(
     disclaimerTitle,
     disclaimerParagraphs,
     blocks,
+    requiresConsent,
     isAccepted,
     acceptedAt,
     isAccepting,

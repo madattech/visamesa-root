@@ -40,6 +40,7 @@ export const PUBLIC_INDEXABLE_ROUTES = [
   { path: '/pricing', changefreq: 'weekly', priority: '0.9' },
   { path: '/privacy', changefreq: 'monthly', priority: '0.6' },
   { path: '/terms', changefreq: 'monthly', priority: '0.6' },
+  { path: '/legal-notice', changefreq: 'monthly', priority: '0.5' },
   ...PUBLIC_PROCESS_STEP_PATHS.map((path) => ({
     path,
     changefreq: 'monthly' as const,

@@ -58,7 +58,9 @@
     "closeAccessibilityLabel": "Cerrar diálogo"
   },
   "footer": {
+    "legalNav": "Legal",
     "privacyPolicy": "Política de privacidad",
+    "legalNotice": "Aviso legal",
     "termsOfService": "Términos del servicio",
     "copyright": "© {{year}} VisaMesa. Todos los derechos reservados."
   },

@@ -1,9 +1,6 @@
-import { describe, expect, it } from 'vitest'
+import type { LegalBlock } from './types'
 
-import legalEn from './locales/en/legal.json'
-import type { LegalBlock } from './legalBlocks'
-
-function isLegalBlock(value: unknown): value is LegalBlock {
+export function isLegalBlock(value: unknown): value is LegalBlock {
   if (!value || typeof value !== 'object') {
     return false
   }
@@ -37,12 +34,3 @@ function isLegalBlock(value: unknown): value is LegalBlock {
       return false
   }
 }
-
-describe('legalBlocks locale content', () => {
-  it('stores privacy and terms documents with valid block shapes', () => {
-    for (const document of [legalEn.privacy, legalEn.terms]) {
-      expect(document.blocks.length).toBeGreaterThan(0)
-      expect(document.blocks.every(isLegalBlock)).toBe(true)
-    }
-  })
-})

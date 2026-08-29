@@ -5,7 +5,7 @@ import {useTranslation} from 'react-i18next';
 
 import {Text} from '@/components/ui/Text';
 import {openWebsiteUrl} from '@/utils/openWebsiteUrl';
-import type {LegalBlock} from '@visamesa/content/legalBlocks';
+import type {LegalBlock} from '@visamesa/content/legal';
 
 type LegalDocumentBlocksProps = {
   blocks: LegalBlock[];

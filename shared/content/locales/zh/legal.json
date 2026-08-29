@@ -49,7 +49,7 @@
   "privacy": {
     "title": "隐私政策",
     "lastUpdated": "最后更新：2026 年 6 月 27 日",
-    "intro": "本隐私政策说明 VisaMesa（「我们」）在您使用我们的移动应用和网站服务时，如何收集、使用和保护您的个人信息。",
+    "intro": "本隐私政策说明 VisaMesa（由 Sargoon Global S.L. 运营，「我们」）在您使用我们的移动应用和网站服务时，如何收集、使用和保护您的个人信息。",
     "blocks": [
       { "type": "h2", "text": "1. 我们收集的信息" },
       { "type": "h3", "text": "1.1 您提供的个人信息" },
@@ -237,7 +237,7 @@
       { "type": "h2", "text": "5. 知识产权" },
       {
         "type": "p",
-        "text": "服务的全部内容、功能（包括文字、图形、标识、软件）均归 VisaMesa 所有，受版权、商标及其他知识产权法律保护。"
+        "text": "服务的全部内容、功能（包括文字、图形、标识、软件）均归 VisaMesa 运营方 Sargoon Global S.L. 所有，受版权、商标及其他知识产权法律保护。"
       },
       { "type": "h2", "text": "6. 数据隐私" },
       {
@@ -280,6 +280,30 @@
         "text": "如对本条款有疑问，请通过以下方式联系我们："
       },
       { "type": "email", "label": "电子邮箱：", "email": "support@visamesa.com" }
+    ]
+  },
+  "legalNotice": {
+    "title": "法律声明",
+    "lastUpdated": "最后更新：2026年8月29日",
+    "intro": "根据 2002 年 7 月 11 日《信息社会服务与电子商务法》（LSSI-CE）第 10 条，现公布本网站及移动应用程序负责人的以下身份信息：",
+    "blocks": [
+      { "type": "h2", "text": "1. 服务提供者" },
+      {
+        "type": "p",
+        "text": "VisaMesa 是由 {{companyLegalName}} 运营的产品。"
+      },
+      { "type": "h2", "text": "2. 身份信息" },
+      { "type": "p", "text": "法定名称：{{companyLegalName}}" },
+      { "type": "p", "text": "税号（CIF）：{{companyCif}}" },
+      { "type": "p", "text": "注册地址：{{companyAddress}}" },
+      { "type": "email", "label": "电子邮箱：", "email": "{{companyEmail}}" },
+      { "type": "p", "text": "电话：{{companyPhone}}" },
+      { "type": "p", "text": "商业登记信息：{{companyRegistry}}" },
+      { "type": "h2", "text": "3. 说明" },
+      {
+        "type": "p",
+        "text": "本法律声明用于标识 VisaMesa 网站及移动应用程序的运营公司。VisaMesa 仍是我们服务、营销和对外沟通中使用的产品和品牌名称。"
+      }
     ]
   }
 }
