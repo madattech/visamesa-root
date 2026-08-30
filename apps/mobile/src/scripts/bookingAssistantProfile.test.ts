@@ -33,8 +33,14 @@ describe('bookingAssistantProfile mappers', () => {
   })
 
   it('uses fallback email for empadronamiento when profile email is missing', () => {
-    const withoutEmail = {...personal}
-    delete withoutEmail.email
+    const withoutEmail = {
+      firstName: personal.firstName,
+      lastName: personal.lastName,
+      secondLastName: personal.secondLastName,
+      documentType: personal.documentType,
+      documentNumber: personal.documentNumber,
+      phoneNumber: personal.phoneNumber,
+    }
 
     expect(
       mapPersonalToEmpadronamientoBookingAssistantProfile(
