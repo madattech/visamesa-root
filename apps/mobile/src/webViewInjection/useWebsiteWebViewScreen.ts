@@ -65,21 +65,27 @@ export function useWebsiteWebViewScreen(
   useEffect(() => {
     let cancelled = false;
 
-    void loadBookingAssistantInjectionProfiles(user?.email).then(loaded => {
-      if (cancelled) {
-        return;
-      }
+    loadBookingAssistantInjectionProfiles(user?.email)
+      .then(loaded => {
+        if (cancelled) {
+          return;
+        }
 
-      if (loaded?.empadronamiento) {
-        setEmpadronamientoProfile(loaded.empadronamiento);
-      }
+        if (loaded?.empadronamiento) {
+          setEmpadronamientoProfile(loaded.empadronamiento);
+        }
 
-      if (loaded?.citaPrevia) {
-        setCitaPreviaProfile(loaded.citaPrevia);
-      }
+        if (loaded?.citaPrevia) {
+          setCitaPreviaProfile(loaded.citaPrevia);
+        }
 
-      setProfileLoaded(true);
-    });
+        setProfileLoaded(true);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setProfileLoaded(true);
+        }
+      });
 
     return () => {
       cancelled = true;

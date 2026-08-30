@@ -1,4 +1,4 @@
-import { EntitlementType, type ProductType } from './entitlements'
+import { EntitlementType, type ProductType } from './entitlements.js'
 
 export type ProductStripeCopy = {
   name: string
