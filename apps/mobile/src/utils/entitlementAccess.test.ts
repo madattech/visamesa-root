@@ -1,5 +1,5 @@
 import {
-  canUseAutomation,
+  canUseBookingAssistant,
   hasEntitlement,
   hasPaidService,
 } from '@/utils/entitlementAccess';
@@ -12,20 +12,20 @@ describe('entitlementAccess', () => {
 
   const empadronamientoOnly = [
     {
-      type: EntitlementType.EMPADRONAMIENTO_AUTO,
+      type: EntitlementType.EMPADRONAMIENTO_BOOKING_ASSISTANT,
       grantedAt: '',
       expiresAt: null,
     },
   ];
 
-  it('grants all automations with full service', () => {
-    expect(canUseAutomation(fullService, 'empadronamiento')).toBe(true);
-    expect(canUseAutomation(fullService, 'cita-previa')).toBe(true);
+  it('grants all booking assistants with full service', () => {
+    expect(canUseBookingAssistant(fullService, 'empadronamiento')).toBe(true);
+    expect(canUseBookingAssistant(fullService, 'cita-previa')).toBe(true);
   });
 
-  it('grants only matching automation tiers', () => {
-    expect(canUseAutomation(empadronamientoOnly, 'empadronamiento')).toBe(true);
-    expect(canUseAutomation(empadronamientoOnly, 'cita-previa')).toBe(false);
+  it('grants only matching booking assistant tiers', () => {
+    expect(canUseBookingAssistant(empadronamientoOnly, 'empadronamiento')).toBe(true);
+    expect(canUseBookingAssistant(empadronamientoOnly, 'cita-previa')).toBe(false);
   });
 
   it('treats full service as access to any entitlement type', () => {

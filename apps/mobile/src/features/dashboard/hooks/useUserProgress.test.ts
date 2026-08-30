@@ -153,7 +153,7 @@ describe('useUserProgress', () => {
     );
   });
 
-  it('completes automation requirement with appointment data', async () => {
+  it('completes booking assistant requirement with appointment data', async () => {
     const mockProgress = createUserProgress({currentStepId: 1});
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
     progressService.updateRequirementProgress.mockResolvedValue(mockProgress);
@@ -169,10 +169,10 @@ describe('useUserProgress', () => {
     };
 
     await act(async () => {
-      await getHookState().completeAutomationRequirement(
+      await getHookState().completeBookingAssistantRequirement(
         1,
         'Book Appointment',
-        'cita_previa',
+        'cita-previa',
         appointment,
       );
     });
@@ -184,15 +184,15 @@ describe('useUserProgress', () => {
       expect.objectContaining({
         completed: true,
         source: expect.objectContaining({
-          type: 'automation',
-          automationId: 'cita_previa',
+          type: 'assisted_booking',
+          bookingAssistantId: 'cita-previa',
           appointment,
         }),
       }),
     );
   });
 
-  it('clears automation requirement', async () => {
+  it('clears booking assistant requirement', async () => {
     const mockProgress = createUserProgress({currentStepId: 1});
     progressService.fetchUserProgress.mockResolvedValue(mockProgress);
     progressService.updateRequirementProgress.mockResolvedValue(mockProgress);
@@ -200,7 +200,7 @@ describe('useUserProgress', () => {
     const getHookState = await mountUserProgress();
 
     await act(async () => {
-      await getHookState().clearAutomationRequirement(
+      await getHookState().clearBookingAssistantRequirement(
         1,
         'Book Appointment',
       );

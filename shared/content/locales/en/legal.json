@@ -6,7 +6,7 @@
     "masterParagraphs": [
       "VisaMesa is not a law firm, a gestoría, or a government agency, and we are not affiliated with or endorsed by any government entity. We do not provide legal advice, legal representation, or any service reserved for licensed lawyers (abogados) or registered administrative agents (gestores administrativos).",
       "VisaMesa is an independent facilitation and guidance tool. We help you understand and organize a public administrative process that you are fully entitled to complete yourself, free of charge, directly with the Spanish authorities — or with the help of a licensed abogado or gestor administrativo of your choosing.",
-      "The official government procedures (such as empadronamiento, cita previa, and TIE/Tarjeta de Identidad de Extranjero applications) are provided by the relevant Spanish public bodies. Information in VisaMesa is drawn from publicly available official sources. We do not charge you for the government procedures themselves; our fee is solely for the guidance, organization, and optional automation we provide.",
+      "The official government procedures (such as empadronamiento, cita previa, and TIE/Tarjeta de Identidad de Extranjero applications) are provided by the relevant Spanish public bodies. Information in VisaMesa is drawn from publicly available official sources. We do not charge you for the government procedures themselves; our fee is solely for the guidance, organization, and optional booking assistance we provide.",
       "Nothing in this app or on this website constitutes legal advice or creates a lawyer–client relationship. You are responsible for reviewing all information and documents for accuracy before submitting them to any authority. We do not guarantee any specific outcome, approval, or appointment availability. For advice on your legal rights or a complex case, please consult a licensed abogado."
     ],
     "limitations": {
@@ -107,7 +107,7 @@
       { "type": "h3", "text": "4.2 Spanish Government Offices" },
       {
         "type": "p",
-        "text": "When you use our automation services, we submit your information to Spanish government offices (e.g., for empadronamiento or appointment booking) on your behalf, as required for your TIE application."
+        "text": "When you use our booking assistance services, you choose when to enter and submit your information on official Spanish government booking sites (e.g., for empadronamiento or cita previa) as part of your TIE application."
       },
       { "type": "h3", "text": "4.3 No Data Selling" },
       {
@@ -160,13 +160,13 @@
       { "type": "h2", "text": "1. Service Description" },
       {
         "type": "p",
-        "text": "VisaMesa provides guidance and automation tools to help individuals apply for their TIE (Tarjeta de Identidad de Extranjero) residency card in Spain, specifically Barcelona. Our services include:"
+        "text": "VisaMesa provides guidance and booking assistance tools to help individuals apply for their TIE (Tarjeta de Identidad de Extranjero) residency card in Spain, specifically Barcelona. Our services include:"
       },
       {
         "type": "ul",
         "items": [
           "Step-by-step application guidance",
-          "Automated appointment booking with government offices",
+          "Appointment booking assistance with government offices",
           "Form pre-filling and document preparation assistance",
           "Application status tracking"
         ]

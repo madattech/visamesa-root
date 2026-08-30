@@ -263,7 +263,7 @@
         "modelo-790-form": {
           "label": "Formulario Modelo 790 Código 012",
           "description": "Revisa el formulario que VisaMesa ha rellenado por ti.",
-          "detail": "VisaMesa completa automáticamente el formulario Modelo 790, código 012, con la información de tu perfil, así que no tienes que rellenarlo tú mismo."
+          "detail": "VisaMesa prellena el formulario Modelo 790, código 012, con la información de tu perfil, para que puedas revisarlo antes de imprimirlo y firmarlo."
         },
         "print-modelo-790": {
           "label": "Imprime el formulario",

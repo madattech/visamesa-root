@@ -28,15 +28,15 @@
   "products": {
     "full_service": {
       "name": "VisaMesa Servicio Completo",
-      "description": "Asistencia completa para el TIE, incluidas todas las automatizaciones y la guía"
+      "description": "Asistencia completa para el TIE, incluidos todos los asistentes de reserva y la guía"
     },
     "empadronamiento_auto": {
-      "name": "Automatización de empadronamiento",
-      "description": "Reserva automática de cita para el empadronamiento"
+      "name": "Asistente de reserva de empadronamiento",
+      "description": "Asistencia para reservar cita de empadronamiento"
     },
     "cita_previa_auto": {
-      "name": "Automatización de cita previa",
-      "description": "Reserva automática de cita para la toma de huellas"
+      "name": "Asistente de reserva de cita previa",
+      "description": "Asistencia para reservar cita de toma de huellas"
     },
     "guidance": {
       "name": "Guía del proceso TIE",

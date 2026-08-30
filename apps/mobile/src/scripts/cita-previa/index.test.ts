@@ -2,11 +2,11 @@ import {
   citaPreviaPiiConfig,
   buildCitaPreviaInjectionRules,
   buildCitaPreviaScriptMap,
-  type CitaPreviaAutomationProfile,
+  type CitaPreviaBookingAssistantProfile,
 } from './index';
 
 describe('cita previa script map', () => {
-  const profile: CitaPreviaAutomationProfile = {
+  const profile: CitaPreviaBookingAssistantProfile = {
     details: {
       ...citaPreviaPiiConfig.details,
       nie: 'Y1234567X',

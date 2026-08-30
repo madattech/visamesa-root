@@ -16,6 +16,7 @@
     "./i18n/useTranslation": "./i18n/useTranslation.ts",
     "./tieSteps/detail": "./tieSteps/index.ts",
     "./processOverview": "./processOverview/index.ts",
+    "./products": "./products.ts",
     "./waitlistEmail": "./waitlistEmailContent.ts"
   },
   "peerDependencies": {

@@ -1,4 +1,4 @@
-// Common types shared across all automations
+// Common types shared across all booking assistants
 
 export interface User {
   id: string;

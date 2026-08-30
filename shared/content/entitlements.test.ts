@@ -24,7 +24,7 @@ describe('entitlements', () => {
   it('treats full service as covering every product type', () => {
     expect(hasEntitlement(fullService, EntitlementType.GUIDANCE)).toBe(true)
     expect(
-      isProductAlreadyCovered(EntitlementType.CITA_PREVIA_AUTO, fullService),
+      isProductAlreadyCovered(EntitlementType.CITA_PREVIA_BOOKING_ASSISTANT, fullService),
     ).toBe(true)
   })
 

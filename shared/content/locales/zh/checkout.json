@@ -28,15 +28,15 @@
   "products": {
     "full_service": {
       "name": "VisaMesa 全程服务",
-      "description": "完整的 TIE 协助，包括所有自动化与分步指引"
+      "description": "完整的 TIE 协助，包括所有预约助手与分步指引"
     },
     "empadronamiento_auto": {
-      "name": "Empadronamiento 自动化",
-      "description": "地址登记（empadronamiento）预约自动预订"
+      "name": "Empadronamiento 预约助手",
+      "description": "地址登记（empadronamiento）预约协助"
     },
     "cita_previa_auto": {
-      "name": "Cita Previa 自动化",
-      "description": "指纹预约（cita previa）自动预订"
+      "name": "Cita Previa 预约助手",
+      "description": "指纹预约（cita previa）预约协助"
     },
     "guidance": {
       "name": "TIE 流程指引",

@@ -4,19 +4,19 @@ import {
   hasEntitlement,
 } from '@visamesa/content/entitlements';
 
-import { AutomationId } from '@/features/home/types/TieStepDetail';
+import { BookingAssistantId } from '@/features/home/types/TieStepDetail';
 
 export { hasEntitlement, hasPaidService, isProductAlreadyCovered } from '@visamesa/content/entitlements';
 
-const AUTOMATION_ENTITLEMENT: Record<AutomationId, EntitlementType> = {
-  empadronamiento: EntitlementType.EMPADRONAMIENTO_AUTO,
-  'cita-previa': EntitlementType.CITA_PREVIA_AUTO,
+const BOOKING_ASSISTANT_ENTITLEMENT: Record<BookingAssistantId, EntitlementType> = {
+  empadronamiento: EntitlementType.EMPADRONAMIENTO_BOOKING_ASSISTANT,
+  'cita-previa': EntitlementType.CITA_PREVIA_BOOKING_ASSISTANT,
 };
 
-export function canUseAutomation(
+export function canUseBookingAssistant(
   entitlements: UserEntitlement[],
-  automationId: AutomationId,
+  bookingAssistantId: BookingAssistantId,
 ): boolean {
-  const required = AUTOMATION_ENTITLEMENT[automationId];
+  const required = BOOKING_ASSISTANT_ENTITLEMENT[bookingAssistantId];
   return hasEntitlement(entitlements, required);
 }

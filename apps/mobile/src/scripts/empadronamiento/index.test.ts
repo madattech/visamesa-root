@@ -2,7 +2,7 @@ import {
   empadronamientoPiiConfig,
   buildEmpadronamientoInjectionRules,
   buildEmpadronamientoScriptMap,
-  type EmpadronamientoAutomationProfile,
+  type EmpadronamientoBookingAssistantProfile,
 } from './index';
 import {EMPADRONAMIENTO_HOME_URL} from './initia';
 import {EMPADRONAMIENTO_SEARCH_RESULT_URL} from './OSC-select';
@@ -13,7 +13,7 @@ const EMPADRONAMIENTO_FORM_PREFIX =
   'https://seuelectronica.ajuntament.barcelona.cat/oficinavirtual/form/diac-cites/ca/citizen/sol';
 
 describe('empadronamiento script map', () => {
-  const profile: EmpadronamientoAutomationProfile = {
+  const profile: EmpadronamientoBookingAssistantProfile = {
     personalInfo: {
       ...empadronamientoPiiConfig.personalInfo,
       identifier: 'X9999999Z',

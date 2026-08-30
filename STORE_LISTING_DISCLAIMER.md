@@ -33,11 +33,11 @@ Official information sources (same links as in the app TIE steps):
 Include in App Review notes when submitting:
 
 ```
-VisaMesa is not a law firm, gestoría, or government agency. The app provides step-by-step guidance and optional automation for public administrative procedures (TIE residency in Barcelona). It does not provide legal advice or legal representation.
+VisaMesa is not a law firm, gestoría, or government agency. The app provides step-by-step guidance and optional booking assistance for public administrative procedures (TIE residency in Barcelona). It does not provide legal advice or legal representation.
 
 The app does not represent or claim affiliation with any government entity. Government procedure information is based on publicly available official Spanish sources.
 
-Users can complete all government procedures themselves for free. VisaMesa charges only for guidance, organization, and optional automation.
+Users can complete all government procedures themselves for free. VisaMesa charges only for guidance, organization, and optional booking assistance.
 
 Account deletion: visamesa://legal (Legal & Privacy screen in the app).
 Privacy policy: https://visa-mesa.web.app/privacy

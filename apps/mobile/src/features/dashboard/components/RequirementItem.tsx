@@ -9,7 +9,10 @@ import { Icon } from '@/components/ui/Icon'
 import { Text } from '@/components/ui/Text'
 import { RequirementProgress } from '@/features/dashboard/types/UserProgress'
 import { getRequirementShareMessage } from '@/features/dashboard/utils/requirementGroups'
-import { Requirement } from '@/features/home/types/TieStepDetail'
+import {
+  ASSISTED_BOOKING_REQUIREMENT_TYPE,
+  Requirement,
+} from '@/features/home/types/TieStepDetail'
 
 type RequirementItemProps = {
   requirement: Requirement;
@@ -22,10 +25,10 @@ type RequirementItemProps = {
   showDocumentActions?: boolean;
   canUseActions?: boolean;
   onRequirementCheckboxToggle?: () => void;
-  onAutomationPress?: () => void;
+  onBookingAssistantPress?: () => void;
   onViewAppointmentPress?: () => void;
-  onClearAutomationPress?: () => void;
-  onDevMarkAutomationBookedPress?: () => void;
+  onClearBookingAssistantPress?: () => void;
+  onDevMarkBookingAssistantBookedPress?: () => void;
   onDevConfirmFormPress?: () => void;
   onFormPress?: () => void;
 };
@@ -41,10 +44,10 @@ export function RequirementItem({
   showDocumentActions = false,
   canUseActions,
   onRequirementCheckboxToggle,
-  onAutomationPress,
+  onBookingAssistantPress,
   onViewAppointmentPress,
-  onClearAutomationPress,
-  onDevMarkAutomationBookedPress,
+  onClearBookingAssistantPress,
+  onDevMarkBookingAssistantBookedPress,
   onDevConfirmFormPress,
   onFormPress,
 }: RequirementItemProps) {
@@ -61,19 +64,23 @@ export function RequirementItem({
       : requirement.type === 'form'
         ? completed && canUncheck
         : false);
-  const automationSource =
-    progress.source?.type === 'automation' ? progress.source : undefined;
-  const hasConfirmedAppointment = Boolean(automationSource?.appointment);
-  const canClearAutomation =
+  const bookingAssistantSource =
+    progress.source?.type === ASSISTED_BOOKING_REQUIREMENT_TYPE
+      ? progress.source
+      : undefined;
+  const hasConfirmedAppointment = Boolean(bookingAssistantSource?.appointment);
+  const canClearBookingAssistant =
     interactive &&
-    requirement.type === 'automation' &&
+    requirement.type === ASSISTED_BOOKING_REQUIREMENT_TYPE &&
     completed &&
     !hasConfirmedAppointment &&
     canUncheck;
-  const showBookAction = !completed && requirement.type === 'automation';
+  const showBookAction =
+    !completed && requirement.type === ASSISTED_BOOKING_REQUIREMENT_TYPE;
   const showFormAction = !completed && requirement.type === 'form';
   const canPerformActions =
-    requirement.type === 'automation' || requirement.type === 'form'
+    requirement.type === ASSISTED_BOOKING_REQUIREMENT_TYPE ||
+    requirement.type === 'form'
       ? (canUseActions ?? false)
       : true;
   const actionsEnabled = interactive && canPerformActions;
@@ -84,7 +91,8 @@ export function RequirementItem({
     !actionsEnabled &&
     interactive &&
     (showBookAction || showFormAction);
-  const hasAppointmentAction = requirement.type === 'automation' && completed;
+  const hasAppointmentAction =
+    requirement.type === ASSISTED_BOOKING_REQUIREMENT_TYPE && completed;
 
   const handleShareDocument = async () => {
     const {message, url} = getRequirementShareMessage(requirement);
@@ -175,19 +183,19 @@ export function RequirementItem({
             label={t('bookViaVisaMesa')}
             variant="primary"
             disabled={!actionsEnabled}
-            onPress={onAutomationPress}
+            onPress={onBookingAssistantPress}
             accessibilityLabel={t('bookAccessibilityLabel', {
               label: requirement.label,
             })}
             accessibilityHint={dependencyHint}
             style={styles.actionButtonNested}
           />
-          {__DEV__ && onDevMarkAutomationBookedPress ? (
+          {__DEV__ && onDevMarkBookingAssistantBookedPress ? (
             <Button
               label={t('devMarkAsBooked')}
               variant="outline"
               disabled={!actionsEnabled}
-              onPress={onDevMarkAutomationBookedPress}
+              onPress={onDevMarkBookingAssistantBookedPress}
               accessibilityLabel={t('devMarkAsBookedAccessibilityLabel', {
                 label: requirement.label,
               })}
@@ -239,11 +247,11 @@ export function RequirementItem({
             })}
             style={styles.actionButton}
           />
-          {canClearAutomation ? (
+          {canClearBookingAssistant ? (
             <Button
               label={t('markAsNotBooked')}
               variant="outline"
-              onPress={onClearAutomationPress}
+              onPress={onClearBookingAssistantPress}
               accessibilityLabel={t('markAsNotBookedAccessibilityLabel', {
                 label: requirement.label,
               })}

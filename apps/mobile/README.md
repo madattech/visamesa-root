@@ -6,7 +6,7 @@ React Native app that guides users through the Spanish TIE process and automates
 
 1. User logs in with VisaMesa credentials (Google sign-in)
 2. Completes profile information and TIE step checklist
-3. Launches on-device WebView automations for supported procedures (e.g. cita previa, empadronamiento)
+3. Launches on-device WebView booking assistants for supported procedures (e.g. cita previa, empadronamiento)
 4. Syncs progress, entitlements, and encrypted profile data with the VisaMesa backend
 
 **Target Users**: Individuals navigating the Spanish TIE immigration process
@@ -26,7 +26,7 @@ React Native app that guides users through the Spanish TIE process and automates
            │
 ┌──────────▼──────────────┐
 │   VisaMesa Mobile       │  ← This app
-│   (React Native)        │  TIE guidance + WebView automation
+│   (React Native)        │  TIE guidance + WebView booking assistant
 └─────────────────────────┘
 ```
 
@@ -222,7 +222,7 @@ apps/mobile/
 │   ├── components/                # Shared UI components
 │   ├── contexts/                  # App-wide React context
 │   ├── services/                  # Infrastructure (api, auth, crypto, payment)
-│   ├── webViewInjection/          # WebView automation + WebsiteWebView screen
+│   ├── webViewInjection/          # WebView booking assistant + WebsiteWebView screen
 │   ├── scripts/                   # Government site injection scripts
 │   │   ├── cita-previa/
 │   │   └── empadronamiento/
@@ -443,7 +443,7 @@ npm test
 **What we test**
 - Hooks and services (business logic)
 - Reusable components with non-trivial behavior (e.g. `Stepper`)
-- WebView automation rules and injection timing
+- WebView booking assistant rules and injection timing
 
 **What we skip**
 - Thin screen wrappers that only compose hooks + UI
@@ -541,7 +541,7 @@ ENABLE_ANALYTICS=false
 - **State**: React Context API
 - **HTTP Client**: Axios
 - **Storage**: AsyncStorage
-- **WebView**: react-native-webview (for automation)
+- **WebView**: react-native-webview (for booking assistant)
 
 ---
 

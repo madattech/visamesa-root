@@ -6,7 +6,7 @@
     "masterParagraphs": [
       "VisaMesa 并非律师事务所、gestoría 或政府机构，与任何政府实体均无关联或背书关系。我们不提供法律建议、法律代理，也不提供仅限持证律师（abogados）或注册行政代理人（gestores administrativos）提供的服务。",
       "VisaMesa 是独立的办理辅助与指引工具。我们帮助您理解并组织一项公共行政流程——您完全有权自行免费向西班牙当局完成，或选择持证 abogado 或 gestor administrativo 协助办理。",
-      "官方政府流程（如 empadronamiento、cita previa 及 TIE/Tarjeta de Identidad de Extranjero 申请）由相关西班牙公共机构提供。VisaMesa 中的信息来自公开可用的官方来源。我们不对政府流程本身收费；我们的费用仅用于我们提供的指引、组织及可选自动化服务。",
+      "官方政府流程（如 empadronamiento、cita previa 及 TIE/Tarjeta de Identidad de Extranjero 申请）由相关西班牙公共机构提供。VisaMesa 中的信息来自公开可用的官方来源。我们不对政府流程本身收费；我们的费用仅用于我们提供的指引、组织及可选预约协助。",
       "本应用或本网站中的任何内容均不构成法律建议，也不建立律师–客户关系。您有责任在向任何当局提交前，自行核对所有信息与文件的准确性。我们不保证任何特定结果、批准或预约可用性。如需了解您的法律权利或处理复杂案件，请咨询持证 abogado。"
     ],
     "limitations": {
@@ -107,7 +107,7 @@
       { "type": "h3", "text": "4.2 西班牙政府机构" },
       {
         "type": "p",
-        "text": "当您使用我们的自动化服务时，我们会代表您向西班牙政府机构（例如办理 empadronamiento 或预约）提交您的信息，以满足 TIE 申请所需。"
+        "text": "当您使用我们的预约协助服务时，您可自行决定在西班牙政府官方预约网站上何时填写并提交信息（例如 empadronamiento 或 cita previa），以配合 TIE 申请流程。"
       },
       { "type": "h3", "text": "4.3 不出售数据" },
       {
@@ -160,13 +160,13 @@
       { "type": "h2", "text": "1. 服务说明" },
       {
         "type": "p",
-        "text": "VisaMesa 提供指引与自动化工具，帮助个人在西班牙（具体为巴塞罗那）申请 TIE（Tarjeta de Identidad de Extranjero）居留卡。我们的服务包括："
+        "text": "VisaMesa 提供指引与预约协助工具，帮助个人在西班牙（具体为巴塞罗那）申请 TIE（Tarjeta de Identidad de Extranjero）居留卡。我们的服务包括："
       },
       {
         "type": "ul",
         "items": [
           "分步申请指引",
-          "与政府机构的自动预约",
+          "与政府机构的预约协助",
           "表格预填与文件准备协助",
           "申请状态跟踪"
         ]

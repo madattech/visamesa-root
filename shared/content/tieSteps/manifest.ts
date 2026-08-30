@@ -1,13 +1,19 @@
-import { TIE_STEP_ORDER, type RequirementManifest, type TieStepManifestEntry, type TieStepSlug } from './types'
+import {
+  ASSISTED_BOOKING_REQUIREMENT_TYPE,
+  TIE_STEP_ORDER,
+  type RequirementManifest,
+  type TieStepManifestEntry,
+  type TieStepSlug,
+} from './types'
 
 const empadronamientoRequirements: RequirementManifest[] = [
   { key: 'passport-nie', type: 'self_declared', location: 'in_app' },
   { key: 'proof-of-residence', type: 'self_declared', location: 'in_app' },
   {
     key: 'appointment-confirmation',
-    type: 'automation',
+    type: ASSISTED_BOOKING_REQUIREMENT_TYPE,
     location: 'in_app',
-    automationId: 'empadronamiento',
+    bookingAssistantId: 'empadronamiento',
     dependsOnKeys: ['passport-nie', 'proof-of-residence'],
   },
   {
@@ -21,9 +27,9 @@ const empadronamientoRequirements: RequirementManifest[] = [
 const tomaDeHuellasRequirements: RequirementManifest[] = [
   {
     key: 'appointment-confirmation',
-    type: 'automation',
+    type: ASSISTED_BOOKING_REQUIREMENT_TYPE,
     location: 'in_app',
-    automationId: 'cita-previa',
+    bookingAssistantId: 'cita-previa',
     link: {
       url: 'https://sede.administracionespublicas.gob.es/icpplus/index.html',
     },

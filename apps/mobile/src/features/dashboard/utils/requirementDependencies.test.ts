@@ -115,8 +115,8 @@ describe('requirementDependencies', () => {
             'appointment-confirmation': {
               completed: true,
               source: {
-                type: 'automation',
-                automationId: 'empadronamiento',
+                type: 'assisted_booking',
+                bookingAssistantId: 'empadronamiento',
                 completedAt: '2026-01-01',
               },
             },
@@ -143,8 +143,8 @@ describe('requirementDependencies', () => {
             'appointment-confirmation': {
               completed: true,
               source: {
-                type: 'automation',
-                automationId: 'empadronamiento',
+                type: 'assisted_booking',
+                bookingAssistantId: 'empadronamiento',
                 completedAt: '2026-01-01',
               },
             },
@@ -180,8 +180,8 @@ describe('requirementDependencies', () => {
             'appointment-confirmation': {
               completed: true,
               source: {
-                type: 'automation',
-                automationId: 'empadronamiento',
+                type: 'assisted_booking',
+                bookingAssistantId: 'empadronamiento',
                 completedAt: '2026-01-01',
               },
             },
@@ -284,7 +284,7 @@ describe('requirementDependencies', () => {
     ).toBe(false);
   });
 
-  it('does not allow checking automation requirements via checkbox', () => {
+  it('does not allow checking assisted booking requirements via checkbox', () => {
     const progress = createUserProgress({
       steps: [
         {

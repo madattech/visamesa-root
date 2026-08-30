@@ -7,7 +7,8 @@ export { getStepIdBySlug, getStepSlugById, tieStepManifest } from './manifest'
 export {
   isTieStepSlug,
   TIE_STEP_ORDER,
-  type AutomationId,
+  ASSISTED_BOOKING_REQUIREMENT_TYPE,
+  type BookingAssistantId,
   type CommonQuestion,
   type EstimatedTimeItem,
   type OfficialLink,

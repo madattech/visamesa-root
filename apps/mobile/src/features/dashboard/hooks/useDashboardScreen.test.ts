@@ -44,7 +44,7 @@ jest.mock('@/components/Toast/ToastProvider', () => ({
 jest.mock('@/contexts/EntitlementsContext', () => ({
   useEntitlements: () => ({
     hasPaidService: () => true,
-    canUseAutomation: () => true,
+    canUseBookingAssistant: () => true,
     isLoading: false,
     refreshEntitlements: jest.fn(),
   }),
@@ -56,6 +56,20 @@ jest.mock('@/hooks/useProcessReadiness', () => ({
 
 jest.mock('@/features/profile/services/profileService', () => ({
   getProfile: jest.fn(() => Promise.resolve({personal: null})),
+  loadBookingAssistantInjectionProfiles: jest.fn(() =>
+    Promise.resolve({
+      personal: {
+        firstName: 'Jane',
+        lastName: 'Doe',
+        documentType: 'passport',
+        documentNumber: 'A12345678',
+        phoneNumber: '600123456',
+        email: 'jane@example.com',
+      },
+      empadronamiento: {},
+      citaPrevia: {},
+    }),
+  ),
 }));
 
 jest.mock('@/features/dashboard/services/empadronamientoProgressService', () => ({
@@ -67,10 +81,6 @@ jest.mock('@/features/dashboard/services/empadronamientoProgressService', () => 
 jest.mock('@/features/dashboard/services/progressService', () => ({
   saveUserProgress: jest.fn((progress: unknown) => Promise.resolve(progress)),
   subscribeToProgressReset: jest.fn(() => () => {}),
-}));
-
-jest.mock('@/utils/entitlementAccess', () => ({
-  canUseAutomationEntitlement: () => true,
 }));
 
 jest.mock('@/navigation/navigationRef', () => ({
@@ -103,8 +113,8 @@ const {useUserProgress} = jest.requireMock(
 describe('useDashboardScreen', () => {
   const completeStep = jest.fn();
   const toggleSelfDeclaredRequirement = jest.fn();
-  const completeAutomationRequirement = jest.fn();
-  const clearAutomationRequirement = jest.fn();
+  const completeBookingAssistantRequirement = jest.fn();
+  const clearBookingAssistantRequirement = jest.fn();
   const completeFormRequirement = jest.fn();
 
   beforeEach(() => {
@@ -113,8 +123,8 @@ describe('useDashboardScreen', () => {
     mockRefreshReadiness.mockResolvedValue(undefined);
     completeStep.mockReset();
     toggleSelfDeclaredRequirement.mockReset();
-    completeAutomationRequirement.mockReset();
-    clearAutomationRequirement.mockReset();
+    completeBookingAssistantRequirement.mockReset();
+    clearBookingAssistantRequirement.mockReset();
     completeFormRequirement.mockReset();
 
     mockUseProcessReadiness.mockReturnValue({
@@ -153,8 +163,8 @@ describe('useDashboardScreen', () => {
       error: null,
       completeStep,
       toggleSelfDeclaredRequirement,
-      completeAutomationRequirement,
-      clearAutomationRequirement,
+      completeBookingAssistantRequirement,
+      clearBookingAssistantRequirement,
       completeFormRequirement,
       refreshProgress: jest.fn(),
     });
@@ -197,8 +207,8 @@ describe('useDashboardScreen', () => {
       error: null,
       completeStep,
       toggleSelfDeclaredRequirement,
-      completeAutomationRequirement,
-      clearAutomationRequirement,
+      completeBookingAssistantRequirement,
+      clearBookingAssistantRequirement,
       completeFormRequirement,
       refreshProgress: jest.fn(),
     });
@@ -261,7 +271,7 @@ describe('useDashboardScreen', () => {
     });
   });
 
-  it('navigates to step detail and automation webview', async () => {
+  it('navigates to step detail and booking assistant webview', async () => {
     const translateTieSteps = createTieStepsTranslator(i18n);
     const realSteps = buildTieSteps(translateTieSteps);
 
@@ -291,8 +301,8 @@ describe('useDashboardScreen', () => {
       error: null,
       completeStep,
       toggleSelfDeclaredRequirement,
-      completeAutomationRequirement,
-      clearAutomationRequirement,
+      completeBookingAssistantRequirement,
+      clearBookingAssistantRequirement,
       completeFormRequirement,
       refreshProgress: jest.fn(),
     });
@@ -310,16 +320,20 @@ describe('useDashboardScreen', () => {
       stepId: 1,
     });
 
-    act(() => {
-      getHookState().onAutomationPress('empadronamiento', 'appointment-confirmation');
+    await act(async () => {
+      await getHookState().onBookingAssistantPress(
+        'empadronamiento',
+        'appointment-confirmation',
+      );
     });
+    await flushAsyncEffects();
 
     expect(navigation.navigate).toHaveBeenCalledWith('WebsiteWebView', {
-      automation: 'empadronamiento',
+      bookingAssistant: 'empadronamiento',
     });
   });
 
-  it('shows a dependency hint when automation prerequisites are incomplete', async () => {
+  it('shows a dependency hint when booking assistant prerequisites are incomplete', async () => {
     const translateTieSteps = createTieStepsTranslator(i18n);
     const realSteps = buildTieSteps(translateTieSteps);
 
@@ -349,8 +363,8 @@ describe('useDashboardScreen', () => {
       error: null,
       completeStep,
       toggleSelfDeclaredRequirement,
-      completeAutomationRequirement,
-      clearAutomationRequirement,
+      completeBookingAssistantRequirement,
+      clearBookingAssistantRequirement,
       completeFormRequirement,
       refreshProgress: jest.fn(),
     });
@@ -360,9 +374,13 @@ describe('useDashboardScreen', () => {
     >[0];
     const getHookState = await renderDashboardScreen(navigation);
 
-    act(() => {
-      getHookState().onAutomationPress('empadronamiento', 'appointment-confirmation');
+    await act(async () => {
+      await getHookState().onBookingAssistantPress(
+        'empadronamiento',
+        'appointment-confirmation',
+      );
     });
+    await flushAsyncEffects();
 
     expect(mockShowToast).toHaveBeenCalledWith('Complete the items above first.');
     expect(navigation.navigate).not.toHaveBeenCalledWith(
@@ -380,7 +398,7 @@ describe('useDashboardScreen', () => {
     >[0];
     const getHookState = await renderDashboardScreen(navigation);
 
-    expect(getHookState().onDevMarkAutomationBookedPress).toBeUndefined();
+    expect(getHookState().onDevMarkBookingAssistantBookedPress).toBeUndefined();
     expect(getHookState().onDevConfirmFormPress).toBeUndefined();
 
     (global as {__DEV__?: boolean}).__DEV__ = originalDev;

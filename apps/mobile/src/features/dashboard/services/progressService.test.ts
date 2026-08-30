@@ -28,7 +28,7 @@ describe('progressService', () => {
         id: 1,
         requirements: [
           {key: 'passport', label: 'Passport', type: 'self_declared'},
-          {key: 'appointment-confirmation', label: 'Appointment confirmation', type: 'automation'},
+          {key: 'appointment-confirmation', label: 'Appointment confirmation', type: 'assisted_booking'},
         ],
       },
     ]);

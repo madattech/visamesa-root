@@ -51,10 +51,10 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onStepDetailPress,
     onCompleteStep,
     onRequirementCheckboxToggle,
-    onAutomationPress,
+    onBookingAssistantPress,
     onViewAppointmentPress,
-    onClearAutomationPress,
-    onDevMarkAutomationBookedPress,
+    onClearBookingAssistantPress,
+    onDevMarkBookingAssistantBookedPress,
     onDevConfirmFormPress,
     onFormPress,
     onClosePrerequisitesDialog,
@@ -118,10 +118,10 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
             requirements={currentStepRequirements}
             interactive={canInteractWithRequirements}
             onRequirementCheckboxToggle={onRequirementCheckboxToggle}
-            onAutomationPress={onAutomationPress}
+            onBookingAssistantPress={onBookingAssistantPress}
             onViewAppointmentPress={onViewAppointmentPress}
-            onClearAutomationPress={onClearAutomationPress}
-            onDevMarkAutomationBookedPress={onDevMarkAutomationBookedPress}
+            onClearBookingAssistantPress={onClearBookingAssistantPress}
+            onDevMarkBookingAssistantBookedPress={onDevMarkBookingAssistantBookedPress}
             onDevConfirmFormPress={onDevConfirmFormPress}
             onFormPress={onFormPress}
           />

@@ -1,5 +1,6 @@
 import {NavigatorScreenParams} from '@react-navigation/native';
 import type {LegalDocumentId} from '@visamesa/content/legal';
+import type {BookingAssistantId} from '@/features/home/types/TieStepDetail';
 
 import {ProfileSectionId} from '@/features/profile/data/profileSections';
 import {CitaPreviaDetails} from '@/types';
@@ -35,12 +36,10 @@ export type MainTabParamList = {
   ProfileTab: NavigatorScreenParams<ProfileStackParamList>;
 };
 
-export type WebViewAutomationKind = 'cita-previa' | 'empadronamiento';
-
 export type RootStackParamList = {
   MainTabs: NavigatorScreenParams<MainTabParamList>;
   WebsiteWebView: {
-    automation?: WebViewAutomationKind;
+    bookingAssistant?: BookingAssistantId;
     url?: string;
     title?: string;
     details?: CitaPreviaDetails;

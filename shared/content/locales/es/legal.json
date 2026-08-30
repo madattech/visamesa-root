@@ -6,7 +6,7 @@
     "masterParagraphs": [
       "VisaMesa no es un despacho de abogados, una gestoría ni una agencia gubernamental, y no estamos afiliados ni respaldados por ninguna entidad gubernamental. No ofrecemos asesoramiento legal, representación legal ni ningún servicio reservado a abogados colegiados o gestores administrativos registrados.",
       "VisaMesa es una herramienta independiente de facilitación y orientación. Te ayudamos a entender y organizar un trámite administrativo público que tienes pleno derecho a completar tú mismo, de forma gratuita, directamente ante las autoridades españolas — o con la ayuda de un abogado o gestor administrativo de tu elección.",
-      "Los trámites oficiales del gobierno (como el empadronamiento, la cita previa y las solicitudes de TIE/Tarjeta de Identidad de Extranjero) los gestionan los organismos públicos españoles correspondientes. La información en VisaMesa se basa en fuentes oficiales de acceso público. No te cobramos por los trámites gubernamentales en sí; nuestra tarifa es únicamente por la orientación, organización y automatización opcional que ofrecemos.",
+      "Los trámites oficiales del gobierno (como el empadronamiento, la cita previa y las solicitudes de TIE/Tarjeta de Identidad de Extranjero) los gestionan los organismos públicos españoles correspondientes. La información en VisaMesa se basa en fuentes oficiales de acceso público. No te cobramos por los trámites gubernamentales en sí; nuestra tarifa es únicamente por la orientación, organización y asistencia de reserva opcional que ofrecemos.",
       "Nada en esta app ni en esta web constituye asesoramiento legal ni crea una relación abogado-cliente. Eres responsable de revisar toda la información y documentos por su exactitud antes de presentarlos ante cualquier autoridad. No garantizamos ningún resultado, aprobación ni disponibilidad de citas concretas. Para asesoramiento sobre tus derechos legales o un caso complejo, consulta a un abogado colegiado."
     ],
     "limitations": {
@@ -107,7 +107,7 @@
       { "type": "h3", "text": "4.2 Oficinas gubernamentales españolas" },
       {
         "type": "p",
-        "text": "Cuando usas nuestros servicios de automatización, enviamos tu información a oficinas gubernamentales españolas (p. ej., para empadronamiento o reserva de citas) en tu nombre, según lo requiera tu solicitud de TIE."
+        "text": "Cuando usas nuestros servicios de asistencia de reserva, tú decides cuándo introducir y enviar tu información en las webs oficiales de reserva del gobierno español (p. ej., para empadronamiento o cita previa) como parte de tu solicitud de TIE."
       },
       { "type": "h3", "text": "4.3 Sin venta de datos" },
       {
@@ -160,13 +160,13 @@
       { "type": "h2", "text": "1. Descripción del servicio" },
       {
         "type": "p",
-        "text": "VisaMesa ofrece orientación y herramientas de automatización para ayudar a las personas a solicitar su tarjeta de residencia TIE (Tarjeta de Identidad de Extranjero) en España, concretamente en Barcelona. Nuestros servicios incluyen:"
+        "text": "VisaMesa ofrece orientación y herramientas de asistencia de reserva para ayudar a las personas a solicitar su tarjeta de residencia TIE (Tarjeta de Identidad de Extranjero) en España, concretamente en Barcelona. Nuestros servicios incluyen:"
       },
       {
         "type": "ul",
         "items": [
           "Orientación paso a paso para la solicitud",
-          "Reserva automatizada de citas con oficinas gubernamentales",
+          "Asistencia para reservar citas con oficinas gubernamentales",
           "Relleno previo de formularios y asistencia en la preparación de documentos",
           "Seguimiento del estado de la solicitud"
         ]

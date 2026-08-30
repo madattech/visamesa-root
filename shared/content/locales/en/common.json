@@ -68,10 +68,10 @@
     "label": "Language",
     "current": "Current language: {{language}}"
   },
-  "automation": {
+  "bookingAssistant": {
     "missingProfile": "Case profile information is missing",
-    "stopTitle": "Stop automation",
-    "stopMessage": "Are you sure you want to stop the automation?",
+    "stopTitle": "Stop booking assistant",
+    "stopMessage": "Are you sure you want to stop the booking assistant?",
     "successTitle": "Success!",
     "successMessage": "Your appointment has been booked for {{date}} at {{time}}",
     "bookingFailedTitle": "Booking failed",
