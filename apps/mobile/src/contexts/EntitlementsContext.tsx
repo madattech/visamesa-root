@@ -16,11 +16,11 @@ import {
   UserEntitlement,
 } from '@/types/entitlements';
 import {
-  canUseAutomation as checkAutomationAccess,
+  canUseBookingAssistant as checkBookingAssistantAccess,
   hasEntitlement as checkEntitlement,
   hasPaidService as checkHasPaidService,
 } from '@/utils/entitlementAccess';
-import { AutomationId } from '@/features/home/types/TieStepDetail';
+import { BookingAssistantId } from '@/features/home/types/TieStepDetail';
 
 const ENTITLEMENT_POLL_ATTEMPTS = 5;
 const ENTITLEMENT_POLL_DELAY_MS = 2000;
@@ -38,7 +38,7 @@ type EntitlementsContextValue = {
   waitForPaidService: () => Promise<boolean>;
   hasEntitlement: (type: EntitlementType) => boolean;
   hasPaidService: () => boolean;
-  canUseAutomation: (automationId: AutomationId) => boolean;
+  canUseBookingAssistant: (bookingAssistantId: BookingAssistantId) => boolean;
 };
 
 const EntitlementsContext = createContext<EntitlementsContextValue | undefined>(
@@ -100,8 +100,8 @@ export function EntitlementsProvider({ children }: { children: ReactNode }) {
       waitForPaidService,
       hasEntitlement: type => checkEntitlement(entitlements, type),
       hasPaidService: () => checkHasPaidService(entitlements),
-      canUseAutomation: automationId =>
-        checkAutomationAccess(entitlements, automationId),
+      canUseBookingAssistant: bookingAssistantId =>
+        checkBookingAssistantAccess(entitlements, bookingAssistantId),
     }),
     [entitlements, isLoading, refreshEntitlements, waitForPaidService],
   );

@@ -1,6 +1,6 @@
 import { API_ENDPOINTS } from '@/config/api';
 import {
-  getPersonalForAutomation,
+  getPersonalForBookingAssistant,
   getProfile,
   updateProfile,
 } from '@/features/profile/services/profileService';
@@ -96,7 +96,7 @@ describe('profileService', () => {
     );
   });
 
-  it('returns personal data for automation when profile decrypts', async () => {
+  it('returns personal data for booking assistant when profile decrypts', async () => {
     const profile = {
       personal: { firstName: 'Ada', documentNumber: 'X1234567A' },
     };
@@ -112,10 +112,10 @@ describe('profileService', () => {
     mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
     mockedCryptoService.decrypt.mockResolvedValue(profile);
 
-    await expect(getPersonalForAutomation()).resolves.toEqual(profile.personal);
+    await expect(getPersonalForBookingAssistant()).resolves.toEqual(profile.personal);
   });
 
-  it('returns null personal for automation when decrypt fails on another device', async () => {
+  it('returns null personal for booking assistant when decrypt fails on another device', async () => {
     const encryptedPayload = {
       ciphertext: 'encrypted',
       nonce: 'nonce',
@@ -128,7 +128,7 @@ describe('profileService', () => {
     mockedApiClient.get.mockResolvedValue({ data: encryptedPayload });
     mockedCryptoService.decrypt.mockRejectedValue(new ProfileDecryptionError());
 
-    await expect(getPersonalForAutomation()).resolves.toBeNull();
+    await expect(getPersonalForBookingAssistant()).resolves.toBeNull();
   });
 
   it('rethrows profile decryption errors for profile screen loads', async () => {

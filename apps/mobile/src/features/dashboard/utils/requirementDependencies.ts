@@ -1,4 +1,4 @@
-import {TieStepDetail} from '@/features/home/types/TieStepDetail';
+import { ASSISTED_BOOKING_REQUIREMENT_TYPE, TieStepDetail } from '@/features/home/types/TieStepDetail';
 import {
   ProgressContext,
   UserProgress,
@@ -161,7 +161,8 @@ export function getRequirementToggleState(
     canUncheckRequirement(progress, step, requirementKey, context) &&
     (stored.source?.type === 'self_declared' ||
       stored.source?.type === 'form' ||
-      (stored.source?.type === 'automation' && !stored.source.appointment));
+      (stored.source?.type === ASSISTED_BOOKING_REQUIREMENT_TYPE &&
+        !stored.source.appointment));
 
   const canCheckViaCheckbox =
     requirement.type === 'self_declared' &&

@@ -8,7 +8,7 @@
   },
   "process": {
     "sectionTitle": "Your TIE process, step by step",
-    "sectionLead": "The government process is free, but confusing. VisaMesa keeps you on track and can automate the hardest parts.",
+    "sectionLead": "The government process is free, but confusing. VisaMesa keeps you on track and can help with the hardest parts.",
     "stepLabel": "Step {{stepNumber}}"
   },
   "features": {
@@ -21,17 +21,17 @@
       },
       "calendar": {
         "title": "Appointment monitoring",
-        "description": "Empadronamiento and cita previa slots in Barcelona can vanish in minutes, especially in peak season. With our service, VisaMesa watches the official booking sites from your phone and books when a slot opens — so you're not stuck refreshing pages all day.",
+        "description": "Empadronamiento and cita previa slots in Barcelona can vanish in minutes, especially in peak season. With our service, VisaMesa watches official booking sites from your phone and alerts you when a slot opens, with guided in-app assistance to help you secure the appointment — so you're not stuck refreshing pages all day.",
         "videoLabel": "App demo: appointment monitoring finding available slots"
       },
       "form": {
         "title": "Form pre-fill",
         "description": "Enter your passport, visa, and address once in your encrypted profile. VisaMesa uses those details to pre-fill the EX-17, Modelo 790, and government booking forms — you review, print, and sign knowing nothing was copied wrong.",
-        "videoLabel": "App demo: form fields automatically filled from profile"
+        "videoLabel": "App demo: form fields pre-filled from profile"
       },
       "payment": {
         "title": "One-time service",
-        "description": "One payment on our website unlocks the full service — step-by-step guidance, form pre-fill, and appointment automation. No App Store subscription or hidden renewals: pay once, sign in with the same Google account in the app, and start your TIE journey.",
+        "description": "One payment on our website unlocks the full service — step-by-step guidance, form pre-fill, and appointment assistance. No App Store subscription or hidden renewals: pay once, sign in with the same Google account in the app, and start your TIE journey.",
         "videoLabel": "App demo: checkout success and entitlements granted"
       }
     }
@@ -67,13 +67,13 @@
   "signInHint": "Use the same Google account you will use in the mobile app.",
   "seo": {
     "homeTitle": "VisaMesa — TIE assistance in Barcelona",
-    "homeDescription": "Join the VisaMesa waitlist for early access. We help students in Barcelona navigate the TIE process with guided steps, document prep, and optional appointment automation. Not legal advice.",
+    "homeDescription": "Join the VisaMesa waitlist for early access. We help students in Barcelona navigate the TIE process with guided steps, document prep, and optional appointment assistance. Not legal advice.",
     "pricingTitle": "Pay your service fee — VisaMesa",
     "pricingDescription": "Pay your VisaMesa service fee (€{{price}}) for the Barcelona student TIE process. One-time payment, then use the mobile app with the same Google account.",
     "privacyTitle": "Privacy Policy — VisaMesa",
     "privacyDescription": "How VisaMesa collects, encrypts, and protects your personal information for the TIE application process in Barcelona.",
     "termsTitle": "Terms of Service — VisaMesa",
-    "termsDescription": "Terms for using VisaMesa guidance and automation for the Barcelona student TIE process. VisaMesa is not a law firm or government agency.",
+    "termsDescription": "Terms for using VisaMesa guidance and appointment assistance for the Barcelona student TIE process. VisaMesa is not a law firm or government agency.",
     "legalNoticeTitle": "Legal Notice — VisaMesa",
     "legalNoticeDescription": "Legal identification of Sargoon Global S.L. as the company operating the VisaMesa website and mobile application, in compliance with Spanish LSSI-CE.",
     "checkoutSuccessTitle": "Payment successful — VisaMesa",

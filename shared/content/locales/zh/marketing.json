@@ -8,7 +8,7 @@
   },
   "process": {
     "sectionTitle": "TIE 办理流程，步步清晰",
-    "sectionLead": "政府流程本身免费，但步骤繁琐。VisaMesa 帮您保持进度，并可在最棘手的环节提供自动化支持。",
+    "sectionLead": "政府流程本身免费，但步骤繁琐。VisaMesa 帮您保持进度，并可在最棘手的环节提供预约协助。",
     "stepLabel": "第 {{stepNumber}} 步"
   },
   "features": {
@@ -21,17 +21,17 @@
       },
       "calendar": {
         "title": "预约监控",
-        "description": "巴塞罗那的 empadronamiento 和 cita previa 名额往往在几分钟内就被抢光，旺季尤其如此。购买服务后，VisaMesa 可在您的手机上监控官方预约网站，有空位时自动预订——无需整天反复刷新页面。",
+        "description": "巴塞罗那的 empadronamiento 和 cita previa 名额往往在几分钟内就被抢光，旺季尤其如此。购买服务后，VisaMesa 可在您的手机上监控官方预约网站，有空位时通知您，并在应用内提供引导式协助，帮助您完成预约——无需整天反复刷新页面。",
         "videoLabel": "应用演示：预约监控查找可用名额"
       },
       "form": {
         "title": "表格预填",
         "description": "在加密个人资料中一次性填写护照、签证和地址信息。VisaMesa 用这些数据预填 EX-17、Modelo 790 及政府预约表格——您只需核对、打印并签字，不必担心抄错信息。",
-        "videoLabel": "应用演示：根据个人资料自动填写表格字段"
+        "videoLabel": "应用演示：根据个人资料预填表格字段"
       },
       "payment": {
         "title": "一次性服务",
-        "description": "在网站上一笔付清即可解锁完整服务：分步指引、表格预填和预约自动化。无需 App Store 订阅，也没有隐藏续费：支付一次，用同一 Google 账户登录应用，即可开始 TIE 办理。",
+        "description": "在网站上一笔付清即可解锁完整服务：分步指引、表格预填和预约协助。无需 App Store 订阅，也没有隐藏续费：支付一次，用同一 Google 账户登录应用，即可开始 TIE 办理。",
         "videoLabel": "应用演示：支付成功并授予访问权限"
       }
     }
@@ -67,13 +67,13 @@
   "signInHint": "请使用您将在移动应用中使用的同一 Google 账户。",
   "seo": {
     "homeTitle": "VisaMesa — 巴塞罗那 TIE 办理协助",
-    "homeDescription": "加入 VisaMesa 等候名单，抢先体验。我们帮助巴塞罗那学生完成 TIE 办理：分步指引、文件准备及可选的预约自动化。非法律建议。",
+    "homeDescription": "加入 VisaMesa 等候名单，抢先体验。我们帮助巴塞罗那学生完成 TIE 办理：分步指引、文件准备及可选的预约协助。非法律建议。",
     "pricingTitle": "支付服务费 — VisaMesa",
     "pricingDescription": "支付 VisaMesa 巴塞罗那学生 TIE 办理服务费（€{{price}}）。一次性付款后，使用同一 Google 账户登录移动应用。",
     "privacyTitle": "隐私政策 — VisaMesa",
     "privacyDescription": "VisaMesa 如何收集、加密并保护您在巴塞罗那 TIE 申请流程中的个人信息。",
     "termsTitle": "服务条款 — VisaMesa",
-    "termsDescription": "使用 VisaMesa 巴塞罗那学生 TIE 办理指引与自动化的条款。VisaMesa 并非律师事务所或政府机构。",
+    "termsDescription": "使用 VisaMesa 巴塞罗那学生 TIE 办理指引与预约协助的条款。VisaMesa 并非律师事务所或政府机构。",
     "legalNoticeTitle": "法律声明 — VisaMesa",
     "legalNoticeDescription": "根据西班牙 LSSI-CE 要求，公示运营 VisaMesa 网站及移动应用程序的公司 Sargoon Global S.L. 的法律身份信息。",
     "checkoutSuccessTitle": "付款成功 — VisaMesa",

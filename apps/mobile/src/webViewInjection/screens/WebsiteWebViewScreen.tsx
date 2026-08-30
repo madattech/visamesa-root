@@ -1,6 +1,7 @@
-import React from 'react';
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
-import {RouteProp, useRoute} from '@react-navigation/native';
+import React, {useEffect} from 'react';
+import {ActivityIndicator, Alert, StyleSheet, View} from 'react-native';
+import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import WebView from 'react-native-webview';
 
@@ -12,6 +13,8 @@ type WebsiteWebViewRouteProp = RouteProp<RootStackParamList, 'WebsiteWebView'>;
 
 const WebsiteWebViewScreen = () => {
   const route = useRoute<WebsiteWebViewRouteProp>();
+  const navigation = useNavigation();
+  const {t} = useTranslation('common');
   const {
     webViewRef,
     webViewSource,
@@ -21,6 +24,31 @@ const WebsiteWebViewScreen = () => {
     onError,
     onHttpError,
   } = useWebsiteWebViewScreen(route);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('beforeRemove', event => {
+      if (event.data.action.type !== 'GO_BACK' && event.data.action.type !== 'POP') {
+        return;
+      }
+
+      event.preventDefault();
+
+      Alert.alert(
+        t('bookingAssistant.stopTitle'),
+        t('bookingAssistant.stopMessage'),
+        [
+          {text: t('actions.cancel'), style: 'cancel'},
+          {
+            text: t('actions.stop'),
+            style: 'destructive',
+            onPress: () => navigation.dispatch(event.data.action),
+          },
+        ],
+      );
+    });
+
+    return unsubscribe;
+  }, [navigation, t]);
 
   return (
     <SafeAreaView style={styles.container}>

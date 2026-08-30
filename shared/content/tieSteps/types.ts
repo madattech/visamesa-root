@@ -13,9 +13,12 @@ export function isTieStepSlug(value: string): value is TieStepSlug {
   return (TIE_STEP_ORDER as readonly string[]).includes(value)
 }
 
-export type AutomationId = 'empadronamiento' | 'cita-previa'
+export type BookingAssistantId = 'empadronamiento' | 'cita-previa'
 
-export type RequirementType = 'automation' | 'form' | 'self_declared'
+export type RequirementType = 'assisted_booking' | 'form' | 'self_declared'
+
+export const ASSISTED_BOOKING_REQUIREMENT_TYPE =
+  'assisted_booking' as const satisfies RequirementType
 
 export type RequirementLocation = 'in_app' | 'in_person'
 
@@ -37,7 +40,7 @@ export type RequirementManifest = {
   key: string
   type: RequirementType
   location: RequirementLocation
-  automationId?: AutomationId
+  bookingAssistantId?: BookingAssistantId
   formId?: string
   referencesStepSlug?: TieStepSlug
   referencesProfile?: boolean
@@ -70,7 +73,7 @@ export type Requirement = {
   link?: OfficialLink
   type: RequirementType
   location: RequirementLocation
-  automationId?: AutomationId
+  bookingAssistantId?: BookingAssistantId
   formId?: string
   referencesStepId?: number
   referencesProfile?: boolean

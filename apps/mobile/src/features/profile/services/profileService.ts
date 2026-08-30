@@ -11,6 +11,12 @@ import {
 } from '@/services/clientErrorService';
 import { EncryptedPayload } from '@/types/encrypted';
 
+import {
+  mapPersonalToCitaPreviaBookingAssistantProfile,
+  mapPersonalToEmpadronamientoBookingAssistantProfile,
+  type BookingAssistantInjectionProfiles,
+} from '@/scripts/bookingAssistantProfile';
+
 import { ProfileData, ProfileSection } from '../types/ProfileData';
 
 export const EMPTY_PROFILE: ProfileData = {
@@ -105,10 +111,10 @@ export async function getProfile(): Promise<ProfileData> {
 }
 
 /**
- * Loads only the personal section for WebView automations.
+ * Loads only the personal section for WebView booking assistants.
  * Returns null when unavailable or encrypted on another device (no throw).
  */
-export async function getPersonalForAutomation(): Promise<
+export async function getPersonalForBookingAssistant(): Promise<
   Record<string, unknown> | null
 > {
   const payload = await fetchEncryptedPayload();
@@ -159,4 +165,23 @@ export async function updateProfile(
   }
 
   return updated;
+}
+
+export async function loadBookingAssistantInjectionProfiles(
+  fallbackEmail?: string | null,
+): Promise<BookingAssistantInjectionProfiles | null> {
+  const personal = await getPersonalForBookingAssistant();
+
+  if (!personal) {
+    return null;
+  }
+
+  return {
+    personal,
+    empadronamiento: mapPersonalToEmpadronamientoBookingAssistantProfile(
+      personal,
+      fallbackEmail,
+    ),
+    citaPrevia: mapPersonalToCitaPreviaBookingAssistantProfile(personal),
+  };
 }

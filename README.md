@@ -1,6 +1,6 @@
 # VisaMesa Mobile (`visamesa-root`)
 
-React Native monorepo for the VisaMesa mobile app and shared packages. On-device WebView automation runs on the user's phone to avoid government website blocking.
+React Native monorepo for the VisaMesa mobile app and shared packages. On-device WebView booking assistants run on the user's phone to avoid government website blocking.
 
 ## Repository Structure
 
@@ -11,76 +11,66 @@ visamesa-root/
 │   ├── content/                     # Shared legal/content copy
 │   └── design-tokens/               # Shared design tokens
 ├── apps/                            # Applications
-│   └── mobile/                      # React Native mobile app
-│       ├── src/                    # App code + WebView automation scripts
+│   └── mobile/                      # React Native mobile app (@visamesa/mobile)
+│       ├── src/                    # App code + WebView booking assistant scripts
 │       ├── package.json
 │       ├── README.md               # App-specific documentation
 │       └── ...
 └── README.md                        # This file
 ```
 
-## Current Automations
+## Booking assistants
 
-### 1. **Mobile App** (`apps/mobile`)
+### Mobile app (`apps/mobile`)
 
-Automates visa appointment booking on the Spanish government website.
+Guides users through empadronamiento and cita previa booking on official Spanish government websites.
 
-**Target Website**: https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus
+**Target websites**:
 
-**Status**: ✅ Infrastructure complete, with a rule-driven injection layer ready for additional page rules/scripts
+- Cita previa: https://sede.administracionespublicas.gob.es/pagina/index/directorio/icpplus
+- Empadronamiento: Barcelona city online office
 
-**Tech Stack**: React Native + WebView + JavaScript injection
+**Status**: Infrastructure complete, with a rule-driven injection layer ready for additional page rules/scripts
 
-📖 [View App Documentation →](apps/mobile/README.md)
+**Tech stack**: React Native + WebView + JavaScript injection
+
+📖 [View app documentation →](apps/mobile/README.md)
 
 ## Architecture
 
-All automations follow the same pattern:
+Booking assistants follow the same pattern:
 
 ```
-User's Mobile Device (React Native App)
+User's mobile device (React Native app)
           ↓
-    WebView with Injected JavaScript
+    WebView with injected JavaScript
           ↓
-    Target Website (automated interactions)
+    Official booking site (user-initiated, assisted interactions)
           ↓
-    Results sent to Backend API (visamesa_be)
+    Results sent to backend API (visamesa_be)
           ↓
     Mobile app displays status + entitlements
 ```
 
-### Why Mobile Apps?
+### Why on-device WebViews?
 
-- **Avoids IP Blocking**: Runs on user's device, not a server
-- **User Control**: User initiates and monitors automation
-- **Security**: Uses user's own credentials and network
+- **Avoids IP blocking**: Runs on the user's device, not a server
+- **User control**: The user initiates and monitors each booking assistant session
+- **Security**: Uses the user's own credentials and network
 - **Reliability**: No shared infrastructure to get blocked
 
 ## Quick Start
 
-### Running an Automation
+### Running the mobile app
 
 ```bash
-# Navigate to the automation you want to run
 cd apps/mobile
-
-# Install dependencies
 npm install
-
-# Generate native iOS/Android code (first time only)
-npx @react-native-community/cli@latest init VisaMesa --skip-install --directory .
-
-# Install iOS pods (macOS only)
-cd ios && pod install && cd ..
-
-# Configure backend URL in src/config/api.ts
-
-# Run the app
 npm run ios    # iOS simulator
 npm run android    # Android emulator
 ```
 
-See each app's README for detailed setup instructions.
+See the app README for detailed setup instructions.
 
 **Payments (Stripe checkout from mobile → website):** [../visamesa_be/docs/LOCAL_PAYMENTS.md](../visamesa_be/docs/LOCAL_PAYMENTS.md)
 
@@ -88,181 +78,33 @@ See each app's README for detailed setup instructions.
 
 ## Prerequisites
 
-**For All Automations**:
-
 - Node.js 18+
 - Xcode (iOS development)
 - Android Studio (Android development)
 - CocoaPods: `sudo gem install cocoapods`
 - Running `visamesa_be` backend: `cd visamesa_be && npm run dev`
 
-**Test Account**:
+**Test account**:
 
 - Email: `test@visamesa.com`
 - Backend: `http://localhost:3000`
 
-## Adding New Automations
+## Shared packages
 
-When you need to automate a new process:
+Import shared code via `@visamesa/content`, `@visamesa/design-tokens`, and `@visamesa/types`.
 
-### 1. Create App Directory
+## How WebView booking assistants work
 
-```bash
-mkdir -p apps/your-automation-name
-cd apps/your-automation-name
-```
-
-### 2. Initialize React Native
-
-```bash
-npx @react-native-community/cli@latest init YourAutomationName
-```
-
-### 3. Follow the Pattern
-
-Structure your app like `apps/mobile`:
-
-- Login screen (reuse auth from shared)
-- Feature screens with thin UI + `use*Screen` hooks
-- WebView injection scripts under `src/scripts/`
-- Shared packages via `@visamesa/content`, `@visamesa/design-tokens`, `@visamesa/types`
-
-### 4. Use Shared Code
-
-```typescript
-import { User, AuthResponse } from '@visamesa/types';
-
-// Add your automation-specific types
-export interface YourCustomType {
-  // ...
-}
-```
-
-### 5. Document
-
-Create a detailed README.md explaining:
-
-- What website/process is being automated
-- What the injection script does
-- Setup and testing instructions
-- Message types for WebView communication
-
-## Naming Convention
-
-Name automations based on **what** they automate, not **how**:
-
-✅ Good:
-
-- `mobile` (booking appointments)
-- `document-submissions` (submitting documents)
-- `status-checks` (checking application status)
-
-❌ Bad:
-
-- `visamesa-automation` (too generic)
-- `webview-app` (implementation detail)
-- `app1`, `app2` (not descriptive)
-
-## Shared Code
-
-### `shared/types/common.ts`
-
-Common types used across all automations:
-
-- `User`, `AuthResponse`
-- `STORAGE_KEYS`
-- `ApiConfig`
-
-Import via the `@visamesa/types` package in mobile and web apps.
-
-## How WebView Automation Works
-
-All apps use the same WebView automation pattern:
-
-### 1. Load Target Website
-
-```typescript
-<WebView
-  source={{ uri: 'https://target-website.com' }}
-  injectedJavaScript={automationScript}
-  onMessage={handleMessage}
-/>
-```
-
-### 2. Inject JavaScript
-
-```javascript
-const automationScript = `
-  (function() {
-    // Helper to send messages back to React Native
-    function sendMessage(type, data) {
-      window.ReactNativeWebView.postMessage(JSON.stringify({
-        type: type,
-        data: data
-      }));
-    }
-    
-    // Access profile data injected by React Native
-    const profileData = ${JSON.stringify(userData)};
-    
-    // Automate the website
-    // ... your automation logic ...
-    
-    // Report results
-    sendMessage('complete', { success: true, data: {...} });
-  })();
-`;
-```
-
-### 3. Handle Messages
-
-```typescript
-const handleMessage = (event) => {
-  const message = JSON.parse(event.nativeEvent.data);
-
-  switch (message.type) {
-    case "progress":
-      updateUI(message.data);
-      break;
-    case "complete":
-      sendToBackend(message.data);
-      break;
-    case "error":
-      handleError(message.data);
-      break;
-  }
-};
-```
+1. The user opens a booking assistant from the dashboard checklist.
+2. The app loads the official site in a WebView and injects profile data the user already saved.
+3. JavaScript helpers pre-fill fields and guide the user through the booking flow.
+4. The user confirms each submission step on the government site.
 
 ## Testing
 
-Each automation should include:
-
-**Authentication Test**:
-
-- [ ] Login works with test account
-- [ ] JWT token is stored and persists
-- [ ] Auto-logout on 401 errors
-
-**Data Fetching Test**:
-
-- [ ] Profile and dashboard data load from backend or local storage
-- [ ] Data displays correctly
-- [ ] Pull-to-refresh works
-
-**Automation Test**:
-
-- [ ] WebView loads target website
-- [ ] Script injects successfully
-- [ ] Progress messages are received
-- [ ] Results are sent to backend
-- [ ] Errors are handled gracefully
-
-**End-to-End Test**:
-
-- [ ] Complete flow from login to result
-- [ ] Web app shows updated status
-- [ ] Edge cases handled
+- Authentication, entitlements, profile completeness, and dashboard progress
+- WebView load + injection rules for empadronamiento and cita previa
+- End-to-end flow from login through booking assistant launch
 
 ## Troubleshooting
 
@@ -270,73 +112,15 @@ Each automation should include:
 
 **iOS Simulator**: `http://localhost:3000`
 **Android Emulator**: `http://10.0.2.2:3000`
-**Physical Device**: `http://YOUR_LOCAL_IP:3000`
-
-Find your local IP:
-
-```bash
-ifconfig | grep "inet " | grep -v 127.0.0.1
-# Example: 192.168.1.100
-```
+**Physical device**: `http://YOUR_LOCAL_IP:3000`
 
 ### WebView not loading
 
 - Check `javaScriptEnabled={true}`
 - Enable `domStorageEnabled={true}`
 - Check console logs for errors
-- Verify website is accessible
-
-### Build errors
-
-```bash
-# Clear caches
-rm -rf node_modules
-npm install
-npm start -- --reset-cache
-
-# iOS
-cd ios && pod deintegrate && pod install && cd ..
-
-# Check environment
-npx react-native doctor
-```
-
-## Future Automations
-
-Potential automations for this repo:
-
-- **Document Upload Automation**: Auto-upload required documents
-- **Status Check Automation**: Periodic status checks with notifications
-- **Form Pre-fill Automation**: Pre-fill complex government forms
-- **Multi-step Process Automation**: Handle multi-page workflows
-- **Notification Monitor**: Alert users of important updates
-
-## Development Guidelines
-
-1. **One automation per folder** in `apps/`
-2. **Descriptive naming** based on what is automated
-3. **Consistent structure** across all apps
-4. **Reuse shared code** from `shared/`
-5. **Document thoroughly** in app-specific READMEs
-6. **Test on real devices** before releasing
-
-## Contributing
-
-When adding a new automation:
-
-1. Create new folder in `apps/`
-2. Follow the established pattern
-3. Import shared types and utilities
-4. Create detailed README
-5. Test thoroughly on physical devices
-6. Document message types and APIs
+- Verify the website is accessible
 
 ## License
 
 See [LICENSE](LICENSE) file.
-
-## Support
-
-- **App-specific questions**: See the app's README in `apps/[app-name]/`
-- **General questions**: Check this README
-- **React Native issues**: https://reactnative.dev/docs/troubleshooting

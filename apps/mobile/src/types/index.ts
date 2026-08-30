@@ -1,7 +1,1 @@
-// Automation types
-export interface CitaPreviaDetails {
-  nie: string;
-  Name: string;
-  nationality: number;
-  documentType?: 'nie' | 'dni' | 'passport';
-}
+export type {CitaPreviaDetails} from '@/scripts/cita-previa/config';

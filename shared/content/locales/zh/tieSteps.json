@@ -263,7 +263,7 @@
         "modelo-790-form": {
           "label": "Modelo 790 Code 012 表格",
           "description": "查看 VisaMesa 为您填写的表格。",
-          "detail": "VisaMesa 会根据您的个人资料自动填写 Modelo 790 code 012 表格，您无需自行填写。"
+          "detail": "VisaMesa 会根据您的个人资料预填 Modelo 790 code 012 表格，方便您在打印和签字前核对。"
         },
         "print-modelo-790": {
           "label": "打印表格",

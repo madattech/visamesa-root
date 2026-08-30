@@ -10,7 +10,7 @@ import {Text} from '@/components/ui/Text';
 import {RequirementItem} from '@/features/dashboard/components/RequirementItem';
 import {RequirementProgress} from '@/features/dashboard/types/UserProgress';
 import {groupRequirementsByLocation} from '@/features/dashboard/utils/requirementGroups';
-import {AutomationId, Requirement} from '@/features/home/types/TieStepDetail';
+import {BookingAssistantId, Requirement} from '@/features/home/types/TieStepDetail';
 
 export type RequirementWithProgress = Requirement & {
   progress: RequirementProgress;
@@ -26,11 +26,11 @@ type RequirementsChecklistProps = {
   requirements: RequirementWithProgress[];
   interactive?: boolean;
   onRequirementCheckboxToggle: (requirementKey: string) => void;
-  onAutomationPress: (automationId: AutomationId, requirementKey: string) => void;
+  onBookingAssistantPress: (bookingAssistantId: BookingAssistantId, requirementKey: string) => void;
   onViewAppointmentPress: (requirementKey: string) => void;
-  onClearAutomationPress: (requirementKey: string) => void;
-  onDevMarkAutomationBookedPress?: (
-    automationId: AutomationId,
+  onClearBookingAssistantPress: (requirementKey: string) => void;
+  onDevMarkBookingAssistantBookedPress?: (
+    bookingAssistantId: BookingAssistantId,
     requirementKey: string,
   ) => void;
   onDevConfirmFormPress?: (formId: string, requirementKey: string) => void;
@@ -41,10 +41,10 @@ export function RequirementsChecklist({
   requirements,
   interactive = true,
   onRequirementCheckboxToggle,
-  onAutomationPress,
+  onBookingAssistantPress,
   onViewAppointmentPress,
-  onClearAutomationPress,
-  onDevMarkAutomationBookedPress,
+  onClearBookingAssistantPress,
+  onDevMarkBookingAssistantBookedPress,
   onDevConfirmFormPress,
   onFormPress,
 }: RequirementsChecklistProps) {
@@ -104,24 +104,30 @@ export function RequirementsChecklist({
                 onRequirementCheckboxToggle={() =>
                   onRequirementCheckboxToggle(requirement.key)
                 }
-                onAutomationPress={() =>
-                  requirement.automationId
-                    ? onAutomationPress(requirement.automationId, requirement.key)
+                onBookingAssistantPress={() =>
+                  requirement.bookingAssistantId
+                    ? onBookingAssistantPress(requirement.bookingAssistantId, requirement.key)
                     : undefined
                 }
                 onViewAppointmentPress={() =>
                   onViewAppointmentPress(requirement.key)
                 }
-                onClearAutomationPress={() =>
-                  onClearAutomationPress(requirement.key)
+                onClearBookingAssistantPress={() =>
+                  onClearBookingAssistantPress(requirement.key)
                 }
-                onDevMarkAutomationBookedPress={
-                  onDevMarkAutomationBookedPress && requirement.automationId
-                    ? () =>
-                        onDevMarkAutomationBookedPress(
-                          requirement.automationId!,
+                onDevMarkBookingAssistantBookedPress={
+                  onDevMarkBookingAssistantBookedPress && requirement.bookingAssistantId
+                    ? () => {
+                        const {bookingAssistantId} = requirement;
+                        if (!bookingAssistantId) {
+                          return;
+                        }
+
+                        onDevMarkBookingAssistantBookedPress(
+                          bookingAssistantId,
                           requirement.key,
-                        )
+                        );
+                      }
                     : undefined
                 }
                 onFormPress={() =>

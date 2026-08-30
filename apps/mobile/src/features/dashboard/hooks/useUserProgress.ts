@@ -1,5 +1,9 @@
 import {useCallback, useEffect, useState} from 'react';
 import {i18n} from '@visamesa/content/i18n';
+import {
+  ASSISTED_BOOKING_REQUIREMENT_TYPE,
+  type BookingAssistantId,
+} from '@/features/home/types/TieStepDetail';
 
 import {
   fetchUserProgress,
@@ -10,7 +14,7 @@ import {
   updateStepStatus,
 } from '@/features/dashboard/services/progressService';
 import {
-  AutomationAppointmentSummary,
+  BookingAssistantAppointmentSummary,
   RequirementProgress,
   StepStatus,
   UserProgress,
@@ -28,13 +32,13 @@ type UseUserProgressResult = {
     requirementLabel: string,
     completed: boolean,
   ) => Promise<void>;
-  completeAutomationRequirement: (
+  completeBookingAssistantRequirement: (
     stepId: number,
     requirementLabel: string,
-    automationId: string,
-    appointment?: AutomationAppointmentSummary,
+    bookingAssistantId: BookingAssistantId,
+    appointment?: BookingAssistantAppointmentSummary,
   ) => Promise<void>;
-  clearAutomationRequirement: (
+  clearBookingAssistantRequirement: (
     stepId: number,
     requirementLabel: string,
   ) => Promise<void>;
@@ -131,12 +135,12 @@ export function useUserProgress(): UseUserProgressResult {
     [applyProgress, progress],
   );
 
-  const completeAutomationRequirement = useCallback(
+  const completeBookingAssistantRequirement = useCallback(
     async (
       stepId: number,
       requirementLabel: string,
-      automationId: string,
-      appointment?: AutomationAppointmentSummary,
+      bookingAssistantId: BookingAssistantId,
+      appointment?: BookingAssistantAppointmentSummary,
     ) => {
       if (!progress) {
         return;
@@ -149,8 +153,8 @@ export function useUserProgress(): UseUserProgressResult {
         {
           completed: true,
           source: {
-            type: 'automation',
-            automationId,
+            type: ASSISTED_BOOKING_REQUIREMENT_TYPE,
+            bookingAssistantId,
             completedAt: new Date().toISOString(),
             appointment,
           },
@@ -161,7 +165,7 @@ export function useUserProgress(): UseUserProgressResult {
     [applyProgress, progress],
   );
 
-  const clearAutomationRequirement = useCallback(
+  const clearBookingAssistantRequirement = useCallback(
     async (stepId: number, requirementLabel: string) => {
       if (!progress) {
         return;
@@ -210,8 +214,8 @@ export function useUserProgress(): UseUserProgressResult {
     startStep,
     completeStep,
     toggleSelfDeclaredRequirement,
-    completeAutomationRequirement,
-    clearAutomationRequirement,
+    completeBookingAssistantRequirement,
+    clearBookingAssistantRequirement,
     completeFormRequirement,
   };
 }

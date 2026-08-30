@@ -8,12 +8,16 @@ export type EmpadronamientoPersonalInfo = {
   phone: string;
 };
 
-export type EmpadronamientoAutomationProfile = {
+export type EmpadronamientoBookingAssistantProfile = {
   personalInfo: EmpadronamientoPersonalInfo;
   motive: string;
 };
 
-export const empadronamientoPiiConfig: EmpadronamientoAutomationProfile = {
+export const EMPADRONAMIENTO_BOOKING_MOTIVE =
+  'Booking appointment to request empadronamiento.';
+
+/** Demo profile for script tests — not used in production injection. */
+export const empadronamientoPiiConfig: EmpadronamientoBookingAssistantProfile = {
   personalInfo: {
     identifierType: 'PASSAPORT',
     identifier: 'A12345678',
@@ -23,5 +27,19 @@ export const empadronamientoPiiConfig: EmpadronamientoAutomationProfile = {
     email: 'john.doe@example.com',
     phone: '600123456',
   },
-  motive: 'Booking appointment to request empadronamiento.',
+  motive: EMPADRONAMIENTO_BOOKING_MOTIVE,
 };
+
+export const emptyEmpadronamientoBookingAssistantProfile: EmpadronamientoBookingAssistantProfile =
+  {
+    personalInfo: {
+      identifierType: 'PASSAPORT',
+      identifier: '',
+      name: '',
+      surname: '',
+      secondSurname: '',
+      email: '',
+      phone: '',
+    },
+    motive: '',
+  };

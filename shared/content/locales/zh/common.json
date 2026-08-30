@@ -68,10 +68,10 @@
     "label": "语言",
     "current": "当前语言：{{language}}"
   },
-  "automation": {
+  "bookingAssistant": {
     "missingProfile": "缺少案例资料信息",
-    "stopTitle": "停止自动化",
-    "stopMessage": "确定要停止自动化吗？",
+    "stopTitle": "停止预约助手",
+    "stopMessage": "确定要停止预约助手吗？",
     "successTitle": "成功！",
     "successMessage": "您的预约已预订：{{date}} {{time}}",
     "bookingFailedTitle": "预订失败",

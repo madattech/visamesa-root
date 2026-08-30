@@ -1,6 +1,6 @@
 import type {WebViewInjectionRule} from '../../webViewInjection/scriptRegistry';
 
-import type {EmpadronamientoAutomationProfile} from './config';
+import type {EmpadronamientoBookingAssistantProfile} from './config';
 import {empadronamientoPiiConfig} from './config';
 import {EMPADRONAMIENTO_HOME_URL, INITIA_SCRIPT} from './initia';
 import {buildMotiveScript} from './motive';
@@ -24,7 +24,7 @@ import {TEMA_SCRIPT} from './tema';
 
 export {
   empadronamientoPiiConfig,
-  type EmpadronamientoAutomationProfile,
+  type EmpadronamientoBookingAssistantProfile,
 } from './config';
 export {EMPADRONAMIENTO_HOME_URL} from './initia';
 
@@ -46,7 +46,7 @@ interface EmpadronamientoScriptEntry {
 }
 
 const buildEmpadronamientoScriptEntries = (
-  profile: EmpadronamientoAutomationProfile,
+  profile: EmpadronamientoBookingAssistantProfile,
 ): EmpadronamientoScriptEntry[] => [
   {
     id: 'empadronamiento-home',
@@ -211,7 +211,7 @@ const buildEmpadronamientoScriptEntries = (
 ];
 
 export const buildEmpadronamientoScriptMap = (
-  profile: EmpadronamientoAutomationProfile,
+  profile: EmpadronamientoBookingAssistantProfile,
 ): EmpadronamientoScriptMap =>
   buildEmpadronamientoScriptEntries(profile).reduce<EmpadronamientoScriptMap>(
     (scriptMap, entry) => {
@@ -232,7 +232,7 @@ const getRuleMatchLength = (rule: WebViewInjectionRule) => {
 };
 
 export const buildEmpadronamientoInjectionRules = (
-  profile: EmpadronamientoAutomationProfile = empadronamientoPiiConfig,
+  profile: EmpadronamientoBookingAssistantProfile = empadronamientoPiiConfig,
 ): WebViewInjectionRule[] =>
   buildEmpadronamientoScriptEntries(profile)
     .map(entry => ({

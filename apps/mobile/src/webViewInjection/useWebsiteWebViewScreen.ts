@@ -1,8 +1,15 @@
-import {ComponentProps, RefObject, useCallback, useMemo, useRef} from 'react';
+import {ComponentProps, RefObject, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {RouteProp} from '@react-navigation/native';
 import WebView, {WebViewMessageEvent} from 'react-native-webview';
 
+import {useAuth} from '@/contexts/AuthContext';
+import {BookingAssistantId} from '@/features/home/types/TieStepDetail';
+import {loadBookingAssistantInjectionProfiles} from '@/features/profile/services/profileService';
 import {RootStackParamList} from '@/navigation/types';
+import {
+  emptyCitaPreviaBookingAssistantProfile,
+  emptyEmpadronamientoBookingAssistantProfile,
+} from '@/scripts/bookingAssistantProfile';
 import {
   reportClientError,
   sanitizeUrlForReport,
@@ -11,11 +18,9 @@ import {
 import {
   buildCitaPreviaInjectionRules,
   CITA_PREVIA_START_URL,
-  citaPreviaPiiConfig,
 } from '@/scripts/cita-previa';
 import {
   buildEmpadronamientoInjectionRules,
-  empadronamientoPiiConfig,
   EMPADRONAMIENTO_HOME_URL,
 } from '@/scripts/empadronamiento';
 import {useWebViewInjection, type WebViewReadinessTimeoutPayload} from '@/webViewInjection/useWebViewInjection';
@@ -31,7 +36,7 @@ type WebViewProps = ComponentProps<typeof WebView>;
 
 export type UseWebsiteWebViewScreenResult = {
   webViewRef: RefObject<WebViewHandle | null>;
-  automation: 'cita-previa' | 'empadronamiento';
+  bookingAssistant: BookingAssistantId;
   startUrl: string;
   webViewSource: ReturnType<typeof buildCitaPreviaWebViewSource>;
   onLoadEnd: () => void;
@@ -46,42 +51,84 @@ export type UseWebsiteWebViewScreenResult = {
 export function useWebsiteWebViewScreen(
   route: WebsiteWebViewRoute,
 ): UseWebsiteWebViewScreenResult {
-  const automation = route.params?.automation ?? 'cita-previa';
+  const bookingAssistant = route.params?.bookingAssistant ?? 'cita-previa';
+  const {user} = useAuth();
   const webViewRef = useRef<WebViewHandle>(null);
+  const [profileLoaded, setProfileLoaded] = useState(false);
+  const [empadronamientoProfile, setEmpadronamientoProfile] = useState(
+    emptyEmpadronamientoBookingAssistantProfile,
+  );
+  const [citaPreviaProfile, setCitaPreviaProfile] = useState(
+    emptyCitaPreviaBookingAssistantProfile,
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    void loadBookingAssistantInjectionProfiles(user?.email).then(loaded => {
+      if (cancelled) {
+        return;
+      }
+
+      if (loaded?.empadronamiento) {
+        setEmpadronamientoProfile(loaded.empadronamiento);
+      }
+
+      if (loaded?.citaPrevia) {
+        setCitaPreviaProfile(loaded.citaPrevia);
+      }
+
+      setProfileLoaded(true);
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user?.email]);
 
   const startUrl =
     route.params?.url ??
-    (automation === 'empadronamiento'
+    (bookingAssistant === 'empadronamiento'
       ? EMPADRONAMIENTO_HOME_URL
       : CITA_PREVIA_START_URL);
 
   const webViewSource = useMemo(
     () =>
-      automation === 'empadronamiento'
+      bookingAssistant === 'empadronamiento'
         ? buildEmpadronamientoWebViewSource(startUrl)
         : buildCitaPreviaWebViewSource(startUrl),
-    [automation, startUrl],
+    [bookingAssistant, startUrl],
   );
 
   const injectionRules = useMemo(
-    () =>
-      automation === 'empadronamiento'
-        ? buildEmpadronamientoInjectionRules(empadronamientoPiiConfig)
-        : buildCitaPreviaInjectionRules(citaPreviaPiiConfig),
-    [automation],
+    () => {
+      if (!profileLoaded) {
+        return [];
+      }
+
+      return bookingAssistant === 'empadronamiento'
+        ? buildEmpadronamientoInjectionRules(empadronamientoProfile)
+        : buildCitaPreviaInjectionRules(citaPreviaProfile);
+    },
+    [
+      bookingAssistant,
+      citaPreviaProfile,
+      empadronamientoProfile,
+      profileLoaded,
+    ],
   );
 
   const onReadinessTimeout = useCallback(
     (payload: WebViewReadinessTimeoutPayload) => {
       reportClientError('WEBVIEW_INJECTION_TIMEOUT', {
-        automation,
+        bookingAssistant,
         ruleId: payload.ruleId,
         url: sanitizeUrlForReport(payload.url),
         selector: payload.selector,
         timeoutMs: payload.timeoutMs,
       });
     },
-    [automation],
+    [bookingAssistant],
   );
 
   const {
@@ -116,13 +163,13 @@ export function useWebsiteWebViewScreen(
   const onError = useCallback<NonNullable<WebViewProps['onError']>>(
     syntheticEvent => {
       console.warn('[WebView] Load error', {
-        automation,
+        bookingAssistant,
         requestedUrl: startUrl,
         ...syntheticEvent.nativeEvent,
       });
 
       reportClientError('WEBVIEW_LOAD_FAILED', {
-        automation,
+        bookingAssistant,
         url: sanitizeUrlForReport(
           syntheticEvent.nativeEvent.url ?? startUrl,
         ),
@@ -130,19 +177,19 @@ export function useWebsiteWebViewScreen(
         description: syntheticEvent.nativeEvent.description?.slice(0, 200) ?? null,
       });
     },
-    [automation, startUrl],
+    [bookingAssistant, startUrl],
   );
 
   const onHttpError = useCallback<NonNullable<WebViewProps['onHttpError']>>(
     syntheticEvent => {
       console.warn('[WebView] HTTP error', {
-        automation,
+        bookingAssistant,
         requestedUrl: startUrl,
         ...syntheticEvent.nativeEvent,
       });
 
       reportClientError('WEBVIEW_HTTP_ERROR', {
-        automation,
+        bookingAssistant,
         url: sanitizeUrlForReport(
           syntheticEvent.nativeEvent.url ?? startUrl,
         ),
@@ -151,12 +198,12 @@ export function useWebsiteWebViewScreen(
         ),
       });
     },
-    [automation, startUrl],
+    [bookingAssistant, startUrl],
   );
 
   return {
     webViewRef,
-    automation,
+    bookingAssistant,
     startUrl,
     webViewSource,
     onLoadEnd,

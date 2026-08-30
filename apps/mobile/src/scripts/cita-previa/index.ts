@@ -2,7 +2,7 @@ import type {
   WebViewInjectionMatch,
   WebViewInjectionRule,
 } from '../../webViewInjection/scriptRegistry';
-import type {CitaPreviaAutomationProfile} from './config';
+import type {CitaPreviaBookingAssistantProfile} from './config';
 import {buildDetailsScript, DETAILS_URL} from './details';
 import {CLAVE_SCRIPT, CLAVE_URL} from './clave';
 import {INITIAL_PAGE_SCRIPT, ICP_PLUS_URL} from './initialPage';
@@ -20,7 +20,10 @@ export const CITA_PREVIA_START_URL = ICP_PLUS_URL;
 
 export {
   citaPreviaPiiConfig,
-  type CitaPreviaAutomationProfile,
+  CITA_PREVIA_BOOKING_DEFAULTS,
+  emptyCitaPreviaBookingAssistantProfile,
+  type CitaPreviaBookingAssistantProfile,
+  type CitaPreviaDetails,
 } from './config';
 
 export interface CitaPreviaScriptMap {
@@ -35,7 +38,7 @@ interface CitaPreviaScriptEntry {
 }
 
 const buildCitaPreviaScriptEntries = (
-  profile: CitaPreviaAutomationProfile,
+  profile: CitaPreviaBookingAssistantProfile,
 ): CitaPreviaScriptEntry[] => {
   const detailsScript = buildDetailsScript({
     nie: profile.details.nie,
@@ -130,7 +133,7 @@ const buildCitaPreviaScriptEntries = (
 };
 
 export const buildCitaPreviaScriptMap = (
-  profile: CitaPreviaAutomationProfile,
+  profile: CitaPreviaBookingAssistantProfile,
 ): CitaPreviaScriptMap => {
   return buildCitaPreviaScriptEntries(profile).reduce<CitaPreviaScriptMap>(
     (scriptMap, entry) => {
@@ -142,7 +145,7 @@ export const buildCitaPreviaScriptMap = (
 };
 
 export const buildCitaPreviaInjectionRules = (
-  profile: CitaPreviaAutomationProfile,
+  profile: CitaPreviaBookingAssistantProfile,
 ): WebViewInjectionRule[] =>
   buildCitaPreviaScriptEntries(profile).map(entry => ({
     id: `cita-previa-${entry.url}`,

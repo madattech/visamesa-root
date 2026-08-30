@@ -34,7 +34,7 @@ function buildRequirements(
       detail: copy.detail,
       type: entry.type,
       location: entry.location,
-      automationId: entry.automationId,
+      bookingAssistantId: entry.bookingAssistantId,
       formId: entry.formId,
       referencesProfile: entry.referencesProfile,
       dependsOnKeys: entry.dependsOnKeys,

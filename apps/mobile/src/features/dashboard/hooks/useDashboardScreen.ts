@@ -1,3 +1,8 @@
+import {
+  ASSISTED_BOOKING_REQUIREMENT_TYPE,
+  BookingAssistantId,
+  TieStepDetail,
+} from '@/features/home/types/TieStepDetail';
 import {useEffect, useMemo, useState} from 'react';
 import {TFunction} from 'i18next';
 import {useTranslation} from 'react-i18next';
@@ -39,9 +44,8 @@ import {
   getStepStatus,
   isRequirementExternallyCompleted,
 } from '@/features/dashboard/utils/progressUtils';
-import {getProfile} from '@/features/profile/services/profileService';
+import {getProfile, loadBookingAssistantInjectionProfiles} from '@/features/profile/services/profileService';
 import {useTieSteps} from '@/features/home/hooks/useTieSteps';
-import {AutomationId, TieStepDetail} from '@/features/home/types/TieStepDetail';
 import {
   ProcessReadinessMissing,
   useProcessReadiness,
@@ -51,18 +55,12 @@ import {navigateToLoginFromTab} from '@/navigation/navigateToLogin';
 import {
   DashboardStackParamList,
   RootStackParamList,
-  WebViewAutomationKind,
 } from '@/navigation/types';
 
 type DashboardScreenNavigation = CompositeNavigationProp<
   NativeStackNavigationProp<DashboardStackParamList, 'Dashboard'>,
   NativeStackNavigationProp<RootStackParamList>
 >;
-
-const AUTOMATION_KIND: Record<AutomationId, WebViewAutomationKind> = {
-  empadronamiento: 'empadronamiento',
-  'cita-previa': 'cita-previa',
-};
 
 export type UseDashboardScreenResult = {
   isAuthLoading: boolean;
@@ -88,11 +86,11 @@ export type UseDashboardScreenResult = {
   onStepDetailPress: () => void;
   onCompleteStep: () => void;
   onRequirementCheckboxToggle: (requirementKey: string) => void;
-  onAutomationPress: (automationId: AutomationId, label: string) => void;
+  onBookingAssistantPress: (bookingAssistantId: BookingAssistantId, label: string) => void;
   onViewAppointmentPress: (label: string) => void;
-  onClearAutomationPress: (label: string) => void;
-  onDevMarkAutomationBookedPress?: (
-    automationId: AutomationId,
+  onClearBookingAssistantPress: (label: string) => void;
+  onDevMarkBookingAssistantBookedPress?: (
+    bookingAssistantId: BookingAssistantId,
     label: string,
   ) => void;
   onDevConfirmFormPress?: (formId: string, label: string) => void;
@@ -154,7 +152,7 @@ export function useDashboardScreen(
   const {t: tHome} = useTranslation('home');
   const {t: tCommon} = useTranslation('common');
   const {user, isLoading: isAuthLoading} = useAuth();
-  const {canUseAutomation: canUseAutomationEntitlement} = useEntitlements();
+  const {canUseBookingAssistant: canUseBookingAssistantEntitlement} = useEntitlements();
   const {showToast} = useToast();
   const {showAlert} = useAppDialog();
   const {openPricing} = usePricingLink();
@@ -166,9 +164,9 @@ export function useDashboardScreen(
     refreshProgress,
     completeStep,
     toggleSelfDeclaredRequirement,
-    clearAutomationRequirement,
+    clearBookingAssistantRequirement,
     completeFormRequirement,
-    completeAutomationRequirement,
+    completeBookingAssistantRequirement,
   } = useUserProgress();
   const {
     canStartProcess,
@@ -437,8 +435,8 @@ export function useDashboardScreen(
     );
   };
 
-  const onAutomationPress = (
-    automationId: AutomationId,
+  const onBookingAssistantPress = async (
+    bookingAssistantId: BookingAssistantId,
     requirementKey: string,
   ) => {
     if (!progress || !currentStep || !canInteractWithRequirements) {
@@ -458,7 +456,7 @@ export function useDashboardScreen(
       return;
     }
 
-    if (!canUseAutomationEntitlement(automationId)) {
+    if (!canUseBookingAssistantEntitlement(bookingAssistantId)) {
       showAlert(
         tDashboard('serviceRequiredTitle'),
         tDashboard('serviceRequiredMessage'),
@@ -475,8 +473,30 @@ export function useDashboardScreen(
       return;
     }
 
+    const loaded = await loadBookingAssistantInjectionProfiles(user?.email);
+    const hasProfile =
+      loaded &&
+      (bookingAssistantId === 'empadronamiento'
+        ? loaded.empadronamiento !== null
+        : loaded.citaPrevia !== null);
+
+    if (!hasProfile) {
+      showAlert(
+        tCommon('bookingAssistant.missingProfile'),
+        tDashboard('readinessDescription'),
+        [
+          {text: tCommon('actions.notNow'), style: 'cancel'},
+          {
+            text: tDashboard('prerequisitesDialog.action'),
+            onPress: onGoToProfilePress,
+          },
+        ],
+      );
+      return;
+    }
+
     navigation.navigate('WebsiteWebView', {
-      automation: AUTOMATION_KIND[automationId],
+      bookingAssistant: bookingAssistantId,
     });
   };
 
@@ -490,7 +510,7 @@ export function useDashboardScreen(
     )?.requirements[label];
 
     const appointment =
-      requirementProgress?.source?.type === 'automation'
+      requirementProgress?.source?.type === ASSISTED_BOOKING_REQUIREMENT_TYPE
         ? requirementProgress.source.appointment
         : undefined;
 
@@ -504,7 +524,7 @@ export function useDashboardScreen(
     );
   };
 
-  const onClearAutomationPress = async (requirementKey: string) => {
+  const onClearBookingAssistantPress = async (requirementKey: string) => {
     if (!currentStep || !progress || !canInteractWithRequirements) {
       return;
     }
@@ -522,12 +542,12 @@ export function useDashboardScreen(
       return;
     }
 
-    await clearAutomationRequirement(currentStep.id, requirementKey);
+    await clearBookingAssistantRequirement(currentStep.id, requirementKey);
     showToast(tDashboard('bookingStatusReset'));
   };
 
-  const onDevMarkAutomationBookedPress = async (
-    automationId: AutomationId,
+  const onDevMarkBookingAssistantBookedPress = async (
+    bookingAssistantId: BookingAssistantId,
     requirementKey: string,
   ) => {
     if (!__DEV__ || !currentStep || !progress || !canInteractWithRequirements) {
@@ -547,12 +567,12 @@ export function useDashboardScreen(
       return;
     }
 
-    await completeAutomationRequirement(
+    await completeBookingAssistantRequirement(
       currentStep.id,
       requirementKey,
-      automationId,
+      bookingAssistantId,
     );
-    showToast(tDashboard('devMarkAsBookedSuccess'));
+    showToast(tDashboard('bookingAssistantSuccess'));
   };
 
   const onDevConfirmFormPress = async (
@@ -685,11 +705,11 @@ export function useDashboardScreen(
     onStepDetailPress,
     onCompleteStep,
     onRequirementCheckboxToggle,
-    onAutomationPress,
+    onBookingAssistantPress,
     onViewAppointmentPress,
-    onClearAutomationPress,
-    onDevMarkAutomationBookedPress: __DEV__
-      ? onDevMarkAutomationBookedPress
+    onClearBookingAssistantPress,
+    onDevMarkBookingAssistantBookedPress: __DEV__
+      ? onDevMarkBookingAssistantBookedPress
       : undefined,
     onDevConfirmFormPress: __DEV__ ? onDevConfirmFormPress : undefined,
     onFormPress,

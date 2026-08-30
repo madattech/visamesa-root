@@ -1,6 +1,11 @@
+import {
+  ASSISTED_BOOKING_REQUIREMENT_TYPE,
+  type BookingAssistantId,
+} from '@/features/home/types/TieStepDetail';
+
 export type StepStatus = 'not_started' | 'in_progress' | 'completed';
 
-export type AutomationAppointmentSummary = {
+export type BookingAssistantAppointmentSummary = {
   office: string;
   date: string;
   time: string;
@@ -12,10 +17,10 @@ export type AutomationAppointmentSummary = {
 export type RequirementCompletionSource =
   | {type: 'self_declared'}
   | {
-      type: 'automation';
-      automationId: string;
+      type: typeof ASSISTED_BOOKING_REQUIREMENT_TYPE;
+      bookingAssistantId: BookingAssistantId;
       completedAt: string;
-      appointment?: AutomationAppointmentSummary;
+      appointment?: BookingAssistantAppointmentSummary;
     }
   | {type: 'form'; formId: string; confirmedAt: string}
   | {type: 'referenced_step'; stepId: number}

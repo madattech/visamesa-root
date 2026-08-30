@@ -28,15 +28,15 @@
   "products": {
     "full_service": {
       "name": "VisaMesa Full Service",
-      "description": "Complete TIE assistance including all automations and guidance"
+      "description": "Complete TIE assistance including all booking assistants and guidance"
     },
     "empadronamiento_auto": {
-      "name": "Empadronamiento Automation",
-      "description": "Automated appointment booking for address registration"
+      "name": "Empadronamiento Booking Assistant",
+      "description": "Appointment booking assistance for address registration"
     },
     "cita_previa_auto": {
-      "name": "Cita Previa Automation",
-      "description": "Automated appointment booking for fingerprint appointment"
+      "name": "Cita Previa Booking Assistant",
+      "description": "Appointment booking assistance for fingerprint appointment"
     },
     "guidance": {
       "name": "TIE Process Guidance",

@@ -1,7 +1,7 @@
 export const EntitlementType = {
   FULL_SERVICE: 'full_service',
-  EMPADRONAMIENTO_AUTO: 'empadronamiento_auto',
-  CITA_PREVIA_AUTO: 'cita_previa_auto',
+  EMPADRONAMIENTO_BOOKING_ASSISTANT: 'empadronamiento_auto',
+  CITA_PREVIA_BOOKING_ASSISTANT: 'cita_previa_auto',
   GUIDANCE: 'guidance',
 } as const
 
