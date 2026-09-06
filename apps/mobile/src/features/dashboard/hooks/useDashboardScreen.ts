@@ -25,6 +25,7 @@ import {
 import {mapProfileToEx17Data} from '@/features/pdfGeneration/forms/ex17/mapProfileToEx17Data';
 import {reconcileStepStatuses} from '@/features/dashboard/services/progressReconciliationService';
 import {
+  buildInitialProgressFromSteps,
   saveUserProgress,
   subscribeToProgressReset,
 } from '@/features/dashboard/services/progressService';
@@ -97,6 +98,7 @@ export type UseDashboardScreenResult = {
   onFormPress: (formId: string, label: string) => void;
   onClosePrerequisitesDialog: () => void;
   onGoToProfilePress: () => void;
+  onSupportPress: () => void;
 };
 
 function buildRequirementsWithProgress(
@@ -185,6 +187,26 @@ export function useDashboardScreen(
   const [hasSyncedEmpadronamiento, setHasSyncedEmpadronamiento] =
     useState(false);
 
+  const isAuthenticated = Boolean(user);
+
+  const displayProgress = useMemo(() => {
+    if (!isAuthenticated) {
+      if (!steps.length) {
+        return null;
+      }
+
+      return buildInitialProgressFromSteps(steps);
+    }
+
+    return progress;
+  }, [isAuthenticated, progress, steps]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setSelectedStepId(null);
+    }
+  }, [isAuthenticated]);
+
   const progressContext = useMemo<ProgressContext>(
     () => ({
       isProfileComplete,
@@ -200,7 +222,7 @@ export function useDashboardScreen(
   }, []);
 
   useEffect(() => {
-    if (!progress || !steps.length || hasSyncedEmpadronamiento) {
+    if (!user || !progress || !steps.length || hasSyncedEmpadronamiento) {
       return;
     }
 
@@ -238,15 +260,18 @@ export function useDashboardScreen(
     progressContext,
     refreshProgress,
     steps,
+    user,
   ]);
 
-  const activeStepId = progress ? getFirstIncompleteStepId(progress, steps) : 1;
+  const activeStepId = displayProgress
+    ? getFirstIncompleteStepId(displayProgress, steps)
+    : 1;
 
   useEffect(() => {
-    if (progress && selectedStepId === null) {
+    if (displayProgress && selectedStepId === null) {
       setSelectedStepId(activeStepId);
     }
-  }, [activeStepId, progress, selectedStepId]);
+  }, [activeStepId, displayProgress, selectedStepId]);
 
   const currentStepId = selectedStepId ?? activeStepId;
 
@@ -256,21 +281,22 @@ export function useDashboardScreen(
   );
 
   const completedStepIds = useMemo(
-    () => (progress ? getCompletedStepIds(progress) : []),
-    [progress],
+    () => (displayProgress ? getCompletedStepIds(displayProgress) : []),
+    [displayProgress],
   );
 
   const isCurrentStepCompleted = Boolean(
-    progress && getStepStatus(progress, currentStepId) === 'completed',
+    displayProgress &&
+      getStepStatus(displayProgress, currentStepId) === 'completed',
   );
 
   const currentStepRequirements = useMemo(() => {
-    if (!progress || !currentStep) {
+    if (!displayProgress || !currentStep) {
       return [];
     }
 
     return buildRequirementsWithProgress(
-      progress,
+      displayProgress,
       currentStep,
       progressContext,
       steps,
@@ -280,27 +306,29 @@ export function useDashboardScreen(
   }, [
     canStartProcess,
     currentStep,
-    progress,
+    displayProgress,
     progressContext,
     steps,
     tDashboard,
   ]);
 
   const canCompleteStep = Boolean(
-    progress &&
+    isAuthenticated &&
+      displayProgress &&
       currentStep &&
       !isCurrentStepCompleted &&
-      arePreviousStepsCompleted(progress, currentStepId, steps) &&
-      areAllRequirementsComplete(progress, currentStep, progressContext) &&
+      arePreviousStepsCompleted(displayProgress, currentStepId, steps) &&
+      areAllRequirementsComplete(displayProgress, currentStep, progressContext) &&
       canStartProcess,
   );
 
   const canInteractWithRequirements = Boolean(
-    progress &&
+    isAuthenticated &&
+      displayProgress &&
       currentStep &&
       !isCurrentStepCompleted &&
       (currentStepId === 1 ||
-        arePreviousStepsCompleted(progress, currentStepId, steps)) &&
+        arePreviousStepsCompleted(displayProgress, currentStepId, steps)) &&
       canStartProcess,
   );
 
@@ -312,21 +340,23 @@ export function useDashboardScreen(
   }, [canStartProcess, currentStep, tDashboard, tHome]);
 
   const stepActionDisabledHint = useMemo(() => {
-    if (!progress || !currentStep || isCurrentStepCompleted) {
+    if (!displayProgress || !currentStep || isCurrentStepCompleted) {
       return undefined;
     }
 
-    if (!arePreviousStepsCompleted(progress, currentStepId, steps)) {
+    if (!arePreviousStepsCompleted(displayProgress, currentStepId, steps)) {
       return tDashboard('completePreviousStepHint');
     }
 
-    if (!areAllRequirementsComplete(progress, currentStep, progressContext)) {
+    if (
+      !areAllRequirementsComplete(displayProgress, currentStep, progressContext)
+    ) {
       return tDashboard('completeAllItemsHint');
     }
 
     return undefined;
   }, [
-    progress,
+    displayProgress,
     currentStep,
     isCurrentStepCompleted,
     currentStepId,
@@ -337,6 +367,10 @@ export function useDashboardScreen(
 
   const onSignInPress = () => {
     navigateToLoginFromTab(navigation);
+  };
+
+  const onSupportPress = () => {
+    navigation.navigate('Support');
   };
 
   const onStepPress = (stepId: number) => {
@@ -678,12 +712,12 @@ export function useDashboardScreen(
     }
   };
 
-  const isLoading = isStepsLoading || isProgressLoading;
+  const isLoading = isStepsLoading || (isAuthenticated && isProgressLoading);
   const error = stepsError ?? progressError;
 
   return {
     isAuthLoading,
-    isAuthenticated: Boolean(user),
+    isAuthenticated,
     steps,
     isLoading,
     error,
@@ -715,5 +749,6 @@ export function useDashboardScreen(
     onFormPress,
     onClosePrerequisitesDialog,
     onGoToProfilePress,
+    onSupportPress,
   };
 }

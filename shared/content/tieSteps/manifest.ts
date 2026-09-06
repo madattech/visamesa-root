@@ -4,7 +4,7 @@ import {
   type RequirementManifest,
   type TieStepManifestEntry,
   type TieStepSlug,
-} from './types'
+} from './types.js'
 
 const empadronamientoRequirements: RequirementManifest[] = [
   { key: 'passport-nie', type: 'self_declared', location: 'in_app' },

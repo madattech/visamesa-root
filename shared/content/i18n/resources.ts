@@ -10,6 +10,7 @@ import legalEn from '../locales/en/legal.json'
 import marketingEn from '../locales/en/marketing.json'
 import profileEn from '../locales/en/profile.json'
 import settingsEn from '../locales/en/settings.json'
+import supportEn from '../locales/en/support.json'
 import processOverviewEn from '../locales/en/processOverview.json'
 import tieStepsEn from '../locales/en/tieSteps.json'
 import waitlistEn from '../locales/en/waitlist.json'
@@ -23,6 +24,7 @@ import legalEs from '../locales/es/legal.json'
 import marketingEs from '../locales/es/marketing.json'
 import profileEs from '../locales/es/profile.json'
 import settingsEs from '../locales/es/settings.json'
+import supportEs from '../locales/es/support.json'
 import processOverviewEs from '../locales/es/processOverview.json'
 import tieStepsEs from '../locales/es/tieSteps.json'
 import waitlistEs from '../locales/es/waitlist.json'
@@ -36,6 +38,7 @@ import legalZh from '../locales/zh/legal.json'
 import marketingZh from '../locales/zh/marketing.json'
 import profileZh from '../locales/zh/profile.json'
 import settingsZh from '../locales/zh/settings.json'
+import supportZh from '../locales/zh/support.json'
 import processOverviewZh from '../locales/zh/processOverview.json'
 import tieStepsZh from '../locales/zh/tieSteps.json'
 import waitlistZh from '../locales/zh/waitlist.json'
@@ -53,6 +56,7 @@ export const translationResources = {
     forms: formsEn,
     profile: profileEn,
     settings: settingsEn,
+    support: supportEn,
     auth: authEn,
     home: homeEn,
     processOverview: processOverviewEn,
@@ -68,6 +72,7 @@ export const translationResources = {
     forms: formsEs,
     profile: profileEs,
     settings: settingsEs,
+    support: supportEs,
     auth: authEs,
     home: homeEs,
     processOverview: processOverviewEs,
@@ -83,6 +88,7 @@ export const translationResources = {
     forms: formsZh,
     profile: profileZh,
     settings: settingsZh,
+    support: supportZh,
     auth: authZh,
     home: homeZh,
     processOverview: processOverviewZh,

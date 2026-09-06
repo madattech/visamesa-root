@@ -8,6 +8,7 @@ import LoginScreen from '@/features/auth/screens/LoginScreen';
 import ProfileScreen from '@/features/profile/screens/ProfileScreen';
 import ProfileSectionScreen from '@/features/profile/screens/ProfileSectionScreen';
 import SettingsScreen from '@/features/settings/screens/SettingsScreen';
+import SupportScreen from '@/features/support/screens/SupportScreen';
 
 import {ProfileStackParamList} from './types';
 
@@ -28,6 +29,7 @@ const ProfileStackNavigator = () => {
       <Stack.Screen name="Legal" component={LegalScreen} />
       <Stack.Screen name="LegalDocument" component={LegalDocumentScreen} />
       <Stack.Screen name="Settings" component={SettingsScreen} />
+      <Stack.Screen name="Support" component={SupportScreen} />
       <Stack.Screen
         name="Login"
         component={LoginScreen}

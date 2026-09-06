@@ -17,6 +17,7 @@
     "./tieSteps/detail": "./tieSteps/index.ts",
     "./processOverview": "./processOverview/index.ts",
     "./products": "./products.ts",
+    "./support": "./support/index.ts",
     "./waitlistEmail": "./waitlistEmailContent.ts"
   },
   "peerDependencies": {

@@ -1,4 +1,6 @@
 import {
+  buildInitialProgressFromSteps,
+  clearProgressMemoryCache,
   fetchUserProgress,
   resetUserProgress,
   subscribeToProgressReset,
@@ -42,6 +44,26 @@ describe('progressService', () => {
     expect(progress.steps[0]?.requirements.passport?.completed).toBe(false);
   });
 
+  it('builds fresh progress from step definitions', () => {
+    const progress = buildInitialProgressFromSteps([
+      {
+        id: 1,
+        requirements: [
+          {key: 'passport', label: 'Passport', type: 'self_declared'},
+        ],
+      },
+      {
+        id: 2,
+        requirements: [],
+      },
+    ]);
+
+    expect(progress.currentStepId).toBe(1);
+    expect(progress.steps).toHaveLength(2);
+    expect(progress.steps[0]?.status).toBe('not_started');
+    expect(progress.steps[0]?.requirements.passport?.completed).toBe(false);
+  });
+
   it('updates step and requirement progress', async () => {
     let progress = await fetchUserProgress();
 
@@ -62,5 +84,14 @@ describe('progressService', () => {
     await resetUserProgress();
 
     expect(listener).toHaveBeenCalled();
+  });
+
+  it('clears in-memory progress without deleting stored progress', async () => {
+    const progress = await fetchUserProgress();
+
+    clearProgressMemoryCache();
+    const reloaded = await fetchUserProgress();
+
+    expect(reloaded.currentStepId).toBe(progress.currentStepId);
   });
 });

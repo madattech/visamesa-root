@@ -36,6 +36,7 @@ type ProfileScreenProps = {
 const ProfileScreen = ({navigation}: ProfileScreenProps) => {
   const {styles, theme} = useStyles(stylesheet);
   const {t} = useTranslation('profile');
+  const {t: tSupport} = useTranslation('support');
   const tabBarInset = useTabBarInset();
   const {profileData} = useProfileData();
   const {
@@ -64,6 +65,10 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
     navigation.navigate('Legal');
   };
 
+  const handleSupportPress = () => {
+    navigation.navigate('Support');
+  };
+
   const handleSettingsPress = () => {
     navigation.navigate('Settings');
   };
@@ -81,7 +86,10 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
   if (!userEmail) {
     return (
       <SafeAreaView style={styles.container} edges={['top']}>
-        <ProfileUnauthenticated onSignInPress={onSignInPress} />
+        <ProfileUnauthenticated
+          onSignInPress={onSignInPress}
+          onSupportPress={handleSupportPress}
+        />
       </SafeAreaView>
     );
   }
@@ -125,6 +133,13 @@ const ProfileScreen = ({navigation}: ProfileScreenProps) => {
             description={t('paymentDescription')}
             onPress={onPaymentPress}
             status={completeness.payment ? 'done' : 'notDone'}
+          />
+
+          <DetailLinkRow
+            title={tSupport('profileRowTitle')}
+            description={tSupport('profileRowDescription')}
+            icon="help"
+            onPress={handleSupportPress}
           />
 
           <DetailLinkRow

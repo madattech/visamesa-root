@@ -14,6 +14,10 @@ const PROGRESS_STORAGE_KEY = '@visamesa_user_progress';
 let inMemoryProgress: UserProgress | null = null;
 const progressResetListeners = new Set<() => void>();
 
+export function clearProgressMemoryCache(): void {
+  inMemoryProgress = null;
+}
+
 export function subscribeToProgressReset(listener: () => void): () => void {
   if (!__DEV__) {
     return () => {};
@@ -48,6 +52,12 @@ const buildInitialStepProgress = (
 export async function createInitialProgress(): Promise<UserProgress> {
   const steps = await fetchTieSteps();
 
+  return buildInitialProgressFromSteps(steps);
+}
+
+export function buildInitialProgressFromSteps(
+  steps: Array<{id: number; requirements: Requirement[]}>,
+): UserProgress {
   return {
     currentStepId: 1,
     steps: steps.map(step =>

@@ -1,6 +1,7 @@
 import React, {act} from 'react';
 
 import {AuthProvider, useAuth} from '@/contexts/AuthContext';
+import {clearProgressMemoryCache} from '@/features/dashboard/services/progressService';
 import {authService} from '@/services/authService';
 import {notifyUnauthorized} from '@/services/authSession';
 import {renderHookAsync, unmountRenderedHook} from '@/test/renderHook';
@@ -20,6 +21,10 @@ jest.mock('@/services/authSession', () => ({
     return jest.fn();
   }),
   notifyUnauthorized: jest.fn(),
+}));
+
+jest.mock('@/features/dashboard/services/progressService', () => ({
+  clearProgressMemoryCache: jest.fn(),
 }));
 
 let unauthorizedListener: (() => void) | null = null;
@@ -95,6 +100,7 @@ describe('AuthContext', () => {
     });
 
     expect(authService.logout).toHaveBeenCalled();
+    expect(clearProgressMemoryCache).toHaveBeenCalled();
     expect(getHookState().user).toBeNull();
     expect(notifyUnauthorized).not.toHaveBeenCalled();
   });

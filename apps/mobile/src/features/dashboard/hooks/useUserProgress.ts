@@ -13,6 +13,7 @@ import {
   updateRequirementProgress,
   updateStepStatus,
 } from '@/features/dashboard/services/progressService';
+import {useAuth} from '@/contexts/AuthContext';
 import {
   BookingAssistantAppointmentSummary,
   RequirementProgress,
@@ -50,11 +51,21 @@ type UseUserProgressResult = {
 };
 
 export function useUserProgress(): UseUserProgressResult {
+  const {user} = useAuth();
   const [progress, setProgress] = useState<UserProgress | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   const loadProgress = useCallback(async () => {
+    if (!user) {
+      setProgress(null);
+      setError(null);
+      setIsLoading(false);
+      return;
+    }
+
+    setIsLoading(true);
+
     try {
       const data = await fetchUserProgress();
       setProgress(data);
@@ -68,7 +79,7 @@ export function useUserProgress(): UseUserProgressResult {
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     loadProgress();

@@ -22,6 +22,7 @@ module.exports = {
           '@visamesa/content/tieSteps/detail': path.join(contentRoot, 'tieSteps/index.ts'),
           '@visamesa/content/tieStepsMarketing': path.join(contentRoot, 'tieStepsMarketing.ts'),
           '@visamesa/content/processOverview': path.join(contentRoot, 'processOverview/index.ts'),
+          '@visamesa/content/support': path.join(contentRoot, 'support/index.ts'),
           '@visamesa/types': path.join(typesRoot, 'common.ts'),
         },
         extensions: ['.ios.js', '.android.js', '.js', '.ts', '.tsx', '.json'],
