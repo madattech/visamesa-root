@@ -28,11 +28,18 @@ jest.mock('@/features/dashboard/hooks/useUserProgress', () => ({
   useUserProgress: jest.fn(),
 }));
 
+type DashboardAuthMockValue = {
+  user: {id: string; email: string} | null;
+  isLoading: boolean;
+};
+
+const mockUseAuth = jest.fn((): DashboardAuthMockValue => ({
+  user: {id: 'test', email: 'test@example.com'},
+  isLoading: false,
+}));
+
 jest.mock('@/contexts/AuthContext', () => ({
-  useAuth: () => ({
-    user: {id: 'test', email: 'test@example.com'},
-    isLoading: false,
-  }),
+  useAuth: () => mockUseAuth(),
 }));
 
 jest.mock('@/components/Toast/ToastProvider', () => ({
@@ -81,6 +88,22 @@ jest.mock('@/features/dashboard/services/empadronamientoProgressService', () => 
 jest.mock('@/features/dashboard/services/progressService', () => ({
   saveUserProgress: jest.fn((progress: unknown) => Promise.resolve(progress)),
   subscribeToProgressReset: jest.fn(() => () => {}),
+  buildInitialProgressFromSteps: (
+    steps: Array<{id: number; requirements: Array<{key: string}>}>,
+  ) => ({
+    currentStepId: 1,
+    steps: steps.map(step => ({
+      stepId: step.id,
+      status: 'not_started',
+      requirements: step.requirements.reduce<Record<string, {completed: boolean}>>(
+        (acc, requirement) => {
+          acc[requirement.key] = {completed: false};
+          return acc;
+        },
+        {},
+      ),
+    })),
+  }),
 }));
 
 jest.mock('@/navigation/navigationRef', () => ({
@@ -126,6 +149,10 @@ describe('useDashboardScreen', () => {
     completeBookingAssistantRequirement.mockReset();
     clearBookingAssistantRequirement.mockReset();
     completeFormRequirement.mockReset();
+    mockUseAuth.mockReturnValue({
+      user: {id: 'test', email: 'test@example.com'},
+      isLoading: false,
+    });
 
     mockUseProcessReadiness.mockReturnValue({
       canStartProcess: true,
@@ -269,6 +296,58 @@ describe('useDashboardScreen', () => {
       isLoading: false,
       refreshReadiness: mockRefreshReadiness,
     });
+  });
+
+  it('shows fresh progress and prerequisites button when logged out', async () => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      isLoading: false,
+    });
+    mockUseProcessReadiness.mockReturnValue({
+      canStartProcess: false,
+      isProfileComplete: false,
+      missing: ['personalInformation', 'legalPrivacy', 'payment'],
+      isLoading: false,
+      refreshReadiness: mockRefreshReadiness,
+    });
+    useUserProgress.mockReturnValue({
+      progress: createUserProgress({
+        currentStepId: 2,
+        steps: [
+          {
+            stepId: 1,
+            status: 'completed',
+            requirements: {},
+          },
+          {
+            stepId: 2,
+            status: 'in_progress',
+            requirements: {},
+          },
+        ],
+      }),
+      isLoading: false,
+      error: null,
+      refreshProgress: jest.fn(),
+      startStep: jest.fn(),
+      completeStep,
+      toggleSelfDeclaredRequirement,
+      completeBookingAssistantRequirement,
+      clearBookingAssistantRequirement,
+      completeFormRequirement,
+    });
+
+    const navigation = createMockNavigation() as Parameters<
+      typeof useDashboardScreen
+    >[0];
+    const getHookState = await renderDashboardScreen(navigation);
+
+    expect(getHookState().isAuthenticated).toBe(false);
+    expect(getHookState().completedStepIds).toEqual([]);
+    expect(getHookState().currentStepId).toBe(1);
+    expect(getHookState().stepActionLabel).toBe('See prerequisites');
+    expect(getHookState().canInteractWithRequirements).toBe(false);
+    expect(getHookState().canCompleteStep).toBe(false);
   });
 
   it('navigates to step detail and booking assistant webview', async () => {

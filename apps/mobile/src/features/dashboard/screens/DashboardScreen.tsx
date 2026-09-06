@@ -59,6 +59,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
     onFormPress,
     onClosePrerequisitesDialog,
     onGoToProfilePress,
+    onSupportPress,
   } = useDashboardScreen(navigation);
 
   if (isAuthLoading || isLoading) {
@@ -124,6 +125,7 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
             onDevMarkBookingAssistantBookedPress={onDevMarkBookingAssistantBookedPress}
             onDevConfirmFormPress={onDevConfirmFormPress}
             onFormPress={onFormPress}
+            onSupportPress={onSupportPress}
           />
         </ScrollView>
         <View

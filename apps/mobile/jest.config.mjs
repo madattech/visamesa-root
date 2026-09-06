@@ -9,6 +9,7 @@ export default {
   // shared/content). Resolve peer deps from mobile's node_modules.
   modulePaths: ['<rootDir>/node_modules'],
   moduleNameMapper: {
+    '^(\\.{1,2}/.*)\\.js$': '$1',
     '^@/(.*)$': '<rootDir>/src/$1',
     '^@babel/runtime/(.*)$': '<rootDir>/node_modules/@babel/runtime/$1',
     '^i18next$': '<rootDir>/node_modules/i18next',

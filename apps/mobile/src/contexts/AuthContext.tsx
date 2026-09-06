@@ -8,6 +8,7 @@ import React, {
 
 import { authService } from '@/services/authService';
 import { onUnauthorized } from '@/services/authSession';
+import { clearProgressMemoryCache } from '@/features/dashboard/services/progressService';
 import { User } from '@visamesa/types';
 
 interface AuthContextType {
@@ -32,6 +33,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     return onUnauthorized(() => {
       authService.logout().catch(() => {});
+      clearProgressMemoryCache();
       setUser(null);
     });
   }, []);
@@ -67,6 +69,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const logout = async () => {
     await authService.logout();
+    clearProgressMemoryCache();
     setUser(null);
   };
 

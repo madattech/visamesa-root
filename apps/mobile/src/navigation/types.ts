@@ -15,6 +15,7 @@ export type DashboardStackParamList = {
   StepDetail: {
     stepId: number;
   };
+  Support: undefined;
 };
 
 export type ProfileStackParamList = {
@@ -28,6 +29,7 @@ export type ProfileStackParamList = {
   };
   Login: undefined;
   Settings: undefined;
+  Support: undefined;
 };
 
 export type MainTabParamList = {

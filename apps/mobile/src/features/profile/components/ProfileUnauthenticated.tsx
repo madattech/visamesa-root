@@ -10,13 +10,15 @@ import {Text} from '@/components/ui/Text';
 
 type ProfileUnauthenticatedProps = {
   onSignInPress: () => void;
+  onSupportPress: () => void;
 };
 
 export function ProfileUnauthenticated({
   onSignInPress,
+  onSupportPress,
 }: ProfileUnauthenticatedProps) {
   const {styles} = useStyles(stylesheet);
-  const {t} = useTranslation(['auth', 'common']);
+  const {t} = useTranslation(['auth', 'common', 'support']);
 
   return (
     <View style={styles.container}>
@@ -33,6 +35,12 @@ export function ProfileUnauthenticated({
         <Button
           label={t('common:actions.signIn')}
           onPress={onSignInPress}
+          fullWidth
+        />
+        <Button
+          label={t('support:profileRowTitle')}
+          onPress={onSupportPress}
+          variant="outline"
           fullWidth
         />
       </Surface>

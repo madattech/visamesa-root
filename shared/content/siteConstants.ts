@@ -1,4 +1,4 @@
-import { TIE_STEP_ORDER } from './tieSteps/types'
+import { TIE_STEP_ORDER, type TieStepSlug } from './tieSteps/types.js'
 
 export const SITE_URL = 'https://visa-mesa.web.app'
 
@@ -32,7 +32,7 @@ export const SUPPORT_EMAIL = 'support@visamesa.com'
 export const PRIVACY_EMAIL = 'privacy@visamesa.com'
 
 export const PUBLIC_PROCESS_STEP_PATHS = TIE_STEP_ORDER.map(
-  (slug) => `/process/${slug}` as const,
+  (slug: TieStepSlug) => `/process/${slug}` as const,
 )
 
 export const PUBLIC_INDEXABLE_ROUTES = [
@@ -41,6 +41,7 @@ export const PUBLIC_INDEXABLE_ROUTES = [
   { path: '/privacy', changefreq: 'monthly', priority: '0.6' },
   { path: '/terms', changefreq: 'monthly', priority: '0.6' },
   { path: '/legal-notice', changefreq: 'monthly', priority: '0.5' },
+  { path: '/support', changefreq: 'monthly', priority: '0.7' },
   ...PUBLIC_PROCESS_STEP_PATHS.map((path) => ({
     path,
     changefreq: 'monthly' as const,

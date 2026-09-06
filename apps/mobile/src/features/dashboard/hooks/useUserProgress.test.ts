@@ -14,6 +14,22 @@ jest.mock('@/features/dashboard/services/progressService', () => ({
   subscribeToProgressReset: jest.fn(() => () => {}),
 }));
 
+type UserProgressAuthMockValue = {
+  user: {id: string; email: string} | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+};
+
+const mockUseAuth = jest.fn((): UserProgressAuthMockValue => ({
+  user: {id: 'user-1', email: 'test@example.com'},
+  isAuthenticated: true,
+  isLoading: false,
+}));
+
+jest.mock('@/contexts/AuthContext', () => ({
+  useAuth: () => mockUseAuth(),
+}));
+
 const progressService = jest.requireMock(
   '@/features/dashboard/services/progressService',
 ) as {
@@ -31,6 +47,11 @@ async function mountUserProgress() {
 describe('useUserProgress', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUseAuth.mockReturnValue({
+      user: {id: 'user-1', email: 'test@example.com'},
+      isAuthenticated: true,
+      isLoading: false,
+    });
     progressService.fetchUserProgress.mockResolvedValue(createUserProgress());
   });
 
@@ -56,6 +77,20 @@ describe('useUserProgress', () => {
 
     expect(progressService.fetchUserProgress).toHaveBeenCalled();
     expect(getHookState().progress).toEqual(mockProgress);
+    expect(getHookState().isLoading).toBe(false);
+  });
+
+  it('does not load progress when logged out', async () => {
+    mockUseAuth.mockReturnValue({
+      user: null,
+      isAuthenticated: false,
+      isLoading: false,
+    });
+
+    const getHookState = await mountUserProgress();
+
+    expect(progressService.fetchUserProgress).not.toHaveBeenCalled();
+    expect(getHookState().progress).toBeNull();
     expect(getHookState().isLoading).toBe(false);
   });
 

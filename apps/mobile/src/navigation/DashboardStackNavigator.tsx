@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useInternalStackScreenOptions} from '@/navigation/internalStackScreenOptions';
 import DashboardScreen from '@/features/dashboard/screens/DashboardScreen';
 import DashboardStepDetailScreen from '@/features/dashboard/screens/DashboardStepDetailScreen';
+import SupportScreen from '@/features/support/screens/SupportScreen';
 
 import {DashboardStackParamList} from './types';
 
@@ -21,6 +22,7 @@ const DashboardStackNavigator = () => {
       }}>
       <Stack.Screen name="Dashboard" component={DashboardScreen} />
       <Stack.Screen name="StepDetail" component={DashboardStepDetailScreen} />
+      <Stack.Screen name="Support" component={SupportScreen} />
     </Stack.Navigator>
   );
 };

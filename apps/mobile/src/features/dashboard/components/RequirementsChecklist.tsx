@@ -35,6 +35,7 @@ type RequirementsChecklistProps = {
   ) => void;
   onDevConfirmFormPress?: (formId: string, requirementKey: string) => void;
   onFormPress: (formId: string, requirementKey: string) => void;
+  onSupportPress: () => void;
 };
 
 export function RequirementsChecklist({
@@ -47,10 +48,12 @@ export function RequirementsChecklist({
   onDevMarkBookingAssistantBookedPress,
   onDevConfirmFormPress,
   onFormPress,
+  onSupportPress,
 }: RequirementsChecklistProps) {
   const {styles, theme} = useStyles(stylesheet);
   const {t: tDashboard} = useTranslation('dashboard');
   const {t: tCommon} = useTranslation('common');
+  const {t: tSupport} = useTranslation('support');
   const [showInfoDialog, setShowInfoDialog] = useState(false);
 
   if (requirements.length === 0) {
@@ -73,7 +76,7 @@ export function RequirementsChecklist({
             radius: theme.sizes.touchTargetMin / 2,
           }}
           style={styles.infoButton}>
-          <Icon name="info-outline" size="md" color="primary" />
+          <Icon name="help-outline" size="md" color="primary" />
         </Pressable>
       </View>
       <View style={styles.list}>
@@ -149,15 +152,23 @@ export function RequirementsChecklist({
       <Dialog
         visible={showInfoDialog}
         onClose={() => setShowInfoDialog(false)}
-        title={tDashboard('requirementsInfoTitle')}
+        title={tSupport('checklistInfoTitle')}
         actions={[
+          {
+            label: tSupport('stillNeedHelp'),
+            onPress: () => {
+              setShowInfoDialog(false);
+              onSupportPress();
+            },
+            variant: 'outline',
+          },
           {
             label: tCommon('actions.gotIt'),
             onPress: () => setShowInfoDialog(false),
-            variant: 'tonal',
+            variant: 'primary',
           },
         ]}>
-        {tDashboard('requirementsInfoMessage')}
+        {tSupport('checklistInfoMessage')}
       </Dialog>
     </View>
   );
