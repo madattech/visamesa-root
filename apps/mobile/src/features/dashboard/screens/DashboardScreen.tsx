@@ -32,7 +32,6 @@ const DashboardScreen = ({navigation}: DashboardScreenProps) => {
   const tabBarInset = useTabBarInset();
   const {
     isAuthLoading,
-    isAuthenticated,
     isLoading,
     error,
     steps,
