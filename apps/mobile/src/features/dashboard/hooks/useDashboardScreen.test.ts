@@ -28,7 +28,12 @@ jest.mock('@/features/dashboard/hooks/useUserProgress', () => ({
   useUserProgress: jest.fn(),
 }));
 
-const mockUseAuth = jest.fn(() => ({
+type DashboardAuthMockValue = {
+  user: {id: string; email: string} | null;
+  isLoading: boolean;
+};
+
+const mockUseAuth = jest.fn((): DashboardAuthMockValue => ({
   user: {id: 'test', email: 'test@example.com'},
   isLoading: false,
 }));

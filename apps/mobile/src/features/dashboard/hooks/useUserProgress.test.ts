@@ -14,7 +14,13 @@ jest.mock('@/features/dashboard/services/progressService', () => ({
   subscribeToProgressReset: jest.fn(() => () => {}),
 }));
 
-const mockUseAuth = jest.fn(() => ({
+type UserProgressAuthMockValue = {
+  user: {id: string; email: string} | null;
+  isAuthenticated: boolean;
+  isLoading: boolean;
+};
+
+const mockUseAuth = jest.fn((): UserProgressAuthMockValue => ({
   user: {id: 'user-1', email: 'test@example.com'},
   isAuthenticated: true,
   isLoading: false,

@@ -29,8 +29,13 @@ describe('progressService', () => {
       {
         id: 1,
         requirements: [
-          {key: 'passport', label: 'Passport', type: 'self_declared'},
-          {key: 'appointment-confirmation', label: 'Appointment confirmation', type: 'assisted_booking'},
+          {key: 'passport', label: 'Passport', type: 'self_declared', location: 'in_app'},
+          {
+            key: 'appointment-confirmation',
+            label: 'Appointment confirmation',
+            type: 'assisted_booking',
+            location: 'in_app',
+          },
         ],
       },
     ]);
@@ -49,7 +54,7 @@ describe('progressService', () => {
       {
         id: 1,
         requirements: [
-          {key: 'passport', label: 'Passport', type: 'self_declared'},
+          {key: 'passport', label: 'Passport', type: 'self_declared', location: 'in_app'},
         ],
       },
       {
